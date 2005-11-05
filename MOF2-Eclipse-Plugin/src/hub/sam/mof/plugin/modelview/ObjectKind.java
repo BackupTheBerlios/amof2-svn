@@ -1,4 +1,4 @@
-package hub.sam.mof.plugin.views;
+package hub.sam.mof.plugin.modelview;
 
 public enum ObjectKind {
 	Repository,

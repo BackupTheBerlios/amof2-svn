@@ -1,7 +1,7 @@
 /**
  * 
  */
-package hub.sam.mof.plugin.views.tree;
+package hub.sam.mof.plugin.modelview.tree;
 
 import java.util.*;
 

@@ -1,6 +1,6 @@
-package hub.sam.mof.plugin.views;
+package hub.sam.mof.plugin.modelview;
 
-import hub.sam.mof.plugin.views.actions.*;
+import hub.sam.mof.plugin.modelview.actions.*;
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.*;
@@ -122,7 +122,7 @@ public class ModelView extends ViewPart {
 		addRepository.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
 			getImageDescriptor(ISharedImages.IMG_TOOL_PASTE));		
 		
-		removeRepository = new hub.sam.mof.plugin.views.actions.RemoveRepositoryAction(this);
+		removeRepository = new hub.sam.mof.plugin.modelview.actions.RemoveRepositoryAction(this);
 
 		
 		setFilter = new Action() {

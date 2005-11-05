@@ -1,10 +1,10 @@
 /**
  * 
  */
-package hub.sam.mof.plugin.views.tree;
+package hub.sam.mof.plugin.modelview.tree;
 
 
-import hub.sam.mof.plugin.views.ObjectKind;
+import hub.sam.mof.plugin.modelview.ObjectKind;
 
 import org.eclipse.core.runtime.IAdaptable;
 

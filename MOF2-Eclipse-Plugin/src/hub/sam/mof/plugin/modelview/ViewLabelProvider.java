@@ -1,9 +1,9 @@
 /**
  * 
  */
-package hub.sam.mof.plugin.views;
+package hub.sam.mof.plugin.modelview;
 
-import hub.sam.mof.plugin.views.tree.TreeObject;
+import hub.sam.mof.plugin.modelview.tree.TreeObject;
 
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;

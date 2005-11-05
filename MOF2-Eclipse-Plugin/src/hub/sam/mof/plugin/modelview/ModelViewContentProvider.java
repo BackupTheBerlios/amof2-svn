@@ -1,8 +1,8 @@
-package hub.sam.mof.plugin.views;
+package hub.sam.mof.plugin.modelview;
 
-import hub.sam.mof.plugin.views.tree.InvisibleTreeRoot;
-import hub.sam.mof.plugin.views.tree.TreeObject;
-import hub.sam.mof.plugin.views.tree.TreeParent;
+import hub.sam.mof.plugin.modelview.tree.InvisibleTreeRoot;
+import hub.sam.mof.plugin.modelview.tree.TreeObject;
+import hub.sam.mof.plugin.modelview.tree.TreeParent;
 
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;

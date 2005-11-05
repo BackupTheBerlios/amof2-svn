@@ -1,6 +1,7 @@
-package hub.sam.mof.plugin.views.actions;
+package hub.sam.mof.plugin.modelview.actions;
 
-import hub.sam.mof.plugin.views.*;
+import hub.sam.mof.plugin.modelview.*;
+
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.*;
 import org.eclipse.ui.ISharedImages;
@@ -30,7 +31,7 @@ public class RemoveRepositoryAction extends Action {
 		if (selection.size() != 1) {
 			return false;
 		} else {
-			if (selection.getFirstElement() instanceof hub.sam.mof.plugin.views.tree.RepositoryTreeObject) {
+			if (selection.getFirstElement() instanceof hub.sam.mof.plugin.modelview.tree.RepositoryTreeObject) {
 				return true;
 			} else {
 				return false;
