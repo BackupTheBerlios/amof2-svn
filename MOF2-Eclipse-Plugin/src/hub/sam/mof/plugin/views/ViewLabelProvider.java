@@ -12,6 +12,7 @@ import org.eclipse.ui.PlatformUI;
 
 class ViewLabelProvider extends LabelProvider {
 
+	@SuppressWarnings("unused")
 	private final ModelView view;
 
 	public ViewLabelProvider(ModelView view) {

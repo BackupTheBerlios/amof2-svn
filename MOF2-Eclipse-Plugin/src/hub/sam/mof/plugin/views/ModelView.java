@@ -1,5 +1,6 @@
 package hub.sam.mof.plugin.views;
 
+import hub.sam.mof.plugin.views.actions.*;
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.*;
@@ -30,12 +31,11 @@ import org.eclipse.swt.SWT;
  */
 
 public class ModelView extends ViewPart {
-	private TreeViewer viewer;
+	TreeViewer viewer;
 	private DrillDownAdapter drillDownAdapter;
 	private Action addRepository;
-	private Action removeRepository;
+	private RemoveRepositoryAction removeRepository;
 	private Action setFilter;
-	private Action doubleClickAction;
 
 	/*
 	 * The content provider class is responsible for
@@ -48,18 +48,14 @@ public class ModelView extends ViewPart {
 	 */
 	 
 	class NameSorter extends ViewerSorter {
-	}
-
-	/**
-	 * The constructor.
-	 */
-	public ModelView() {
+		// empty
 	}
 
 	/**
 	 * This is a callback that will allow us
 	 * to create the viewer and initialize it.
 	 */
+	@Override
 	public void createPartControl(Composite parent) {
 		viewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 		drillDownAdapter = new DrillDownAdapter(viewer);
@@ -98,7 +94,8 @@ public class ModelView extends ViewPart {
 		manager.add(setFilter);
 	}
 
-	void fillContextMenu(IMenuManager manager) {		
+	void fillContextMenu(IMenuManager manager) {
+		removeRepository.setEnabled(removeRepository.shouldEnable((IStructuredSelection)viewer.getSelection()));
 		manager.add(removeRepository);		
 		manager.add(new Separator());
 		drillDownAdapter.addNavigationActions(manager);
@@ -125,19 +122,8 @@ public class ModelView extends ViewPart {
 		addRepository.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
 			getImageDescriptor(ISharedImages.IMG_TOOL_PASTE));		
 		
-		removeRepository = new Action() {
-			@Override
-			@SuppressWarnings("synthetic-access")
-			public void run() {
-				showMessage("remove executed");
-			}			
-		};
-		removeRepository.setText("Remove");
-		removeRepository.setToolTipText("Removes the repository from the view");
-		removeRepository.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
-				getImageDescriptor(ISharedImages.IMG_TOOL_CUT));
-		removeRepository.setDisabledImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
-				getImageDescriptor(ISharedImages.IMG_TOOL_CUT_DISABLED));
+		removeRepository = new hub.sam.mof.plugin.views.actions.RemoveRepositoryAction(this);
+
 		
 		setFilter = new Action() {
 			@Override
@@ -148,25 +134,19 @@ public class ModelView extends ViewPart {
 		};
 		setFilter.setText("Filter ...");
 		setFilter.setToolTipText("Configure the filter to constrain the kind model objects show in the tree.");
-		
-		
-		doubleClickAction = new Action() {
-			public void run() {
-				ISelection selection = viewer.getSelection();
-				Object obj = ((IStructuredSelection)selection).getFirstElement();
-				showMessage("Double-click detected on "+obj.toString());
-			}
-		};
+					
 	}
 
 	private void hookDoubleClickAction() {
 		viewer.addDoubleClickListener(new IDoubleClickListener() {
+			@SuppressWarnings("synthetic-access")
 			public void doubleClick(DoubleClickEvent event) {
-				doubleClickAction.run();
+				drillDownAdapter.goInto(((IStructuredSelection)event.getSelection()).getFirstElement());
 			}
 		});
 	}
-	private void showMessage(String message) {
+	
+	public void showMessage(String message) {
 		MessageDialog.openInformation(
 			viewer.getControl().getShell(),
 			"Model View",
@@ -176,6 +156,7 @@ public class ModelView extends ViewPart {
 	/**
 	 * Passing the focus request to the viewer's control.
 	 */
+	@Override
 	public void setFocus() {
 		viewer.getControl().setFocus();
 	}
