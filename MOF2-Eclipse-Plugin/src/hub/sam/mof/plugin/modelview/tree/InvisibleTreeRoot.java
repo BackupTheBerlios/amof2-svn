@@ -9,13 +9,15 @@ public class InvisibleTreeRoot extends TreeParent {
 	
 	public InvisibleTreeRoot() {
 		super(null, null);
-		children = new java.util.ArrayList<TreeObject>(1);
-		try {
-			//children.add(new RepositoryTreeObject(hub.sam.mof.Repository.connectToRemoteRepository("jnp://olymp:1099"), this));
-			children.add(new RepositoryTreeObject(hub.sam.mof.Repository.connectToLocalRepository(), this));    	
-		} catch (Exception e) {
-			throw new RuntimeException(e.getMessage(), e);
-		}
+		children = new java.util.ArrayList<TreeObject>();
+	}
+	
+	public void removeChild(TreeObject child) {
+		children.remove(child);
+	}
+	
+	public void addChild(TreeObject child) {
+		children.add(child);
 	}
 	
 	@Override

@@ -1,6 +1,8 @@
 package hub.sam.mof.plugin.modelview.actions;
 
 import hub.sam.mof.plugin.modelview.*;
+import hub.sam.mof.plugin.modelview.tree.InvisibleTreeRoot;
+import hub.sam.mof.plugin.modelview.tree.RepositoryTreeObject;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.*;
@@ -23,8 +25,10 @@ public class RemoveRepositoryAction extends Action {
 	}
 	
 	@Override
-	public void run() {
-		view.showMessage("remove executed");
+	public void run() {		
+		RepositoryTreeObject toDelete = (RepositoryTreeObject)((IStructuredSelection)view.getViewer().getSelection()).getFirstElement();
+		((InvisibleTreeRoot)toDelete.getParent()).removeChild(toDelete);
+		view.getViewer().refresh();
 	}
 	
 	public boolean shouldEnable(IStructuredSelection selection) {

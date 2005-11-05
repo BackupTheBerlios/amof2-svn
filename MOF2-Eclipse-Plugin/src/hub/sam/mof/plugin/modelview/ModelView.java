@@ -33,7 +33,7 @@ import org.eclipse.swt.SWT;
 public class ModelView extends ViewPart {
 	TreeViewer viewer;
 	private DrillDownAdapter drillDownAdapter;
-	private Action addRepository;
+	private AddRepositoryAction addRepository;
 	private RemoveRepositoryAction removeRepository;
 	private Action setFilter;
 
@@ -69,6 +69,10 @@ public class ModelView extends ViewPart {
 		contributeToActionBars();
 	}
 
+	public TreeViewer getViewer() {
+		return viewer;
+	}
+	
 	private void hookContextMenu() {
 		MenuManager menuMgr = new MenuManager("#PopupMenu");
 		menuMgr.setRemoveAllWhenShown(true);
@@ -110,18 +114,7 @@ public class ModelView extends ViewPart {
 	}
 
 	private void makeActions() {
-		addRepository = new Action() {
-			@SuppressWarnings("synthetic-access")
-			@Override
-			public void run() {
-				showMessage("Add repository executed");
-			}
-		};
-		addRepository.setText("Add ...");
-		addRepository.setToolTipText("Add a remote repository to the view.");
-		addRepository.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
-			getImageDescriptor(ISharedImages.IMG_TOOL_PASTE));		
-		
+		addRepository = new AddRepositoryAction(this);					
 		removeRepository = new hub.sam.mof.plugin.modelview.actions.RemoveRepositoryAction(this);
 
 		
