@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: MOF2Plugin Plug-in
+Bundle-SymbolicName: MOF2Plugin; singleton:=true
+Bundle-Version: 1.0.0
+Bundle-Activator: hub.sam.mof.plugin.Mof2Plugin
+Bundle-Localization: plugin
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.core.resources,
+ org.eclipse.jdt.ui
+Eclipse-AutoStart: true
+Bundle-ClassPath: build/,
+ aMOF2.0forJava.jar,
+ jbossall-client.jar
