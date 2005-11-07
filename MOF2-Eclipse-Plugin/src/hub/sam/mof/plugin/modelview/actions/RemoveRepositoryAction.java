@@ -2,20 +2,15 @@ package hub.sam.mof.plugin.modelview.actions;
 
 import hub.sam.mof.plugin.modelview.*;
 import hub.sam.mof.plugin.modelview.tree.InvisibleTreeRoot;
-import hub.sam.mof.plugin.modelview.tree.RepositoryTreeObject;
+import hub.sam.mof.plugin.modelview.tree.TreeObject;
 
-import org.eclipse.jface.action.Action;
-import org.eclipse.jface.viewers.*;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 
-public class RemoveRepositoryAction extends Action {
-	
-	
-	private final ModelView view;
-	
+public class RemoveRepositoryAction extends ContextAction {
+		
 	public RemoveRepositoryAction(ModelView view) {
-		this.view = view;
+		super(view);		
 		setText("Remove");
 		setToolTipText("Removes the repository from the view");
 		setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
@@ -25,21 +20,13 @@ public class RemoveRepositoryAction extends Action {
 	}
 	
 	@Override
-	public void run() {		
-		RepositoryTreeObject toDelete = (RepositoryTreeObject)((IStructuredSelection)view.getViewer().getSelection()).getFirstElement();
-		((InvisibleTreeRoot)toDelete.getParent()).removeChild(toDelete);
+	public void runFor(Object toDelete) {			
+		((InvisibleTreeRoot)((TreeObject)toDelete).getParent()).removeChild((TreeObject)toDelete);
 		view.getViewer().refresh();
 	}
 	
-	public boolean shouldEnable(IStructuredSelection selection) {
-		if (selection.size() != 1) {
-			return false;
-		} else {
-			if (selection.getFirstElement() instanceof hub.sam.mof.plugin.modelview.tree.RepositoryTreeObject) {
-				return true;
-			} else {
-				return false;
-			}
-		}
+	@Override
+	public boolean isEnabledFor(Object selection) {
+		return selection instanceof hub.sam.mof.plugin.modelview.tree.RepositoryTreeObject;		
 	}
 }

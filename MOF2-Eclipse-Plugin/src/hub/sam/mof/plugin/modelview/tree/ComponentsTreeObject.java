@@ -16,6 +16,7 @@ public class ComponentsTreeObject extends TreeParent {
 
 	@Override
 	protected Collection<TreeObject> retrieveChildren() {
+		super.retrieveChildren();
 		Collection<TreeObject> result = new Vector<TreeObject>();
 		for (cmof.reflection.Object component: theObject.getComponents()) {
 			result.add(new ObjectTreeObject(component, this));

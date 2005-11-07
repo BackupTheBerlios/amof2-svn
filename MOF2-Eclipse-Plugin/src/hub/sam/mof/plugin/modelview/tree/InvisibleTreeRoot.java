@@ -22,6 +22,7 @@ public class InvisibleTreeRoot extends TreeParent {
 	
 	@Override
 	protected Collection<TreeObject> retrieveChildren() {
+		super.retrieveChildren();
 		return children;
 	}
 

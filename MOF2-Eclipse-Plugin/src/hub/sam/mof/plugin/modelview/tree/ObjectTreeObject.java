@@ -4,6 +4,8 @@ import hub.sam.mof.plugin.modelview.ObjectKind;
 
 import java.util.*;
 
+import cmof.Property;
+
 public class ObjectTreeObject extends TreeParent {
 
 	private final cmof.reflection.Object theObject;
@@ -19,16 +21,17 @@ public class ObjectTreeObject extends TreeParent {
 	
 	@Override
 	protected Collection<TreeObject> retrieveChildren() {
+		super.retrieveChildren();
 		Collection<TreeObject> result = new Vector<TreeObject>();
 		
-		result.add(new MetaClassObjectTreeObject(theObject.getMetaClass(),theObject, this));		
-		for (Object superClass: theObject.getMetaClass().allParents()) {
-			if (superClass instanceof cmof.UmlClass) {
-				result.add(new MetaClassObjectTreeObject((cmof.UmlClass)superClass, theObject, this));
+		cmof.UmlClass metaClass = theObject.getMetaClass();
+		result.add(new MetaClassObjectTreeObject(metaClass,theObject, this));		
+		result.add(new ComponentsTreeObject(theObject, this));
+		for (cmof.NamedElement property: metaClass.getMember()) {
+			if (property instanceof Property) {
+				result.add(new PropertyTreeObject((Property)property, theObject, this));
 			}
 		}
-
-		result.add(new ComponentsTreeObject(theObject, this));
 		return result;
 	}
 
@@ -36,7 +39,7 @@ public class ObjectTreeObject extends TreeParent {
 	public String getText() {
 		String result = null;
 		try {
-			result = (String)theObject.get("name");
+			result = (String)theObject.get("qualifiedName");
 		} catch (Exception e) {
 			// empty			
 		}

@@ -7,6 +7,7 @@ import java.util.*;
 
 public abstract class  TreeParent extends TreeObject {
 	private Collection<TreeObject> children = null;
+	private boolean isCacheValid = false;
 	
 	public TreeParent(java.lang.Object element, TreeParent parent) {
 		super(element, parent);
@@ -20,13 +21,20 @@ public abstract class  TreeParent extends TreeObject {
 	}
 		
 	protected boolean isCacheValid() {
-		return true;
+		return isCacheValid;
+	}
+	
+	public void refresh() {
+		isCacheValid = false;
 	}
 	
 	public boolean hasChildren() {
 		return getChildren().size() > 0;
 	}
 	
-	protected abstract Collection<TreeObject> retrieveChildren();
+	protected Collection<TreeObject> retrieveChildren() {
+		isCacheValid = true;
+		return null;
+	}
 	
 }

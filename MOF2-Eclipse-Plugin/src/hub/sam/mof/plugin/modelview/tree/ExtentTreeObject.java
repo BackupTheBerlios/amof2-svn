@@ -18,6 +18,7 @@ public class ExtentTreeObject extends TreeParent {
 
 	@Override
 	protected Collection<TreeObject> retrieveChildren() {
+		super.retrieveChildren();
 		Collection<TreeObject> result = new Vector<TreeObject>();		
 		Collection<cmof.reflection.Object> outermostComposites = new Vector<cmof.reflection.Object>();
 		for (cmof.reflection.Object aObject: extent.getObject()) {

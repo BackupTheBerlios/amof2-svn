@@ -20,11 +20,12 @@ public class PropertyTreeObject extends ObjectTreeObject {
 	
 	@Override
 	public String getText() {
-		return property.getName() + ":" + property.getType().getQualifiedName();
+		return property.getQualifiedName() + ":" + property.getType().getQualifiedName();
 	}
 	
 	@Override
 	protected Collection<TreeObject> retrieveChildren() {
+		super.retrieveChildren();
 		Object value = getObject().get(property);
 		Collection<TreeObject> result = new java.util.Vector<TreeObject>();
 		if (value instanceof cmof.common.ReflectiveCollection) {

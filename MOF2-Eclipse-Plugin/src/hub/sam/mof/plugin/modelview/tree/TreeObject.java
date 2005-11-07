@@ -18,7 +18,7 @@ public abstract class TreeObject implements IAdaptable {
 		this.parent = parent;
 	}
 	
-	protected Object getElement() {
+	public Object getElement() {
 		return element;
 	}
 	

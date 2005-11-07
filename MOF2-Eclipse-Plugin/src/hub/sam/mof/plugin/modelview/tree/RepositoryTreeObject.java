@@ -15,6 +15,7 @@ public class RepositoryTreeObject extends TreeParent {
 
 	@Override
 	protected Collection<TreeObject> retrieveChildren() {
+		super.retrieveChildren();
 		Collection<String> extentNames = repository.getExtentNames();
 		Collection<TreeObject> result = new ArrayList<TreeObject>(extentNames.size());
 		
@@ -33,4 +34,11 @@ public class RepositoryTreeObject extends TreeParent {
 	public ObjectKind getKind() {
 		return ObjectKind.Repository;
 	}
+
+	@Override
+	public ClientRepository getElement() {		
+		return repository;
+	}
+	
+	
 }

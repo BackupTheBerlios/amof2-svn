@@ -35,6 +35,8 @@ public class ModelView extends ViewPart {
 	private DrillDownAdapter drillDownAdapter;
 	private AddRepositoryAction addRepository;
 	private RemoveRepositoryAction removeRepository;
+	private AddModelAction addModel;
+	private AddToFilteredClassesAction addToFilteredClasses;
 	private Action setFilter;
 
 	/*
@@ -100,7 +102,11 @@ public class ModelView extends ViewPart {
 
 	void fillContextMenu(IMenuManager manager) {
 		removeRepository.setEnabled(removeRepository.shouldEnable((IStructuredSelection)viewer.getSelection()));
-		manager.add(removeRepository);		
+		manager.add(removeRepository);	
+		addModel.setEnabled(addModel.shouldEnable((IStructuredSelection)viewer.getSelection()));
+		manager.add(addModel);
+		addToFilteredClasses.setEnabled(addToFilteredClasses.shouldEnable((IStructuredSelection)viewer.getSelection()));
+		manager.add(addToFilteredClasses);
 		manager.add(new Separator());
 		drillDownAdapter.addNavigationActions(manager);
 		// Other plug-ins can contribute there actions here
@@ -115,7 +121,9 @@ public class ModelView extends ViewPart {
 
 	private void makeActions() {
 		addRepository = new AddRepositoryAction(this);					
-		removeRepository = new hub.sam.mof.plugin.modelview.actions.RemoveRepositoryAction(this);
+		removeRepository = new RemoveRepositoryAction(this);
+		addModel = new AddModelAction(this);
+		addToFilteredClasses = new AddToFilteredClassesAction(this);
 
 		
 		setFilter = new Action() {

@@ -12,15 +12,6 @@ public class MetaClassObjectTreeObject extends ObjectTreeObject {
 		super(theObject, parent);
 		this.metaClass = metaClass;
 	}
-
-	@Override
-	protected Collection<TreeObject> retrieveChildren() {
-		Collection<TreeObject> result = new Vector<TreeObject>();
-		for (cmof.Property property: metaClass.getAttribute()) {
-			result.add(new PropertyTreeObject(property, getObject(), this));
-		}
-		return result;
-	}
 	
 	@Override
 	public ObjectKind getKind() {

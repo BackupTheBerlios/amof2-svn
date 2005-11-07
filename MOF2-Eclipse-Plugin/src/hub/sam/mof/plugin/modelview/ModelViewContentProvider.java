@@ -1,5 +1,7 @@
 package hub.sam.mof.plugin.modelview;
 
+import java.util.*;
+
 import hub.sam.mof.plugin.modelview.tree.InvisibleTreeRoot;
 import hub.sam.mof.plugin.modelview.tree.RepositoryTreeObject;
 import hub.sam.mof.plugin.modelview.tree.TreeObject;
@@ -13,11 +15,13 @@ import org.eclipse.jface.viewers.Viewer;
 public class ModelViewContentProvider implements IStructuredContentProvider, ITreeContentProvider {
 
 	private final ModelView view;
+	private final Filter filter;
 
 	private InvisibleTreeRoot invisibleRoot;
 	
 	public ModelViewContentProvider(ModelView view) {
 		this.view = view;
+		filter = new Filter();
 	}
 	
 	public void inputChanged(Viewer v, Object oldInput, Object newInput) {
@@ -43,7 +47,14 @@ public class ModelViewContentProvider implements IStructuredContentProvider, ITr
 	}
 	public Object [] getChildren(Object parent) {
 		if (parent instanceof TreeParent) {
-			return ((TreeParent)parent).getChildren().toArray();
+			Collection children = ((TreeParent)parent).getChildren();
+			Collection<Object> filteredChildren = new ArrayList<Object>(children.size());
+			for (Object child: children) {
+				if (!filter.isFiltered((TreeObject)child)) {
+					filteredChildren.add(child);
+				}
+			}
+			return filteredChildren.toArray();
 		}
 		return new Object[0];
 	}
@@ -64,5 +75,9 @@ public class ModelViewContentProvider implements IStructuredContentProvider, ITr
 	public void addRepository(ClientRepository repository) {
 		invisibleRoot.addChild(new RepositoryTreeObject(repository, invisibleRoot));
 		view.getViewer().refresh();
+	}
+	
+	public void addClassToFilter(Class filter) {
+		this.filter.addClassToFilter(filter);
 	}
 }
