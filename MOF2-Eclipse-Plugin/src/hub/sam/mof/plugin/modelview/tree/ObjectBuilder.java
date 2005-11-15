@@ -1,8 +1,5 @@
 package hub.sam.mof.plugin.modelview.tree;
 
-import java.util.Collection;
-import java.util.Vector;
-
 import cmof.Property;
 import hub.sam.mof.plugin.modelview.Images;
 

@@ -1,8 +1,6 @@
 package hub.sam.mof.plugin.modelview.actions;
 
-import hub.sam.mof.Repository;
 import hub.sam.mof.plugin.modelview.ModelView;
-import hub.sam.mof.plugin.modelview.ModelViewContentProvider;
 import hub.sam.mof.plugin.modelview.tree.RepositoryTreeObject;
 
 import org.eclipse.jface.dialogs.Dialog;
