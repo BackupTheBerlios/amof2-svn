@@ -1,6 +1,6 @@
 package hub.sam.mof.plugin.modelview.tree;
 
-import hub.sam.mof.plugin.modelview.ObjectKind;
+import org.eclipse.swt.graphics.Image;
 
 public class PrimitiveTreeObject extends TreeObject {
 
@@ -12,8 +12,8 @@ public class PrimitiveTreeObject extends TreeObject {
 	}
 	
 	@Override
-	public ObjectKind getKind() {
-		return ObjectKind.PrimitiveValue;
+	public Image getImage() {
+		return null;
 	}
 	
 	@Override

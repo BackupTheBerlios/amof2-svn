@@ -1,8 +1,10 @@
 package hub.sam.mof.plugin.modelview.tree;
 
-import hub.sam.mof.plugin.modelview.ObjectKind;
+import hub.sam.mof.plugin.modelview.Images;
 import hub.sam.mof.reflection.client.ClientRepository;
 import java.util.*;
+
+import org.eclipse.swt.graphics.Image;
 
 public class RepositoryTreeObject extends TreeParent {
 
@@ -31,14 +33,12 @@ public class RepositoryTreeObject extends TreeParent {
 	}	
 	
 	@Override
-	public ObjectKind getKind() {
-		return ObjectKind.Repository;
-	}
-
-	@Override
 	public ClientRepository getElement() {		
 		return repository;
 	}
-	
-	
+
+	@Override
+	public Image getImage() {
+		return Images.getDefault().getRepository();
+	}	
 }

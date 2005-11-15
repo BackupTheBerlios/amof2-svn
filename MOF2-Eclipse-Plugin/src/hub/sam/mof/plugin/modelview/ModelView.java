@@ -62,8 +62,7 @@ public class ModelView extends ViewPart {
 		viewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 		drillDownAdapter = new DrillDownAdapter(viewer);
 		viewer.setContentProvider(new ModelViewContentProvider(this));
-		viewer.setLabelProvider(new ViewLabelProvider(this));
-		viewer.setSorter(new NameSorter());
+		viewer.setLabelProvider(ViewLabelProvider.getDefault());	
 		viewer.setInput(getViewSite());
 		makeActions();
 		hookContextMenu();

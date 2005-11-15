@@ -5,7 +5,7 @@ import org.eclipse.ui.PlatformUI;
 
 import hub.sam.mof.plugin.modelview.ModelView;
 import hub.sam.mof.plugin.modelview.ModelViewContentProvider;
-import hub.sam.mof.plugin.modelview.tree.ObjectTreeObject;
+import hub.sam.mof.plugin.modelview.tree.TreeObject;
 
 public class AddToFilteredClassesAction extends ContextAction {
 
@@ -19,12 +19,17 @@ public class AddToFilteredClassesAction extends ContextAction {
 
 	@Override
 	protected boolean isEnabledFor(Object obj) {
-		return obj instanceof ObjectTreeObject;
+		if (obj instanceof TreeObject) {
+			if (((TreeObject)obj).getElement() instanceof cmof.reflection.Object) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override
 	protected void runFor(Object obj) {
-		ObjectTreeObject runFor = (ObjectTreeObject)obj;
+		TreeObject runFor = (TreeObject)obj;
 		((ModelViewContentProvider)view.getViewer().getContentProvider()).addClassToFilter(runFor.getElement().getClass());
 		view.getViewer().refresh();		
 	}

@@ -1,16 +1,18 @@
 package hub.sam.mof.plugin.modelview.tree;
 
-import hub.sam.mof.plugin.modelview.ObjectKind;
+import hub.sam.mof.plugin.modelview.Images;
 
 import java.util.Collection;
 import java.util.Vector;
 
-public class ComponentsTreeObject extends TreeParent {
+import org.eclipse.swt.graphics.Image;
+
+public class ComponentsTreeObject extends ManTreeObject {
 
 	private final cmof.reflection.Object theObject;
 	
-	public ComponentsTreeObject(cmof.reflection.Object theObject, TreeParent parent) {
-		super(theObject, parent);
+	public ComponentsTreeObject(cmof.reflection.Object theObject, TreeParent parent, IBuilderFactory factory) {
+		super(theObject, parent, factory);
 		this.theObject = theObject;
 	}
 
@@ -19,19 +21,18 @@ public class ComponentsTreeObject extends TreeParent {
 		super.retrieveChildren();
 		Collection<TreeObject> result = new Vector<TreeObject>();
 		for (cmof.reflection.Object component: theObject.getComponents()) {
-			result.add(new ObjectTreeObject(component, this));
+			result.add(build(component));
 		}
 		return result;
 	}
-	
-	@Override
-	public ObjectKind getKind() {
-		return ObjectKind.Components;
-	}
-	
+		
 	@Override
 	public String getText() {
 		return "components";
 	}
 
+	@Override
+	public Image getImage() {
+		return Images.getDefault().getComponents();
+	}	
 }

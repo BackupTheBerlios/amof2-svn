@@ -3,15 +3,15 @@
  */
 package hub.sam.mof.plugin.modelview.tree;
 
-
-import hub.sam.mof.plugin.modelview.ObjectKind;
-
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.swt.graphics.Image;
 
 public abstract class TreeObject implements IAdaptable {
 
 	private final TreeParent parent;
 	private final java.lang.Object element;
+	private Image image = null;
+	private String text = "unknown";
 	
 	protected TreeObject(java.lang.Object element, TreeParent parent) {
 		this.element = element;
@@ -34,12 +34,21 @@ public abstract class TreeObject implements IAdaptable {
 	public Object getAdapter(Class key) {
 		return null;
 	}
-	
+
+	public Image getImage() {
+		return image;
+	}
+
+	public void setImage(Image image) {
+		this.image = image;
+	}
+
 	public String getText() {
-		return "UNKNOWN";
+		return text;
 	}
-	
-	public ObjectKind getKind() {
-		return ObjectKind.Object;
+
+	public void setText(String text) {
+		this.text = text;
 	}
+
 }

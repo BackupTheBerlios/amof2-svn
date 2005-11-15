@@ -1,17 +1,25 @@
 package hub.sam.mof.plugin.modelview.tree;
 
 import cmof.reflection.*;
-import hub.sam.mof.plugin.modelview.ObjectKind;
+import hub.sam.mof.plugin.modelview.Images;
 
 import java.util.*;
 
-public class ExtentTreeObject extends TreeParent {
+import org.eclipse.swt.graphics.Image;
+
+public class ExtentTreeObject extends ManTreeObject {
 
 	private String extentName;
 	private final Extent extent;
 	
+	private static final ExtendableFactory factory = new ExtendableFactory();
+	static {		
+		factory.addFactory(new StdBuilderFactory());
+		factory.addFactory(new CMOFBuilderFactory());
+	}
+	
 	public ExtentTreeObject(Extent extent, String extentName, TreeParent parent) {
-		super(extent, parent);
+		super(extent, parent, factory);
 		this.extent = extent;
 		this.extentName = extentName;
 	}
@@ -27,7 +35,7 @@ public class ExtentTreeObject extends TreeParent {
 			}
 		}
 		for (cmof.reflection.Object aObject: outermostComposites) {
-			result.add(new ObjectTreeObject(aObject, this));
+			result.add(build(aObject));
 		}
 		return result;
 	}
@@ -38,7 +46,7 @@ public class ExtentTreeObject extends TreeParent {
 	}
 	
 	@Override
-	public ObjectKind getKind() {
-		return ObjectKind.Extent;
+	public Image getImage() {
+		return Images.getDefault().getExtent();
 	}
 }
