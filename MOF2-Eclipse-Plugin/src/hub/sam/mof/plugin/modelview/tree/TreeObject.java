@@ -6,14 +6,14 @@ package hub.sam.mof.plugin.modelview.tree;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.swt.graphics.Image;
 
-public abstract class TreeObject implements IAdaptable {
+public class TreeObject implements IAdaptable {
 
 	private final TreeParent parent;
 	private final java.lang.Object element;
 	private Image image = null;
 	private String text = "unknown";
 	
-	protected TreeObject(java.lang.Object element, TreeParent parent) {
+	public TreeObject(java.lang.Object element, TreeParent parent) {
 		this.element = element;
 		this.parent = parent;
 	}

@@ -1,4 +1,9 @@
-package hub.sam.mof.plugin.modelview.tree;
+package hub.sam.mof.plugin.modelview.tree.builder;
+
+import hub.sam.mof.plugin.modelview.Images;
+import hub.sam.mof.plugin.modelview.tree.IChildManager;
+
+import org.eclipse.swt.graphics.Image;
 
 import cmof.Package;
 import cmof.PackageMerge;
@@ -21,4 +26,8 @@ public class PackageBuilder extends NamespaceBuilder {
 		super.addChildren(obj, mgr);
 	}
 
+	@Override
+	public Image getImage(Object element) {
+		return Images.getDefault().getPackage();		
+	}	
 }
