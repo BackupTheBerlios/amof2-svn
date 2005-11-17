@@ -11,8 +11,15 @@ public class ClassifierBuilder extends NamespaceBuilder {
 		for(cmof.Classifier redefines: ((Classifier)obj).getGeneral()) {
 			TreeObject to = mgr.addChild(redefines);
 			to.setImage(Images.getDefault().getRedefinition());
+			to.setCategory(Categories.SUPERCLASS);
 			to.setText("(from " + redefines.getNamespace().getQualifiedName() + ") " + to.getText());
 		}
 		super.addChildren(obj, mgr);
+	}
+	
+
+	@Override
+	public int getCategory(Object obj) {
+		return Categories.CLASS;
 	}
 }

@@ -5,6 +5,7 @@ import cmof.Element;
 import cmof.NamedElement;
 import cmof.OpaqueExpression;
 import cmof.ValueSpecification;
+import hub.sam.mof.plugin.modelview.Images;
 import hub.sam.mof.plugin.modelview.tree.IChildManager;
 import hub.sam.mof.plugin.modelview.tree.TreeObject;
 
@@ -18,15 +19,27 @@ public class ConstraintBuilder extends ElementBuilder {
 		if (text instanceof OpaqueExpression) {
 			TreeObject to = new TreeObject(obj, mgr.getParent());
 			to.setText(((OpaqueExpression)text).getBody());
-			to.setImage(null);
+			to.setImage(Images.getDefault().getComment());
+			to.setCategory(Categories.COMMENT);
 			mgr.addChild(to);
 		}
 		for (Element constrainedElement: constraint.getConstrainedElement()) {
 			TreeObject to = mgr.addChild(constrainedElement);
 			if (constrainedElement instanceof NamedElement)
 			to.setText("(from " + ((NamedElement)constrainedElement).getNamespace().getQualifiedName() +") " + to.getText());
+			to.setImage(Images.getDefault().getDepends());
+			to.setCategory(Categories.DEPENDS);
 		}
 		super.addChildren(obj, mgr);
 	} 
 
+	@Override
+	public org.eclipse.swt.graphics.Image getImage(Object obj) {
+		return Images.getDefault().getConstraint();
+	}
+
+	@Override
+	public int getCategory(Object obj) {
+		return Categories.CONSTRAINT;
+	}
 }

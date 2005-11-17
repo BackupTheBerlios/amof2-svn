@@ -26,6 +26,9 @@ public class Images {
 	private final Image subsets;
 	private final Image type;
 	private final Image infos;
+	private final Image depends;
+	private final Image constraint;
+	private final Image comment;
 	
 	private Images() {
 		this.repository = ImageDescriptor.createFromFile(ModelView.class, "repository.gif").createImage();
@@ -44,6 +47,9 @@ public class Images {
 		this.subsets = ImageDescriptor.createFromFile(ModelView.class, "subsets.gif").createImage();				
 		this.type = ImageDescriptor.createFromFile(ModelView.class, "type.gif").createImage();
 		this.infos = ImageDescriptor.createFromFile(ModelView.class, "infos.gif").createImage();
+		this.depends = ImageDescriptor.createFromFile(ModelView.class, "depends.gif").createImage();
+		this.constraint = ImageDescriptor.createFromFile(ModelView.class, "constraint.gif").createImage();
+		this.comment = ImageDescriptor.createFromFile(ModelView.class, "comment.gif").createImage();
 	}
 
 	public Image getAttribute() {
@@ -104,6 +110,18 @@ public class Images {
 
 	public Image getInfos() {
 		return infos;
+	}
+
+	public Image getComment() {
+		return comment;
+	}
+
+	public Image getConstraint() {
+		return constraint;
+	}
+
+	public Image getDepends() {
+		return depends;
 	}
 	
 }

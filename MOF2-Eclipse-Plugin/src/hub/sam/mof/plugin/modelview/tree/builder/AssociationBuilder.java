@@ -39,4 +39,11 @@ public class AssociationBuilder extends ClassifierBuilder {
 	public Image getImage(Object element) {
 		return Images.getDefault().getAssociation();
 	}
+
+
+
+	@Override
+	public int getCategory(Object obj) {
+		return Categories.ASSOCIATION;
+	}
 }

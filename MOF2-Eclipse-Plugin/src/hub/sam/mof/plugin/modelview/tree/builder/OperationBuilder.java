@@ -17,6 +17,7 @@ public class OperationBuilder extends NamespaceBuilder {
 		if (type != null) {
 			TreeObject to = mgr.addChild(type);
 			to.setImage(Images.getDefault().getType());
+			to.setCategory(Categories.TYPE);
 			int lower = operation.getLower();
 			long upper = operation.getUpper();
 			to.setText(operation.getType().getQualifiedName() + " - " + lower + ".." + ((upper == -1) ? "*" : new Long(upper).toString()));
@@ -42,5 +43,10 @@ public class OperationBuilder extends NamespaceBuilder {
 	@Override
 	public Image getImage(Object obj) {
 		return Images.getDefault().getOperation();
+	}
+
+	@Override
+	public int getCategory(Object obj) {
+		return Categories.OPERATION;
 	}
 }

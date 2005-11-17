@@ -1,6 +1,7 @@
 package hub.sam.mof.plugin.modelview.actions;
 
 import hub.sam.mof.plugin.modelview.ModelView;
+import hub.sam.mof.plugin.modelview.tree.TreeObject;
 
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
@@ -18,7 +19,7 @@ public class AddModelAction extends ContextAction {
 	}
 	
 	@Override
-	public void runFor(Object obj) {	
+	public void runFor(TreeObject obj) {	
 		Display display=Display.getCurrent();
 	    Shell shell=new Shell(display);
 	    AddModelDialog dialog = new AddModelDialog(shell, view);
@@ -27,7 +28,7 @@ public class AddModelAction extends ContextAction {
 	}
 	
 	@Override
-	public boolean isEnabledFor(Object selection) {
+	public boolean isEnabledFor(TreeObject selection) {
 		return selection instanceof hub.sam.mof.plugin.modelview.tree.RepositoryTreeObject;		
 	}
 }

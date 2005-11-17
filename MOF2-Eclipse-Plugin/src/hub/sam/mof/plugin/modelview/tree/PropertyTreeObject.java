@@ -1,6 +1,7 @@
 package hub.sam.mof.plugin.modelview.tree;
 
 import hub.sam.mof.plugin.modelview.Images;
+import hub.sam.mof.plugin.modelview.tree.builder.Categories;
 
 import java.util.Collection;
 
@@ -46,5 +47,10 @@ public class PropertyTreeObject extends ManTreeObject {
 			result.add(new PrimitiveTreeObject(value, this));
 		}
 		return result;
+	}
+
+	@Override
+	public int getCategory() {
+		return Categories.ELEMENT;
 	}
 }

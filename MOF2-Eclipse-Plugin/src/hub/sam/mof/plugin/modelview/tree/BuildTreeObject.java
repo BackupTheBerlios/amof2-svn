@@ -44,4 +44,8 @@ public class BuildTreeObject extends TreeParent {
 			return factory;
 		}
 	}
+	
+	public Object getContext() {
+		return builder;
+	}
 }

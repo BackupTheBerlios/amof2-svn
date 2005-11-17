@@ -29,5 +29,10 @@ public class PackageBuilder extends NamespaceBuilder {
 	@Override
 	public Image getImage(Object element) {
 		return Images.getDefault().getPackage();		
+	}
+
+	@Override
+	public int getCategory(Object obj) {
+		return Categories.PACKAGE;
 	}	
 }

@@ -1,6 +1,7 @@
 package hub.sam.mof.plugin.modelview.tree;
 
 import hub.sam.mof.plugin.modelview.Images;
+import hub.sam.mof.plugin.modelview.tree.builder.Categories;
 
 import java.util.Collection;
 import java.util.Vector;
@@ -34,5 +35,10 @@ public class ComponentsTreeObject extends ManTreeObject {
 	@Override
 	public Image getImage() {
 		return Images.getDefault().getComponents();
+	}
+
+	@Override
+	public int getCategory() {
+		return Categories.COMPONENTS;
 	}	
 }

@@ -3,6 +3,8 @@ package hub.sam.mof.plugin.modelview.actions;
 import hub.sam.mof.plugin.modelview.ModelView;
 import hub.sam.mof.plugin.modelview.tree.RepositoryTreeObject;
 
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -15,6 +17,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
@@ -25,6 +28,7 @@ public class AddModelDialog extends Dialog {
 	Text xmiFileField;
 	private Button staticModelClassRadio;
 	private Button xmiFileRadio;
+	private Button xmiBrowse;
 	private String className = null;
 	private final ModelView view;
 	
@@ -82,9 +86,16 @@ public class AddModelDialog extends Dialog {
 		data.widthHint = convertHorizontalDLUsToPixels(IDialogConstants.ENTRY_FIELD_WIDTH);
 		xmiFileField.setLayoutData(data);
 		
+		xmiBrowse = new Button(main, SWT.BUTTON1);
+		xmiBrowse.setText("browse");
+		data = new GridData();
+		data.horizontalSpan = 2;				
+		xmiFileRadio.setLayoutData(data);		
+		
 		xmiFileRadio.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent e) {
-				xmiFileField.setEnabled(true);	
+				xmiFileField.setEnabled(true);
+				xmiBrowse.setEnabled(true);
 				classNameField.setEnabled(false);
 			}
 
@@ -97,6 +108,7 @@ public class AddModelDialog extends Dialog {
 			public void widgetSelected(SelectionEvent e) {
 				classNameField.setEnabled(true);
 				xmiFileField.setEnabled(false);	
+				xmiBrowse.setEnabled(false);
 			}
 
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -104,9 +116,32 @@ public class AddModelDialog extends Dialog {
 			}		
 		});
 		
+		xmiBrowse.addSelectionListener(new SelectionListener() {
+
+			public void widgetSelected(SelectionEvent e) {				
+				FileDialog dialog = new FileDialog(getShell(), SWT.SINGLE);
+				dialog.setFilterExtensions(new String[] { "*.xml" }); //$NON-NLS-1$;				
+
+				String result = dialog.open();
+				if (result == null) {
+					return;
+				}
+				IPath filterPath= new Path(dialog.getFilterPath());
+				String buildFileName= dialog.getFileName();
+				IPath path= filterPath.append(buildFileName).makeAbsolute();	
+								
+				xmiFileField.setText(path.toOSString());
+			}
+
+			public void widgetDefaultSelected(SelectionEvent e) {
+				widgetSelected(e);				
+			}			
+		});
+		
 		staticModelClassRadio.setSelection(true);
 		classNameField.setEnabled(true);
 		xmiFileField.setEnabled(false);
+		xmiBrowse.setEnabled(false);
 		return main;
 	}
 	
@@ -129,12 +164,12 @@ public class AddModelDialog extends Dialog {
 
 	@Override
 	protected void okPressed() {
-		String className = classNameField.getText();
-		if (className == null || className.length() == 0) {
-			return;
-		}
-		this.className = className;
-		if (isLocalRepositorySelected()) {
+		if (isLocalRepositorySelected()) {			
+			String className = classNameField.getText();
+			if (className == null || className.length() == 0) {
+				return;
+			}
+			this.className = className;
 			RepositoryTreeObject repositoryTreeObject = (RepositoryTreeObject)((IStructuredSelection)view.getViewer().
 					getSelection()).getFirstElement();
 			try {
@@ -151,10 +186,25 @@ public class AddModelDialog extends Dialog {
 			super.okPressed();
 			return;
 		} else {
-			MessageDialog.openError(
-					view.getViewer().getControl().getShell(),
-					"Not implemented ...",
-					"Feature not implemented yet.");
+			String xmiFileName = xmiFileField.getText();
+			if (xmiFileName == null || xmiFileName.length() == 0) {
+				return;
+			}
+			this.className = xmiFileName;
+			RepositoryTreeObject repositoryTreeObject = (RepositoryTreeObject)((IStructuredSelection)view.getViewer().
+					getSelection()).getFirstElement();
+			try {
+				repositoryTreeObject.getElement().addXmiModel(xmiFileName);
+			} catch (Exception e) {
+				MessageDialog.openError(
+						view.getViewer().getControl().getShell(),
+						"Could not create ...",
+						"Could not create static model: " + e.getMessage());
+				return;
+			}
+			repositoryTreeObject.refresh();
+			view.getViewer().refresh();
+			super.okPressed();
 			return;
 		}		
 	}

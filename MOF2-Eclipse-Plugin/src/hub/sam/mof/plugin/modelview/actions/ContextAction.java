@@ -10,10 +10,15 @@ public abstract class ContextAction extends Action {
 
 	protected final ModelView view;
 	
-	abstract protected boolean isEnabledFor(Object obj); 	
-	abstract protected void runFor(Object obj);
+	abstract protected boolean isEnabledFor(TreeObject obj); 	
+	abstract protected void runFor(TreeObject obj);
 	
 	public ContextAction(ModelView view) {
+		this.view = view;
+	}
+	
+	public ContextAction(ModelView view, String text, int param) {
+		super(text, param);
 		this.view = view;
 	}
 	
@@ -22,7 +27,7 @@ public abstract class ContextAction extends Action {
 			return false;
 		} else {
 			if (selection.getFirstElement() instanceof TreeObject) {
-				return isEnabledFor(selection.getFirstElement());
+				return isEnabledFor((TreeObject)selection.getFirstElement());
 			} else {
 				return false;
 			}
@@ -31,6 +36,6 @@ public abstract class ContextAction extends Action {
 	
 	@Override
 	public void run() {		
-		runFor(((IStructuredSelection)view.getViewer().getSelection()).getFirstElement());		
+		runFor((TreeObject)((IStructuredSelection)view.getViewer().getSelection()).getFirstElement());		
 	}
 }

@@ -5,7 +5,7 @@ import cmof.Constraint;
 import cmof.ElementImport;
 import cmof.Namespace;
 
-public class NamespaceBuilder extends ElementBuilder {
+public abstract class NamespaceBuilder extends ElementBuilder {
 
 	@Override
 	public void addChildren(Object obj, IChildManager mgr) {	

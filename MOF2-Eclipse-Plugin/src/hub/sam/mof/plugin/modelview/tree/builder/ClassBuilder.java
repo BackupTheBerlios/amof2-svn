@@ -38,5 +38,4 @@ public class ClassBuilder extends ClassifierBuilder {
 	public Image getImage(Object element) {
 		return Images.getDefault().getClassIcon();
 	}
-
 }

@@ -5,18 +5,22 @@ import org.eclipse.swt.graphics.Image;
 import cmof.reflection.Object;
 import hub.sam.mof.plugin.modelview.Images;
 import hub.sam.mof.plugin.modelview.ViewLabelProvider;
+import hub.sam.mof.plugin.modelview.actions.IShowDetailsContext;
 import hub.sam.mof.plugin.modelview.tree.AutomatedBuilder;
 import hub.sam.mof.plugin.modelview.tree.IChildManager;
 import hub.sam.mof.plugin.modelview.tree.ObjectBuilder;
 import hub.sam.mof.plugin.modelview.tree.TreeObject;
 
-public abstract class ElementBuilder extends AutomatedBuilder {
+public abstract class ElementBuilder extends AutomatedBuilder implements IShowDetailsContext {
 			
-	public void addChildren(java.lang.Object obj, IChildManager mgr) {				
-		TreeObject to = new ObjectBuilder().create(obj, mgr.getParent(), mgr.getFactory());
-		to.setImage(Images.getDefault().getInfos());
-		to.setText("<details>");
-		mgr.addChild(to);		
+	public void addChildren(java.lang.Object obj, IChildManager mgr) {			
+		if (mgr.getParent().optionIsSet(SHOW_DETAILS)) {
+			TreeObject to = new ObjectBuilder().create(obj, mgr.getParent(), mgr.getFactory());
+			to.setImage(Images.getDefault().getInfos());
+			to.setCategory(Categories.INFO);
+			to.setText("<details>");
+			mgr.addChild(to);		
+		}
 	}
 
 	@Override
@@ -49,4 +53,21 @@ public abstract class ElementBuilder extends AutomatedBuilder {
 			return "UNEXPECTED";
 		}
 	}
+
+	private final static int SHOW_DETAILS = 1;
+	
+	public void switchShowDetails(java.lang.Object obj) {
+		TreeObject to = (TreeObject)obj;
+		if (isShowingDetails(obj)) {
+			to.unsetOption(SHOW_DETAILS);
+		} else {
+			to.setOption(SHOW_DETAILS);
+		}
+	}
+
+	public boolean isShowingDetails(java.lang.Object obj) {
+		return ((TreeObject)obj).optionIsSet(SHOW_DETAILS);
+	}
+	
+	
 }

@@ -20,13 +20,13 @@ public class RemoveRepositoryAction extends ContextAction {
 	}
 	
 	@Override
-	public void runFor(Object toDelete) {			
-		((InvisibleTreeRoot)((TreeObject)toDelete).getParent()).removeChild((TreeObject)toDelete);
+	public void runFor(TreeObject toDelete) {			
+		((InvisibleTreeRoot)toDelete.getParent()).removeChild(toDelete);
 		view.getViewer().refresh();
 	}
 	
 	@Override
-	public boolean isEnabledFor(Object selection) {
+	public boolean isEnabledFor(TreeObject selection) {
 		return selection instanceof hub.sam.mof.plugin.modelview.tree.RepositoryTreeObject;		
 	}
 }

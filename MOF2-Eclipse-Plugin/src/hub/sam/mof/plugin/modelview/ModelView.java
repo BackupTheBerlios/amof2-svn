@@ -1,6 +1,7 @@
 package hub.sam.mof.plugin.modelview;
 
 import hub.sam.mof.plugin.modelview.actions.*;
+import hub.sam.mof.plugin.modelview.tree.builder.Categories;
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.*;
@@ -37,6 +38,7 @@ public class ModelView extends ViewPart {
 	private RemoveRepositoryAction removeRepository;
 	private AddModelAction addModel;
 	private AddToFilteredClassesAction addToFilteredClasses;
+	private ShowDetailsAction showDetails;
 	private Action setFilter;
 
 	/*
@@ -62,8 +64,9 @@ public class ModelView extends ViewPart {
 		viewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 		drillDownAdapter = new DrillDownAdapter(viewer);
 		viewer.setContentProvider(new ModelViewContentProvider(this));
-		viewer.setLabelProvider(ViewLabelProvider.getDefault());	
+		viewer.setLabelProvider(ViewLabelProvider.getDefault());			
 		viewer.setInput(getViewSite());
+		viewer.setSorter(new Categories());
 		makeActions();
 		hookContextMenu();
 		hookDoubleClickAction();
@@ -106,6 +109,8 @@ public class ModelView extends ViewPart {
 		manager.add(addModel);
 		addToFilteredClasses.setEnabled(addToFilteredClasses.shouldEnable((IStructuredSelection)viewer.getSelection()));
 		manager.add(addToFilteredClasses);
+		showDetails.setEnabled(showDetails.shouldEnable((IStructuredSelection)viewer.getSelection()));
+		manager.add(showDetails);
 		manager.add(new Separator());
 		drillDownAdapter.addNavigationActions(manager);
 		// Other plug-ins can contribute there actions here
@@ -123,7 +128,7 @@ public class ModelView extends ViewPart {
 		removeRepository = new RemoveRepositoryAction(this);
 		addModel = new AddModelAction(this);
 		addToFilteredClasses = new AddToFilteredClassesAction(this);
-
+		showDetails = new ShowDetailsAction(this);
 		
 		setFilter = new Action() {
 			@Override

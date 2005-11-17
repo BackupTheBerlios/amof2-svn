@@ -14,6 +14,7 @@ public class TypedElementBuilder extends ElementBuilder {
 		
 		TreeObject to = mgr.addChild(typedElement.getType());
 		to.setImage(Images.getDefault().getType());
+		to.setCategory(Categories.TYPE);
 		to.setText(typedElement.getType().getQualifiedName());
 		
 		super.addChildren(obj, mgr);
@@ -35,5 +36,10 @@ public class TypedElementBuilder extends ElementBuilder {
 		result += " - " + lower + ".." + ((upper == -1) ? "*" : new Long(upper).toString());
 		
 		return result;
+	}
+
+	@Override
+	public int getCategory(Object obj) {
+		return 1000;
 	}
 }

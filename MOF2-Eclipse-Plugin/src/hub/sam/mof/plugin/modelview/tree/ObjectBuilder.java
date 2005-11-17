@@ -2,6 +2,7 @@ package hub.sam.mof.plugin.modelview.tree;
 
 import cmof.Property;
 import hub.sam.mof.plugin.modelview.Images;
+import hub.sam.mof.plugin.modelview.tree.builder.Categories;
 
 public class ObjectBuilder implements IBuilder {
 
@@ -9,6 +10,7 @@ public class ObjectBuilder implements IBuilder {
 			IBuilderFactory factory) {
 		TreeObject to = new BuildTreeObject(obj, parent, this, factory);
 		to.setImage(Images.getDefault().getObject());
+		to.setCategory(Categories.ELEMENT);
 		{
 			cmof.reflection.Object theObject = (cmof.reflection.Object)obj;
 			String result = null;
@@ -38,6 +40,7 @@ public class ObjectBuilder implements IBuilder {
 		cmof.UmlClass metaClass = theObject.getMetaClass();
 		TreeObject metaClassTO = mgr.addChild(metaClass);
 		metaClassTO.setImage(Images.getDefault().getMetaClass());
+		metaClassTO.setCategory(Categories.METACLASS);
 		mgr.addChild(new ComponentsTreeObject(theObject, mgr.getParent(), mgr.getFactory()));
 		for (cmof.NamedElement property: metaClass.getMember()) {
 			if (property instanceof Property) {
