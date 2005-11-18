@@ -1,5 +1,8 @@
 package hub.sam.mof.plugin.modelview.tree.builder;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import hub.sam.mof.plugin.modelview.ImageImageDescriptor;
 import hub.sam.mof.plugin.modelview.Images;
 import hub.sam.mof.plugin.modelview.OverlayIcon;
@@ -38,12 +41,20 @@ public class ClassBuilder extends ClassifierBuilder implements IShowOtherFeature
 		if (member instanceof RedefinableElement) {
 			for (RedefinableElement redefined: ((RedefinableElement)member).getRedefinedElement()) {
 				redefinitions.put(redefined, (RedefinableElement)member);	
-			}			
-			keys.add(member);
+			}
+			keys.add(member);			
 		}
 	}
 	
-	private void addMemberChildren(NamedElement member, IChildManager mgr, boolean isInherited, boolean isRedefined) {
+	private void addSubsetting(MultiMap<Property, Property> subsettings, NamedElement member) {
+		if (member instanceof Property) {
+			for (Property subsetted: ((Property)member).getSubsettedProperty()) {
+				subsettings.put(subsetted, (Property)member);	
+			}			
+		}
+	}
+	
+	private void addMemberChildren(NamedElement member, IChildManager mgr, boolean isInherited, boolean isRedefined, boolean isSubsetted) {
 		TreeObject child = mgr.addChild(member);
 				
 		Image baseImage = null;
@@ -54,29 +65,31 @@ public class ClassBuilder extends ClassifierBuilder implements IShowOtherFeature
 		} else {
 			baseImage = child.getImage();
 		}
-		if (isInherited || isRedefined) {
-			Rectangle bounds = baseImage.getBounds();
-			ImageDescriptor newImage = null;
-			if (isInherited && !isRedefined) {
-				newImage = new OverlayIcon(			
-						new ImageImageDescriptor(baseImage), 
-						new ImageDescriptor[][] {new ImageDescriptor[] {new ImageImageDescriptor(Images.getDefault().getImported_deco())}, null, null, null},
-						new Point(bounds.height, bounds.width));
-			} else if (!isInherited && isRedefined){
-				newImage = new OverlayIcon(			
-						new ImageImageDescriptor(baseImage), 
-						new ImageDescriptor[][] {null, new ImageDescriptor[] {new ImageImageDescriptor(Images.getDefault().getRedefined_deco())}, null, null},
-						new Point(bounds.height, bounds.width));
-			} else {
-				newImage = new OverlayIcon(			
-						new ImageImageDescriptor(baseImage), 
-						new ImageDescriptor[][] {new ImageDescriptor[] {new ImageImageDescriptor(Images.getDefault().getImported_deco())}, new ImageDescriptor[] {new ImageImageDescriptor(Images.getDefault().getRedefined_deco())}, null, null},
-						new Point(bounds.height, bounds.width));
-			}
-			child.setImage(Images.getDefault().get(newImage));
-		} else {
-			child.setImage(baseImage);
+		
+		
+		Rectangle bounds = baseImage.getBounds();
+		ImageDescriptor newImage = null;
+		ImageDescriptor upperDeco = null;
+		Collection<ImageDescriptor> lowerDecoList = new ArrayList<ImageDescriptor>(2);
+		
+		if (isInherited) {
+			upperDeco = new ImageImageDescriptor(Images.getDefault().getImported_deco());
 		}
+		if (isRedefined) {
+			lowerDecoList.add(new ImageImageDescriptor(Images.getDefault().getRedefined_deco()));
+		}
+		if (isSubsetted) {
+			lowerDecoList.add(new ImageImageDescriptor(Images.getDefault().getMerged_deco()));
+		}
+		
+		ImageDescriptor[] lowerDeco = lowerDecoList.toArray(new ImageDescriptor[]{});
+		
+		newImage = new OverlayIcon(			
+				new ImageImageDescriptor(baseImage), 
+				new ImageDescriptor[][] {new ImageDescriptor[] {upperDeco}, lowerDeco, null, null},
+				new Point(bounds.height, bounds.width));
+		child.setImage(Images.getDefault().get(newImage));		
+		
 		
 		if (isInherited || isRedefined) {
 			String text = child.getText();
@@ -94,45 +107,55 @@ public class ClassBuilder extends ClassifierBuilder implements IShowOtherFeature
 		TreeObject to = mgr.getParent();
 		UmlClass theClass = (UmlClass)obj;
 		
-		ReflectiveCollection<? extends NamedElement> inheritedMember = null;
-		ReflectiveCollection<RedefinableElement> keys = null;
+		ReflectiveCollection<? extends NamedElement> inheritedMember = new SetImpl<NamedElement>();
+		ReflectiveCollection<RedefinableElement> keys = new ListImpl<RedefinableElement>();
 
-		MultiMap<RedefinableElement, RedefinableElement> redefinitions = null;
+		MultiMap<RedefinableElement, RedefinableElement> redefinitions = new MultiMap<RedefinableElement, RedefinableElement>();
+		MultiMap<Property, Property> subsettings = new MultiMap<Property, Property>();		
+		
 		if (to.optionIsSet(SHOW_FINAL_FEATURES) || to.optionIsSet(SHOW_INHERITED_FEATURES)) {
-			redefinitions = new MultiMap<RedefinableElement, RedefinableElement>();
-			keys = new ListImpl<RedefinableElement>();
-			inheritedMember = new SetImpl<NamedElement>();
 			inheritedMember.addAll(theClass.getInheritedMember());
 			for (NamedElement member: inheritedMember) {
 				addRedefinition(redefinitions, keys, member);
-			}
-			for (NamedElement member: theClass.getOwnedMember()) {
-				addRedefinition(redefinitions, keys, member);				
-			}
+				addSubsetting(subsettings, member);
+			}			
+		}
+		for (NamedElement member: theClass.getOwnedMember()) {
+			addRedefinition(redefinitions, keys, member);
+			addSubsetting(subsettings, member);
 		}
 		
 		if (to.optionIsSet(SHOW_FINAL_FEATURES)) {
 			for (RedefinableElement member: keys) {
 				if (redefinitions.get(member).size() == 0) {
-					addMemberChildren(member, mgr, inheritedMember.contains(member), false);
+					if (member instanceof Property) {
+						addMemberChildren(member, mgr, inheritedMember.contains(member), false, subsettings.get((Property)member).size()!=0);
+					} else {
+						addMemberChildren(member, mgr, inheritedMember.contains(member), false, false);
+					}
 				}
 			}
 		} else {
-			for(Property property: theClass.getOwnedAttribute()) {
-				mgr.addChild(property);
+			for(Property property: theClass.getOwnedAttribute()) {				
+				addMemberChildren(property, mgr, inheritedMember.contains(property), redefinitions.get(property).size() != 0, subsettings.get(property).size() != 0);				
 			}
 		
-			for(Operation op: theClass.getOwnedOperation()) {
-				mgr.addChild(op);
+			for(Operation op: theClass.getOwnedOperation()) {				
+				addMemberChildren(op, mgr, inheritedMember.contains(op), redefinitions.get(op).size() != 0, false);
 			}
 			
 			if (to.optionIsSet(SHOW_INHERITED_FEATURES)) {
 				loop: for(NamedElement member: theClass.getInheritedMember()) {
+					boolean isRedefined = false;
+					boolean isSubsetted = false;
 					if (member instanceof RedefinableElement) {
-						addMemberChildren(member, mgr, true, redefinitions.get((RedefinableElement)member).size() != 0);
-					} else {
-						addMemberChildren(member, mgr, true, false);
+						isRedefined = redefinitions.get((RedefinableElement)member).size() != 0;					
 					}
+					if (member instanceof Property) {
+						isSubsetted = subsettings.get((Property)member).size() != 0;						
+					}
+					
+					addMemberChildren(member, mgr, inheritedMember.contains(member), isRedefined, isSubsetted);
 				}
 			} 
 		}

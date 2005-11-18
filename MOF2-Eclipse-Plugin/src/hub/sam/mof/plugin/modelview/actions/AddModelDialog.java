@@ -28,7 +28,7 @@ public class AddModelDialog extends Dialog {
 	Text xmiFileField;
 	private Button staticModelClassRadio;
 	private Button xmiFileRadio;
-	private Button xmiBrowse;
+	Button xmiBrowse;
 	private String className = null;
 	private final ModelView view;
 	
