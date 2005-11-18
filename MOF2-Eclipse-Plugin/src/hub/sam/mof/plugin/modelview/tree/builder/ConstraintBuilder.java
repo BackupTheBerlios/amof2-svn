@@ -42,4 +42,14 @@ public class ConstraintBuilder extends ElementBuilder {
 	public int getCategory(Object obj) {
 		return Categories.CONSTRAINT;
 	}
+
+	@Override
+	public String getText(Object element) {
+		String result = ((Constraint)element).getName();
+		if (result == null) {
+			return "<constraint>";
+		} else {
+			return result;
+		}
+	}		
 }

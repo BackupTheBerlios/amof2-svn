@@ -39,6 +39,9 @@ public class ModelView extends ViewPart {
 	private AddModelAction addModel;
 	private AddToFilteredClassesAction addToFilteredClasses;
 	private ShowDetailsAction showDetails;
+	private ShowInheritedFeaturesAction showInheritedFeatures;
+	private ShowFinalFeaturesAction showFinalFeatures;
+	private ShowOwnedFeaturesAction showOwnedFeatures;
 	private Action setFilter;
 
 	/*
@@ -111,7 +114,16 @@ public class ModelView extends ViewPart {
 		manager.add(addToFilteredClasses);
 		showDetails.setEnabled(showDetails.shouldEnable((IStructuredSelection)viewer.getSelection()));
 		manager.add(showDetails);
+		
 		manager.add(new Separator());
+		showInheritedFeatures.setEnabled(showInheritedFeatures.shouldEnable((IStructuredSelection)viewer.getSelection()));
+		manager.add(showInheritedFeatures);
+		showFinalFeatures.setEnabled(showFinalFeatures.shouldEnable((IStructuredSelection)viewer.getSelection()));
+		manager.add(showFinalFeatures);
+		showOwnedFeatures.setEnabled(showOwnedFeatures.shouldEnable((IStructuredSelection)viewer.getSelection()));
+		manager.add(showOwnedFeatures);		
+		manager.add(new Separator());
+		
 		drillDownAdapter.addNavigationActions(manager);
 		// Other plug-ins can contribute there actions here
 		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
@@ -129,6 +141,9 @@ public class ModelView extends ViewPart {
 		addModel = new AddModelAction(this);
 		addToFilteredClasses = new AddToFilteredClassesAction(this);
 		showDetails = new ShowDetailsAction(this);
+		showInheritedFeatures = new ShowInheritedFeaturesAction(this);
+		showOwnedFeatures = new ShowOwnedFeaturesAction(this);
+		showFinalFeatures = new ShowFinalFeaturesAction(this);
 		
 		setFilter = new Action() {
 			@Override

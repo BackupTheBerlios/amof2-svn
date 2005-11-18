@@ -1,5 +1,8 @@
 package hub.sam.mof.plugin.modelview;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 
@@ -29,6 +32,13 @@ public class Images {
 	private final Image depends;
 	private final Image constraint;
 	private final Image comment;
+	private final Image enumvalue;
+	private final Image enumeration;
+	private final Image primitivetype;
+	
+	private final Image merged_deco;
+	private final Image redefined_deco;
+	private final Image imported_deco;
 	
 	private Images() {
 		this.repository = ImageDescriptor.createFromFile(ModelView.class, "repository.gif").createImage();
@@ -50,6 +60,24 @@ public class Images {
 		this.depends = ImageDescriptor.createFromFile(ModelView.class, "depends.gif").createImage();
 		this.constraint = ImageDescriptor.createFromFile(ModelView.class, "constraint.gif").createImage();
 		this.comment = ImageDescriptor.createFromFile(ModelView.class, "comment.gif").createImage();
+		this.enumvalue = ImageDescriptor.createFromFile(ModelView.class, "enumvalue.gif").createImage();
+		this.enumeration = ImageDescriptor.createFromFile(ModelView.class, "enumeration.gif").createImage();
+		this.primitivetype = ImageDescriptor.createFromFile(ModelView.class, "primitivetype.gif").createImage();
+		
+		this.merged_deco = ImageDescriptor.createFromFile(ModelView.class, "merged_deco.gif").createImage();
+		this.redefined_deco = ImageDescriptor.createFromFile(ModelView.class, "redefined_deco.gif").createImage();
+		this.imported_deco = ImageDescriptor.createFromFile(ModelView.class, "imported_deco.gif").createImage();
+	}
+	
+	private Map<ImageDescriptor, Image> registry = new HashMap<ImageDescriptor, Image>();
+	
+	public Image get(ImageDescriptor desc) {
+		Image result = registry.get(desc);
+		if (result == null) {
+			result = desc.createImage();
+			registry.put(desc, result);
+		}
+		return result;
 	}
 
 	public Image getAttribute() {
@@ -122,6 +150,30 @@ public class Images {
 
 	public Image getDepends() {
 		return depends;
+	}
+
+	public Image getEnumeration() {
+		return enumeration;
+	}
+
+	public Image getEnumvalue() {
+		return enumvalue;
+	}
+
+	public Image getPrimitivetype() {
+		return primitivetype;
+	}
+
+	public Image getMerged_deco() {
+		return merged_deco;
+	}
+
+	public Image getImported_deco() {
+		return imported_deco;
+	}
+
+	public Image getRedefined_deco() {
+		return redefined_deco;
 	}
 	
 }

@@ -12,9 +12,12 @@ public class Categories extends ViewerSorter {
 	
 	public static final int INFO = 1000;
 	
-	public static final int PACKAGE = 1;
-	public static final int CLASS = 2;
-	public static final int ASSOCIATION = 3;
+	public static final int PACKAGE = 2;
+	public static final int CLASS = 3;
+	public static final int PRIMITIVETYPE = 4;
+	public static final int ENUMERATION = 5;
+	public static final int ASSOCIATION = 6;
+	public static final int MERGED = 1;
 	
 	public static final int PROPERTY = 1;
 	public static final int OPERATION = 2;

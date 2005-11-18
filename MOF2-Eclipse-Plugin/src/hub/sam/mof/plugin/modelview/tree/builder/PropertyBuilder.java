@@ -5,6 +5,8 @@ import hub.sam.mof.plugin.modelview.tree.IChildManager;
 import hub.sam.mof.plugin.modelview.tree.TreeObject;
 
 import org.eclipse.swt.graphics.Image;
+
+import cmof.Namespace;
 import cmof.Property;
 
 public class PropertyBuilder extends TypedElementBuilder {
@@ -24,7 +26,21 @@ public class PropertyBuilder extends TypedElementBuilder {
 			to = mgr.addChild(subset);
 			to.setImage(Images.getDefault().getSubsets());
 			to.setCategory(Categories.SUBSETS);
-			to.setText("(from " + subset.getNamespace().getQualifiedName() + ") " + to.getText());
+			Namespace ns = subset.getNamespace();
+			if (ns == null) {
+				ns = subset.getAssociation();
+				if (ns == null) {
+					to.setText("(from <global>) " + to.getText());
+				} else {					
+					if (ns.getName() != null ) {
+						to.setText("(from " + ns.getQualifiedName() + ") " + to.getText());
+					} else {
+						to.setText("(from <association>) " + to.getText());
+					}
+				}
+			} else {
+				to.setText("(from " + subset.getNamespace().getQualifiedName() + ") " + to.getText());
+			}
 		}
 		Property opposite = property.getOpposite();
 		if (opposite != null) {
