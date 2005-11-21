@@ -1,6 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
-<plugin>
+<plugin
+   id="hub.sam.mof.plugin.Mof2Plugin"
+   name="Mof2Plugin"
+   version="1.0.0"
+
+   class="hub.sam.mof.plugin.Mof2Plugin">
+   <runtime>
+      <library name="aMOF2.0forJava.jar">
+         <export name="*"/>
+      </library>
+      <library name="jbossall-client.jar">
+         <export name="*"/>
+      </library>
+      <library name="mof2-plugin.jar">
+         <export name="*"/>
+      </library>
+   </runtime>
+   
+   <requires>
+      <import plugin="org.eclipse.ui"/>
+   </requires>
+   <requires>
+      <import plugin="org.eclipse.core.runtime"/>
+   </requires>
+      <requires>
+      <import plugin="org.eclipse.core.resources"/>
+   </requires>
+      <requires>
+      <import plugin="org.eclipse.jdt.ui"/>
+   </requires>
 
    <extension
          point="org.eclipse.ui.views">
