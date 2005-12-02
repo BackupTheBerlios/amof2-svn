@@ -1,6 +1,10 @@
 package hub.sam.mof.plugin;
 
+import hub.sam.mof.plugin.modelview.tree.TreeObject;
+
 import org.eclipse.ui.plugin.*;
+import org.eclipse.ui.views.properties.IPropertySource;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.osgi.framework.BundleContext;
 
@@ -25,6 +29,7 @@ public class Mof2Plugin extends AbstractUIPlugin {
 	@Override
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
+		Platform.getAdapterManager().registerAdapters(new MOF2AdapterFactory(), TreeObject.class);
 	}
 
 	/**

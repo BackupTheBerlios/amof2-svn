@@ -42,6 +42,13 @@ public class ObjectBuilder implements IBuilder {
 		metaClassTO.setImage(Images.getDefault().getMetaClass());
 		metaClassTO.setCategory(Categories.METACLASS);
 		mgr.addChild(new ComponentsTreeObject(theObject, mgr.getParent(), mgr.getFactory()));
+		
+		cmof.reflection.Object container = theObject.container();
+		if (container != null) {				
+			TreeObject component = mgr.addChild(theObject.container());
+			component.setText("<container>: " + component.getText());
+			component.setCategory(Categories.METACLASS);
+		}
 		for (cmof.NamedElement property: metaClass.getMember()) {
 			if (property instanceof Property) {
 				mgr.addChild(new PropertyTreeObject((Property)property, theObject, mgr.getParent(), mgr.getFactory()));

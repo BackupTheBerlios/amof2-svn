@@ -25,7 +25,14 @@ public abstract class  TreeParent extends TreeObject {
 	}
 	
 	public void refresh() {
-		isCacheValid = false;
+		if (isCacheValid) {
+			for (TreeObject to: getChildren()) {
+				if (to instanceof TreeParent) {
+					((TreeParent)to).refresh();
+				}
+			}
+			isCacheValid = false;
+		}
 	}
 	
 	public boolean hasChildren() {

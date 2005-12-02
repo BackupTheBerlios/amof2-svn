@@ -7,6 +7,7 @@ import hub.sam.mof.plugin.modelview.tree.IChildManager;
 import hub.sam.mof.plugin.modelview.tree.TreeObject;
 import cmof.Operation;
 import cmof.Parameter;
+import cmof.Property;
 
 public class OperationBuilder extends NamespaceBuilder {
 	@Override
@@ -25,6 +26,13 @@ public class OperationBuilder extends NamespaceBuilder {
 		
 		for (Parameter parameter: operation.getParameter()) {
 			mgr.addChild(parameter);
+		}
+		
+		for (Operation redef: operation.getRedefinedOperation()) {
+			TreeObject to = mgr.addChild(redef);
+			to.setImage(Images.getDefault().getRedefinition());
+			to.setCategory(Categories.REDEFINITION);
+			to.setText("(from " + redef.getNamespace().getQualifiedName() + ") " + to.getText());
 		}
 		
 		super.addChildren(obj, mgr);

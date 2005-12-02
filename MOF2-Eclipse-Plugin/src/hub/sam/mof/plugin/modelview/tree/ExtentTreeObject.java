@@ -29,7 +29,10 @@ public class ExtentTreeObject extends ManTreeObject {
 		super.retrieveChildren();
 		Collection<TreeObject> result = new Vector<TreeObject>();		
 		Collection<cmof.reflection.Object> outermostComposites = new Vector<cmof.reflection.Object>();
-		for (cmof.reflection.Object aObject: extent.getObject()) {
+		loop: for (cmof.reflection.Object aObject: extent.getObject()) {
+			if (aObject == null) {
+				continue loop;
+			}
 			if (aObject.container() == null) {
 				outermostComposites.add(aObject);
 			}

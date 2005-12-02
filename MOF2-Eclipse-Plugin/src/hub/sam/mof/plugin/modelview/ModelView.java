@@ -5,6 +5,7 @@ import hub.sam.mof.plugin.modelview.tree.builder.Categories;
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.*;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.viewers.*;
 import org.eclipse.jface.action.*;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -35,6 +36,7 @@ public class ModelView extends ViewPart {
 	TreeViewer viewer;
 	private DrillDownAdapter drillDownAdapter;
 	private AddRepositoryAction addRepository;
+	private RefreshAction refreshAction;
 	private RemoveRepositoryAction removeRepository;
 	private AddModelAction addModel;
 	private AddToFilteredClassesAction addToFilteredClasses;
@@ -63,13 +65,14 @@ public class ModelView extends ViewPart {
 	 * to create the viewer and initialize it.
 	 */
 	@Override
-	public void createPartControl(Composite parent) {
+	public void createPartControl(Composite parent) {				
 		viewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 		drillDownAdapter = new DrillDownAdapter(viewer);
-		viewer.setContentProvider(new ModelViewContentProvider(this));
+		viewer.setContentProvider(new ModelViewContentProvider(this));		
 		viewer.setLabelProvider(ViewLabelProvider.getDefault());			
 		viewer.setInput(getViewSite());
 		viewer.setSorter(new Categories());
+		getSite().setSelectionProvider(viewer);
 		makeActions();
 		hookContextMenu();
 		hookDoubleClickAction();
@@ -101,6 +104,7 @@ public class ModelView extends ViewPart {
 
 	private void fillLocalPullDown(IMenuManager manager) {
 		manager.add(addRepository);
+		manager.add(refreshAction);
 		manager.add(new Separator());
 		manager.add(setFilter);
 	}
@@ -131,12 +135,14 @@ public class ModelView extends ViewPart {
 	
 	private void fillLocalToolBar(IToolBarManager manager) {
 		manager.add(addRepository);
+		manager.add(refreshAction);
 		manager.add(new Separator());
 		drillDownAdapter.addNavigationActions(manager);
 	}
 
 	private void makeActions() {
-		addRepository = new AddRepositoryAction(this);					
+		addRepository = new AddRepositoryAction(this);	
+		refreshAction = new RefreshAction(this);
 		removeRepository = new RemoveRepositoryAction(this);
 		addModel = new AddModelAction(this);
 		addToFilteredClasses = new AddToFilteredClassesAction(this);
