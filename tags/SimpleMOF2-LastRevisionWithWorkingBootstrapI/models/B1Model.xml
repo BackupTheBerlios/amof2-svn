@@ -1,0 +1,16 @@
+<XMI>
+<Class xmi:id="1">
+    <name>B1Class</name>
+    <member>
+        <name>member</name>
+        <type idref="2"/>
+    </member>
+</Class>
+<Class xmi:id="2">
+    <name>B1Property</name>
+    <member>
+        <name>type</name>
+        <type idref="1"/>
+    </member>
+</Class>
+</XMI>

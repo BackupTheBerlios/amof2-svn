@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.omg.org/XSI" xmlns:cmof="http://www.foo.org/cmof">
+  <cmof:Package xmi:id="162" name="warehouse">
+    <packageImport xmi:id="163" importingNamespace="162" importedPackage="157" xsi:type="PackageImport" />
+    <ownedType xmi:id="164" isAbstract="true" name="Element" package="162" xsi:type="Class">
+      <ownedAttribute xmi:id="165" isDerivedUnion="false" upper="1" isDerived="false" lower="1" type="160" class="164" isReadOnly="false" isUnique="true" isOrdered="false" name="identifier" isComposite="false" xsi:type="Property" />
+      <ownedAttribute xmi:id="166" isDerivedUnion="false" upper="1" isDerived="true" lower="1" type="160" class="164" isReadOnly="false" isUnique="true" isOrdered="false" name="position" isComposite="false" xsi:type="Property" />
+      <ownedAttribute xmi:id="167" isDerived="false" type="170" class="164" association="169" isComposite="false" isDerivedUnion="false" opposite="168" upper="1" lower="0" isReadOnly="false" isOrdered="false" isUnique="true" name="container" xsi:type="Property" />
+      <ownedOperation xmi:id="171" isQuery="false" upper="1" lower="1" class="164" isUnique="true" isOrdered="false" name="test" xsi:type="Operation" />
+    </ownedType>
+    <ownedType xmi:id="170" isAbstract="true" name="Container" package="162" superClass="164" xsi:type="Class">
+      <ownedAttribute xmi:id="168" isDerived="false" type="164" class="170" association="169" isComposite="true" isDerivedUnion="false" opposite="167" upper="-1" lower="0" isReadOnly="false" isOrdered="false" isUnique="true" name="content" xsi:type="Property" />
+    </ownedType>
+    <ownedType xmi:id="169" isDerived="false" memberEnd="168 167" isAbstract="false" name="Contains" package="162" xsi:type="Association" />
+    <ownedType xmi:id="172" isAbstract="false" name="Rack" package="162" superClass="170" xsi:type="Class">
+      <ownedAttribute xmi:id="173" isDerived="false" subsettedProperty="168" type="176" class="172" association="175" isComposite="true" isDerivedUnion="false" opposite="174" upper="-1" lower="0" isReadOnly="false" isUnique="true" isOrdered="false" name="box" xsi:type="Property" />
+    </ownedType>
+    <ownedType xmi:id="175" isDerived="false" memberEnd="173" isAbstract="false" name="RackContains" package="162" xsi:type="Association">
+      <ownedEnd xmi:id="174" owningAssociation="175" isDerivedUnion="false" upper="1" opposite="173" isDerived="false" lower="0" type="172" isReadOnly="false" isUnique="true" isOrdered="false" name="rack" isComposite="false" xsi:type="Property" />
+    </ownedType>
+    <ownedType xmi:id="176" isAbstract="false" name="Box" package="162" superClass="170" xsi:type="Class">
+      <ownedAttribute xmi:id="177" isDerived="false" subsettedProperty="168" type="180" class="176" association="179" isComposite="true" isDerivedUnion="false" opposite="178" upper="-1" lower="0" isReadOnly="false" isUnique="true" isOrdered="false" name="item" xsi:type="Property" />
+      <ownedAttribute xmi:id="182" isDerivedUnion="false" upper="1" isDerived="true" lower="1" type="158" class="176" isReadOnly="false" isUnique="true" isOrdered="false" name="weight" isComposite="false" xsi:type="Property" />
+    </ownedType>
+    <ownedType xmi:id="179" isDerived="false" memberEnd="177" isAbstract="false" name="BoxContains" package="162" xsi:type="Association">
+      <ownedEnd xmi:id="178" owningAssociation="179" isDerivedUnion="false" upper="1" opposite="177" isDerived="false" lower="1" type="176" isReadOnly="false" isUnique="true" isOrdered="false" name="box" isComposite="false" xsi:type="Property" />
+    </ownedType>
+    <ownedType xmi:id="180" isAbstract="false" name="Item" package="162" superClass="164" xsi:type="Class">
+      <ownedAttribute xmi:id="181" isDerivedUnion="false" upper="1" isDerived="false" lower="1" type="158" class="180" isReadOnly="false" isUnique="true" default="0" isOrdered="false" name="weight" isComposite="false" xsi:type="Property" />
+    </ownedType>
+  </cmof:Package>
+  <cmof:Package xmi:id="156" name="core">
+    <nestedPackage xmi:id="157" name="primitivetypes" nestingPackage="156" xsi:type="Package">
+      <ownedType xmi:id="158" isAbstract="false" name="Integer" package="157" xsi:type="PrimitiveType" />
+      <ownedType xmi:id="159" isAbstract="false" name="Boolean" package="157" xsi:type="PrimitiveType" />
+      <ownedType xmi:id="160" isAbstract="false" name="String" package="157" xsi:type="PrimitiveType" />
+      <ownedType xmi:id="161" isAbstract="false" name="UnlimitedNatural" package="157" xsi:type="PrimitiveType" />
+    </nestedPackage>
+  </cmof:Package>
+</xmi:XMI>
+

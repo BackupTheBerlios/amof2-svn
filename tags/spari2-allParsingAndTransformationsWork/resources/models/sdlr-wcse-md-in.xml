@@ -1,0 +1,1069 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmlns:xmi="http://www.omg.org/XMI" xmlns:uml="http://www.foo.org/uml" xmi:version="2.1">
+  <uml:Model xmi:id="4888">
+    <ownedElement xmi:id="4584" name="Common" xmi:type="Package">
+      <ownedMember xmi:id="4585" visibility="public" isDerived="false" memberEnd="4586 4588" isAbstract="false" name="Contains" package="4584" xmi:type="Association" />
+      <ownedMember xmi:id="4597" visibility="public" isDerived="false" memberEnd="4598" isAbstract="false" name="GeneralizableElementSupertype" package="4584" xmi:type="Association">
+        <ownedEnd xmi:id="4601" owningAssociation="4597" visibility="public" isDerived="false" type="4599" isDerivedUnion="false" opposite="4598" isReadOnly="false" isUnique="true" isOrdered="false" name="specialtype" xmi:type="Property">
+          <upperValue xmi:id="4921" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="4922" value="1" xmi:type="LiteralString" />
+        </ownedEnd>
+      </ownedMember>
+      <ownedMember xmi:id="4603" visibility="public" isDerived="false" memberEnd="4604" isAbstract="false" name="Type" package="4584" xmi:type="Association">
+        <ownedEnd xmi:id="4606" owningAssociation="4603" visibility="public" isDerived="false" type="4605" isDerivedUnion="false" opposite="4604" isReadOnly="false" isUnique="true" isOrdered="false" name="instance" xmi:type="Property">
+          <upperValue xmi:id="4925" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="4926" value="1" xmi:type="LiteralString" />
+        </ownedEnd>
+      </ownedMember>
+      <ownedMember xmi:id="4591" visibility="public" isDerived="false" memberEnd="4590 4592" isAbstract="false" name="Bodied" package="4584" xmi:type="Association" />
+      <ownedMember xmi:id="4607" visibility="public" isDerived="false" memberEnd="4608" isAbstract="false" name="Signature" package="4584" xmi:type="Association">
+        <ownedEnd xmi:id="4610" owningAssociation="4607" visibility="public" isDerived="false" type="4609" isDerivedUnion="false" opposite="4608" isReadOnly="false" isUnique="true" isOrdered="false" name="signaturedElement" xmi:type="Property">
+          <upperValue xmi:id="4933" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="4934" value="1" xmi:type="LiteralString" />
+        </ownedEnd>
+      </ownedMember>
+      <ownedMember xmi:id="4611" visibility="public" isDerived="false" memberEnd="4612" isAbstract="false" name="InterfaceTypes" package="4584" xmi:type="Association">
+        <ownedEnd xmi:id="4637" owningAssociation="4611" visibility="public" isDerived="false" type="4621" isDerivedUnion="false" opposite="4612" isReadOnly="false" isUnique="true" isOrdered="false" name="classifier" xmi:type="Property">
+          <upperValue xmi:id="4937" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="4938" value="1" xmi:type="LiteralString" />
+        </ownedEnd>
+      </ownedMember>
+      <ownedMember xmi:id="4638" visibility="public" isDerived="false" memberEnd="4639" isAbstract="false" name="Interfaces" package="4584" xmi:type="Association">
+        <ownedEnd xmi:id="4642" owningAssociation="4638" visibility="public" isDerived="false" type="4640" isDerivedUnion="false" opposite="4639" isReadOnly="false" isUnique="true" isOrdered="false" name="instance" xmi:type="Property">
+          <upperValue xmi:id="4941" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="4942" value="1" xmi:type="LiteralString" />
+        </ownedEnd>
+      </ownedMember>
+      <ownedMember xmi:id="4627" visibility="public" isDerived="false" memberEnd="4628 4626" isAbstract="false" name="Entry" package="4584" xmi:type="Association" />
+      <ownedMember xmi:id="4631" visibility="public" isDerived="false" memberEnd="4632 4630" isAbstract="false" name="Exit" package="4584" xmi:type="Association" />
+      <ownedMember xmi:id="4634" visibility="public" isDerived="false" memberEnd="4633" isAbstract="false" name="MediaFor" package="4584" xmi:type="Association">
+        <ownedEnd xmi:id="4635" owningAssociation="4634" visibility="public" isDerived="false" type="4629" isDerivedUnion="false" opposite="4633" isReadOnly="false" isUnique="true" isOrdered="false" name="media" xmi:type="Property">
+          <upperValue xmi:id="4953" value="*" xmi:type="LiteralString" />
+          <lowerValue xmi:id="4954" value="0" xmi:type="LiteralString" />
+        </ownedEnd>
+      </ownedMember>
+      <ownedMember xmi:id="4615" visibility="public" isDerived="false" memberEnd="4614" isAbstract="false" name="ReceiveItems" package="4584" xmi:type="Association">
+        <ownedEnd xmi:id="4616" owningAssociation="4615" visibility="public" isDerived="false" type="4613" isDerivedUnion="false" opposite="4614" isReadOnly="false" isUnique="true" isOrdered="false" name="interfaceType" xmi:type="Property">
+          <upperValue xmi:id="4957" value="*" xmi:type="LiteralString" />
+          <lowerValue xmi:id="4958" value="0" xmi:type="LiteralString" />
+        </ownedEnd>
+      </ownedMember>
+      <ownedMember xmi:id="4619" visibility="public" isDerived="false" memberEnd="4618" isAbstract="false" name="SendItems" package="4584" xmi:type="Association">
+        <ownedEnd xmi:id="4620" owningAssociation="4619" visibility="public" isDerived="false" type="4613" isDerivedUnion="false" opposite="4618" isReadOnly="false" isUnique="true" isOrdered="false" name="interfaceType" xmi:type="Property">
+          <upperValue xmi:id="4961" value="*" xmi:type="LiteralString" />
+          <lowerValue xmi:id="4962" value="0" xmi:type="LiteralString" />
+        </ownedEnd>
+      </ownedMember>
+      <ownedMember xmi:id="4643" visibility="public" isDerived="false" memberEnd="4644" isAbstract="false" name="SinkData" package="4584" xmi:type="Association">
+        <ownedEnd xmi:id="4650" owningAssociation="4643" visibility="public" isDerived="false" type="4645" isDerivedUnion="false" opposite="4644" isReadOnly="false" isUnique="true" isOrdered="false" name="sink" xmi:type="Property">
+          <upperValue xmi:id="4965" value="*" xmi:type="LiteralString" />
+          <lowerValue xmi:id="4966" value="0" xmi:type="LiteralString" />
+        </ownedEnd>
+      </ownedMember>
+      <ownedMember xmi:id="4651" visibility="public" isDerived="false" memberEnd="4652" isAbstract="false" name="SourceData" package="4584" xmi:type="Association">
+        <ownedEnd xmi:id="4654" owningAssociation="4651" visibility="public" isDerived="false" type="4653" isDerivedUnion="false" opposite="4652" isReadOnly="false" isUnique="true" isOrdered="false" name="source" xmi:type="Property">
+          <upperValue xmi:id="4969" value="*" xmi:type="LiteralString" />
+          <lowerValue xmi:id="4970" value="0" xmi:type="LiteralString" />
+        </ownedEnd>
+      </ownedMember>
+      <ownedMember xmi:id="4623" visibility="public" isDerived="false" memberEnd="4622" isAbstract="false" name="ThisInterface" package="4584" xmi:type="Association">
+        <ownedEnd xmi:id="4624" owningAssociation="4623" visibility="public" isDerived="false" type="4621" isDerivedUnion="false" opposite="4622" isReadOnly="false" isUnique="true" isOrdered="false" name="classifier" xmi:type="Property">
+          <upperValue xmi:id="4973" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="4974" value="1" xmi:type="LiteralString" />
+        </ownedEnd>
+      </ownedMember>
+      <ownedMember xmi:id="4581" isAbstract="true" name="NamedElement" package="4584" superClass="4589" xmi:type="Class">
+        <ownedAttribute xmi:id="4582" visibility="public" isDerived="false" type="4575" class="4581" isDerivedUnion="false" isReadOnly="false" isUnique="true" isOrdered="false" name="name" xmi:type="Property">
+          <upperValue xmi:id="4975" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="4976" value="1" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <ownedAttribute xmi:id="4583" visibility="public" isDerived="true" type="4575" class="4581" aggregation="composite" isDerivedUnion="false" isReadOnly="false" isUnique="true" isOrdered="false" name="qualifiedName" xmi:type="Property">
+          <upperValue xmi:id="4977" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="4978" value="1" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <generalization xmi:id="4981" general="4589" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4600" isAbstract="true" name="Namespace" package="4584" superClass="4587 4581" xmi:type="Class">
+        <generalization xmi:id="4983" general="4587" xmi:type="Generalization" />
+        <generalization xmi:id="4984" general="4581" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4599" isAbstract="true" name="GeneralizableElement" package="4584" superClass="4600" xmi:type="Class">
+        <ownedAttribute xmi:id="4598" visibility="public" isDerived="false" type="4599" class="4599" association="4597" isDerivedUnion="false" opposite="4601" isReadOnly="false" isOrdered="false" isUnique="true" name="supertype" xmi:type="Property">
+          <upperValue xmi:id="4919" value="*" xmi:type="LiteralString" />
+          <lowerValue xmi:id="4920" value="0" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <generalization xmi:id="4985" general="4600" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4641" isAbstract="true" name="TypedElement" package="4584" superClass="4581 4605" xmi:type="Class">
+        <generalization xmi:id="4987" general="4581" xmi:type="Generalization" />
+        <generalization xmi:id="4988" general="4605" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4593" isAbstract="true" name="BodiedElement" package="4584" superClass="4581" xmi:type="Class">
+        <ownedAttribute xmi:id="4592" visibility="public" isDerived="false" type="4589" class="4593" association="4591" aggregation="composite" isDerivedUnion="false" opposite="4590" isReadOnly="false" isOrdered="false" isUnique="true" name="body" xmi:type="Property">
+          <upperValue xmi:id="4929" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="4930" value="0" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <generalization xmi:id="4989" general="4581" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4655" isAbstract="true" name="ParameterizedElement" package="4584" superClass="4600 4609" xmi:type="Class">
+        <generalization xmi:id="4992" general="4600" xmi:type="Generalization" />
+        <generalization xmi:id="4993" general="4609" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4589" isAbstract="true" name="ModelElement" package="4584" superClass="4594" xmi:type="Class">
+        <ownedAttribute xmi:id="4586" visibility="public" isDerived="false" type="4587" class="4589" association="4585" isDerivedUnion="false" opposite="4588" isReadOnly="false" isOrdered="false" isUnique="true" name="container" xmi:type="Property">
+          <upperValue xmi:id="4915" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="4916" value="1" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <ownedAttribute xmi:id="4590" visibility="public" isDerived="false" type="4593" class="4589" association="4591" isDerivedUnion="false" opposite="4592" isReadOnly="false" isOrdered="false" isUnique="true" name="bodiedElement" xmi:type="Property">
+          <upperValue xmi:id="4927" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="4928" value="0" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <generalization xmi:id="4979" general="4594" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4656" isAbstract="true" name="Parameter" package="4584" superClass="4641" xmi:type="Class">
+        <generalization xmi:id="4994" general="4641" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4587" isAbstract="true" name="Container" package="4584" superClass="4589" xmi:type="Class">
+        <ownedAttribute xmi:id="4588" visibility="public" isDerived="false" type="4589" class="4587" association="4585" aggregation="composite" isDerivedUnion="false" opposite="4586" isReadOnly="false" isOrdered="false" isUnique="true" name="contents" xmi:type="Property">
+          <upperValue xmi:id="4917" value="*" xmi:type="LiteralString" />
+          <lowerValue xmi:id="4918" value="0" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <generalization xmi:id="4982" general="4589" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4605" isAbstract="true" name="TypeReference" package="4584" superClass="4589" xmi:type="Class">
+        <ownedAttribute xmi:id="4604" visibility="public" isDerived="false" type="4581" class="4605" association="4603" isDerivedUnion="false" opposite="4606" isReadOnly="false" isOrdered="false" isUnique="true" name="type" xmi:type="Property">
+          <upperValue xmi:id="4923" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="4924" value="0" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <generalization xmi:id="4986" general="4589" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4609" isAbstract="true" name="SignaturedElement" package="4584" superClass="4587 4581" xmi:type="Class">
+        <ownedAttribute xmi:id="4608" visibility="public" isDerived="false" type="4605" class="4609" details="ordered" association="4607" aggregation="composite" isDerivedUnion="false" opposite="4610" isReadOnly="false" isOrdered="true" isUnique="true" name="parameters" xmi:type="Property">
+          <upperValue xmi:id="4931" value="*" xmi:type="LiteralString" />
+          <lowerValue xmi:id="4932" value="0" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <generalization xmi:id="4990" general="4587" xmi:type="Generalization" />
+        <generalization xmi:id="4991" general="4581" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4621" isAbstract="false" name="Classifier" package="4584" superClass="4600" xmi:type="Class">
+        <ownedAttribute xmi:id="4612" visibility="public" isDerived="false" type="4613" class="4621" association="4611" isDerivedUnion="false" opposite="4637" isReadOnly="false" isOrdered="false" isUnique="true" name="interfaces" xmi:type="Property">
+          <upperValue xmi:id="4935" value="*" xmi:type="LiteralString" />
+          <lowerValue xmi:id="4936" value="0" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <ownedAttribute xmi:id="4622" visibility="public" isDerived="false" type="4625" class="4621" association="4623" aggregation="composite" isDerivedUnion="false" opposite="4624" isReadOnly="false" isOrdered="false" isUnique="true" name="thisInterfaces" xmi:type="Property">
+          <upperValue xmi:id="4971" value="*" xmi:type="LiteralString" />
+          <lowerValue xmi:id="4972" value="0" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <generalization xmi:id="4995" general="4600" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4640" isAbstract="false" name="Instance" package="4584" superClass="4641" xmi:type="Class">
+        <ownedAttribute xmi:id="4639" visibility="public" isDerived="false" type="4625" class="4640" association="4638" aggregation="composite" isDerivedUnion="false" opposite="4642" isReadOnly="false" isOrdered="false" isUnique="true" name="interfaces" xmi:type="Property">
+          <upperValue xmi:id="4939" value="*" xmi:type="LiteralString" />
+          <lowerValue xmi:id="4940" value="0" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <generalization xmi:id="4996" general="4641" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4625" isAbstract="false" name="Interface" package="4584" superClass="4605" xmi:type="Class">
+        <ownedAttribute xmi:id="4626" visibility="public" isDerived="false" type="4629" class="4625" association="4627" isDerivedUnion="false" opposite="4628" isReadOnly="false" isOrdered="false" isUnique="true" name="toMedia" xmi:type="Property">
+          <upperValue xmi:id="4945" value="*" xmi:type="LiteralString" />
+          <lowerValue xmi:id="4946" value="0" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <ownedAttribute xmi:id="4632" visibility="public" isDerived="false" type="4629" class="4625" association="4631" isDerivedUnion="false" opposite="4630" isReadOnly="false" isOrdered="false" isUnique="true" name="fromMedia" xmi:type="Property">
+          <upperValue xmi:id="4947" value="*" xmi:type="LiteralString" />
+          <lowerValue xmi:id="4948" value="0" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <ownedAttribute xmi:id="4636" visibility="public" isDerived="false" type="4569" class="4625" isDerivedUnion="false" isReadOnly="false" isUnique="true" isOrdered="false" name="isPositive" xmi:type="Property">
+          <upperValue xmi:id="4997" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="4998" value="1" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <generalization xmi:id="4999" general="4605" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4645" isAbstract="true" name="Sink" package="4584" superClass="4589 4646" xmi:type="Class">
+        <ownedAttribute xmi:id="4644" visibility="public" isDerived="false" type="4617" class="4645" association="4643" isDerivedUnion="false" opposite="4650" isReadOnly="false" isOrdered="false" isUnique="true" name="items" xmi:type="Property">
+          <upperValue xmi:id="4963" value="*" xmi:type="LiteralString" />
+          <lowerValue xmi:id="4964" value="0" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <generalization xmi:id="5001" general="4589" xmi:type="Generalization" />
+        <generalization xmi:id="5002" general="4646" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4653" isAbstract="true" name="Source" package="4584" superClass="4589 4646" xmi:type="Class">
+        <ownedAttribute xmi:id="4652" visibility="public" isDerived="false" type="4617" class="4653" association="4651" isDerivedUnion="false" opposite="4654" isReadOnly="false" isOrdered="false" isUnique="true" name="items" xmi:type="Property">
+          <upperValue xmi:id="4967" value="*" xmi:type="LiteralString" />
+          <lowerValue xmi:id="4968" value="0" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <generalization xmi:id="5003" general="4589" xmi:type="Generalization" />
+        <generalization xmi:id="5004" general="4646" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4629" isAbstract="false" name="Media" package="4584" superClass="4589" xmi:type="Class">
+        <ownedAttribute xmi:id="4628" visibility="public" isDerived="false" type="4625" class="4629" association="4627" isDerivedUnion="false" opposite="4626" isReadOnly="false" isOrdered="false" isUnique="true" name="source" xmi:type="Property">
+          <upperValue xmi:id="4943" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="4944" value="1" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <ownedAttribute xmi:id="4630" visibility="public" isDerived="false" type="4625" class="4629" association="4631" isDerivedUnion="false" opposite="4632" isReadOnly="false" isOrdered="false" isUnique="true" name="sink" xmi:type="Property">
+          <upperValue xmi:id="4949" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="4950" value="1" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <ownedAttribute xmi:id="4633" visibility="public" isDerived="false" type="4617" class="4629" association="4634" isDerivedUnion="false" opposite="4635" isReadOnly="false" isOrdered="false" isUnique="true" name="items" xmi:type="Property">
+          <upperValue xmi:id="4951" value="*" xmi:type="LiteralString" />
+          <lowerValue xmi:id="4952" value="0" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <generalization xmi:id="5005" general="4589" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4617" isAbstract="true" name="ComItem" package="4584" superClass="4581" xmi:type="Class">
+        <generalization xmi:id="5006" general="4581" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4613" isAbstract="false" name="InterfaceType" package="4584" superClass="4581" xmi:type="Class">
+        <ownedAttribute xmi:id="4614" visibility="public" isDerived="false" type="4617" class="4613" association="4615" isDerivedUnion="false" opposite="4616" isReadOnly="false" isOrdered="false" isUnique="true" name="receive" xmi:type="Property">
+          <upperValue xmi:id="4955" value="*" xmi:type="LiteralString" />
+          <lowerValue xmi:id="4956" value="0" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <ownedAttribute xmi:id="4618" visibility="public" isDerived="false" type="4617" class="4613" association="4619" isDerivedUnion="false" opposite="4620" isReadOnly="false" isOrdered="false" isUnique="true" name="send" xmi:type="Property">
+          <upperValue xmi:id="4959" value="*" xmi:type="LiteralString" />
+          <lowerValue xmi:id="4960" value="0" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <generalization xmi:id="5007" general="4581" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4646" isAbstract="true" name="Feature" package="4584" superClass="4589" xmi:type="Class">
+        <ownedOperation xmi:id="4647" isQuery="false" visibility="public" upper="1" lower="1" type="4621" class="4646" isUnique="true" isOrdered="false" name="determineClassifier" xmi:type="Operation">
+          <returnResult xmi:id="4648" upper="1" lower="1" direction="in" type="4621" isOrdered="false" isUnique="true" name="determineClassifier.Return" xmi:type="Parameter" />
+        </ownedOperation>
+        <generalization xmi:id="5000" general="4589" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4594" isAbstract="true" name="ContextedElement" package="4584" xmi:type="Class">
+        <ownedAttribute xmi:id="4595" visibility="public" isDerived="false" type="4573" class="4594" aggregation="composite" isDerivedUnion="false" isReadOnly="false" isUnique="true" isOrdered="false" name="line" xmi:type="Property">
+          <upperValue xmi:id="4911" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="4912" value="1" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <ownedAttribute xmi:id="4596" visibility="public" isDerived="false" type="4573" class="4594" aggregation="composite" isDerivedUnion="false" isReadOnly="false" isUnique="true" isOrdered="false" name="column" xmi:type="Property">
+          <upperValue xmi:id="4913" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="4914" value="1" xmi:type="LiteralString" />
+        </ownedAttribute>
+      </ownedMember>
+    </ownedElement>
+    <ownedElement xmi:id="4657" name="CommonData" xmi:type="Package">
+      <ownedMember xmi:id="4658" visibility="public" isDerived="false" memberEnd="4659 4661" isAbstract="false" name="Literals" package="4657" xmi:type="Association" />
+      <ownedMember xmi:id="4664" visibility="public" isDerived="false" memberEnd="4665" isAbstract="false" name="Initialisation" package="4657" xmi:type="Association">
+        <ownedEnd xmi:id="4667" owningAssociation="4664" visibility="public" isDerived="false" type="4666" isDerivedUnion="false" opposite="4665" isReadOnly="false" isUnique="true" isOrdered="false" name="variableDefinition" xmi:type="Property">
+          <upperValue xmi:id="5100" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5101" value="1" xmi:type="LiteralString" />
+        </ownedEnd>
+      </ownedMember>
+      <ownedMember xmi:id="4668" visibility="public" isDerived="false" memberEnd="4669" isAbstract="false" name="AssignTo" package="4657" xmi:type="Association">
+        <ownedEnd xmi:id="4674" owningAssociation="4668" visibility="public" isDerived="false" type="4670" isDerivedUnion="false" opposite="4669" isReadOnly="false" isUnique="true" isOrdered="false" name="assignment" xmi:type="Property">
+          <upperValue xmi:id="5104" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5105" value="1" xmi:type="LiteralString" />
+        </ownedEnd>
+      </ownedMember>
+      <ownedMember xmi:id="4672" visibility="public" isDerived="false" memberEnd="4671" isAbstract="false" name="AssignWith" package="4657" xmi:type="Association">
+        <ownedEnd xmi:id="4673" owningAssociation="4672" visibility="public" isDerived="false" type="4670" isDerivedUnion="false" opposite="4671" isReadOnly="false" isUnique="true" isOrdered="false" name="assignment" xmi:type="Property">
+          <upperValue xmi:id="5108" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5109" value="1" xmi:type="LiteralString" />
+        </ownedEnd>
+      </ownedMember>
+      <ownedMember xmi:id="4675" visibility="public" isDerived="false" memberEnd="4676" isAbstract="false" name="AccessedVariable" package="4657" xmi:type="Association">
+        <ownedEnd xmi:id="4678" owningAssociation="4675" visibility="public" isDerived="false" type="4677" isDerivedUnion="false" opposite="4676" isReadOnly="false" isUnique="true" isOrdered="false" name="access" xmi:type="Property">
+          <upperValue xmi:id="5112" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5113" value="1" xmi:type="LiteralString" />
+        </ownedEnd>
+      </ownedMember>
+      <ownedMember xmi:id="4679" visibility="public" isDerived="false" memberEnd="4680" isAbstract="false" name="LiteralOfLiteralExpression" package="4657" xmi:type="Association">
+        <ownedEnd xmi:id="4682" owningAssociation="4679" visibility="public" isDerived="false" type="4681" isDerivedUnion="false" opposite="4680" isReadOnly="false" isUnique="true" isOrdered="false" name="literalExpression" xmi:type="Property">
+          <upperValue xmi:id="5116" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5117" value="1" xmi:type="LiteralString" />
+        </ownedEnd>
+      </ownedMember>
+      <ownedMember xmi:id="4683" visibility="public" isDerived="false" memberEnd="4684" isAbstract="false" name="Operands" package="4657" xmi:type="Association">
+        <ownedEnd xmi:id="4686" owningAssociation="4683" visibility="public" isDerived="false" type="4685" isDerivedUnion="false" opposite="4684" isReadOnly="false" isUnique="true" isOrdered="false" name="operator" xmi:type="Property">
+          <upperValue xmi:id="5120" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5121" value="1" xmi:type="LiteralString" />
+        </ownedEnd>
+      </ownedMember>
+      <ownedMember xmi:id="4663" isAbstract="true" name="DataType" package="4657" superClass="4581" xmi:type="Class">
+        <generalization xmi:id="5122" general="4581" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4660" isAbstract="false" name="Literal" package="4657" superClass="4641" xmi:type="Class">
+        <ownedAttribute xmi:id="4661" visibility="public" isDerived="false" type="4662" class="4660" association="4658" isDerivedUnion="false" opposite="4659" isReadOnly="false" isOrdered="false" isUnique="true" name="dataType" xmi:type="Property">
+          <upperValue xmi:id="5098" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5099" value="1" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <generalization xmi:id="5123" general="4641" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4687" isAbstract="false" name="Operation" package="4657" superClass="4641 4609" xmi:type="Class">
+        <generalization xmi:id="5124" general="4641" xmi:type="Generalization" />
+        <generalization xmi:id="5125" general="4609" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4662" isAbstract="true" name="ValueDataType" package="4657" superClass="4663 4600" xmi:type="Class">
+        <ownedAttribute xmi:id="4659" visibility="public" isDerived="false" type="4660" class="4662" association="4658" aggregation="composite" isDerivedUnion="false" opposite="4661" isReadOnly="false" isOrdered="false" isUnique="true" name="literals" xmi:type="Property">
+          <upperValue xmi:id="5096" value="*" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5097" value="1" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <generalization xmi:id="5126" general="4663" xmi:type="Generalization" />
+        <generalization xmi:id="5127" general="4600" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4567" isAbstract="true" name="Expression" package="4657" superClass="4589" xmi:type="Class">
+        <ownedAttribute xmi:id="4568" visibility="public" isDerived="true" type="4569" class="4567" aggregation="composite" isDerivedUnion="false" isReadOnly="false" isUnique="true" isOrdered="false" name="constant" xmi:type="Property">
+          <upperValue xmi:id="5128" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5129" value="1" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <ownedOperation xmi:id="4579" isQuery="false" visibility="public" upper="1" lower="1" type="4581" class="4567" isUnique="true" isOrdered="false" name="determineType" xmi:type="Operation">
+          <returnResult xmi:id="4580" upper="1" lower="1" direction="in" type="4581" isOrdered="false" isUnique="true" name="determineType.Return" xmi:type="Parameter" />
+        </ownedOperation>
+        <generalization xmi:id="5130" general="4589" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4666" isAbstract="false" name="Variable" package="4657" superClass="4641" xmi:type="Class">
+        <ownedAttribute xmi:id="4665" visibility="public" isDerived="false" type="4567" class="4666" association="4664" aggregation="composite" isDerivedUnion="false" opposite="4667" isReadOnly="false" isOrdered="false" isUnique="true" name="initExpression" xmi:type="Property">
+          <upperValue xmi:id="5094" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5095" value="0" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <generalization xmi:id="5139" general="4641" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4670" isAbstract="false" name="Assignment" package="4657" superClass="4589" xmi:type="Class">
+        <ownedAttribute xmi:id="4669" visibility="public" isDerived="false" type="4666" class="4670" association="4668" isDerivedUnion="false" opposite="4674" isReadOnly="false" isOrdered="false" isUnique="true" name="variable" xmi:type="Property">
+          <upperValue xmi:id="5102" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5103" value="1" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <ownedAttribute xmi:id="4671" visibility="public" isDerived="false" type="4567" class="4670" association="4672" aggregation="composite" isDerivedUnion="false" opposite="4673" isReadOnly="false" isOrdered="false" isUnique="true" name="assignmentExpression" xmi:type="Property">
+          <upperValue xmi:id="5106" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5107" value="1" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <generalization xmi:id="5131" general="4589" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4681" isAbstract="false" name="LiteralExpression" package="4657" superClass="4567" xmi:type="Class">
+        <ownedAttribute xmi:id="4680" visibility="public" isDerived="false" type="4660" class="4681" association="4679" isDerivedUnion="false" opposite="4682" isReadOnly="false" isOrdered="false" isUnique="true" name="literal" xmi:type="Property">
+          <upperValue xmi:id="5114" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5115" value="1" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <generalization xmi:id="5132" general="4567" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4677" isAbstract="false" name="VariableAccess" package="4657" superClass="4567" xmi:type="Class">
+        <ownedAttribute xmi:id="4676" visibility="public" isDerived="false" type="4666" class="4677" association="4675" isDerivedUnion="false" opposite="4678" isReadOnly="false" isOrdered="false" isUnique="true" name="variable" xmi:type="Property">
+          <upperValue xmi:id="5110" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5111" value="1" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <generalization xmi:id="5133" general="4567" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4688" isAbstract="false" name="OperationApplication" package="4657" superClass="4567 4689" xmi:type="Class">
+        <generalization xmi:id="5136" general="4567" xmi:type="Generalization" />
+        <generalization xmi:id="5137" general="4689" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4690" isAbstract="false" name="AnyExpression" package="4657" superClass="4567" xmi:type="Class">
+        <generalization xmi:id="5138" general="4567" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4689" isAbstract="true" name="ArgumentedElement" package="4657" superClass="4605 4685" xmi:type="Class">
+        <generalization xmi:id="5134" general="4605" xmi:type="Generalization" />
+        <generalization xmi:id="5135" general="4685" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4685" isAbstract="true" name="Operator" package="4657" xmi:type="Class">
+        <ownedAttribute xmi:id="4684" visibility="public" isDerived="false" type="4567" class="4685" details="ordered" association="4683" aggregation="composite" isDerivedUnion="false" opposite="4686" isReadOnly="false" isOrdered="true" isUnique="true" name="operands" xmi:type="Property">
+          <upperValue xmi:id="5118" value="*" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5119" value="0" xmi:type="LiteralString" />
+        </ownedAttribute>
+      </ownedMember>
+    </ownedElement>
+    <ownedElement xmi:id="4693" name="CommonBehaviour" xmi:type="Package">
+      <ownedMember xmi:id="4694" visibility="public" isDerived="false" memberEnd="4695" isAbstract="false" name="Actions" package="4693" xmi:type="Association">
+        <ownedEnd xmi:id="4715" owningAssociation="4694" visibility="public" isDerived="false" type="4697" isDerivedUnion="false" opposite="4695" isReadOnly="false" isUnique="true" isOrdered="false" name="transition" xmi:type="Property">
+          <upperValue xmi:id="5159" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5160" value="0" xmi:type="LiteralString" />
+        </ownedEnd>
+      </ownedMember>
+      <ownedMember xmi:id="4703" visibility="public" isDerived="false" memberEnd="4702" isAbstract="false" name="EntryActions" package="4693" xmi:type="Association">
+        <ownedEnd xmi:id="4704" owningAssociation="4703" visibility="public" isDerived="false" type="4701" isDerivedUnion="false" opposite="4702" isReadOnly="false" isUnique="true" isOrdered="false" name="state" xmi:type="Property">
+          <upperValue xmi:id="5163" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5164" value="0" xmi:type="LiteralString" />
+        </ownedEnd>
+      </ownedMember>
+      <ownedMember xmi:id="4706" visibility="public" isDerived="false" memberEnd="4705" isAbstract="false" name="ExitActions" package="4693" xmi:type="Association">
+        <ownedEnd xmi:id="4707" owningAssociation="4706" visibility="public" isDerived="false" type="4701" isDerivedUnion="false" opposite="4705" isReadOnly="false" isUnique="true" isOrdered="false" name="state" xmi:type="Property">
+          <upperValue xmi:id="5167" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5168" value="0" xmi:type="LiteralString" />
+        </ownedEnd>
+      </ownedMember>
+      <ownedMember xmi:id="4699" visibility="public" isDerived="false" memberEnd="4698" isAbstract="false" name="NextState" package="4693" xmi:type="Association">
+        <ownedEnd xmi:id="4700" owningAssociation="4699" visibility="public" isDerived="false" type="4697" isDerivedUnion="false" opposite="4698" isReadOnly="false" isUnique="true" isOrdered="false" name="transition" xmi:type="Property">
+          <upperValue xmi:id="5171" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5172" value="1" xmi:type="LiteralString" />
+        </ownedEnd>
+      </ownedMember>
+      <ownedMember xmi:id="4709" visibility="public" isDerived="false" memberEnd="4708" isAbstract="false" name="SelectorsOfState" package="4693" xmi:type="Association">
+        <ownedEnd xmi:id="4710" owningAssociation="4709" visibility="public" isDerived="false" type="4701" isDerivedUnion="false" opposite="4708" isReadOnly="false" isUnique="true" isOrdered="false" name="state" xmi:type="Property">
+          <upperValue xmi:id="5175" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5176" value="1" xmi:type="LiteralString" />
+        </ownedEnd>
+      </ownedMember>
+      <ownedMember xmi:id="4713" visibility="public" isDerived="false" memberEnd="4712 4714" isAbstract="false" name="TransitionSelector" package="4693" xmi:type="Association" />
+      <ownedMember xmi:id="4716" visibility="public" isDerived="false" memberEnd="4717" isAbstract="false" name="Transitions" package="4693" xmi:type="Association">
+        <ownedEnd xmi:id="4719" owningAssociation="4716" visibility="public" isDerived="false" type="4718" isDerivedUnion="false" opposite="4717" isReadOnly="false" isUnique="true" isOrdered="false" name="automaton" xmi:type="Property">
+          <upperValue xmi:id="5181" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5182" value="1" xmi:type="LiteralString" />
+        </ownedEnd>
+      </ownedMember>
+      <ownedMember xmi:id="4696" isAbstract="true" name="Action" package="4693" superClass="4589" xmi:type="Class">
+        <generalization xmi:id="5183" general="4589" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4720" isAbstract="true" name="Answer" package="4693" superClass="4711" xmi:type="Class">
+        <generalization xmi:id="5185" general="4711" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4721" isAbstract="true" name="Guard" package="4693" superClass="4711" xmi:type="Class">
+        <generalization xmi:id="5186" general="4711" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4722" isAbstract="false" name="History" package="4693" superClass="4724" xmi:type="Class">
+        <ownedAttribute xmi:id="4723" visibility="public" isDerived="false" type="4569" class="4722" isDerivedUnion="false" isReadOnly="false" isUnique="true" isOrdered="false" name="recursive" xmi:type="Property">
+          <upperValue xmi:id="5187" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5188" value="1" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <generalization xmi:id="5191" general="4724" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4725" isAbstract="false" name="Join" package="4693" superClass="4726" xmi:type="Class">
+        <generalization xmi:id="5193" general="4726" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4726" isAbstract="true" name="PseudoState" package="4693" superClass="4701" xmi:type="Class">
+        <generalization xmi:id="5192" general="4701" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4711" isAbstract="true" name="Selector" package="4693" superClass="4589" xmi:type="Class">
+        <ownedAttribute xmi:id="4712" visibility="public" isDerived="false" type="4697" class="4711" association="4713" isDerivedUnion="false" opposite="4714" isReadOnly="false" isOrdered="false" isUnique="true" name="transition" xmi:type="Property">
+          <upperValue xmi:id="5177" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5178" value="1" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <generalization xmi:id="5184" general="4589" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4727" isAbstract="false" name="Split" package="4693" superClass="4726" xmi:type="Class">
+        <ownedAttribute xmi:id="4728" visibility="public" isDerived="false" type="4567" class="4727" aggregation="composite" isDerivedUnion="false" isReadOnly="false" isUnique="true" isOrdered="false" name="question" xmi:type="Property">
+          <upperValue xmi:id="5194" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5195" value="1" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <generalization xmi:id="5196" general="4726" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4724" isAbstract="false" name="Start" package="4693" superClass="4701" xmi:type="Class">
+        <generalization xmi:id="5190" general="4701" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4701" isAbstract="true" name="State" package="4693" superClass="4589" xmi:type="Class">
+        <ownedAttribute xmi:id="4702" visibility="public" isDerived="false" type="4696" class="4701" details="ordered" association="4703" aggregation="composite" isDerivedUnion="false" opposite="4704" isReadOnly="false" isOrdered="true" isUnique="true" name="entryActions" xmi:type="Property">
+          <upperValue xmi:id="5161" value="*" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5162" value="0" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <ownedAttribute xmi:id="4705" visibility="public" isDerived="false" type="4696" class="4701" details="ordered" association="4706" aggregation="composite" isDerivedUnion="false" opposite="4707" isReadOnly="false" isOrdered="true" isUnique="true" name="exitActions" xmi:type="Property">
+          <upperValue xmi:id="5165" value="*" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5166" value="0" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <ownedAttribute xmi:id="4708" visibility="public" isDerived="false" type="4711" class="4701" association="4709" isDerivedUnion="false" opposite="4710" isReadOnly="false" isOrdered="false" isUnique="true" name="selectors" xmi:type="Property">
+          <upperValue xmi:id="5173" value="*" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5174" value="0" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <generalization xmi:id="5189" general="4589" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4718" isAbstract="false" name="StateAutomaton" package="4693" superClass="4587" xmi:type="Class">
+        <ownedAttribute xmi:id="4717" visibility="public" isDerived="false" type="4697" class="4718" association="4716" aggregation="composite" isDerivedUnion="false" opposite="4719" isReadOnly="false" isOrdered="false" isUnique="true" name="transitions" xmi:type="Property">
+          <upperValue xmi:id="5155" value="*" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5156" value="0" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <generalization xmi:id="5203" general="4587" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4692" isAbstract="false" name="Stop" package="4693" superClass="4726" xmi:type="Class">
+        <generalization xmi:id="5197" general="4726" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4697" isAbstract="false" name="Transition" package="4693" superClass="4589" xmi:type="Class">
+        <ownedAttribute xmi:id="4695" visibility="public" isDerived="false" type="4696" class="4697" details="ordered" association="4694" aggregation="composite" isDerivedUnion="false" opposite="4715" isReadOnly="false" isOrdered="true" isUnique="true" name="actions" xmi:type="Property">
+          <upperValue xmi:id="5157" value="*" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5158" value="0" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <ownedAttribute xmi:id="4698" visibility="public" isDerived="false" type="4701" class="4697" association="4699" isDerivedUnion="false" opposite="4700" isReadOnly="false" isOrdered="false" isUnique="true" name="nextState" xmi:type="Property">
+          <upperValue xmi:id="5169" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5170" value="1" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <ownedAttribute xmi:id="4714" visibility="public" isDerived="false" type="4711" class="4697" association="4713" aggregation="composite" isDerivedUnion="false" opposite="4712" isReadOnly="false" isOrdered="false" isUnique="true" name="selector" xmi:type="Property">
+          <upperValue xmi:id="5179" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5180" value="1" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <generalization xmi:id="5198" general="4589" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4729" isAbstract="true" name="Trigger" package="4693" superClass="4711" xmi:type="Class">
+        <generalization xmi:id="5199" general="4711" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4730" isAbstract="false" name="Imidiate" package="4693" superClass="4711" xmi:type="Class">
+        <generalization xmi:id="5200" general="4711" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4731" isAbstract="false" name="NamedState" package="4693" superClass="4581 4701" xmi:type="Class">
+        <generalization xmi:id="5201" general="4581" xmi:type="Generalization" />
+        <generalization xmi:id="5202" general="4701" xmi:type="Generalization" />
+      </ownedMember>
+    </ownedElement>
+    <ownedElement xmi:id="4560" name="SdlPlus" xmi:type="Package">
+      <ownedMember xmi:id="4561" visibility="public" isDerived="false" memberEnd="4562" isAbstract="false" name="ReturnExpression" package="4560" xmi:type="Association">
+        <ownedEnd xmi:id="4732" owningAssociation="4561" visibility="public" isDerived="false" type="4691" isDerivedUnion="false" opposite="4562" isReadOnly="false" isUnique="true" isOrdered="false" name="returnNode" xmi:type="Property">
+          <upperValue xmi:id="5028" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5029" value="1" xmi:type="LiteralString" />
+        </ownedEnd>
+      </ownedMember>
+      <ownedMember xmi:id="4733" visibility="public" isDerived="false" memberEnd="4734" isAbstract="false" name="AnswerCondition" package="4560" xmi:type="Association">
+        <ownedEnd xmi:id="4741" owningAssociation="4733" visibility="public" isDerived="false" type="4740" isDerivedUnion="false" opposite="4734" isReadOnly="false" isUnique="true" isOrdered="false" name="answer" xmi:type="Property">
+          <upperValue xmi:id="5032" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5033" value="1" xmi:type="LiteralString" />
+        </ownedEnd>
+      </ownedMember>
+      <ownedMember xmi:id="4742" visibility="public" isDerived="false" memberEnd="4743" isAbstract="false" name="Assignments" package="4560" xmi:type="Association">
+        <ownedEnd xmi:id="4746" owningAssociation="4742" visibility="public" isDerived="false" type="4745" isDerivedUnion="false" opposite="4743" isReadOnly="false" isUnique="true" isOrdered="false" name="task" xmi:type="Property">
+          <upperValue xmi:id="5036" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5037" value="1" xmi:type="LiteralString" />
+        </ownedEnd>
+      </ownedMember>
+      <ownedMember xmi:id="4747" visibility="public" isDerived="false" memberEnd="4748" isAbstract="false" name="OutputVia" package="4560" xmi:type="Association">
+        <ownedEnd xmi:id="4751" owningAssociation="4747" visibility="public" isDerived="false" type="4750" isDerivedUnion="false" opposite="4748" isReadOnly="false" isUnique="true" isOrdered="false" name="output" xmi:type="Property">
+          <upperValue xmi:id="5040" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5041" value="1" xmi:type="LiteralString" />
+        </ownedEnd>
+      </ownedMember>
+      <ownedMember xmi:id="4752" visibility="public" isDerived="false" memberEnd="4753" isAbstract="false" name="TimeExpression" package="4560" xmi:type="Association">
+        <ownedEnd xmi:id="4756" owningAssociation="4752" visibility="public" isDerived="false" type="4754" isDerivedUnion="false" opposite="4753" isReadOnly="false" isUnique="true" isOrdered="false" name="set" xmi:type="Property">
+          <upperValue xmi:id="5044" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5045" value="1" xmi:type="LiteralString" />
+        </ownedEnd>
+      </ownedMember>
+      <ownedMember xmi:id="4737" visibility="public" isDerived="false" memberEnd="4736" isAbstract="false" name="Conditions" package="4560" xmi:type="Association">
+        <ownedEnd xmi:id="4738" owningAssociation="4737" visibility="public" isDerived="false" type="4735" isDerivedUnion="false" opposite="4736" isReadOnly="false" isUnique="true" isOrdered="false" name="range" xmi:type="Property">
+          <upperValue xmi:id="5048" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5049" value="1" xmi:type="LiteralString" />
+        </ownedEnd>
+      </ownedMember>
+      <ownedMember xmi:id="4757" visibility="public" isDerived="false" memberEnd="4758" isAbstract="false" name="OpenRangeExpression" package="4560" xmi:type="Association">
+        <ownedEnd xmi:id="4763" owningAssociation="4757" visibility="public" isDerived="false" type="4759" isDerivedUnion="false" opposite="4758" isReadOnly="false" isUnique="true" isOrdered="false" name="range" xmi:type="Property">
+          <upperValue xmi:id="5052" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5053" value="1" xmi:type="LiteralString" />
+        </ownedEnd>
+      </ownedMember>
+      <ownedMember xmi:id="4761" visibility="public" isDerived="false" memberEnd="4760" isAbstract="false" name="DecisionForOpenRange" package="4560" xmi:type="Association">
+        <ownedEnd xmi:id="4762" owningAssociation="4761" visibility="public" isDerived="false" type="4759" isDerivedUnion="false" opposite="4760" isReadOnly="false" isUnique="true" isOrdered="false" name="OpenRange" xmi:type="Property">
+          <upperValue xmi:id="5056" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5057" value="1" xmi:type="LiteralString" />
+        </ownedEnd>
+      </ownedMember>
+      <ownedMember xmi:id="4764" visibility="public" isDerived="false" memberEnd="4765" isAbstract="false" name="LowerRange" package="4560" xmi:type="Association">
+        <ownedEnd xmi:id="4770" owningAssociation="4764" visibility="public" isDerived="false" type="4766" isDerivedUnion="false" opposite="4765" isReadOnly="false" isUnique="true" isOrdered="false" name="closedRange" xmi:type="Property">
+          <upperValue xmi:id="5060" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5061" value="1" xmi:type="LiteralString" />
+        </ownedEnd>
+      </ownedMember>
+      <ownedMember xmi:id="4768" visibility="public" isDerived="false" memberEnd="4767" isAbstract="false" name="UpperRange" package="4560" xmi:type="Association">
+        <ownedEnd xmi:id="4769" owningAssociation="4768" visibility="public" isDerived="false" type="4766" isDerivedUnion="false" opposite="4767" isReadOnly="false" isUnique="true" isOrdered="false" name="closedRange" xmi:type="Property">
+          <upperValue xmi:id="5064" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5065" value="1" xmi:type="LiteralString" />
+        </ownedEnd>
+      </ownedMember>
+      <ownedMember xmi:id="4771" visibility="public" isDerived="false" memberEnd="4772" isAbstract="false" name="Condition" package="4560" xmi:type="Association">
+        <ownedEnd xmi:id="4780" owningAssociation="4771" visibility="public" isDerived="false" type="4773" isDerivedUnion="false" opposite="4772" isReadOnly="false" isUnique="true" isOrdered="false" name="conditionalExpression" xmi:type="Property">
+          <upperValue xmi:id="5068" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5069" value="1" xmi:type="LiteralString" />
+        </ownedEnd>
+      </ownedMember>
+      <ownedMember xmi:id="4775" visibility="public" isDerived="false" memberEnd="4774" isAbstract="false" name="Consequence" package="4560" xmi:type="Association">
+        <ownedEnd xmi:id="4776" owningAssociation="4775" visibility="public" isDerived="false" type="4773" isDerivedUnion="false" opposite="4774" isReadOnly="false" isUnique="true" isOrdered="false" name="conditionalExpression" xmi:type="Property">
+          <upperValue xmi:id="5072" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5073" value="1" xmi:type="LiteralString" />
+        </ownedEnd>
+      </ownedMember>
+      <ownedMember xmi:id="4778" visibility="public" isDerived="false" memberEnd="4777" isAbstract="false" name="Alternative" package="4560" xmi:type="Association">
+        <ownedEnd xmi:id="4779" owningAssociation="4778" visibility="public" isDerived="false" type="4773" isDerivedUnion="false" opposite="4777" isReadOnly="false" isUnique="true" isOrdered="false" name="conditionalExpression" xmi:type="Property">
+          <upperValue xmi:id="5076" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5077" value="1" xmi:type="LiteralString" />
+        </ownedEnd>
+      </ownedMember>
+      <ownedMember xmi:id="4781" isAbstract="false" name="SDLSpecification" package="4560" superClass="4600 4593" xmi:type="Class">
+        <generalization xmi:id="5078" general="4600" xmi:type="Generalization" />
+        <generalization xmi:id="5079" general="4593" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4782" isAbstract="false" name="PackageDefinition" package="4560" superClass="4600" xmi:type="Class">
+        <generalization xmi:id="5080" general="4600" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4783" isAbstract="false" name="AgentTypeDefinition" package="4560" superClass="4621 4593" xmi:type="Class">
+        <ownedAttribute xmi:id="4784" visibility="public" isDerived="false" type="4785" class="4783" isDerivedUnion="false" isReadOnly="false" isUnique="true" isOrdered="false" name="kind" xmi:type="Property">
+          <upperValue xmi:id="5081" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5082" value="1" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <generalization xmi:id="5083" general="4621" xmi:type="Generalization" />
+        <generalization xmi:id="5084" general="4593" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4785" isAbstract="false" name="AgentKind" package="4560" xmi:type="DataType" />
+      <ownedMember xmi:id="4786" isAbstract="false" name="StateMachineDefinition" package="4560" superClass="4640" xmi:type="Class">
+        <generalization xmi:id="5085" general="4640" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4787" isAbstract="false" name="CompositeStateTypeDefinition" package="4560" superClass="4593 4621" xmi:type="Class">
+        <generalization xmi:id="5086" general="4593" xmi:type="Generalization" />
+        <generalization xmi:id="5087" general="4621" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4749" isAbstract="false" name="GateDefinition" package="4560" superClass="4613" xmi:type="Class">
+        <generalization xmi:id="5088" general="4613" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4788" isAbstract="false" name="AgentDefinition" package="4560" superClass="4640" xmi:type="Class">
+        <ownedAttribute xmi:id="4789" visibility="public" isDerived="false" type="4573" class="4788" isDerivedUnion="false" isReadOnly="false" isUnique="true" isOrdered="false" name="initialNumber" xmi:type="Property">
+          <upperValue xmi:id="5089" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5090" value="1" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <ownedAttribute xmi:id="4790" visibility="public" isDerived="false" type="4749" class="4788" isDerivedUnion="false" isReadOnly="false" isUnique="true" isOrdered="false" name="gates" xmi:type="Property">
+          <upperValue xmi:id="5091" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5092" value="1" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <generalization xmi:id="5093" general="4640" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4791" isAbstract="false" name="SdlParameter" package="4560" superClass="4656 4792" xmi:type="Class">
+        <generalization xmi:id="5141" general="4656" xmi:type="Generalization" />
+        <generalization xmi:id="5142" general="4792" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4793" isAbstract="false" name="ProcedureDefinition" package="4560" superClass="4593 4641 4655" xmi:type="Class">
+        <generalization xmi:id="5143" general="4593" xmi:type="Generalization" />
+        <generalization xmi:id="5144" general="4641" xmi:type="Generalization" />
+        <generalization xmi:id="5145" general="4655" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4794" isAbstract="false" name="ProcedureParameter" package="4560" superClass="4791" xmi:type="Class">
+        <ownedAttribute xmi:id="4795" visibility="public" isDerived="false" type="4796" class="4794" isDerivedUnion="false" isReadOnly="false" isUnique="true" isOrdered="false" name="kind" xmi:type="Property">
+          <upperValue xmi:id="5146" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5147" value="1" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <generalization xmi:id="5148" general="4791" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4796" isAbstract="false" name="ProcedureParameterKind" package="4560" xmi:type="DataType" />
+      <ownedMember xmi:id="4797" isAbstract="false" name="ChannelDefinition" package="4560" superClass="4587 4581" xmi:type="Class">
+        <ownedAttribute xmi:id="4798" visibility="public" isDerived="false" type="4569" class="4797" aggregation="composite" isDerivedUnion="false" isReadOnly="false" isUnique="true" isOrdered="false" name="NODELAY" xmi:type="Property">
+          <upperValue xmi:id="5149" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5150" value="1" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <generalization xmi:id="5151" general="4587" xmi:type="Generalization" />
+        <generalization xmi:id="5152" general="4581" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4799" isAbstract="false" name="ChannelPath" package="4560" superClass="4581 4629" xmi:type="Class">
+        <generalization xmi:id="5153" general="4581" xmi:type="Generalization" />
+        <generalization xmi:id="5154" general="4629" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4800" isAbstract="false" name="StateTransitionGraph" package="4560" superClass="4718" xmi:type="Class">
+        <generalization xmi:id="5204" general="4718" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4801" isAbstract="false" name="ProcedureGraph" package="4560" superClass="4800" xmi:type="Class">
+        <generalization xmi:id="5205" general="4800" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4802" isAbstract="false" name="StateStartNode" package="4560" superClass="4724" xmi:type="Class">
+        <generalization xmi:id="5206" general="4724" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4803" isAbstract="false" name="StateNode" package="4560" superClass="4731" xmi:type="Class">
+        <generalization xmi:id="5207" general="4731" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4804" isAbstract="false" name="InputNode" package="4560" superClass="4729 4645 4689" xmi:type="Class">
+        <generalization xmi:id="5208" general="4729" xmi:type="Generalization" />
+        <generalization xmi:id="5209" general="4645" xmi:type="Generalization" />
+        <generalization xmi:id="5210" general="4689" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4805" isAbstract="false" name="Connector" package="4560" superClass="4731" xmi:type="Class">
+        <generalization xmi:id="5211" general="4731" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4806" isAbstract="false" name="SdlTransition" package="4560" superClass="4697" xmi:type="Class">
+        <generalization xmi:id="5212" general="4697" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4807" isAbstract="false" name="DashNextstate" package="4560" superClass="4726" xmi:type="Class">
+        <generalization xmi:id="5213" general="4726" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4691" isAbstract="false" name="ReturnNode" package="4560" superClass="4692" xmi:type="Class">
+        <ownedAttribute xmi:id="4562" visibility="public" isDerived="false" type="4565" class="4691" association="4561" aggregation="composite" isDerivedUnion="false" opposite="4732" isReadOnly="false" isOrdered="false" isUnique="true" name="returnExpression" xmi:type="Property">
+          <upperValue xmi:id="5026" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5027" value="0" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <generalization xmi:id="5214" general="4692" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4808" isAbstract="false" name="DecisionNode" package="4560" superClass="4727" xmi:type="Class">
+        <generalization xmi:id="5215" general="4727" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4740" isAbstract="false" name="DecisionAnswer" package="4560" superClass="4720" xmi:type="Class">
+        <ownedAttribute xmi:id="4734" visibility="public" isDerived="false" type="4735" class="4740" association="4733" aggregation="composite" isDerivedUnion="false" opposite="4741" isReadOnly="false" isOrdered="false" isUnique="true" name="condition" xmi:type="Property">
+          <upperValue xmi:id="5030" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5031" value="1" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <generalization xmi:id="5216" general="4720" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4809" isAbstract="false" name="ElseAnswer" package="4560" superClass="4720" xmi:type="Class">
+        <generalization xmi:id="5217" general="4720" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4745" isAbstract="false" name="TaskNode" package="4560" superClass="4696" xmi:type="Class">
+        <ownedAttribute xmi:id="4743" visibility="public" isDerived="false" type="4744" class="4745" association="4742" aggregation="composite" isDerivedUnion="false" opposite="4746" isReadOnly="false" isOrdered="false" isUnique="true" name="assignment" xmi:type="Property">
+          <upperValue xmi:id="5034" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5035" value="1" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <generalization xmi:id="5218" general="4696" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4810" isAbstract="false" name="CreateRequestNode" package="4560" superClass="4696 4641" xmi:type="Class">
+        <generalization xmi:id="5219" general="4696" xmi:type="Generalization" />
+        <generalization xmi:id="5220" general="4641" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4811" isAbstract="false" name="CallNode" package="4560" superClass="4696 4688" xmi:type="Class">
+        <generalization xmi:id="5221" general="4696" xmi:type="Generalization" />
+        <generalization xmi:id="5222" general="4688" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4812" isAbstract="false" name="ValueReturningCallNode" package="4560" superClass="4811 4565" xmi:type="Class">
+        <generalization xmi:id="5223" general="4811" xmi:type="Generalization" />
+        <generalization xmi:id="5224" general="4565" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4750" isAbstract="false" name="OutputNode" package="4560" superClass="4696 4653 4689" xmi:type="Class">
+        <ownedAttribute xmi:id="4748" visibility="public" isDerived="false" type="4749" class="4750" association="4747" isDerivedUnion="false" opposite="4751" isReadOnly="false" isOrdered="false" isUnique="true" name="viaGate" xmi:type="Property">
+          <upperValue xmi:id="5038" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5039" value="1" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <generalization xmi:id="5225" general="4696" xmi:type="Generalization" />
+        <generalization xmi:id="5226" general="4653" xmi:type="Generalization" />
+        <generalization xmi:id="5227" general="4689" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4755" isAbstract="false" name="ResetNode" package="4560" superClass="4696 4653 4689" xmi:type="Class">
+        <generalization xmi:id="5228" general="4696" xmi:type="Generalization" />
+        <generalization xmi:id="5229" general="4653" xmi:type="Generalization" />
+        <generalization xmi:id="5230" general="4689" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4754" isAbstract="false" name="SetNode" package="4560" superClass="4755 4689" xmi:type="Class">
+        <ownedAttribute xmi:id="4753" visibility="public" isDerived="false" type="4565" class="4754" association="4752" aggregation="composite" isDerivedUnion="false" opposite="4756" isReadOnly="false" isOrdered="false" isUnique="true" name="timeExpression" xmi:type="Property">
+          <upperValue xmi:id="5042" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5043" value="1" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <generalization xmi:id="5231" general="4755" xmi:type="Generalization" />
+        <generalization xmi:id="5232" general="4689" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4813" isAbstract="false" name="ValueDataTypeDefinition" package="4560" superClass="4662" xmi:type="Class">
+        <generalization xmi:id="5233" general="4662" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4792" isAbstract="false" name="VariableDefinition" package="4560" superClass="4666" xmi:type="Class">
+        <generalization xmi:id="5140" general="4666" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4814" isAbstract="false" name="VariableWithInitDefinition" package="4560" superClass="4792 4670" xmi:type="Class">
+        <generalization xmi:id="5234" general="4792" xmi:type="Generalization" />
+        <generalization xmi:id="5235" general="4670" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4815" isAbstract="false" name="TimerDefinition" package="4560" superClass="4816" xmi:type="Class">
+        <generalization xmi:id="5238" general="4816" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4817" isAbstract="false" name="OperationSignature" package="4560" superClass="4687" xmi:type="Class">
+        <generalization xmi:id="5239" general="4687" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4818" isAbstract="false" name="LiteralSignature" package="4560" superClass="4660" xmi:type="Class">
+        <generalization xmi:id="5240" general="4660" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4735" isAbstract="false" name="RangeCondition" package="4560" superClass="4589" xmi:type="Class">
+        <ownedAttribute xmi:id="4736" visibility="public" isDerived="false" type="4739" class="4735" association="4737" aggregation="composite" isDerivedUnion="false" opposite="4738" isReadOnly="false" isOrdered="false" isUnique="true" name="conditions" xmi:type="Property">
+          <upperValue xmi:id="5046" value="*" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5047" value="0" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <generalization xmi:id="5241" general="4589" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4739" isAbstract="false" name="ConditionItem" package="4560" superClass="4589" xmi:type="Class">
+        <generalization xmi:id="5242" general="4589" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4759" isAbstract="false" name="OpenRange" package="4560" superClass="4739 4605" xmi:type="Class">
+        <ownedAttribute xmi:id="4758" visibility="public" isDerived="false" type="4565" class="4759" association="4757" aggregation="composite" isDerivedUnion="false" opposite="4763" isReadOnly="false" isOrdered="false" isUnique="true" name="expression" xmi:type="Property">
+          <upperValue xmi:id="5050" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5051" value="1" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <ownedAttribute xmi:id="4760" visibility="public" isDerived="false" type="4727" class="4759" association="4761" isDerivedUnion="false" opposite="4762" isReadOnly="false" isOrdered="false" isUnique="true" name="decision" xmi:type="Property">
+          <upperValue xmi:id="5054" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5055" value="1" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <generalization xmi:id="5243" general="4739" xmi:type="Generalization" />
+        <generalization xmi:id="5244" general="4605" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4766" isAbstract="false" name="ClosedRange" package="4560" superClass="4739" xmi:type="Class">
+        <ownedAttribute xmi:id="4765" visibility="public" isDerived="false" type="4759" class="4766" association="4764" aggregation="composite" isDerivedUnion="false" opposite="4770" isReadOnly="false" isOrdered="false" isUnique="true" name="lowerRange" xmi:type="Property">
+          <upperValue xmi:id="5058" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5059" value="1" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <ownedAttribute xmi:id="4767" visibility="public" isDerived="false" type="4759" class="4766" association="4768" aggregation="composite" isDerivedUnion="false" opposite="4769" isReadOnly="false" isOrdered="false" isUnique="true" name="upperRange" xmi:type="Property">
+          <upperValue xmi:id="5062" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5063" value="1" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <generalization xmi:id="5245" general="4739" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4565" isAbstract="true" name="SdlExpression" package="4560" superClass="4567" xmi:type="Class">
+        <generalization xmi:id="5269" general="4567" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4819" isAbstract="false" name="SdlLiteral" package="4560" superClass="4565 4681" xmi:type="Class">
+        <generalization xmi:id="5246" general="4565" xmi:type="Generalization" />
+        <generalization xmi:id="5247" general="4681" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4820" isAbstract="false" name="EqualityExpression" package="4560" superClass="4565 4688" xmi:type="Class">
+        <generalization xmi:id="5248" general="4565" xmi:type="Generalization" />
+        <generalization xmi:id="5249" general="4688" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4773" isAbstract="false" name="ConditionalExpression" package="4560" superClass="4565 4567" xmi:type="Class">
+        <ownedAttribute xmi:id="4772" visibility="public" isDerived="false" type="4565" class="4773" association="4771" aggregation="composite" isDerivedUnion="false" opposite="4780" isReadOnly="false" isOrdered="false" isUnique="true" name="condition" xmi:type="Property">
+          <upperValue xmi:id="5066" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5067" value="1" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <ownedAttribute xmi:id="4774" visibility="public" isDerived="false" type="4565" class="4773" association="4775" aggregation="composite" isDerivedUnion="false" opposite="4776" isReadOnly="false" isOrdered="false" isUnique="true" name="consequence" xmi:type="Property">
+          <upperValue xmi:id="5070" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5071" value="1" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <ownedAttribute xmi:id="4777" visibility="public" isDerived="false" type="4565" class="4773" association="4778" aggregation="composite" isDerivedUnion="false" opposite="4779" isReadOnly="false" isOrdered="false" isUnique="true" name="alternative" xmi:type="Property">
+          <upperValue xmi:id="5074" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5075" value="1" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <generalization xmi:id="5250" general="4565" xmi:type="Generalization" />
+        <generalization xmi:id="5251" general="4567" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4821" isAbstract="false" name="SdlOperationApplication" package="4560" superClass="4565 4688" xmi:type="Class">
+        <generalization xmi:id="5252" general="4565" xmi:type="Generalization" />
+        <generalization xmi:id="5253" general="4688" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4822" isAbstract="false" name="SdlVariableAccess" package="4560" superClass="4565 4677" xmi:type="Class">
+        <generalization xmi:id="5254" general="4565" xmi:type="Generalization" />
+        <generalization xmi:id="5255" general="4677" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4744" isAbstract="false" name="SdlAssignment" package="4560" superClass="4670" xmi:type="Class">
+        <generalization xmi:id="5256" general="4670" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4823" isAbstract="false" name="ImperativeExpression" package="4560" superClass="4565" xmi:type="Class">
+        <generalization xmi:id="5257" general="4565" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4824" isAbstract="false" name="PidExpression" package="4560" superClass="4823 4567" xmi:type="Class">
+        <generalization xmi:id="5258" general="4823" xmi:type="Generalization" />
+        <generalization xmi:id="5259" general="4567" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4825" isAbstract="false" name="SelfExpression" package="4560" superClass="4824" xmi:type="Class">
+        <generalization xmi:id="5260" general="4824" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4826" isAbstract="false" name="ParentExpression" package="4560" superClass="4824" xmi:type="Class">
+        <generalization xmi:id="5261" general="4824" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4827" isAbstract="false" name="OffspringExpression" package="4560" superClass="4824" xmi:type="Class">
+        <generalization xmi:id="5262" general="4824" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4828" isAbstract="false" name="SenderExpression" package="4560" superClass="4824" xmi:type="Class">
+        <generalization xmi:id="5263" general="4824" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4829" isAbstract="false" name="TimerActiveExpression" package="4560" superClass="4565 4567 4755" xmi:type="Class">
+        <generalization xmi:id="5264" general="4565" xmi:type="Generalization" />
+        <generalization xmi:id="5265" general="4567" xmi:type="Generalization" />
+        <generalization xmi:id="5266" general="4755" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4830" isAbstract="false" name="NowExpression" package="4560" superClass="4823" xmi:type="Class">
+        <generalization xmi:id="5267" general="4823" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4816" isAbstract="false" name="SignalDefinition" package="4560" superClass="4609 4617" xmi:type="Class">
+        <generalization xmi:id="5236" general="4609" xmi:type="Generalization" />
+        <generalization xmi:id="5237" general="4617" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4831" isAbstract="false" name="SortReferenceIdentifier" package="4560" superClass="4605" xmi:type="Class">
+        <generalization xmi:id="5268" general="4605" xmi:type="Generalization" />
+      </ownedMember>
+    </ownedElement>
+    <ownedElement xmi:id="4833" name="SdlPlusConcreteSyntaxExtensions" xmi:type="Package">
+      <ownedMember xmi:id="4834" visibility="public" isDerived="false" memberEnd="4835" isAbstract="false" name="QualifiedBy" package="4833" xmi:type="Association">
+        <ownedEnd xmi:id="4848" owningAssociation="4834" visibility="public" isDerived="false" type="4844" isDerivedUnion="false" opposite="4835" isReadOnly="false" isUnique="true" isOrdered="false" name="identifier" xmi:type="Property">
+          <upperValue xmi:id="4893" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="4894" value="1" xmi:type="LiteralString" />
+        </ownedEnd>
+      </ownedMember>
+      <ownedMember xmi:id="4838" visibility="public" isDerived="false" memberEnd="4837" isAbstract="false" name="PathItems" package="4833" xmi:type="Association">
+        <ownedEnd xmi:id="4839" owningAssociation="4838" visibility="public" isDerived="false" type="4836" isDerivedUnion="false" opposite="4837" isReadOnly="false" isUnique="true" isOrdered="false" name="qualifier" xmi:type="Property">
+          <upperValue xmi:id="4897" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="4898" value="1" xmi:type="LiteralString" />
+        </ownedEnd>
+      </ownedMember>
+      <ownedMember xmi:id="4849" visibility="public" isDerived="false" memberEnd="4850" isAbstract="false" name="ChannelEndPointAgent" package="4833" xmi:type="Association">
+        <ownedEnd xmi:id="4857" owningAssociation="4849" visibility="public" isDerived="false" type="4851" isDerivedUnion="false" opposite="4850" isReadOnly="false" isUnique="true" isOrdered="false" name="binding" xmi:type="Property">
+          <upperValue xmi:id="4901" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="4902" value="1" xmi:type="LiteralString" />
+        </ownedEnd>
+      </ownedMember>
+      <ownedMember xmi:id="4853" visibility="public" isDerived="false" memberEnd="4852" isAbstract="false" name="ChannelEndPointGate" package="4833" xmi:type="Association">
+        <ownedEnd xmi:id="4854" owningAssociation="4853" visibility="public" isDerived="false" type="4851" isDerivedUnion="false" opposite="4852" isReadOnly="false" isUnique="true" isOrdered="false" name="binding" xmi:type="Property">
+          <upperValue xmi:id="4905" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="4906" value="1" xmi:type="LiteralString" />
+        </ownedEnd>
+      </ownedMember>
+      <ownedMember xmi:id="4858" visibility="public" isDerived="false" memberEnd="4859" isAbstract="false" name="LiteralOrVariable" package="4833" xmi:type="Association">
+        <ownedEnd xmi:id="4861" owningAssociation="4858" visibility="public" isDerived="false" type="4860" isDerivedUnion="false" opposite="4859" isReadOnly="false" isUnique="true" isOrdered="false" name="literalOrVariableAccess" xmi:type="Property">
+          <upperValue xmi:id="4909" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="4910" value="1" xmi:type="LiteralString" />
+        </ownedEnd>
+      </ownedMember>
+      <ownedMember xmi:id="4846" isAbstract="true" name="StringReference" package="4833" superClass="4847 4594" xmi:type="Class">
+        <generalization xmi:id="5010" general="4847" xmi:type="Generalization" />
+        <generalization xmi:id="5011" general="4594" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4844" isAbstract="false" name="Identifier" package="4833" superClass="4846 4594" xmi:type="Class">
+        <ownedAttribute xmi:id="4835" visibility="public" isDerived="false" type="4836" class="4844" association="4834" aggregation="composite" isDerivedUnion="false" opposite="4848" isReadOnly="false" isOrdered="false" isUnique="true" name="qualifier" xmi:type="Property">
+          <upperValue xmi:id="4889" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="4891" value="0" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <ownedAttribute xmi:id="4845" visibility="public" isDerived="false" type="4575" class="4844" isDerivedUnion="false" isReadOnly="false" isUnique="true" isOrdered="false" name="name" xmi:type="Property">
+          <upperValue xmi:id="5012" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5013" value="1" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <generalization xmi:id="5014" general="4846" xmi:type="Generalization" />
+        <generalization xmi:id="5015" general="4594" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4836" isAbstract="false" name="Qualifier" package="4833" superClass="4594" xmi:type="Class">
+        <ownedAttribute xmi:id="4837" visibility="public" isDerived="false" type="4840" class="4836" details="ordered" association="4838" aggregation="composite" isDerivedUnion="false" opposite="4839" isReadOnly="false" isOrdered="true" isUnique="true" name="pathItems" xmi:type="Property">
+          <upperValue xmi:id="4895" value="*" xmi:type="LiteralString" />
+          <lowerValue xmi:id="4896" value="0" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <generalization xmi:id="5016" general="4594" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4840" isAbstract="false" name="PathItem" package="4833" superClass="4594" xmi:type="Class">
+        <ownedAttribute xmi:id="4841" visibility="public" isDerived="false" type="4575" class="4840" isDerivedUnion="false" isReadOnly="false" isUnique="true" isOrdered="false" name="name" xmi:type="Property">
+          <upperValue xmi:id="5017" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5018" value="1" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <ownedAttribute xmi:id="4842" visibility="public" isDerived="false" type="4843" class="4840" isDerivedUnion="false" isReadOnly="false" isUnique="true" isOrdered="false" name="scopeUnitKind" xmi:type="Property">
+          <upperValue xmi:id="5019" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5020" value="1" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <generalization xmi:id="5021" general="4594" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4843" isAbstract="false" name="ScopeUnitKind" package="4833" xmi:type="DataType" />
+      <ownedMember xmi:id="4851" isAbstract="false" name="ChannelEndPointBinding" package="4833" superClass="4847 4594" xmi:type="Class">
+        <ownedAttribute xmi:id="4850" visibility="public" isDerived="false" type="4844" class="4851" association="4849" aggregation="composite" isDerivedUnion="false" opposite="4857" isReadOnly="false" isOrdered="false" isUnique="true" name="agentIdentifier" xmi:type="Property">
+          <upperValue xmi:id="4899" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="4900" value="0" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <ownedAttribute xmi:id="4852" visibility="public" isDerived="false" type="4844" class="4851" association="4853" aggregation="composite" isDerivedUnion="false" opposite="4854" isReadOnly="false" isOrdered="false" isUnique="true" name="gateIdentifier" xmi:type="Property">
+          <upperValue xmi:id="4903" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="4904" value="0" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <ownedAttribute xmi:id="4855" visibility="public" isDerived="false" type="4856" class="4851" aggregation="composite" isDerivedUnion="false" isReadOnly="false" isUnique="true" isOrdered="false" name="channelEndPointKind" xmi:type="Property">
+          <upperValue xmi:id="5022" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5023" value="1" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <generalization xmi:id="5024" general="4847" xmi:type="Generalization" />
+        <generalization xmi:id="5025" general="4594" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4856" isAbstract="false" name="ChannelEndPointKind" package="4833" xmi:type="DataType" />
+      <ownedMember xmi:id="4860" isAbstract="false" name="LiteralOrVariableAccess" package="4833" superClass="4847 4565 4594" xmi:type="Class">
+        <ownedAttribute xmi:id="4859" visibility="public" isDerived="false" type="4844" class="4860" association="4858" aggregation="composite" isDerivedUnion="false" opposite="4861" isReadOnly="false" isOrdered="false" isUnique="true" name="literalOrVariable" xmi:type="Property">
+          <upperValue xmi:id="4907" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="4908" value="1" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <generalization xmi:id="5270" general="4847" xmi:type="Generalization" />
+        <generalization xmi:id="5271" general="4565" xmi:type="Generalization" />
+        <generalization xmi:id="5272" general="4594" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4847" isAbstract="true" name="ConcreteSyntaxExtension" package="4833" superClass="4594" xmi:type="Class">
+        <generalization xmi:id="5009" general="4594" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4862" isAbstract="true" name="PlaceHolder" package="4833" superClass="4594" xmi:type="Class">
+        <generalization xmi:id="5273" general="4594" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4863" isAbstract="false" name="AnyDecisionNode" package="4833" superClass="4808 4594" xmi:type="Class">
+        <generalization xmi:id="5274" general="4808" xmi:type="Generalization" />
+        <generalization xmi:id="5275" general="4594" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4864" isAbstract="false" name="CsePlaceHolderForState" package="4833" superClass="4701 4862 4594" xmi:type="Class">
+        <ownedAttribute xmi:id="4865" visibility="public" isDerived="false" type="4846" class="4864" aggregation="composite" isDerivedUnion="false" isReadOnly="false" isUnique="true" isOrdered="false" name="stringReference" xmi:type="Property">
+          <upperValue xmi:id="5276" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5277" value="1" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <generalization xmi:id="5278" general="4701" xmi:type="Generalization" />
+        <generalization xmi:id="5279" general="4862" xmi:type="Generalization" />
+        <generalization xmi:id="5280" general="4594" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4866" isAbstract="false" name="CsePlaceHolderForComItem" package="4833" superClass="4617 4862 4594" xmi:type="Class">
+        <ownedAttribute xmi:id="4867" visibility="public" isDerived="false" type="4846" class="4866" isDerivedUnion="false" isReadOnly="false" isUnique="true" isOrdered="false" name="stringReference" xmi:type="Property">
+          <upperValue xmi:id="5281" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5282" value="1" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <generalization xmi:id="5283" general="4617" xmi:type="Generalization" />
+        <generalization xmi:id="5284" general="4862" xmi:type="Generalization" />
+        <generalization xmi:id="5285" general="4594" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4868" isAbstract="false" name="CsePlaceHolderForGeneralizableElement" package="4833" superClass="4599 4862 4594" xmi:type="Class">
+        <ownedAttribute xmi:id="4869" visibility="public" isDerived="false" type="4846" class="4868" aggregation="composite" isDerivedUnion="false" isReadOnly="false" isUnique="true" isOrdered="false" name="stringReference" xmi:type="Property">
+          <upperValue xmi:id="5286" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5287" value="1" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <generalization xmi:id="5288" general="4599" xmi:type="Generalization" />
+        <generalization xmi:id="5289" general="4862" xmi:type="Generalization" />
+        <generalization xmi:id="5290" general="4594" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4870" isAbstract="false" name="CsePlaceHolderForNamedElement" package="4833" superClass="4581 4862 4594" xmi:type="Class">
+        <ownedAttribute xmi:id="4871" visibility="public" isDerived="false" type="4846" class="4870" isDerivedUnion="false" isReadOnly="false" isUnique="true" isOrdered="false" name="stringReference" xmi:type="Property">
+          <upperValue xmi:id="5291" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5292" value="1" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <generalization xmi:id="5293" general="4581" xmi:type="Generalization" />
+        <generalization xmi:id="5294" general="4862" xmi:type="Generalization" />
+        <generalization xmi:id="5295" general="4594" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4872" isAbstract="false" name="CsePlaceHolderForVariable" package="4833" superClass="4666 4862 4594" xmi:type="Class">
+        <ownedAttribute xmi:id="4873" visibility="public" isDerived="false" type="4846" class="4872" aggregation="composite" isDerivedUnion="false" isReadOnly="false" isUnique="true" isOrdered="false" name="stringReference" xmi:type="Property">
+          <upperValue xmi:id="5296" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5297" value="1" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <generalization xmi:id="5298" general="4666" xmi:type="Generalization" />
+        <generalization xmi:id="5299" general="4862" xmi:type="Generalization" />
+        <generalization xmi:id="5300" general="4594" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4874" isAbstract="false" name="CsePlaceHolderForInterface" package="4833" superClass="4625 4862 4594" xmi:type="Class">
+        <ownedAttribute xmi:id="4875" visibility="public" isDerived="false" type="4851" class="4874" isDerivedUnion="false" isReadOnly="false" isUnique="true" isOrdered="false" name="channelEndPointBinding" xmi:type="Property">
+          <upperValue xmi:id="5301" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5302" value="1" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <generalization xmi:id="5303" general="4625" xmi:type="Generalization" />
+        <generalization xmi:id="5304" general="4862" xmi:type="Generalization" />
+        <generalization xmi:id="5305" general="4594" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4876" isAbstract="false" name="CsePlaceHolderForGateDefinition" package="4833" superClass="4749 4862 4594" xmi:type="Class">
+        <ownedAttribute xmi:id="4877" visibility="public" isDerived="false" type="4846" class="4876" aggregation="composite" isDerivedUnion="false" isReadOnly="false" isUnique="true" isOrdered="false" name="stringReference" xmi:type="Property">
+          <upperValue xmi:id="5306" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5307" value="1" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <generalization xmi:id="5308" general="4749" xmi:type="Generalization" />
+        <generalization xmi:id="5309" general="4862" xmi:type="Generalization" />
+        <generalization xmi:id="5310" general="4594" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4878" isAbstract="false" name="CsePlaceHolderForLiteral" package="4833" superClass="4660 4862 4594" xmi:type="Class">
+        <ownedAttribute xmi:id="4879" visibility="public" isDerived="false" type="4846" class="4878" isDerivedUnion="false" isReadOnly="false" isUnique="true" isOrdered="false" name="stringReference" xmi:type="Property">
+          <upperValue xmi:id="5311" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5312" value="1" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <generalization xmi:id="5313" general="4660" xmi:type="Generalization" />
+        <generalization xmi:id="5314" general="4862" xmi:type="Generalization" />
+        <generalization xmi:id="5315" general="4594" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4880" isAbstract="false" name="CsePlaceHolderForSymbol" package="4833" superClass="4862 4594" xmi:type="Class">
+        <ownedAttribute xmi:id="4881" visibility="public" isDerived="false" type="4846" class="4880" aggregation="composite" isDerivedUnion="false" isReadOnly="false" isUnique="true" isOrdered="false" name="stringReference" xmi:type="Property">
+          <upperValue xmi:id="5316" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5317" value="1" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <generalization xmi:id="5318" general="4862" xmi:type="Generalization" />
+        <generalization xmi:id="5319" general="4594" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4882" isAbstract="false" name="CsePlaceHolderForSelector" package="4833" superClass="4711 4862 4594" xmi:type="Class">
+        <ownedAttribute xmi:id="4883" visibility="public" isDerived="false" type="4846" class="4882" isDerivedUnion="false" isReadOnly="false" isUnique="true" isOrdered="false" name="stringReference" xmi:type="Property">
+          <upperValue xmi:id="5320" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5321" value="1" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <generalization xmi:id="5322" general="4711" xmi:type="Generalization" />
+        <generalization xmi:id="5323" general="4862" xmi:type="Generalization" />
+        <generalization xmi:id="5324" general="4594" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4884" isAbstract="false" name="CsePlaceHolderForInterfaceType" package="4833" superClass="4613 4862 4594" xmi:type="Class">
+        <ownedAttribute xmi:id="4885" visibility="public" isDerived="false" type="4846" class="4884" isDerivedUnion="false" isReadOnly="false" isUnique="true" isOrdered="false" name="stringReference" xmi:type="Property">
+          <upperValue xmi:id="5325" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5326" value="1" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <generalization xmi:id="5327" general="4613" xmi:type="Generalization" />
+        <generalization xmi:id="5328" general="4862" xmi:type="Generalization" />
+        <generalization xmi:id="5329" general="4594" xmi:type="Generalization" />
+      </ownedMember>
+      <ownedMember xmi:id="4886" isAbstract="false" name="CsePlaceHolderForSplit" package="4833" superClass="4727 4862 4594" xmi:type="Class">
+        <ownedAttribute xmi:id="4887" visibility="public" isDerived="false" type="4846" class="4886" aggregation="composite" isDerivedUnion="false" isReadOnly="false" isUnique="true" isOrdered="false" name="stringReference" xmi:type="Property">
+          <upperValue xmi:id="5330" value="1" xmi:type="LiteralString" />
+          <lowerValue xmi:id="5331" value="1" xmi:type="LiteralString" />
+        </ownedAttribute>
+        <generalization xmi:id="5332" general="4727" xmi:type="Generalization" />
+        <generalization xmi:id="5333" general="4862" xmi:type="Generalization" />
+        <generalization xmi:id="5334" general="4594" xmi:type="Generalization" />
+      </ownedMember>
+    </ownedElement>
+    <ownedElement xmi:id="4570" name="PrimitiveTypes" xmi:type="Package">
+      <ownedMember xmi:id="4569" isAbstract="false" name="Boolean" package="4570" xmi:type="PrimitiveType" />
+      <ownedMember xmi:id="4571" isAbstract="false" name="Double" package="4570" xmi:type="DataType" />
+      <ownedMember xmi:id="4572" isAbstract="false" name="Float" package="4570" xmi:type="DataType" />
+      <ownedMember xmi:id="4573" isAbstract="false" name="Integer" package="4570" xmi:type="PrimitiveType" />
+      <ownedMember xmi:id="4574" isAbstract="false" name="Long" package="4570" xmi:type="DataType" />
+      <ownedMember xmi:id="4575" isAbstract="false" name="String" package="4570" xmi:type="PrimitiveType" />
+    </ownedElement>
+    <ownedElement xmi:id="4832" name="SdlM2WCSE" xmi:type="Package" />
+  </uml:Model>
+</xmi:XMI>
+

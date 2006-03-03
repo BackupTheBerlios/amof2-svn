@@ -1,0 +1,8 @@
+<XMI>
+<B1Class xmi:id="1" name="B1Class">
+    <member xmi:type="B1Property">
+        <name>MEMBER</name>
+        <type idref="1"/>
+    </member>
+</B1Class>
+</XMI>

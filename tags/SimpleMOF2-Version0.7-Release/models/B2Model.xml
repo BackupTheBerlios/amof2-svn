@@ -1,0 +1,15 @@
+<XMI>
+<Package name="core">
+    <ownedMember xmi:type="Package" name="primitivetypes">
+        <ownedMember xmi:type="PrimitiveType" xmi:id="String" name="String"/>
+        <ownedMember xmi:type="PrimitiveType" xmi:id="Boolean" name="Boolean"/>
+        <ownedMember xmi:type="PrimitiveType" xmi:id="Integer" name="Integer"/> 
+        <ownedMember xmi:type="PrimitiveType" xmi:id="UnlimitedNatural" name="UnlimitedNatural"/>
+    </ownedMember>
+    <ownedMember xmi:type="Package" name="abstractions">
+        <ownedMember xmi:type="Package" name="elements">
+            <ownedMember xmi:type="Class" name="Element" xmi:id="core.abstractions.elements.Element"/>
+        </ownedMember>
+    </ownedMember>
+</Package>
+</XMI>

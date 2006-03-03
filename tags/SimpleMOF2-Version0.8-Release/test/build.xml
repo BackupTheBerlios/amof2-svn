@@ -1,0 +1,34 @@
+<project name="Warehouse"> 
+	<import file="../build.xml"/>
+	<target name="init">
+		<mkdir dir="test/build"/>
+		<mkdir dir="test/generated"/>
+	</target>	
+	<target name="repository" depends="init">
+		<javac srcdir="test/src" includes="GenerateRepository.java" destdir="test/build" debug="on">		
+			<classpath refid="classpath"/>
+		</javac>
+		<java classname="GenerateRepository">
+			<classpath>
+				<path refid="classpath"/>
+				<pathelement location="${jar-file}"/>
+				<pathelement location="test/build"/>
+			</classpath>
+		</java>
+		<javac destdir="test/build" debug="on">
+			<src>
+				<pathelement path="test/generated"/>
+				<pathelement path="test/src"/>
+			</src>
+			<classpath>
+				<path refid="classpath"/>
+				<pathelement location="${jar-file}"/>
+			</classpath>
+		</javac>
+		<jar destfile="warehouse.jar" basedir="test/build"/>
+	</target>
+	<target name="clean">
+		<delete dir="test/build"/>
+		<delete dir="test/generated"/>
+	</target>
+</project>

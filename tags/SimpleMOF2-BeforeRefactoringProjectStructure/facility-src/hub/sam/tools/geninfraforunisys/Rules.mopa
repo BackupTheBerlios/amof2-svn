@@ -1,0 +1,24 @@
+package hub.sam.tools.geninfraforunisys;
+
+import java.io.*;
+
+public class Rules {
+
+	public static pattern void writeXml(PrintWriter out) {
+        
+        pkg=cmof.Package -> {
+            out.println("<UML:Package name = '" + pkg.getName() + "' visibility = 'public' isSpecification = 'false' isRoot = 'false' isLeaf = 'false' isAbstract = 'false'>");
+            out.println("  <UML:Namespace.ownedElement>");
+            dive;
+            out.println("  </UML:Namespace.ownedElement>");
+            out.println("</UML:Package>");
+        }
+
+        cl=cmof.UmlClass -> {
+            out.println("<UML:Class name = '" + cl.getName() + "' visibility = 'public' isSpecification = 'false' isRoot = 'true' isLeaf = 'true' isAbstract = '" + (cl.isAbstract() ? "true" : "false") + "' isActive = 'false'/>");
+        }
+
+        default -> {
+        }
+	}
+}

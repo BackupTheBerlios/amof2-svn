@@ -1,0 +1,216 @@
+<project name = "A MOF 2 for Java">
+	<description>
+		A MOF 2 for Java
+	</description>
+	<property name="base-dir" value="./"/>
+	<property name="src" value="${basedir}/src"/>
+	<property name="build-dir" value="${base-dir}/build"/>
+	<property name="doc-dir" value="${base-dir}/resources/doc/javadoc/"/>
+	<property name="jar-file" value="aMOF2.0forJava.jar"/>
+
+	<property name="repository-generated-src" value="${base-dir}/resources/repository/generated-src/"/>
+	<property name="test-generated-src" value="${base-dir}/resources/test/generated-src/"/>
+	<property name="repository-initial-src" value="${base-dir}/resources/repository/initial-src/"/>
+	<property name="test-initial-src" value="${base-dir}/resources/test/initial-src/"/>
+	<property name="uml-src" value="${base-dir}/resources/uml-src/"/>
+	<property name="sdl-src" value="${base-dir}/resources/sdl-src/"/>
+
+
+	<path id="classpath">
+		<pathelement path="${build-dir}"/>
+		<fileset dir="${base-dir}/resources/lib">
+			<include name="**/*.jar"/>
+		</fileset>
+	</path>
+
+	<path id="sourcepath">
+		<pathelement path="${src}"/>
+		<pathelement path="${repository-generated-src}"/>
+		<pathelement path="${test-generated-src}"/>
+	</path>
+
+    <path id="mopa-xmi-path">
+        <fileset dir="${src}/hub/sam/mof/xmi">
+            <include name="XmiMopaTreeNode.java"/>
+        </fileset>
+    </path>
+
+    <target name="init-repository-generated" unless="${available-repository-generated-src}">
+	   	<copy todir="${repository-generated-src}">
+	    	<fileset dir="${repository-initial-src}"/>
+	   	</copy>
+		</target>
+	<target name="init-test-generated" unless="${available-test-generated-src}">
+		<copy todir="${test-generated-src}">
+			<fileset dir="${test-initial-src}"/>
+   		</copy>
+	</target>
+
+	<target name="init">
+		<available file="${repository-generated-src}" property="${available-repository-generated-src}"/>
+		<available file="${test-generated-src}" property="${available-test-generated-src}"/>
+		<antcall target="init-repository-generated"/>
+    	<antcall target="init-test-generated"/>
+
+		<mkdir dir="resources/models/work"/>
+		<mkdir dir="${build-dir}"/>
+		<mkdir dir="${doc-dir}"/>
+		<taskdef name="mopa" classname="hub.sam.mopa.MopaAntTask">
+	        <classpath refid="classpath"/>
+		</taskdef>
+	</target>
+
+	<target name="mopa" depends="init">
+        <javac debug="on" destdir="${build-dir}" source="1.5" nowarn="yes">
+            <src refid="sourcepath"/>
+            <include name="hub/sam/mof/xmi/mopa/*.java"/>
+            <classpath refid="classpath"/>
+		</javac>
+        <mopa target="${src}/hub/sam/mof/xmi/XmiUnisysUML1ToMOF2.mopa" customtype="ClassInstance&lt;XmiClassifier,String,String&gt;"/>
+        <mopa target="${src}/hub/sam/mof/xmi/XmiEAUML1ToMOF2.mopa" customtype="ClassInstance&lt;XmiClassifier,String,String&gt;"/>
+        <mopa target="${src}/hub/sam/mof/xmi/MOF2ToMagicDrawXmi2.mopa" customtype="ClassInstance&lt;XmiClassifier,String,String&gt;"/>
+        <mopa target="${src}/hub/sam/mof/xmi/MagicDrawXmi2ToMOF2.mopa" customtype="ClassInstance&lt;XmiClassifier,String,String&gt;"/>
+        <mopa target="${src}/hub/sam/mof/codegeneration/ResolveJavaCodeClashes.mopa"/>
+		<mopa target="${src}/hub/sam/tools/exportemptyunisysclasses/Rules.mopa"/>
+	</target>
+
+	<target name="javacc" depends="init">
+		<javacc target="${src}/hub/sam/mof/as/parser/ActionSemanticsParser.jj"
+				javacchome="resources/lib/javacc" outputdirectory="${src}/hub/sam/mof/as/parser/"/>
+	</target>
+
+	<target name="compile" depends="init, mopa, javacc">
+		<javac debug="on" destdir="${build-dir}" source="1.5" nowarn="yes" memorymaximumsize="100m" fork="true">
+			<src refid="sourcepath"/>
+			<classpath refid="classpath"/>
+		</javac>
+	</target>
+
+	<target name="build-jar" depends="compile">
+	    <jar destfile="${jar-file}" basedir="${build-dir}">
+		<manifest>
+		    <attribute name="Main-Class" value="hub.sam.mof.Repository"/>
+		</manifest>
+	    </jar>
+        <mkdir dir="resources/lib/mopa"/>
+        <unjar dest="resources/lib/mopa" src="resources/lib/mopa.jar"/>
+        <jar destfile="${jar-file}" basedir="resources/lib/mopa" update="true"/>
+        <mkdir dir="resources/lib/jdom"/>
+        <unjar dest="resources/lib/jdom" src="resources/lib/jdom.jar"/>
+        <jar destfile="${jar-file}" basedir="resources/lib/jdom" update="true"/>
+        <mkdir dir="resources/lib/oslo"/>
+        <unjar dest="resources/lib/oslo" src="resources/lib/oslo.jar"/>
+        <jar destfile="${jar-file}" basedir="resources/lib/oslo" update="true"/>
+	</target>
+
+	<target name="doc" depends="compile">
+		<javadoc windowtitle="A MOF2.0 for Java" source="1.5" destdir="${doc-dir}" sourcepathref="sourcepath"
+			packagenames="hub/**/*,cmof/**/*,core/**/*" excludepackagenames="concretecore/**/*">
+			<classpath refid="classpath"/>
+		</javadoc>
+	</target>
+
+	<target name="clean">
+		<delete dir="${build-dir}"/>
+		<delete dir="${doc-dir}"/>
+        <delete file="${src}/hub/sam/mof/xmi/XmiUnisysUML1ToMOF2.java"/>
+        <delete file="${src}/hub/sam/mof/xmi/XmiEAUML1ToMOF2.java"/>
+        <delete file="${src}/hub/sam/mof/xmi/MOF2ToMagicDrawXmi2.java"/>
+        <delete file="${src}/hub/sam/mof/xmi/MagicDrawXmi2ToMOF2.java"/>
+        <delete file="${src}/hub/sam/mof/codegeneration/ResolveJavaCodeClashes.java"/>
+        <delete file="${src}/hub/sam/tools/geninfraforunisys/Rules.java"/>
+		<delete file="${jar-file}"/>
+		<delete>
+			<fileset dir="${src}/hub/sam/mof/as/parser" includes="*.java"/>
+		</delete>
+	</target>
+
+	<target name="dist-clean" depends="clean">
+		<delete dir="${repository-generated-src}"/>
+		<delete dir="${test-generated-src}"/>
+	</target>
+
+	<target name="dist" depends="dist-clean,bootstrap,tests,build-jar,doc"
+		description="Builds the complete MOF for Java and bundles as a JAR">
+		<zip destfile="aMOF2.0forJava-doc.zip">
+			<fileset dir="${doc-dir}" defaultexcludes="yes">
+				<include name="**/*"/>
+			</fileset>
+		</zip>
+	</target>
+
+    <target name="bootstrap" depends="compile">
+    	<delete dir="${repository-generated-src}"/>
+    	<delete dir="${test-generated-src}"/>
+    	<mkdir dir="${repository-generated-src}"/>
+    	<mkdir dir="${test-generated-src}"/>
+    	<java classname="hub.sam.mof.bootstrap.Bootstrap" fork="false">
+            <classpath refid="classpath"/>
+        </java>
+    	<java classname="hub.sam.mof.test.warehouse.GenerateRepository" fork="false">
+    		<classpath refid="classpath"/>
+    	</java>
+    	<java classname="hub.sam.mof.test.lib.GenerateConcreteLibrary" fork="false">
+    		<classpath refid="classpath"/>
+    	</java>
+    	<taskdef name="mof" classname="hub.sam.mof.ant.GenerateCode" classpathref="classpath"/>
+    	<mof src="resources/models/test/automaton-ea.xml" destdir="${test-generated-src}" ea="true" library="true" libraryFile="resources/models/user/core.xml" force="true"/>
+    	<delete dir="${test-generated-src}/core"/>
+    	<antcall target="compile"/>
+    </target>
+
+	<target name="tests" depends="compile">
+		<junit printsummary="true" haltonfailure="true" haltonerror="true" fork="on" maxmemory="200000000">
+			<formatter type="plain" usefile="no"/>
+    		<classpath refid="classpath"/>
+			<test name="hub.sam.mof.test.Main"/>
+		</junit>
+	</target>
+	<target name="performance" depends="compile">
+		<java classname="hub.sam.mof.test.Performance" fork="true">
+			<classpath refid="classpath"/>
+            <jvmarg value="-Xrunhprof:cpu=samples,file=test-out/perf.txt,depth=1000,interval=1"/>
+		</java>
+	</target>
+
+	<target name="compile-uml">
+		<javac srcdir="${uml-src}" source="1.5" nowarn="yes" memorymaximumsize="100m" fork="true">
+			<classpath refid="classpath"/>
+		</javac>
+	</target>
+
+	<target name="compile-sdl">
+		<javac srcdir="${sdl-src}" nowarn="yes">
+			<classpath refid="classpath"/>
+		</javac>
+	</target>
+
+	<target name="uml" depends="compile">
+		<delete dir="${uml-src}"/>
+		<mkdir dir="${uml-src}"/>
+		<taskdef name="mof" classname="hub.sam.mof.ant.GenerateCode" classpathref="classpath"/>
+		<mof src="resources/models/uml/uml.xml" destdir="${uml-src}"/>
+		<antcall target="compile-uml"/>
+	</target>
+
+    <target name="-splash">
+        <splash showduration="0" imageurl="file:doc/rationale.jpg"/>
+    </target>
+
+	<target name="adopt-bootstrap">
+		<delete dir="${repository-initial-src}"/>
+		<delete dir="${test-initial-src}"/>
+		<copy todir="${repository-initial-src}">
+	    	<fileset dir="${repository-generated-src}"/>
+		</copy>
+		<copy todir="${test-initial-src}">
+	    	<fileset dir="${test-generated-src}"/>
+		</copy>
+	</target>
+
+	<target name="debug-eclipse">
+    	<delete file="${build-dir}/hub/sam/mof/mofinstancemodel/MofClassSemantics.class"/>
+		<antcall target="compile"/>
+	</target>
+</project>
+<!-- vim:set ts=4: -->

@@ -1,0 +1,151 @@
+<project>
+	<property name="base-dir" value="./"/>
+	<property name="build-dir" value="${base-dir}/build"/>
+	<property name="doc-dir" value="${base-dir}/doc/javadoc/"/>
+	<property name="bootstrap-src" value="${base-dir}/bootstrap-src"/>
+	<property name="facility-src" value="${base-dir}/facility-src"/>
+	<property name="generated-dir" value="${base-dir}/generated"/>
+	<property name="bootstrap-dir" value="${base-dir}/bootstrap"/>
+	<property name="jar-file" value="aMOF2.0forJava.jar"/>
+	<path id="classpath">
+		<pathelement path="${base-dir}/build"/>
+		<fileset dir="${base-dir}/external/lib">
+			<include name="**/*.jar"/>
+		</fileset>
+	</path>
+	<path id="sourcepath">
+		<pathelement path="${bootstrap-src}"/>
+		<pathelement path="${generated-dir}"/>
+	</path>
+
+    <path id="mopatreepath">
+        <fileset dir="${bootstrap-src}/hub/sam/mof/xmi">
+            <include name="XmiMopaTreeNode.java"/> 
+        </fileset>
+    </path>
+
+	<target name="init">
+		<mkdir dir="${build-dir}"/>
+		<mkdir dir="${doc-dir}"/>
+		<mkdir dir="${bootstrap-dir}"/>
+        <mkdir dir="${generated-dir}"/>
+		<taskdef name="mopa" classname="hub.sam.mopa.MopaAntTask">
+	        <classpath refid="classpath"/>
+		</taskdef>
+	</target>
+
+	<target name="mopa" depends="init">
+        <javac debug="on" destdir="${build-dir}" source="1.5">
+            <src refid="sourcepath"/>
+            <include name="hub/sam/mof/xmi/mopa/*.java"/> 
+            <classpath refid="classpath"/>
+        </javac>
+        <mopa target="${bootstrap-src}/hub/sam/mof/xmi/XmiUnisysUML1ToMOF2.mopa" customtype="ClassInstance&lt;XmiClassifier,String,String&gt;"/>
+	</target>
+
+	<target name="compile" depends="init, mopa">
+		<javac debug="on" destdir="${build-dir}" source="1.5">
+			<src refid="sourcepath"/>
+			<classpath refid="classpath"/>
+		</javac>
+	</target>
+	<target name="facility" depends="compile">
+		<javac debug="on" destdir="${build-dir}" source="1.5" srcdir="${facility-src}">
+			<classpath refid="classpath"/>
+		</javac>
+	</target>
+	<target name="build-jar" depends="facility">
+	    <jar destfile="${jar-file}" basedir="${build-dir}">
+		<manifest>
+		    <attribute name="Main-Class" value="hub.sam.mof.Repository"/>
+		</manifest>
+	    </jar>
+        <mkdir dir="external/lib/mopa"/>
+        <unjar dest="external/lib/mopa" src="external/lib/mopa.jar"/>
+        <jar destfile="${jar-file}" basedir="external/lib/mopa" update="true"/>
+        <mkdir dir="external/lib/jdom"/>
+        <unjar dest="external/lib/jdom" src="external/lib/jdom.jar"/>
+        <jar destfile="${jar-file}" basedir="external/lib/jdom" update="true"/>
+        <mkdir dir="external/lib/xerces"/>
+        <unjar dest="external/lib/xerces" src="external/lib/xercesImpl.jar"/>
+        <jar destfile="${jar-file}" basedir="external/lib/xerces" update="true"/>
+	</target>
+	<target name="doc" depends="facility, init">
+		<javadoc windowtitle="A MOF2.0 for Java" source="1.5" destdir="${doc-dir}">
+			<fileset dir="${bootstrap-src}/cmof/" defaultexcludes="yes">
+				<include name="**/*.java" />
+				<exclude name="**/*Custom.java"/>
+			</fileset>
+			<fileset dir="${facility-src}" defaultexcludes="yes">
+				<include name="**/*.java" />
+				<exclude name="**/*Example*.java"/>
+			</fileset>
+			<fileset dir="${generated-dir}" defaultexcludes="yes">
+				<include name="**/*.java"/>
+				<exclude name="**/*Dlg.java"/>
+				<exclude name="**/*Impl.java"/>
+				<exclude name="**/cmofb4.java"/>
+			</fileset>
+			<classpath refid="classpath"/>
+		</javadoc>
+	</target>
+	<target name="test-facility" depends="facility">
+		<java classname="hub.sam.mof.Example">
+			<classpath refid="classpath"/>
+		</java>
+	</target>
+	<target name="clean">
+		<delete dir="${build-dir}"/>
+		<delete dir="${doc-dir}"/>
+		<delete dir="${generated-dir}"/>
+        <delete file="${bootstrap-src}/hub/sam/mof/xmi/XmiUnisysUML1ToMOF2.java"/>
+		<delete file="${jar-file}"/>
+		<ant target="clean" antfile="test/build.xml" dir="."/>
+	</target>
+    <target name="splash">
+        <splash showduration="0" imageurl="file:doc/rationale.jpg"/>
+    </target>
+	<target name="dist" depends="splash,bootstrap,facility,build-jar,tests,doc">
+		<zip destfile="aMOF2.0forJava-doc.zip">
+			<fileset dir="${doc-dir}" defaultexcludes="yes">
+				<include name="**/*"/>
+			</fileset>
+		</zip>
+	</target>
+    <target name="bootstrap">
+        <antcall target="clean"/>
+   		<copy todir="${generated-dir}">
+    		<fileset dir="./initial"/>
+   		</copy>
+    	<antcall target="compile"/>
+        <java classname="hub.sam.mof.bootstrap.Bootstrap">
+            <classpath refid="classpath"/>
+        </java>
+    	<delete dir="${generated-dir}"/>
+   		<delete dir="${build-dir}"/>
+   		<copy todir="${generated-dir}">
+    		<fileset dir="${bootstrap-dir}"/>
+   		</copy>
+    	<antcall target="facility"/>
+    </target>
+	<target name="warehouse">
+		<ant antfile="test/build.xml" dir="./" target="repository"/>
+	</target>
+	<target name="tests" depends="facility, warehouse">
+		<javac srcdir="test-src" destdir="build" debug="on">
+			<classpath>
+				<path refid="classpath"/>
+				<pathelement path="test/build"/>
+			</classpath>
+		</javac>
+		<junit printsummary="true" haltonfailure="true" haltonerror="true">			
+			<formatter type="plain" usefile="no"/>			
+			<classpath>
+				<path refid="classpath"/>
+				<pathelement path="test/build"/>
+			</classpath>
+			<test name="hub.sam.mof.test.Main"/>
+		</junit>
+	</target>
+</project>
+<!-- vim:set ts=4: -->

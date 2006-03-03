@@ -1,0 +1,136 @@
+/*
+A MOF 2 Java -- The MOF Repository tool for Java
+Copyright (C) 2005 Markus Scheidgen
+
+    This library is free software; you can redistribute it and/or modify it
+under the terms of the GNU Lesser General Public License as published by the
+Free Software Foundation; either version 2.1 of the License, or any later
+version.
+
+    This library is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+details.
+
+    You should have received a copy of the GNU Lesser General Public License
+along with this library; if not, write to the Free Software Foundation, Inc.,
+59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+*/
+
+package hub.sam.mof.xmi;
+
+import java.util.*;
+import hub.sam.mof.instancemodel.*;
+import hub.sam.mof.xmi.mopa.*;
+
+public class MagicDrawXmi2ToMOF2 implements XmiTransformator {
+
+	private ClassInstance<XmiClassifier,String,String> getInstanceValue(ClassInstance<XmiClassifier,String,String> from, String key, int index) {
+		return from.get(key).getValues().get(index).asInstanceValue().getInstance();
+	}
+
+	private String getUnspecifiedValue(ClassInstance<XmiClassifier,String,String> from, String key, int index) {
+		if (from == null || from.get(key) == null || from.get(key).getValues().size() <= index  || from.get(key).getValues().get(index) == null || from.get(key).getValues().get(index).asUnspecifiedValue() == null) {
+			return null;
+		}
+        try {
+    		return (String)from.get(key).getValues().get(index).asUnspecifiedValue().getUnspecifiedData();
+        } catch (NullPointerException e) {
+            return null;
+        }
+	}
+
+	private void removeAttribute(ClassInstance<XmiClassifier,String,String> from, String attr) {
+		if (from.get(attr) != null) {
+            if (from.get(attr).getValues().size() > 0) {
+				for(ValueSpecification<XmiClassifier,String,String> value: from.get(attr).getValues()) {
+					if (value.asInstanceValue() != null) {
+						value.asInstanceValue().getInstance().setComposite(null);
+					}
+				}
+			    from.get(attr).getValues().clear();
+            }
+		}
+	}
+
+	private final InstanceModel<XmiClassifier,String,String> model;
+    private final Collection visistedNodes = new HashSet();
+
+	public MagicDrawXmi2ToMOF2(InstanceModel<XmiClassifier,String,String> model) {
+		this.model = model;
+	}
+
+    public Collection<ClassInstance<XmiClassifier,String,String> > getTopLevelElements() {
+        // has to be implemented but is not needed
+        return null;
+    }
+
+    public pattern void transform() throws XmiException {
+        Package.Class.Association.DataType.Enumeration.PrimitiveType -> {
+            if (!visistedNodes.contains(mopaNode)) {
+                visistedNodes.add(mopaNode);
+                dive;
+            } else {
+                break pattern;
+            }
+        }
+        c=Class(g=generalization:Generalization) -> {
+            String superClass = getUnspecifiedValue(g, "general",0);
+            c.addValue("superClass", model.createInstanceValue(model.getInstance(superClass)));
+            c.get("generalization").getValues().remove(model.createInstanceValue(g));
+            g.setComposite(null);
+            g.delete();
+        }
+        p=Property(d=defaultValue:LiteralString.LiteralInteger.LiteralBoolean) -> {
+            String defautValue = getUnspecifiedValue(d, "value", 0);
+            if (defautValue == null) {
+                defautValue = "0";
+            }
+            p.addValue("default", model.createPrimitiveValue(defautValue));
+            p.get("defaultValue").getValues().remove(model.createInstanceValue(d));
+            d.setComposite(null);
+            d.delete();
+        }
+        p=Property(l=lowerValue:LiteralString.LiteralInteger) -> {
+            String lowerValue = getUnspecifiedValue(l, "value", 0);
+            if (lowerValue == null) {
+                lowerValue = "0";
+            }
+            p.addValue("lower", model.createPrimitiveValue(lowerValue));
+            p.get("lowerValue").getValues().remove(model.createInstanceValue(l));
+            l.setComposite(null);
+            l.delete();
+        }
+        p=Property(u=upperValue:LiteralString.LiteralInteger) -> {
+            String upperValue = getUnspecifiedValue(u, "value", 0);
+            if (upperValue.equals("*")) {
+                upperValue = "-1";
+            }
+            if (upperValue == null) {
+                throw new XmiException("No valid literal value found.");
+            }
+            p.addValue("upper", model.createPrimitiveValue(upperValue));
+            p.get("upperValue").getValues().remove(model.createInstanceValue(u));
+            u.setComposite(null);
+            u.delete();
+        }
+        p=Property -> {
+            String aggregation = getUnspecifiedValue(p, "aggregation", 0);
+            if (aggregation != null) {
+                if (aggregation.equals("composite")) {
+                    p.addValue("isComposite", model.createPrimitiveValue("true"));
+                }
+                removeAttribute(p, "aggregation");
+            } else {
+                if (p.get("association") == null) {
+                    p.addValue("isComposite", model.createPrimitiveValue("true"));
+                }
+            }
+        }
+        o=Operation -> {
+            removeAttribute(o, "concurrency");
+        }
+        default -> {
+        }
+    }
+}
