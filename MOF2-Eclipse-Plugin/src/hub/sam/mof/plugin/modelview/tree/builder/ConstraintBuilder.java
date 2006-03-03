@@ -26,7 +26,7 @@ public class ConstraintBuilder extends ElementBuilder {
 		for (Element constrainedElement: constraint.getConstrainedElement()) {
 			TreeObject to = mgr.addChild(constrainedElement);
 			if (constrainedElement instanceof NamedElement)
-			to.setText("(from " + ((NamedElement)constrainedElement).getNamespace().getQualifiedName() +") " + to.getText());
+			to.setText(((NamedElement)constrainedElement).getNamespace().getQualifiedName(), to.getText());
 			to.setImage(Images.getDefault().getDepends());
 			to.setCategory(Categories.DEPENDS);
 		}

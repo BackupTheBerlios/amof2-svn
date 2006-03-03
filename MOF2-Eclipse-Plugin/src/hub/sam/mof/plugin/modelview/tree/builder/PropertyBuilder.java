@@ -20,7 +20,7 @@ public class PropertyBuilder extends TypedElementBuilder {
 			to = mgr.addChild(redef);
 			to.setImage(Images.getDefault().getRedefinition());
 			to.setCategory(Categories.REDEFINITION);
-			to.setText("(from " + redef.getNamespace().getQualifiedName() + ") " + to.getText());
+			to.setText(redef.getNamespace().getQualifiedName(), to.getText());
 		}
 		for (Property subset: property.getSubsettedProperty()) {
 			to = mgr.addChild(subset);
@@ -30,16 +30,16 @@ public class PropertyBuilder extends TypedElementBuilder {
 			if (ns == null) {
 				ns = subset.getAssociation();
 				if (ns == null) {
-					to.setText("(from <global>) " + to.getText());
+					to.setText("<global>", to.getText());
 				} else {					
 					if (ns.getName() != null ) {
-						to.setText("(from " + ns.getQualifiedName() + ") " + to.getText());
+						to.setText(ns.getQualifiedName(), to.getText());
 					} else {
-						to.setText("(from <association>) " + to.getText());
+						to.setText("<association>", to.getText());
 					}
 				}
 			} else {
-				to.setText("(from " + subset.getNamespace().getQualifiedName() + ") " + to.getText());
+				to.setText(subset.getNamespace().getQualifiedName(), to.getText());
 			}
 		}
 		Property opposite = property.getOpposite();
@@ -47,7 +47,12 @@ public class PropertyBuilder extends TypedElementBuilder {
 			to = mgr.addChild(opposite);
 			to.setCategory(Categories.OPPOSITE);
 			to.setImage(Images.getDefault().getAssociation());
-			to.setText("(from " + opposite.getNamespace().getQualifiedName() + ") " + to.getText());
+			Namespace ns = opposite.getNamespace();
+			if (ns != null) {
+				to.setText(ns.getQualifiedName(), to.getText());
+			} else {
+				to.setText("null", to.getText());
+			}
 		}
 		super.addChildren(obj, mgr);
 	}

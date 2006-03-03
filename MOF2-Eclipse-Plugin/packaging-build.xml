@@ -4,7 +4,6 @@
 <target name="N65540" description="mof2-plugin.jar">
 <jar destfile="mof2-plugin.jar">
 <zipfileset dir="build"/>
-<zipfileset dir="META-INF" prefix="META-INF"/>
 </jar>
 </target>
 </project>

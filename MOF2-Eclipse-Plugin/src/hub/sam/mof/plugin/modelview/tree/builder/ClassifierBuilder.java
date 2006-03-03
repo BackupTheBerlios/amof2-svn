@@ -12,7 +12,7 @@ public class ClassifierBuilder extends NamespaceBuilder {
 			TreeObject to = mgr.addChild(redefines);
 			to.setImage(Images.getDefault().getRedefinition());
 			to.setCategory(Categories.SUPERCLASS);
-			to.setText("(from " + redefines.getNamespace().getQualifiedName() + ") " + to.getText());
+			to.setText(redefines.getNamespace().getQualifiedName(), to.getText());
 		}
 		super.addChildren(obj, mgr);
 	}

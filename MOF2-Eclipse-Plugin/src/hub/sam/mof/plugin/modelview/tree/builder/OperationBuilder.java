@@ -32,7 +32,7 @@ public class OperationBuilder extends NamespaceBuilder {
 			TreeObject to = mgr.addChild(redef);
 			to.setImage(Images.getDefault().getRedefinition());
 			to.setCategory(Categories.REDEFINITION);
-			to.setText("(from " + redef.getNamespace().getQualifiedName() + ") " + to.getText());
+			to.setText(redef.getNamespace().getQualifiedName(), to.getText());
 		}
 		
 		super.addChildren(obj, mgr);

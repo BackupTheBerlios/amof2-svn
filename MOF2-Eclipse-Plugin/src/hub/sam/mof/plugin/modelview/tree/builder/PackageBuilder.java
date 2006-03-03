@@ -18,12 +18,26 @@ public class PackageBuilder extends NamespaceBuilder {
 
 	@Override
 	public void addChildren(Object obj, IChildManager mgr) {
-		cmof.Package pkg = (cmof.Package)obj;
-		for (Object ownedType: pkg.getOwnedType()) {
-			mgr.addChild(ownedType);
+		cmof.Package pkg = (cmof.Package)obj;		
+		for (Object ownedMember: pkg.getOwnedMember()) {			
+			if (ownedMember instanceof PackageMerge) {
+				PackageMerge merges = (PackageMerge)ownedMember;
+				TreeObject to = mgr.addChild(merges.getMergedPackage());
+				Image baseImage = to.getImage();
+				Rectangle bounds = baseImage.getBounds();
+				ImageDescriptor newImage = new OverlayIcon(
+						new ImageImageDescriptor(baseImage), 
+						new ImageDescriptor[][] {new ImageDescriptor[] {new ImageImageDescriptor(Images.getDefault().getMerged_deco())}, null, null, null},
+						new Point(bounds.height, bounds.width));
+				to.setImage(Images.getDefault().get(newImage));
+				to.setCategory(Categories.MERGED);
+			} else {
+				mgr.addChild(ownedMember);
+			}
 		}
+		/*
 		for (Package nestedPkg: pkg.getNestedPackage()) {
-			mgr.addChild(nestedPkg);
+			mgr.addChild(nestedPkg);	
 		}
 		for (PackageMerge merges: pkg.getPackageMerge()) {			
 			TreeObject to = mgr.addChild(merges.getMergedPackage());
@@ -35,7 +49,7 @@ public class PackageBuilder extends NamespaceBuilder {
 					new Point(bounds.height, bounds.width));
 			to.setImage(Images.getDefault().get(newImage));
 			to.setCategory(Categories.MERGED);
-		}
+		}*/
 		
 		super.addChildren(obj, mgr);
 	}

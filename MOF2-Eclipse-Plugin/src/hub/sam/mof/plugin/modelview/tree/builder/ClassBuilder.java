@@ -95,9 +95,9 @@ public class ClassBuilder extends ClassifierBuilder implements IShowOtherFeature
 			String text = child.getText();
 			core.abstractions.namespaces.Namespace ns = member.getNamespace();
 			if (ns != null && ns != mgr.getParent().getElement()) {
-				child.setText("(from " + ns.getQualifiedName() + ") " + text);
+				child.setText(ns.getQualifiedName(), text);
 			} else {
-				child.setText("(from <unknown>) " + text);
+				child.setText("<unknown>", text);
 			}	
 		}		
 	}

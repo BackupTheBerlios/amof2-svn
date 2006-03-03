@@ -49,9 +49,21 @@ public class TreeObject extends PlatformObject implements IAdaptable {
 	}
 
 	public String getText() {
-		return text;
+		if (text == null) {
+			return "";
+		} else {
+			return text;
+		}
 	}
 
+	public void setText(String from, String text) {
+		StringBuffer sb = new StringBuffer(text);
+		sb.append(" (from ");
+		sb.append(from);
+		sb.append(")");
+		setText(sb.toString());
+	}
+	
 	public void setText(String text) {
 		this.text = text;
 	}

@@ -199,7 +199,7 @@ public class AddModelDialog extends Dialog {
 				MessageDialog.openError(
 						view.getViewer().getControl().getShell(),
 						"Could not create ...",
-						"Could not create static model: " + e.getMessage());
+						"Could not create model: " + e.getMessage());
 				return;
 			}
 			repositoryTreeObject.refresh();
