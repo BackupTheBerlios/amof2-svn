@@ -32,7 +32,7 @@ public class ImportAutomaton {
 			/*
 			for (cmof.reflection.Object o: ext.getObject()) {
 				if (o.container() == null) {
-					System.out.println("§§§");
+					System.out.println("Â§Â§Â§");
 					if (o instanceof NamedElement) {
 						System.out.println("!!!" + ((NamedElement)o).getQualifiedName());
 					}

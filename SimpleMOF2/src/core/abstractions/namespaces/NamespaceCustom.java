@@ -43,7 +43,7 @@ public class NamespaceCustom extends NamespaceDlg {
 
     /**
      * <b>membersAreDistinguishable</b>
-     * The Boolean query membersAreDistinguishable() determines whether all of the namespaceÕs members are distinguisha-
+     * The Boolean query membersAreDistinguishable() determines whether all of the namespaceâ€™s members are distinguisha-
      * ble within it.
      */
     @Override
