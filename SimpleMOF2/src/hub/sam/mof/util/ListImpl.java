@@ -132,6 +132,8 @@ public class ListImpl<E> implements cmof.common.ReflectiveSequence<E> {
 	
 	public cmof.common.ReflectiveSequence<E> subList(int from, int to) {
 		ListImpl<E> newList = new ListImpl<E>();
+		if (to < 0) // from end of list
+		    to = values.size() + to; // to is negative
 		newList.values = values.subList(from, to);
 		return newList;
 	}
