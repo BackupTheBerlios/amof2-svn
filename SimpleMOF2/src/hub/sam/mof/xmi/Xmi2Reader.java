@@ -42,23 +42,54 @@ import org.jdom.JDOMException;
 import org.jdom.Namespace;
 import org.jdom.input.SAXBuilder;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Vector;
 
+/**
+ * This class contain functionality to read XMI version 2.x. Each instance works on the given XMI instance model.
+ */
 public class Xmi2Reader {
     private final InstanceModel<XmiClassifier, String, String> model;
     private Namespace xmiNamespace = null;
     private Namespace xsiNamespace = null;
     private static final String XMI_ROOT_ELEMENT = "XMI";
     private String actualNamespacePrefix = null;
+    private String actualIdPrefix = null;
 
     public Xmi2Reader(InstanceModel<XmiClassifier, String, String> model) {
         super();
         this.model = model;
+    }
+
+    /**
+     * When the reader read XMI Ids it will preattach this id prefix to all Ids. That way multiple XMI files can
+     * be read into the same XMI extent. When you choose the prefix that it concurs with href ids, you can use
+     * this feature to read XMI with cross file references.
+     *
+     * @param prefix
+     *        This prefix plus a # will be pre attached to each XMI id.
+     */
+    public void setActualIdPrefix(String prefix) {
+        actualIdPrefix = prefix + "#";
+    }
+
+    /**
+     * Read the XMI id from an element and pre attaches the actual Id prefix to it.
+     * @param fromElement
+     *        The XML element that the XMI id should be read from.
+     * @param attrName
+     *        The name of the attribute that carries the id.
+     */
+    private String readXmiId(Element fromElement, String attrName) {
+        if (actualIdPrefix != null) {
+            return actualIdPrefix + fromElement.getAttributeValue(attrName, xmiNamespace);
+        } else {
+            return fromElement.getAttributeValue(attrName, xmiNamespace);
+        }
     }
 
     public void read(java.io.File file) throws JDOMException, java.io.IOException, XmiException, MetaModelException {
@@ -101,8 +132,12 @@ public class Xmi2Reader {
         }
     }
 
+    private boolean ignoreHRefs() {
+        return true;
+    }
+
     public void readInstance(Element child) throws XmiException, MetaModelException {
-        String id = child.getAttributeValue("id", xmiNamespace);
+        String id = readXmiId(child, "id");
         actualNamespacePrefix = child.getNamespacePrefix();
         ClassInstance<XmiClassifier, String, String> instance = model.createInstance(id,
                 new XmiClassifier(child.getName(), actualNamespacePrefix));
@@ -130,12 +165,16 @@ public class Xmi2Reader {
                 //        "\" for element \"" + name + "\"");
                 //instance.getClassifier().setNamespacePrefix(namespace);
             }
-            String id = child.getAttributeValue("id", xmiNamespace);
+            String id = readXmiId(child, "id");
             String type = child.getAttributeValue("type", xsiNamespace);
-            String idref = child.getAttributeValue("idref", xmiNamespace);
+            String idref = readXmiId(child, "idref");
+            String href = null;
+            if (!ignoreHRefs()) {
+                href = child.getAttributeValue("href");
+            }
             if (child.getAttributes().size() + child.getChildren().size() == 0) {
                 instance.addValue(child.getName(), model.createUnspecifiedValue(child.getText()));
-            } else if (idref == null) {
+            } else if (idref == null && href == null) {
                 InstanceValue<XmiClassifier, String, String> value = null;
                 XmiClassifier elementForChild;
                 String nsPrefix = null;
@@ -174,21 +213,20 @@ public class Xmi2Reader {
                 }
                 instanceValue.getInstance().setComposite(instance);
             } else {
-                for (ReferenceValue<XmiClassifier, String, String> ref : model.createReferences(idref)) {
+                String referedId;
+                if (idref != null) {
+                    referedId = idref;
+                } else {
+                    referedId = href;
+                }
+                for (ReferenceValue<XmiClassifier, String, String> ref : model.createReferences(referedId)) {
                     instance.addValue(name, ref);
                 }
             }
         }
     }
 
-    /**
-     * Reads XMI with a m1 model of the given m2 in an extent. The extent must be based on a MofInstanceModel.
-     */
-    public static void readMofXmi(java.io.File file, Extent extent, cmof.Package m2, XmiKind xmiKind) throws JDOMException, java.io.IOException, XmiException, MetaModelException {
-        readMofXmi(new FileInputStream(file), extent, m2, xmiKind);
-    }
-
-    public static void tranformMDXmi(ClassInstance<XmiClassifier, String, String> instance, Collection<ClassInstance<XmiClassifier, String, String>> toDelete, Collection<ClassInstance<XmiClassifier, String, String>> topLevel) {
+    private static void tranformMDXmi(ClassInstance<XmiClassifier, String, String> instance, Collection<ClassInstance<XmiClassifier, String, String>> toDelete, Collection<ClassInstance<XmiClassifier, String, String>> topLevel) {
         boolean hasHRef = false;
         for (StructureSlot<XmiClassifier, String, String> slot : instance.getSlots()) {
             if (slot.getProperty().equals("href")) {
@@ -225,10 +263,18 @@ public class Xmi2Reader {
         }
     }
 
-    public static void readMofXmi(InputStream in, Extent extent, cmof.Package m2, XmiKind xmiKind) throws JDOMException, java.io.IOException, XmiException, MetaModelException {
+    public static void readMofXmi(Map<String, InputStream> xmi, Extent extent, cmof.Package m2, XmiKind xmiKind)
+            throws JDOMException, XmiException, MetaModelException, IOException {
         InstanceModel<XmiClassifier, String, String> xmiModel = new InstanceModel<XmiClassifier, String, String>();
         Xmi2Reader reader = new Xmi2Reader(xmiModel);
-        reader.read(in);
+        if (xmi.size() > 1) {
+            for (String key: xmi.keySet()) {
+                reader.setActualIdPrefix(key);
+                reader.read(xmi.get(key));
+            }
+        } else if (xmi.size() == 1) {
+            reader.read(xmi.values().iterator().next());
+        }
 
         if (xmiKind == XmiKind.unisys) {
             throw new XmiException("Wrong xmi reader.");
@@ -286,4 +332,5 @@ public class Xmi2Reader {
             }
         }
     }
+
 }

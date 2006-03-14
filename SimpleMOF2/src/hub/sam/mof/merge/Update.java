@@ -87,11 +87,17 @@ final class Update {
             ReflectiveCollection<Object> objectValues = (ReflectiveCollection)
                     ((cmof.reflection.Object)mergingElement).get(property);
             for (MergedValue value : values) {
-                objectValues.add(value.getMergedValue());
+                Object mergedValue = value.getMergedValue();
+                if (context.isNewLink(property, mergedValue, mergingElement)) {
+                    objectValues.add(mergedValue);
+                }
             }
         } else {
             if (values.size() > 0) {
-                ((cmof.reflection.Object)mergingElement).set(property, values.iterator().next().getMergedValue());
+                Object value = values.iterator().next().getMergedValue();
+                if (context.isNewLink(property, value, mergingElement)) {
+                    ((cmof.reflection.Object)mergingElement).set(property, value);
+                }
             }
         }
     }

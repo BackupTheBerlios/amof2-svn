@@ -23,9 +23,9 @@ public interface Constraint extends core.abstractions.constraints.Constraint, cm
 
     public void setNamespace(cmof.Namespace value);
 
-    public void setNamespace(core.abstractions.namespaces.Namespace value);
-
     public void setNamespace(core.abstractions.constraints.Namespace value);
+
+    public void setNamespace(core.abstractions.namespaces.Namespace value);
 
     /**
      * <b>constrainedElement</b>, multiplicity=(0,*), isUnique, isOrdered, redefinedProperty = {core.abstractions.constraints.Constraint.constrainedElement}

@@ -10,6 +10,36 @@ public interface Namespace extends core.abstractions.constraints.Namespace, cmof
 {
 
     /**
+     * <b>importedMember</b>, multiplicity=(0,*), isDerived, isUnique, subsettedProperty = {cmof.Namespace.member}
+     */
+    public cmof.common.ReflectiveCollection<? extends cmof.PackageableElement> getImportedMember();
+
+    /**
+     * <b>elementImport</b>, multiplicity=(0,*), isComposite, isUnique, subsettedProperty = {cmof.Element.ownedElement}
+     */
+    public cmof.common.ReflectiveCollection<? extends cmof.ElementImport> getElementImport();
+
+    /**
+     * <b>ownedMember</b>, multiplicity=(0,*), isDerivedUnion, isDerived, isComposite, isUnique, subsettedProperty = {cmof.Namespace.member, cmof.Element.ownedElement}, redefinedProperty = {core.abstractions.namespaces.Namespace.ownedMember}
+     */
+    public cmof.common.ReflectiveCollection<? extends cmof.NamedElement> getOwnedMember();
+
+    /**
+     * <b>packageImport</b>, multiplicity=(0,*), isComposite, isUnique, subsettedProperty = {cmof.Element.ownedElement}
+     */
+    public cmof.common.ReflectiveCollection<? extends cmof.PackageImport> getPackageImport();
+
+    /**
+     * <b>ownedRule</b>, multiplicity=(0,*), isComposite, isUnique, subsettedProperty = {cmof.Namespace.ownedMember}, redefinedProperty = {core.abstractions.constraints.Namespace.ownedRule}
+     */
+    public cmof.common.ReflectiveCollection<? extends cmof.Constraint> getOwnedRule();
+
+    /**
+     * <b>member</b>, multiplicity=(0,*), isDerivedUnion, isDerived, isUnique, redefinedProperty = {core.abstractions.namespaces.Namespace.member}
+     */
+    public cmof.common.ReflectiveCollection<? extends cmof.NamedElement> getMember();
+
+    /**
      * <b>importedMember</b>, multiplicity=(0,*)
      */
     public cmof.common.ReflectiveCollection<? extends cmof.PackageableElement> importedMemberOperation() ;
@@ -33,36 +63,6 @@ public interface Namespace extends core.abstractions.constraints.Namespace, cmof
      * <b>excludeCollisions</b>, multiplicity=(0,*)
      */
     public cmof.common.ReflectiveCollection<? extends cmof.PackageableElement> excludeCollisions(cmof.common.ReflectiveCollection<? extends cmof.PackageableElement> imps) ;
-
-    /**
-     * <b>importedMember</b>, multiplicity=(0,*), isDerived, isUnique, subsettedProperty = {cmof.Namespace.member}
-     */
-    public cmof.common.ReflectiveCollection<? extends cmof.PackageableElement> getImportedMember();
-
-    /**
-     * <b>elementImport</b>, multiplicity=(0,*), isComposite, isUnique, subsettedProperty = {cmof.Element.ownedElement}
-     */
-    public cmof.common.ReflectiveCollection<? extends cmof.ElementImport> getElementImport();
-
-    /**
-     * <b>packageImport</b>, multiplicity=(0,*), isComposite, isUnique, subsettedProperty = {cmof.Element.ownedElement}
-     */
-    public cmof.common.ReflectiveCollection<? extends cmof.PackageImport> getPackageImport();
-
-    /**
-     * <b>ownedRule</b>, multiplicity=(0,*), isComposite, isUnique, subsettedProperty = {cmof.Namespace.ownedMember}, redefinedProperty = {core.abstractions.constraints.Namespace.ownedRule}
-     */
-    public cmof.common.ReflectiveCollection<? extends cmof.Constraint> getOwnedRule();
-
-    /**
-     * <b>ownedMember</b>, multiplicity=(0,*), isDerivedUnion, isDerived, isComposite, isUnique, subsettedProperty = {cmof.Namespace.member, cmof.Element.ownedElement}, redefinedProperty = {core.abstractions.namespaces.Namespace.ownedMember}
-     */
-    public cmof.common.ReflectiveCollection<? extends cmof.NamedElement> getOwnedMember();
-
-    /**
-     * <b>member</b>, multiplicity=(0,*), isDerivedUnion, isDerived, isUnique, redefinedProperty = {core.abstractions.namespaces.Namespace.member}
-     */
-    public cmof.common.ReflectiveCollection<? extends cmof.NamedElement> getMember();
 
 }
 

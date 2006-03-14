@@ -8,6 +8,13 @@ public interface LiteralBoolean extends core.abstractions.literals.LiteralSpecif
 {
 
     /**
+     * <b>value</b>, multiplicity=(1,1)
+     */
+    public boolean value();
+
+    public void setValue(boolean value);
+
+    /**
      * <b>isComputable</b>, multiplicity=(1,1)
      */
     public boolean isComputable() ;
@@ -16,13 +23,6 @@ public interface LiteralBoolean extends core.abstractions.literals.LiteralSpecif
      * <b>booleanValue</b>, multiplicity=(0,1)
      */
     public boolean booleanValue() ;
-
-    /**
-     * <b>value</b>, multiplicity=(1,1)
-     */
-    public boolean value();
-
-    public void setValue(boolean value);
 
 }
 

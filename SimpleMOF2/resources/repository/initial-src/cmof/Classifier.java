@@ -8,14 +8,16 @@ public interface Classifier extends cmof.Namespace, core.abstractions.umlsuper.C
 {
 
     /**
-     * <b>conformsTo</b>, multiplicity=(1,1)
+     * <b>metaInstances</b>, multiplicity=(0,*), isUnique
      */
-    public boolean conformsTo(cmof.Classifier other) ;
+    public cmof.common.ReflectiveCollection<? extends cmof.Classifier> getMetaInstances();
 
     /**
-     * <b>conformsTo</b>, multiplicity=(1,1)
+     * <b>metaClassifier</b>, multiplicity=(0,1)
      */
-    public boolean conformsTo(core.abstractions.typedelements.Type other) ;
+    public cmof.Classifier getMetaClassifier();
+
+    public void setMetaClassifier(cmof.Classifier value);
 
     /**
      * <b>attribute</b>, multiplicity=(0,*), isDerivedUnion, isDerived, isUnique, subsettedProperty = {cmof.Classifier.feature}
@@ -31,6 +33,16 @@ public interface Classifier extends cmof.Namespace, core.abstractions.umlsuper.C
      * <b>general</b>, multiplicity=(0,*), isUnique, redefinedProperty = {core.abstractions.super.Classifier.general}
      */
     public cmof.common.ReflectiveCollection<? extends cmof.Classifier> getGeneral();
+
+    /**
+     * <b>conformsTo</b>, multiplicity=(1,1)
+     */
+    public boolean conformsTo(cmof.Classifier other) ;
+
+    /**
+     * <b>conformsTo</b>, multiplicity=(1,1)
+     */
+    public boolean conformsTo(core.abstractions.typedelements.Type other) ;
 
 }
 

@@ -12,26 +12,6 @@ public interface NamedElement extends core.abstractions.ownerships.Element
 {
 
     /**
-     * <b>allNamespaces</b>, multiplicity=(0,*)
-     */
-    public cmof.common.ReflectiveSequence<? extends core.abstractions.namespaces.Namespace> allNamespaces() ;
-
-    /**
-     * <b>isDistinguishableFrom</b>, multiplicity=(1,1)
-     */
-    public boolean isDistinguishableFrom(core.abstractions.namespaces.NamedElement n, core.abstractions.namespaces.Namespace ns) ;
-
-    /**
-     * <b>separator</b>, multiplicity=(1,1)
-     */
-    public java.lang.String separator() ;
-
-    /**
-     * <b>qualifiedName</b>, multiplicity=(0,1)
-     */
-    public java.lang.String qualifiedNameOperation() ;
-
-    /**
      * <b>name</b>, multiplicity=(0,1)
      */
     public java.lang.String getName();
@@ -51,6 +31,26 @@ public interface NamedElement extends core.abstractions.ownerships.Element
     public core.abstractions.namespaces.Namespace getNamespace();
 
     public void setNamespace(core.abstractions.namespaces.Namespace value);
+
+    /**
+     * <b>allNamespaces</b>, multiplicity=(0,*)
+     */
+    public cmof.common.ReflectiveSequence<? extends core.abstractions.namespaces.Namespace> allNamespaces() ;
+
+    /**
+     * <b>isDistinguishableFrom</b>, multiplicity=(1,1)
+     */
+    public boolean isDistinguishableFrom(core.abstractions.namespaces.NamedElement n, core.abstractions.namespaces.Namespace ns) ;
+
+    /**
+     * <b>separator</b>, multiplicity=(1,1)
+     */
+    public java.lang.String separator() ;
+
+    /**
+     * <b>qualifiedName</b>, multiplicity=(0,1)
+     */
+    public java.lang.String qualifiedNameOperation() ;
 
 }
 

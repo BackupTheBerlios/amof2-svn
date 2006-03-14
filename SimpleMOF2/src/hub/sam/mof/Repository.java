@@ -46,6 +46,7 @@ import javax.rmi.PortableRemoteObject;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.FileInputStream;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -139,14 +140,14 @@ public class Repository extends hub.sam.util.Identity {
         Extent result;
         result = createExtent(name);
         if (type == XMI2) {
-            hub.sam.mof.xmi.Xmi2Reader.readMofXmi(
-                    xmi, result, (cmof.Package)getExtent(CMOF_EXTENT_NAME).query("Package:cmof"), XmiKind.mof);
+            hub.sam.mof.xmi.Xmi2Reader.readMofXmi(prepareXmiFileMap(xmi), result,
+                    (cmof.Package)getExtent(CMOF_EXTENT_NAME).query("Package:cmof"), XmiKind.mof);
         } else if (type == UNISYS) {
             Xmi1Reader.readMofXmi(
                     xmi, result, (cmof.Package)getExtent(CMOF_EXTENT_NAME).query("Package:cmof"), XmiKind.unisys);
         } else if (type == MD) {
-            hub.sam.mof.xmi.Xmi2Reader.readMofXmi(
-                    xmi, result, (cmof.Package)getExtent(CMOF_EXTENT_NAME).query("Package:cmof"), XmiKind.md);
+            hub.sam.mof.xmi.Xmi2Reader.readMofXmi(prepareXmiFileMap(xmi), result,
+                    (cmof.Package)getExtent(CMOF_EXTENT_NAME).query("Package:cmof"), XmiKind.md);
         }
         return result;
     }
@@ -220,24 +221,26 @@ public class Repository extends hub.sam.util.Identity {
      */
     public void loadXmiIntoExtent(Extent extent, cmof.Package metaModel, String xmiFileName) throws java.io.IOException,
             org.jdom.JDOMException, hub.sam.mof.xmi.XmiException, hub.sam.mof.instancemodel.MetaModelException {
-        hub.sam.mof.xmi.Xmi2Reader.readMofXmi(new java.io.File(xmiFileName), extent, metaModel, XmiKind.mof);
+        hub.sam.mof.xmi.Xmi2Reader
+                .readMofXmi(prepareXmiFileMap(new java.io.File(xmiFileName)), extent, metaModel, XmiKind.mof);
     }
 
     public void loadXmiIntoExtent(Extent extent, cmof.Package metaModel, InputStream in) throws java.io.IOException,
             org.jdom.JDOMException, hub.sam.mof.xmi.XmiException, hub.sam.mof.instancemodel.MetaModelException {
-        hub.sam.mof.xmi.Xmi2Reader.readMofXmi(in, extent, metaModel, XmiKind.mof);
+        hub.sam.mof.xmi.Xmi2Reader.readMofXmi(prepareXmiFileMap(in), extent, metaModel, XmiKind.mof);
     }
 
     public void loadMagicDrawXmiIntoExtent(Extent extent, cmof.Package metaModel, String xmiFileName)
             throws java.io.IOException,
             org.jdom.JDOMException, hub.sam.mof.xmi.XmiException, hub.sam.mof.instancemodel.MetaModelException {
-        hub.sam.mof.xmi.Xmi2Reader.readMofXmi(new java.io.File(xmiFileName), extent, metaModel, XmiKind.md);
+        hub.sam.mof.xmi.Xmi2Reader.readMofXmi(prepareXmiFileMap(new java.io.File(xmiFileName)), extent, metaModel,
+                XmiKind.md);
     }
 
     public void loadMagicDrawXmiIntoExtent(Extent extent, cmof.Package metaModel, InputStream in)
             throws java.io.IOException,
             org.jdom.JDOMException, hub.sam.mof.xmi.XmiException, hub.sam.mof.instancemodel.MetaModelException {
-        hub.sam.mof.xmi.Xmi2Reader.readMofXmi(in, extent, metaModel, XmiKind.md);
+        hub.sam.mof.xmi.Xmi2Reader.readMofXmi(prepareXmiFileMap(in), extent, metaModel, XmiKind.md);
     }
 
     public void loadXmiIntoExtent(Extent extent, Package metaModel, String xmiFileName, XmiKind type)
@@ -245,7 +248,7 @@ public class Repository extends hub.sam.util.Identity {
         if ((type == XmiKind.ea) || (type == XmiKind.unisys)) {
             hub.sam.mof.xmi.Xmi1Reader.readMofXmi(new File(xmiFileName), extent, metaModel, type);
         } else {
-            hub.sam.mof.xmi.Xmi2Reader.readMofXmi(new File(xmiFileName), extent, metaModel, type);
+            hub.sam.mof.xmi.Xmi2Reader.readMofXmi(prepareXmiFileMap(new File(xmiFileName)), extent, metaModel, type);
         }
     }
 
@@ -426,5 +429,17 @@ public class Repository extends hub.sam.util.Identity {
             }
         }
         System.gc();
+    }
+
+    private Map<String, InputStream> prepareXmiFileMap(java.io.File file) throws IOException {
+        Map<String, InputStream> result = new HashMap<String,  InputStream>();
+        result.put("", new FileInputStream(file));
+        return result;
+    }
+
+    private Map<String, InputStream> prepareXmiFileMap(InputStream in) {
+        Map<String, InputStream> result = new HashMap<String,  InputStream>();
+        result.put("", in);
+        return result;
     }
 }

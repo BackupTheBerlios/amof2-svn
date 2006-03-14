@@ -8,6 +8,13 @@ public interface LiteralUnlimitedNatural extends core.abstractions.literals.Lite
 {
 
     /**
+     * <b>value</b>, multiplicity=(1,1)
+     */
+    public long getValue();
+
+    public void setValue(long value);
+
+    /**
      * <b>isComputable</b>, multiplicity=(1,1)
      */
     public boolean isComputable() ;
@@ -16,13 +23,6 @@ public interface LiteralUnlimitedNatural extends core.abstractions.literals.Lite
      * <b>unlimitedValue</b>, multiplicity=(0,1)
      */
     public long unlimitedValue() ;
-
-    /**
-     * <b>value</b>, multiplicity=(1,1)
-     */
-    public long getValue();
-
-    public void setValue(long value);
 
 }
 

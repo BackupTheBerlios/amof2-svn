@@ -58,6 +58,28 @@ public class DataTypeImpl extends hub.sam.mof.reflection.ObjectImpl implements D
         set("name", value);
     }
 
+    public cmof.common.ReflectiveCollection<? extends cmof.Classifier> getMetaInstances() {
+        java.lang.Object value = get("metaInstances");
+        if (value == null) {
+           return null;
+        } else {
+            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value);
+        }
+    }
+
+    public cmof.Classifier getMetaClassifier() {
+        java.lang.Object value = get("metaClassifier");
+        if (value == null) {
+           return null;
+        } else {
+            return (cmof.Classifier)value;
+        }
+    }
+
+    public void setMetaClassifier(cmof.Classifier value) {
+        set("metaClassifier", value);
+    }
+
     public cmof.common.ReflectiveCollection<? extends cmof.Property> getAttribute() {
         java.lang.Object value = get("attribute");
         if (value == null) {

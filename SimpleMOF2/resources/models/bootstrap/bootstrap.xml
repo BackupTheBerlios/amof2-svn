@@ -175,7 +175,10 @@
     <ownedType xmi:id="5020" memberEnd="5018" isDerived="false" isAbstract="false" package="4892" xsi:type="Association">
       <ownedEnd xmi:id="5019" owningAssociation="5020" isDerivedUnion="false" upper="1" lower="0" isDerived="false" subsettedProperty="5012" type="5013" isReadOnly="false" isOrdered="false" isUnique="true" name="classifier" isComposite="false" xsi:type="Property" />
     </ownedType>
+    <ownedType xmi:id="ext_3" memberEnd="ext_1 ext_2" isDerived="false" isAbstract="false" package="4892" xsi:type="Association" />
     <ownedType xmi:id="5013" isAbstract="true" name="Classifier" package="4892" superClass="4915 4661 4975" xsi:type="Class">
+      <ownedAttribute xmi:id="ext_2" name="metaInstances" isDerived="false" type="5013" class="5013" isComposite="false" upper="-1" lower="0" isDerivedUnion="false" isReadOnly="false" isUnique="true" isOrdered="false" xsi:type="Property" association="ext_3" opposite="ext_1"/>
+      <ownedAttribute xmi:id="ext_1" name="metaClassifier" isDerived="false" type="5013" class="5013" isComposite="false" upper="1" lower="0" isDerivedUnion="false" isReadOnly="false" isUnique="true" isOrdered="false" xsi:type="Property" association="ext_3" opposite="ext_2"/>
       <ownedAttribute xmi:id="5018" isDerived="true" type="5021" subsettedProperty="5009" class="5013" association="5020" isComposite="false" isDerivedUnion="true" upper="-1" opposite="5019" lower="0" isReadOnly="false" isUnique="true" isOrdered="false" name="attribute" xsi:type="Property" />
       <ownedAttribute xmi:id="5009" isDerived="true" type="5010" subsettedProperty="4914" redefinedProperty="4514" class="5013" association="5145" isComposite="false" isDerivedUnion="true" upper="-1" opposite="5008" lower="0" isReadOnly="false" isUnique="true" isOrdered="false" name="feature" xsi:type="Property" />
       <ownedAttribute xmi:id="5126" isDerivedUnion="false" upper="-1" lower="0" isDerived="false" type="5013" class="5013" redefinedProperty="4689" isReadOnly="false" isOrdered="false" isUnique="true" name="general" isComposite="false" xsi:type="Property" />

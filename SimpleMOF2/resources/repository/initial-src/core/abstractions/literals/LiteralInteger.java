@@ -8,6 +8,13 @@ public interface LiteralInteger extends core.abstractions.literals.LiteralSpecif
 {
 
     /**
+     * <b>value</b>, multiplicity=(1,1)
+     */
+    public int getValue();
+
+    public void setValue(int value);
+
+    /**
      * <b>isComputable</b>, multiplicity=(1,1)
      */
     public boolean isComputable() ;
@@ -16,13 +23,6 @@ public interface LiteralInteger extends core.abstractions.literals.LiteralSpecif
      * <b>integerValue</b>, multiplicity=(0,1)
      */
     public int integerValue() ;
-
-    /**
-     * <b>value</b>, multiplicity=(1,1)
-     */
-    public int getValue();
-
-    public void setValue(int value);
 
 }
 

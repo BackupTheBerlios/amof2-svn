@@ -14,31 +14,6 @@ public interface MultiplicityElement extends core.abstractions.elements.Element
 {
 
     /**
-     * <b>lowerBound</b>, multiplicity=(0,1)
-     */
-    public int lowerBound() ;
-
-    /**
-     * <b>upperBound</b>, multiplicity=(0,1)
-     */
-    public long upperBound() ;
-
-    /**
-     * <b>isMultivalued</b>, multiplicity=(1,1)
-     */
-    public boolean isMultivalued() ;
-
-    /**
-     * <b>includesCardinality</b>, multiplicity=(1,1)
-     */
-    public boolean includesCardinality(int C) ;
-
-    /**
-     * <b>includesMultiplicity</b>, multiplicity=(1,1)
-     */
-    public boolean includesMultiplicity(core.abstractions.multiplicities.MultiplicityElement M) ;
-
-    /**
      * <b>isOrdered</b>, multiplicity=(1,1)
      */
     public boolean isOrdered();
@@ -65,6 +40,31 @@ public interface MultiplicityElement extends core.abstractions.elements.Element
     public long getUpper();
 
     public void setUpper(long value);
+
+    /**
+     * <b>lowerBound</b>, multiplicity=(0,1)
+     */
+    public int lowerBound() ;
+
+    /**
+     * <b>upperBound</b>, multiplicity=(0,1)
+     */
+    public long upperBound() ;
+
+    /**
+     * <b>isMultivalued</b>, multiplicity=(1,1)
+     */
+    public boolean isMultivalued() ;
+
+    /**
+     * <b>includesCardinality</b>, multiplicity=(1,1)
+     */
+    public boolean includesCardinality(int C) ;
+
+    /**
+     * <b>includesMultiplicity</b>, multiplicity=(1,1)
+     */
+    public boolean includesMultiplicity(core.abstractions.multiplicities.MultiplicityElement M) ;
 
 }
 

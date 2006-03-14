@@ -11,14 +11,18 @@ import java.util.Collection;
 import java.util.Vector;
 
 public class MergeTest extends TestCase {
-    private final Repository repository;
-    private final Package m3;
-    private final Extent testModel;
-    private final cmofFactory factory;
-    private final Compare compare;
+    private Repository repository;
+    private Package m3;
+    private Extent testModel;
+    private cmofFactory factory;
+    private Compare compare;
 
     public MergeTest() throws Exception {
         super("Merge tests");
+    }
+
+    @Override
+    protected void setUp() throws Exception {
         repository = Repository.getLocalRepository();
         Extent m3Extent = repository.getExtent(Repository.CMOF_EXTENT_NAME);
         m3 = (Package)m3Extent.query("Package:cmof");

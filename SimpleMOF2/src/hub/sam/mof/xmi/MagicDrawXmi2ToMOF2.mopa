@@ -74,6 +74,19 @@ public class MagicDrawXmi2ToMOF2 implements XmiTransformator {
                 break pattern;
             }
         }
+        c=Comment -> {
+            c.setComposite(null);
+            c.delete();
+        }
+        p=Package(r=Realization) -> {
+            String realizingClassifier = getUnspecifiedValue(r, "client", 0);
+            String realizedClassifier = getUnspecifiedValue(r, "supplier", 0);
+            model.getInstance(realizingClassifier).addValue("metaClassifier", model.createInstanceValue(
+                    model.getInstance(realizedClassifier)));
+            p.get("ownedMember").getValues().remove(model.createInstanceValue(r));
+            r.setComposite(null);
+            r.delete();
+        }
         c=Class(g=generalization:Generalization) -> {
             String superClass = getUnspecifiedValue(g, "general",0);
             c.addValue("superClass", model.createInstanceValue(model.getInstance(superClass)));

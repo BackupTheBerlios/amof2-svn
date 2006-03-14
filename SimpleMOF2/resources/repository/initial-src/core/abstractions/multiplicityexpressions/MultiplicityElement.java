@@ -12,26 +12,6 @@ public interface MultiplicityElement extends core.abstractions.multiplicities.Mu
 {
 
     /**
-     * <b>lower</b>, multiplicity=(0,1)
-     */
-    public int lowerOperation() ;
-
-    /**
-     * <b>upper</b>, multiplicity=(0,1)
-     */
-    public long upperOperation() ;
-
-    /**
-     * <b>lowerBound</b>, multiplicity=(0,1)
-     */
-    public int lowerBound() ;
-
-    /**
-     * <b>upperBound</b>, multiplicity=(0,1)
-     */
-    public long upperBound() ;
-
-    /**
      * <b>lower</b>, multiplicity=(0,1), isDerived, redefinedProperty = {core.abstractions.multiplicities.MultiplicityElement.lower}
      */
     public int getLower();
@@ -58,6 +38,26 @@ public interface MultiplicityElement extends core.abstractions.multiplicities.Mu
     public core.abstractions.expressions.ValueSpecification getLowerValue();
 
     public void setLowerValue(core.abstractions.expressions.ValueSpecification value);
+
+    /**
+     * <b>lower</b>, multiplicity=(0,1)
+     */
+    public int lowerOperation() ;
+
+    /**
+     * <b>upper</b>, multiplicity=(0,1)
+     */
+    public long upperOperation() ;
+
+    /**
+     * <b>lowerBound</b>, multiplicity=(0,1)
+     */
+    public int lowerBound() ;
+
+    /**
+     * <b>upperBound</b>, multiplicity=(0,1)
+     */
+    public long upperBound() ;
 
 }
 

@@ -8,14 +8,9 @@ public interface BehavioralFeature extends core.abstractions.behavioralfeatures.
 {
 
     /**
-     * <b>isDistinguishableFrom</b>, multiplicity=(1,1)
+     * <b>parameter</b>, multiplicity=(0,*), isDerivedUnion, isDerived, isUnique, isOrdered, subsettedProperty = {cmof.Namespace.member}, redefinedProperty = {core.abstractions.behavioralfeatures.BehavioralFeature.parameter}
      */
-    public boolean isDistinguishableFrom(cmof.NamedElement n, cmof.Namespace ns) ;
-
-    /**
-     * <b>isDistinguishableFrom</b>, multiplicity=(1,1)
-     */
-    public boolean isDistinguishableFrom(core.abstractions.namespaces.NamedElement n, core.abstractions.namespaces.Namespace ns) ;
+    public cmof.common.ReflectiveSequence<? extends cmof.Parameter> getParameter();
 
     /**
      * <b>formalParameter</b>, multiplicity=(0,*), isComposite, isUnique, isOrdered, subsettedProperty = {cmof.BehavioralFeature.parameter, cmof.Namespace.ownedMember}
@@ -33,9 +28,14 @@ public interface BehavioralFeature extends core.abstractions.behavioralfeatures.
     public cmof.common.ReflectiveCollection<? extends cmof.Type> getRaisedException();
 
     /**
-     * <b>parameter</b>, multiplicity=(0,*), isDerivedUnion, isDerived, isUnique, isOrdered, subsettedProperty = {cmof.Namespace.member}, redefinedProperty = {core.abstractions.behavioralfeatures.BehavioralFeature.parameter}
+     * <b>isDistinguishableFrom</b>, multiplicity=(1,1)
      */
-    public cmof.common.ReflectiveSequence<? extends cmof.Parameter> getParameter();
+    public boolean isDistinguishableFrom(cmof.NamedElement n, cmof.Namespace ns) ;
+
+    /**
+     * <b>isDistinguishableFrom</b>, multiplicity=(1,1)
+     */
+    public boolean isDistinguishableFrom(core.abstractions.namespaces.NamedElement n, core.abstractions.namespaces.Namespace ns) ;
 
 }
 

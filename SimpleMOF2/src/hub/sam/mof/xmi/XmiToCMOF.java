@@ -44,6 +44,8 @@ import java.util.Map;
 public class XmiToCMOF
         implements Conversion<XmiClassifier, String, String, UmlClass, Property, Type, DataType, java.lang.Object> {
 
+    public static final String NsPrefixTagName = "org.omg.xmi.nsPrefix";
+
     private Factory factory = null;
     private Map<UmlClass, Map<String, Property>> properties = new HashMap<UmlClass, Map<String, Property>>();
     private Map<String, Map<String, UmlClass>> namespaces = new HashMap<String, Map<String, UmlClass>>();
@@ -81,7 +83,7 @@ public class XmiToCMOF
         for (cmof.reflection.Object o : allElements) {
             if (o instanceof Tag) {
                 Tag tag = (Tag)o;
-                if (tag.getName().equals("org.omg.xmi.nsPrefix")) {
+                if (tag.getName().equals(NsPrefixTagName)) {
                     String prefix = tag.getValue();
                     for (Element taggedElement : tag.getElement()) {
                         xmiNamespaces.put(taggedElement, getNamespace(prefix));

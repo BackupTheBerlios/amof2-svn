@@ -10,6 +10,16 @@ public interface Classifier extends core.abstractions.umlsuper.Classifier, core.
 {
 
     /**
+     * <b>generalization</b>, multiplicity=(0,*), isComposite, isUnique, subsettedProperty = {core.abstractions.ownerships.Element.ownedElement}
+     */
+    public cmof.common.ReflectiveCollection<? extends core.abstractions.generalizations.Generalization> getGeneralization();
+
+    /**
+     * <b>general</b>, multiplicity=(0,*), isDerived, isUnique, redefinedProperty = {core.abstractions.super.Classifier.general}
+     */
+    public cmof.common.ReflectiveCollection<? extends core.abstractions.generalizations.Classifier> getGeneral();
+
+    /**
      * <b>general</b>, multiplicity=(0,*)
      */
     public cmof.common.ReflectiveCollection<? extends core.abstractions.generalizations.Classifier> generalOperation() ;
@@ -28,16 +38,6 @@ public interface Classifier extends core.abstractions.umlsuper.Classifier, core.
      * <b>conformsTo</b>, multiplicity=(1,1)
      */
     public boolean conformsTo(core.abstractions.typedelements.Type other) ;
-
-    /**
-     * <b>generalization</b>, multiplicity=(0,*), isComposite, isUnique, subsettedProperty = {core.abstractions.ownerships.Element.ownedElement}
-     */
-    public cmof.common.ReflectiveCollection<? extends core.abstractions.generalizations.Generalization> getGeneralization();
-
-    /**
-     * <b>general</b>, multiplicity=(0,*), isDerived, isUnique, redefinedProperty = {core.abstractions.super.Classifier.general}
-     */
-    public cmof.common.ReflectiveCollection<? extends core.abstractions.generalizations.Classifier> getGeneral();
 
 }
 

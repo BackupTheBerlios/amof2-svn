@@ -498,7 +498,7 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        setImplementations(new ImplementationsImpl(delegates));
+        setImplementations(new ImplementationsImpl(delegates, null));
     }
 
     public void putAttribute(String name, java.lang.Object values) {
@@ -705,7 +705,7 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
 
     /**
      * Copies all values of all features of this object to the target object. It uses
-     * {@link CMOFToXmi to deal with duplicate values due to subsetting.
+     * {@link CMOFToXmi} to deal with duplicate values due to subsetting.
      *
      * @param target The target Object, it is recommended to be empty. It must be an object of the same meta-class.
      */
@@ -722,12 +722,9 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
                         if (value.asDataValue() != null) {
                             targetValue = target.extent.model.createPrimitiveValue(value.asDataValue().getValue());
                         } else if (value.asInstanceValue() != null) {
-                            targetValue = target.extent.model.createInstanceValue(
-                                    (
-                                            (ObjectImpl)(
-                                                    fluxBox.getObject(
-                                                            (cmof.reflection.Object)extent.valueForSpecification(value),
-                                                            null))).instance);
+                            targetValue = target.extent.model.createInstanceValue(((ObjectImpl)(
+                                    fluxBox.getObject((cmof.reflection.Object)extent.valueForSpecification(value),
+                                    null))).instance);
                         } else {
                             throw new RuntimeException("assert");
                         }

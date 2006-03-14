@@ -19,7 +19,7 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 
 package cmof.exception;
 
-public abstract class ModelException extends RuntimeException {
+public class ModelException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 

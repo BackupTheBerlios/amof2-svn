@@ -5,7 +5,17 @@ public interface asFactory extends cmof.reflection.Factory {
 
     public as.ForkNode createForkNode();
 
+    public as.ContextPin createContextPin();
+
+    public as.InputPin createInputPin();
+
+    public as.Pin createPin();
+
     public as.GuardSpecification createGuardSpecification();
+
+    public as.ValueNode createValueNode();
+
+    public as.Activity createActivity();
 
     public as.MergeNode createMergeNode();
 
@@ -17,25 +27,15 @@ public interface asFactory extends cmof.reflection.Factory {
 
     public as.ControlFlow createControlFlow();
 
-    public as.ValueNode createValueNode();
-
     public as.FinalNode createFinalNode();
 
     public as.DecisionNode createDecisionNode();
-
-    public as.Pin createPin();
 
     public as.InitialNode createInitialNode();
 
     public as.ObjectFlow createObjectFlow();
 
     public as.ContextExtensionPin createContextExtensionPin();
-
-    public as.InputPin createInputPin();
-
-    public as.ContextPin createContextPin();
-
-    public as.Activity createActivity();
 
     public as.TypeString createTypeString();
 

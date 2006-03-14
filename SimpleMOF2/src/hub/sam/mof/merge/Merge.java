@@ -87,8 +87,7 @@ final class Merge {
      * All necessary updates for completing this merge are executed. Before the values are set by the updates, all
      * properties of the merging element are cleared (because they will be reset anyway).
      */
-    void executeUpdates() {
-        clearMergingElement();
+    void executeUpdates() {        
         for (Update update : updates.values()) {
             update.executeUpdate();
         }
@@ -97,7 +96,7 @@ final class Merge {
     /**
      * Removes all values from all properties that are considerd for merge.
      */
-    private void clearMergingElement() {
+    void clearMergingElement() {
         MofValueSpecificationList.checkLower = false;
         for (Property property : semantics.getFinalProperties()) {
             if (propertyIsConsideredForMerge(property)) {

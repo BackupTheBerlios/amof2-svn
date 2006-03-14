@@ -14,6 +14,23 @@ public interface Classifier extends core.abstractions.classifiers.Classifier
 {
 
     /**
+     * <b>isAbstract</b>, multiplicity=(1,1)
+     */
+    public boolean isAbstract();
+
+    public void setIsAbstract(boolean value);
+
+    /**
+     * <b>inheritedMember</b>, multiplicity=(0,*), isDerived, isUnique, subsettedProperty = {core.abstractions.namespaces.Namespace.member}
+     */
+    public cmof.common.ReflectiveCollection<? extends core.abstractions.namespaces.NamedElement> getInheritedMember();
+
+    /**
+     * <b>general</b>, multiplicity=(0,*), isUnique
+     */
+    public cmof.common.ReflectiveCollection<? extends core.abstractions.umlsuper.Classifier> getGeneral();
+
+    /**
      * <b>inheritedMember</b>, multiplicity=(0,*)
      */
     public cmof.common.ReflectiveCollection<? extends core.abstractions.namespaces.NamedElement> inheritedMemberOperation() ;
@@ -42,23 +59,6 @@ public interface Classifier extends core.abstractions.classifiers.Classifier
      * <b>maySpecializeType</b>, multiplicity=(1,1)
      */
     public boolean maySpecializeType(core.abstractions.umlsuper.Classifier c) ;
-
-    /**
-     * <b>isAbstract</b>, multiplicity=(1,1)
-     */
-    public boolean isAbstract();
-
-    public void setIsAbstract(boolean value);
-
-    /**
-     * <b>inheritedMember</b>, multiplicity=(0,*), isDerived, isUnique, subsettedProperty = {core.abstractions.namespaces.Namespace.member}
-     */
-    public cmof.common.ReflectiveCollection<? extends core.abstractions.namespaces.NamedElement> getInheritedMember();
-
-    /**
-     * <b>general</b>, multiplicity=(0,*), isUnique
-     */
-    public cmof.common.ReflectiveCollection<? extends core.abstractions.umlsuper.Classifier> getGeneral();
 
 }
 

@@ -1,7 +1,5 @@
 package hub.sam.mof.reflection;
 
-import cmof.exception.*;
-
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -54,14 +52,14 @@ public abstract class AbstractImplementationsManager<ClassifierType> {
 	                delegates.add(delegate);
 	            }
 	        }
-	        result = createImplementations(delegates);
+	        result = createImplementations(delegates, metaClass);
 	        implementations.put(metaClass, result);
 		}
 		return result;
 	}
 
-	protected Implementations createImplementations(List<ObjectDlg> delegates) {
-		return new ImplementationsImpl(delegates);
+	protected Implementations createImplementations(List<ObjectDlg> delegates, ClassifierType forMetaClass) {
+		return new ImplementationsImpl(delegates, null);
 	}
 
 	/**

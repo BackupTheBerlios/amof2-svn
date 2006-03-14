@@ -21,9 +21,14 @@ public class ImplementationsImpl implements Implementations {
 	private final Map<Object, Implementation> implementations = new HashMap<Object, Implementation>();
 	private final Set<Object> hasNoImplementation = new HashSet<Object>();
 
-	public ImplementationsImpl(List<ObjectDlg> delegates) {
+	public ImplementationsImpl(List<ObjectDlg> delegates, Map<Object, Implementation> predefined) {
         super();
         this.delegates = delegates;
+        if (predefined != null) {
+            for (Object key: predefined.keySet()) {
+                implementations.put(key, predefined.get(key));
+            }
+        }
     }
 
 	public List<ObjectDlg> getDelegates() {
@@ -60,7 +65,7 @@ public class ImplementationsImpl implements Implementations {
 		            method = null;
 		        }
 		        if (method != null) {
-		        	result = new Implementation(delegate, method);
+		        	result = new ImplementationImpl(delegate, method);
 		        	break loop;
 		        }
 			}
@@ -93,7 +98,7 @@ public class ImplementationsImpl implements Implementations {
                     }
                 }
                 if (resultMethod != null) {
-			    	result = new Implementation(delegate, resultMethod);
+			    	result = new ImplementationImpl(delegate, resultMethod);
 			    	break delegateLoop;
 			    }
 			}
@@ -106,11 +111,11 @@ public class ImplementationsImpl implements Implementations {
 		return result;
     }
 
-    private class Implementation {
+    private class ImplementationImpl implements Implementation {
     	private final ObjectDlg delegate;
     	private final Method method;
 
-    	Implementation(ObjectDlg delegat, Method method) {
+    	ImplementationImpl(ObjectDlg delegat, Method method) {
             super();
             this.delegate = delegat;
             this.method = method;
@@ -118,8 +123,8 @@ public class ImplementationsImpl implements Implementations {
 
     	@Override
 		public boolean equals(Object other) {
-    		if (other instanceof Implementation) {
-    			return ((Implementation)other).method.equals(method);
+    		if (other instanceof ImplementationImpl) {
+    			return ((ImplementationImpl)other).method.equals(method);
     		} else {
     			return false;
     		}

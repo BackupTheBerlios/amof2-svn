@@ -12,41 +12,6 @@ public interface Operation extends core.basic.Operation, cmof.BehavioralFeature
 {
 
     /**
-     * <b>isOrdered</b>, multiplicity=(1,1)
-     */
-    public boolean isOrderedOperation() ;
-
-    /**
-     * <b>isUnique</b>, multiplicity=(1,1)
-     */
-    public boolean isUniqueOperation() ;
-
-    /**
-     * <b>lower</b>, multiplicity=(0,1)
-     */
-    public int lowerOperation() ;
-
-    /**
-     * <b>upper</b>, multiplicity=(0,1)
-     */
-    public long upperOperation() ;
-
-    /**
-     * <b>type</b>, multiplicity=(0,1)
-     */
-    public cmof.Classifier typeOperation() ;
-
-    /**
-     * <b>isConsistentWith</b>, multiplicity=(1,1)
-     */
-    public boolean isConsistentWith(cmof.RedefinableElement redefinee) ;
-
-    /**
-     * <b>isConsistentWith</b>, multiplicity=(1,1)
-     */
-    public boolean isConsistentWith(core.abstractions.redefinitions.RedefinableElement redefinee) ;
-
-    /**
      * <b>ownedBehavior</b>, multiplicity=(0,1), subsettedProperty = {cmof.Element.ownedElement}
      */
     public cmof.Element getOwnedBehavior();
@@ -142,6 +107,41 @@ public interface Operation extends core.basic.Operation, cmof.BehavioralFeature
     public cmof.Constraint getBodyCondition();
 
     public void setBodyCondition(cmof.Constraint value);
+
+    /**
+     * <b>isOrdered</b>, multiplicity=(1,1)
+     */
+    public boolean isOrderedOperation() ;
+
+    /**
+     * <b>isUnique</b>, multiplicity=(1,1)
+     */
+    public boolean isUniqueOperation() ;
+
+    /**
+     * <b>lower</b>, multiplicity=(0,1)
+     */
+    public int lowerOperation() ;
+
+    /**
+     * <b>upper</b>, multiplicity=(0,1)
+     */
+    public long upperOperation() ;
+
+    /**
+     * <b>type</b>, multiplicity=(0,1)
+     */
+    public cmof.Classifier typeOperation() ;
+
+    /**
+     * <b>isConsistentWith</b>, multiplicity=(1,1)
+     */
+    public boolean isConsistentWith(cmof.RedefinableElement redefinee) ;
+
+    /**
+     * <b>isConsistentWith</b>, multiplicity=(1,1)
+     */
+    public boolean isConsistentWith(core.abstractions.redefinitions.RedefinableElement redefinee) ;
 
 }
 

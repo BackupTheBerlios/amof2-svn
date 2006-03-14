@@ -4,11 +4,13 @@ import cmof.Package;
 import cmof.PackageMerge;
 import cmof.Property;
 import cmof.cmofFactory;
+import cmof.Association;
 import core.abstractions.namespaces.Namespace;
 import core.abstractions.ownerships.Element;
 import hub.sam.mof.Repository;
 import hub.sam.mof.mofinstancemodel.MofClassSemantics;
 import hub.sam.mof.mofinstancemodel.MofClassifierSemantics;
+import hub.sam.util.MultiMap;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -58,6 +60,7 @@ public final class MergeContext {
     private final Map<Element, Element> mergedElementForElement = new HashMap<Element, Element>();
     private final Collection<Merge> merges = new Vector<Merge>();
     private final MergeConfiguration configuration;
+    private final MultiMap<Association, Link> linksCreatedInThisContext = new MultiMap<Association, Link>();
 
     /**
      * Creates a new merge context.
@@ -101,6 +104,9 @@ public final class MergeContext {
      * finally merged values and the updates can thus be executed.
      */
     public void executeUpdates() {
+        for (Merge merge : merges) {
+            merge.clearMergingElement();
+        }
         for (Merge merge : merges) {
             merge.executeUpdates();
         }
@@ -187,4 +193,52 @@ public final class MergeContext {
         return configuration;
     }
 
+    /**
+     * Determines wheather the opposite to this link was already added in this context. This is used to detect
+     * duplicate links that would be created due to association semantics.
+     * @param property
+     *        The property that would cause the duplication.
+     * @param propertyValue
+     *        The value on the property side.
+     * @param oppositeValue
+     *        The object that the property is set to.
+     */
+    boolean isNewLink(Property property, Object propertyValue, Object oppositeValue) {
+        if (property.getOpposite() == null) {
+            return true;
+        } else {
+            boolean alreadyExist = linksCreatedInThisContext.get(property.getAssociation()).contains(
+                    new Link(propertyValue, oppositeValue));
+            if (alreadyExist) {
+                return false;
+            } else {
+                linksCreatedInThisContext.put(property.getAssociation(), new Link(oppositeValue, propertyValue));
+                return true;
+            }
+        }
+    }
+
+    class Link {
+        private final Object o1;
+        private final Object o2;
+
+        Link(Object o1, Object o2) {
+            this.o1 = o1;
+            this.o2 = o2;
+        }
+
+        @Override
+        public int hashCode() {
+            return o1.hashCode() + o2.hashCode();
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj instanceof Link) {
+                return ((Link)obj).o1 == this.o1 && ((Link)obj).o2 == this.o2;
+            } else {
+                return false;
+            }
+        }
+    }
 }

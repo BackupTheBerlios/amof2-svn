@@ -10,21 +10,6 @@ public interface Package extends cmof.PackageableElement, cmof.Namespace, core.b
 {
 
     /**
-     * <b>mustBeOwned</b>, multiplicity=(1,1)
-     */
-    public boolean mustBeOwned() ;
-
-    /**
-     * <b>visibleMembers</b>, multiplicity=(0,*)
-     */
-    public cmof.common.ReflectiveCollection<? extends cmof.PackageableElement> visibleMembers() ;
-
-    /**
-     * <b>makesVisible</b>, multiplicity=(1,1)
-     */
-    public boolean makesVisible(cmof.NamedElement el) ;
-
-    /**
      * <b>packagedElement</b>, multiplicity=(0,*), isComposite, isUnique, subsettedProperty = {cmof.Namespace.ownedMember}
      */
     public cmof.common.ReflectiveCollection<? extends cmof.PackageableElement> getPackagedElement();
@@ -52,6 +37,21 @@ public interface Package extends cmof.PackageableElement, cmof.Namespace, core.b
      * <b>packageMerge</b>, multiplicity=(0,*), isComposite, isUnique, subsettedProperty = {cmof.Element.ownedElement}
      */
     public cmof.common.ReflectiveCollection<? extends cmof.PackageMerge> getPackageMerge();
+
+    /**
+     * <b>mustBeOwned</b>, multiplicity=(1,1)
+     */
+    public boolean mustBeOwned() ;
+
+    /**
+     * <b>visibleMembers</b>, multiplicity=(0,*)
+     */
+    public cmof.common.ReflectiveCollection<? extends cmof.PackageableElement> visibleMembers() ;
+
+    /**
+     * <b>makesVisible</b>, multiplicity=(1,1)
+     */
+    public boolean makesVisible(cmof.NamedElement el) ;
 
 }
 

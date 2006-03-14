@@ -12,11 +12,6 @@ public interface ElementImport extends cmof.DirectedRelationship
 {
 
     /**
-     * <b>getName</b>, multiplicity=(1,1)
-     */
-    public java.lang.String getName() ;
-
-    /**
      * <b>visibility</b>, multiplicity=(1,1)
      */
     public core.abstractions.visibilities.VisibilityKind getVisibility();
@@ -43,6 +38,11 @@ public interface ElementImport extends cmof.DirectedRelationship
     public cmof.Namespace getImportingNamespace();
 
     public void setImportingNamespace(cmof.Namespace value);
+
+    /**
+     * <b>getName</b>, multiplicity=(1,1)
+     */
+    public java.lang.String getName() ;
 
 }
 

@@ -30,6 +30,18 @@ public class AssociationDlg extends hub.sam.mof.reflection.ObjectDlg implements 
         return (cmof.common.ReflectiveCollection<? extends cmof.Type>)(java.lang.Object)self.getEndType();
     }
 
+    public cmof.common.ReflectiveCollection<? extends cmof.Classifier> getMetaInstances() {
+        return (cmof.common.ReflectiveCollection<? extends cmof.Classifier>)(java.lang.Object)self.getMetaInstances();
+    }
+
+    public cmof.Classifier getMetaClassifier() {
+        return (cmof.Classifier)(java.lang.Object)self.getMetaClassifier();
+    }
+
+    public void setMetaClassifier(cmof.Classifier value) {
+        self.setMetaClassifier(value);
+    }
+
     public cmof.common.ReflectiveCollection<? extends cmof.Property> getAttribute() {
         return (cmof.common.ReflectiveCollection<? extends cmof.Property>)(java.lang.Object)self.getAttribute();
     }

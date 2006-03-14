@@ -15,14 +15,14 @@ public interface UmlClass extends cmof.Classifier, core.basic.UmlClass
     public void setIsAbstract(boolean value);
 
     /**
-     * <b>ownedAttribute</b>, multiplicity=(0,*), isComposite, isUnique, isOrdered, subsettedProperty = {cmof.Classifier.attribute, cmof.Namespace.ownedMember}, redefinedProperty = {core.basic.Class.ownedAttribute}
-     */
-    public cmof.common.ReflectiveSequence<? extends cmof.Property> getOwnedAttribute();
-
-    /**
      * <b>ownedOperation</b>, multiplicity=(0,*), isComposite, isUnique, isOrdered, subsettedProperty = {cmof.Classifier.feature, cmof.Namespace.ownedMember}, redefinedProperty = {core.basic.Class.ownedOperation}
      */
     public cmof.common.ReflectiveSequence<? extends cmof.Operation> getOwnedOperation();
+
+    /**
+     * <b>ownedAttribute</b>, multiplicity=(0,*), isComposite, isUnique, isOrdered, subsettedProperty = {cmof.Classifier.attribute, cmof.Namespace.ownedMember}, redefinedProperty = {core.basic.Class.ownedAttribute}
+     */
+    public cmof.common.ReflectiveSequence<? extends cmof.Property> getOwnedAttribute();
 
     /**
      * <b>superClass</b>, multiplicity=(0,*), isUnique, subsettedProperty = {cmof.Classifier.general}, redefinedProperty = {core.basic.Class.superClass}

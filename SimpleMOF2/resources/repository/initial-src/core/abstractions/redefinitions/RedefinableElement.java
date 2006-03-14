@@ -12,16 +12,6 @@ public interface RedefinableElement extends core.abstractions.namespaces.NamedEl
 {
 
     /**
-     * <b>isConsistentWith</b>, multiplicity=(1,1)
-     */
-    public boolean isConsistentWith(core.abstractions.redefinitions.RedefinableElement redefinee) ;
-
-    /**
-     * <b>isRedefinitionContextValid</b>, multiplicity=(1,1)
-     */
-    public boolean isRedefinitionContextValid(core.abstractions.redefinitions.RedefinableElement redefinable) ;
-
-    /**
      * <b>redefinedElement</b>, multiplicity=(0,*), isDerivedUnion, isDerived, isUnique
      */
     public cmof.common.ReflectiveCollection<? extends core.abstractions.redefinitions.RedefinableElement> getRedefinedElement();
@@ -30,6 +20,16 @@ public interface RedefinableElement extends core.abstractions.namespaces.NamedEl
      * <b>redefinitionContext</b>, multiplicity=(0,*), isDerivedUnion, isDerived, isUnique
      */
     public cmof.common.ReflectiveCollection<? extends core.abstractions.umlsuper.Classifier> getRedefinitionContext();
+
+    /**
+     * <b>isConsistentWith</b>, multiplicity=(1,1)
+     */
+    public boolean isConsistentWith(core.abstractions.redefinitions.RedefinableElement redefinee) ;
+
+    /**
+     * <b>isRedefinitionContextValid</b>, multiplicity=(1,1)
+     */
+    public boolean isRedefinitionContextValid(core.abstractions.redefinitions.RedefinableElement redefinable) ;
 
 }
 

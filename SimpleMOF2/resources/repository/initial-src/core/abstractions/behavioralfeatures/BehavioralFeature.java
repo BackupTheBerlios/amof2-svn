@@ -8,14 +8,14 @@ public interface BehavioralFeature extends core.abstractions.classifiers.Feature
 {
 
     /**
-     * <b>isDistinguishableFrom</b>, multiplicity=(1,1)
-     */
-    public boolean isDistinguishableFrom(core.abstractions.namespaces.NamedElement n, core.abstractions.namespaces.Namespace ns) ;
-
-    /**
      * <b>parameter</b>, multiplicity=(0,*), isDerivedUnion, isDerived, isUnique, isOrdered, subsettedProperty = {core.abstractions.namespaces.Namespace.member}
      */
     public cmof.common.ReflectiveSequence<? extends core.abstractions.behavioralfeatures.Parameter> getParameter();
+
+    /**
+     * <b>isDistinguishableFrom</b>, multiplicity=(1,1)
+     */
+    public boolean isDistinguishableFrom(core.abstractions.namespaces.NamedElement n, core.abstractions.namespaces.Namespace ns) ;
 
 }
 
