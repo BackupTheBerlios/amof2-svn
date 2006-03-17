@@ -138,7 +138,7 @@ First, instance is not a first class M3-level concept. Instances can be modeled 
 
 To understand instances loose yourself a second from different meta-levels and take the concepts classifier and instance as something god given. Both an instance and its classifier reside on the same level (e.g. Class and Object, BlockType and TypeBasedBlockInstance). The classifier describes a type and a set of instances; the instance describes a realisation of the classifier. Back to the meta-levels, both are concepts, and thus they are both classified by a class on the meta-level above.
 
-And here lays the problem: A class simply describes a M3 concepts that allows it instances on M2 to be instanciated on M1. But what we need is an instance M3 concept. That would be a M3 concept that allows it instances on M2 to be instanciated on M1 as instances of an M1 classifier. Of course this could also be done by modelling the instanceof relationship on M2 level (this is actually done in the core.abstractions.instances package). But this has to be done for each instance kind (M2 instance concept) that one would like to define. And worse, when moving to M1, where the actual instance instances are created, they always have to be related to they corresponding classifiers manually, because there is no such semantics defined on M3-level. 
+And here lays the problem: A class simply describes a M3 concepts that allows it instances on M2 to be instanciated on M1. But what we need is an instance M3 concept. That would be a M3 concept that allows it instances on M2 to be instanciated on M1 as instances of an M1 classifier. Of course this could also be done by modelling the instanceof relationship on M2 level (this is actually done in the core.abstractions.instances package). But this has to be done for each instance kind (M2 instance concept) that one would like to define. And worse, when moving to M1, where the actual instance instances are created, they always have to be related to they corresponding classifiers manually, because there is no such semantics defined on M3-level.
 
 The second problem are single (implicit) instances and instance sets. Many languages, including SDL, allow implicit instances (or implicit types). In SDL for example you can define a Process. If you see the Process definition as a classifier it is implicitly instanciated; or if you see the Process definition as an instance definition, an implicit type is created. Eitherway using a single definition to different instances of the different concepts are created: a classifier (the Processtype) and an instance (the Process itself). The package instances models this kind of implicit instanciation (or implicit classification) as special classifier concept."/>
 								<UML:TaggedValue tag="isSpecification" value="false"/>
@@ -2747,11 +2747,11 @@ The second problem are single (implicit) instances and instance sets. Many langu
                 break loop;
             }
         }
-        
+
         // consume the signal
         SignalInstance signal = inPort.getSignal().get(0);
         inPort.getSignal().remove(0);
-        
+
         // find the triggered transition
         for(Transition transition: getTrigger()) {
             if (transition.getInput().getType().equals(signal.getClassifier().iterator().next())) {
@@ -2764,7 +2764,7 @@ The second problem are single (implicit) instances and instance sets. Many langu
                             portInstance = port;
                         }
                     }
-                    
+
                     // create and send output signal
                     SignalInstance outSignal = InstanceFactory.getFactory().createSignalInstance(out.getType());
                     portInstance.getSignal().add(outSignal);
@@ -2794,15 +2794,15 @@ class PortInstance {
         self.getSignal().remove(0);
         PortInstance opposite = getOpposite();
         opposite.getSignal().add(signal);
-        
-        if (opposite.getComponent() instanceof AutomatonInstance) {            
+
+        if (opposite.getComponent() instanceof AutomatonInstance) {
             ((AutomatonInstance)opposite.getComponent()).consume();
-        }        
+        }
     }
 
     public PortInstance getOpposite() {
         return self.getClassifier().iterator().next().getChannel().getTarget().iterator().next().getImplicitInstance();
-    }    
+    }
 }
 "/>
 												<UML:TaggedValue tag="isSpecification" value="false"/>
@@ -3308,7 +3308,7 @@ class PortInstance {
                 return Direction.IN;
             }
         }
-    }    
+    }
 }"/>
 												<UML:TaggedValue tag="isSpecification" value="false"/>
 												<UML:TaggedValue tag="ea_stype" value="Text"/>
@@ -3603,7 +3603,7 @@ class PortInstance {
 												<UML:TaggedValue tag="lineStyle" value="0"/>
 												<UML:TaggedValue tag="privatedata5" value="EDGE=2;EX=0;EY=0;SX=7;SY=5;"/>
 												<UML:TaggedValue tag="virtualInheritance" value="0"/>
-												<UML:TaggedValue tag="rb" value="0..* 
+												<UML:TaggedValue tag="rb" value="0..*
 {subsets ownedElement, ordered}"/>
 												<UML:TaggedValue tag="rt" value="+output"/>
 											</UML:ModelElement.taggedValue>

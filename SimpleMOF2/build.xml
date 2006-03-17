@@ -55,9 +55,6 @@
 		<mkdir dir="resources/models/work"/>
 		<mkdir dir="${build-dir}"/>
 		<mkdir dir="${doc-dir}"/>
-		<taskdef name="mopa" classname="hub.sam.mopa.MopaAntTask">
-	        <classpath refid="classpath"/>
-		</taskdef>
 	</target>
 
 	<target name="mopa" depends="init">
@@ -66,12 +63,6 @@
             <include name="hub/sam/mof/xmi/mopa/*.java"/>
             <classpath refid="classpath"/>
 		</javac>
-        <mopa target="${src}/hub/sam/mof/xmi/XmiUnisysUML1ToMOF2.mopa" customtype="ClassInstance&lt;XmiClassifier,String,String&gt;"/>
-        <mopa target="${src}/hub/sam/mof/xmi/XmiEAUML1ToMOF2.mopa" customtype="ClassInstance&lt;XmiClassifier,String,String&gt;"/>
-        <mopa target="${src}/hub/sam/mof/xmi/MOF2ToMagicDrawXmi2.mopa" customtype="ClassInstance&lt;XmiClassifier,String,String&gt;"/>
-        <mopa target="${src}/hub/sam/mof/xmi/MagicDrawXmi2ToMOF2.mopa" customtype="ClassInstance&lt;XmiClassifier,String,String&gt;"/>
-        <mopa target="${src}/hub/sam/mof/codegeneration/ResolveJavaCodeClashes.mopa"/>
-		<mopa target="${src}/hub/sam/tools/exportemptyunisysclasses/Rules.mopa"/>
 	</target>
 
 	<target name="javacc" depends="init">
@@ -113,12 +104,6 @@
 	<target name="clean">
 		<delete dir="${build-dir}"/>
 		<delete dir="${doc-dir}"/>
-        <delete file="${src}/hub/sam/mof/xmi/XmiUnisysUML1ToMOF2.java"/>
-        <delete file="${src}/hub/sam/mof/xmi/XmiEAUML1ToMOF2.java"/>
-        <delete file="${src}/hub/sam/mof/xmi/MOF2ToMagicDrawXmi2.java"/>
-        <delete file="${src}/hub/sam/mof/xmi/MagicDrawXmi2ToMOF2.java"/>
-        <delete file="${src}/hub/sam/mof/codegeneration/ResolveJavaCodeClashes.java"/>
-        <delete file="${src}/hub/sam/tools/geninfraforunisys/Rules.java"/>
 		<delete file="${jar-file}"/>
 		<delete>
 			<fileset dir="${src}/hub/sam/mof/as/parser" includes="*.java"/>
