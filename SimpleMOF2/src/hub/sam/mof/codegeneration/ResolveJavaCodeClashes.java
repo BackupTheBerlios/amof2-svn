@@ -89,7 +89,7 @@ public class ResolveJavaCodeClashes extends PatternClass {
 
     private void resolve(Collection<TreeNode> nodes) {
         try {
-            run(nodes, null, "");
+            run(nodes, null, "", 0);
         } catch (Throwable throwable) {
             throw new RuntimeException(throwable);
         }

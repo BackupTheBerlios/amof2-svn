@@ -81,7 +81,7 @@ public class MOF2ToMagicDrawXmi2 extends PatternClass implements XmiTransformato
         Collection<TreeNode> nodes = new Vector<TreeNode>(1);
         nodes.add(node);
         try {
-            run(nodes, null, "");
+            run(nodes, null, "", 0);
         } catch (XmiException e) {
             throw e;
         } catch (Throwable e) {

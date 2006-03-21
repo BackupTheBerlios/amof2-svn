@@ -57,7 +57,7 @@ public class Rules extends PatternClass {
         Collection<TreeNode> nodes = new Vector<TreeNode>(1);
         nodes.add(node);
         try {
-            new Rules(out).run(nodes, null, "");
+            new Rules(out).run(nodes, null, "", 0);
         } catch (Throwable throwable) {
             throw new RuntimeException(throwable);
         }
