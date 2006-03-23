@@ -86,7 +86,12 @@ public class Xmi2Reader {
      */
     private String readXmiId(Element fromElement, String attrName) {
         if (actualIdPrefix != null) {
-            return actualIdPrefix + fromElement.getAttributeValue(attrName, xmiNamespace);
+            String id = fromElement.getAttributeValue(attrName, xmiNamespace);
+            if (id != null) {
+                return actualIdPrefix + id;
+            } else {
+                return null;
+            }
         } else {
             return fromElement.getAttributeValue(attrName, xmiNamespace);
         }
@@ -100,7 +105,7 @@ public class Xmi2Reader {
         read(new SAXBuilder().build(in));
     }
 
-    private void read(Document document) throws JDOMException, IOException, XmiException, MetaModelException {
+    private void read(Document document) throws XmiException, MetaModelException {
         Element xmi = document.getRootElement();
         if (!xmi.getName().equals(XMI_ROOT_ELEMENT)) {
             throw new XmiException("Unexpected root element \"" + xmi.getName() + "\"");
@@ -132,8 +137,8 @@ public class Xmi2Reader {
         }
     }
 
-    private boolean ignoreHRefs() {
-        return true;
+    private boolean ignoreHRefs(Element element) {
+        return element.getChild("Extension", xmiNamespace) != null;
     }
 
     public void readInstance(Element child) throws XmiException, MetaModelException {
@@ -144,6 +149,7 @@ public class Xmi2Reader {
         readContentForInstance(child, instance);
     }
 
+    @SuppressWarnings({"ReuseOfLocalVariable"})
     public void readContentForInstance(Element element, ClassInstance<XmiClassifier, String, String> instance) throws XmiException, MetaModelException {
         for (Object oAttr : element.getAttributes()) {
             Attribute attr = (Attribute) oAttr;
@@ -151,7 +157,7 @@ public class Xmi2Reader {
             if (namespace.equals("")) {
                 String name = attr.getName();
                 String value = attr.getValue();
-                instance.addValue(name, model.createUnspecifiedValue(value));
+                instance.addValue(name, model.createUnspecifiedValue(value, actualIdPrefix));
             }
         }
         for (Object oChild : element.getChildren()) {
@@ -169,13 +175,12 @@ public class Xmi2Reader {
             String type = child.getAttributeValue("type", xsiNamespace);
             String idref = readXmiId(child, "idref");
             String href = null;
-            if (!ignoreHRefs()) {
+            if (!ignoreHRefs(child)) {
                 href = child.getAttributeValue("href");
             }
             if (child.getAttributes().size() + child.getChildren().size() == 0) {
-                instance.addValue(child.getName(), model.createUnspecifiedValue(child.getText()));
+                instance.addValue(child.getName(), model.createUnspecifiedValue(child.getText(), actualIdPrefix));
             } else if (idref == null && href == null) {
-                InstanceValue<XmiClassifier, String, String> value = null;
                 XmiClassifier elementForChild;
                 String nsPrefix = null;
                 if (type == null) {

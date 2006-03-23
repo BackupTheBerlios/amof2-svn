@@ -87,7 +87,7 @@ final class Merge {
      * All necessary updates for completing this merge are executed. Before the values are set by the updates, all
      * properties of the merging element are cleared (because they will be reset anyway).
      */
-    void executeUpdates() {        
+    void executeUpdates() {
         for (Update update : updates.values()) {
             update.executeUpdate();
         }
@@ -335,8 +335,33 @@ final class Merge {
             }
         }
         if (property.getUpper() < allValues.size() && property.getUpper() != -1) {
+            if (property.getUpper() == 1) {
+                Object compareTo = null;
+                boolean equal = true;
+                ValueLoop:
+                for (Object value: allValues) {
+                    if (compareTo == null) {
+                        compareTo = value;
+                    } else {
+                        if (new Compare(new Vector<Property>(0)).compare(value, compareTo) != null) {
+                            equal = false;
+                            break ValueLoop;
+                        }
+                    }
+                }
+                if (equal) {
+                    allValues = new Vector<Object>(0);
+                    allValues.add(compareTo);
+                } else {
+                    if (values.get(mergingElement).size() > 0) {
+                        allValues = values.get(mergingElement);
+                    }
+                }
+            }
+        }
+        if (property.getUpper() < allValues.size() && property.getUpper() != -1) {
             throw new MergeException(
-                    "Merge would cause a multiplicity violation for " + property + " in "
+                    "Merge would cause a multiplicity violation for " + property.getQualifiedName() + " in "
                             + mergingElement);
         }
         Collection<MergedValue> allValuesAsMergedValues = new Vector<MergedValue>();

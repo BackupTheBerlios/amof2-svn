@@ -14,7 +14,7 @@ details.
 
     You should have received a copy of the GNU Lesser General Public License
 along with this library; if not, write to the Free Software Foundation, Inc.,
-59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
+59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
 package hub.sam.mof.instancemodel;
@@ -22,16 +22,30 @@ package hub.sam.mof.instancemodel;
 public class UnspecifiedValue<C,P,DataValue> extends ValueSpecificationImpl<C,P,DataValue> {
 
     private final Object value;
+    private final Object parameter;
+
     protected UnspecifiedValue(Object value) {
+        super();
         this.value = value;
+        parameter = null;
     }
-        
+
+    protected UnspecifiedValue(Object value, Object parameter) {
+        super();
+        this.value = value;
+        this.parameter = parameter;
+    }
+
     public Object getUnspecifiedData() {
         return value;
+    }
+
+    public Object getParameter() {
+        return parameter;
     }
 
     @Override
 	public UnspecifiedValue<C,P,DataValue> asUnspecifiedValue() {
         return this;
-    }        
+    }
 }

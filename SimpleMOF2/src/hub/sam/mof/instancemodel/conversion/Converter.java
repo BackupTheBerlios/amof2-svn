@@ -40,12 +40,13 @@ public class Converter <Co,Po,DataValueo,Ci,Pi,T,D,DataValuei> {
     private AbstractFluxBox<String, ClassInstance<Ci,Pi,DataValuei>, Ci> fluxBox =
         new AbstractFluxBox<String, ClassInstance<Ci,Pi,DataValuei>, Ci>() {
             @Override
-			protected ClassInstance<Ci,Pi,DataValuei> createValue(String key, Ci params) {
+            protected ClassInstance<Ci,Pi,DataValuei> createValue(String key, Ci params) {
                 return targetModel.createInstance(key, params);
             }
     };
 
     public Converter(Conversion<Co,Po,DataValueo,Ci,Pi,T,D,DataValuei> conversion) {
+        super();
         this.conversion = conversion;
     }
 
@@ -66,7 +67,7 @@ public class Converter <Co,Po,DataValueo,Ci,Pi,T,D,DataValuei> {
         if (id == null) {
             id = ids.get(instance);
             if (id == null) {
-                id = new Integer((hashCode() % (Integer.MAX_VALUE / 2)) + unique++).toString();
+                id = Integer.toString((hashCode() % (Integer.MAX_VALUE / 2)) + unique++);
                 ids.put(instance, id);
             }
         }
@@ -106,13 +107,13 @@ public class Converter <Co,Po,DataValueo,Ci,Pi,T,D,DataValuei> {
     }
 
     @SuppressWarnings("unchecked")
-	protected void convertValue(ValueSpecificationImpl<Co,Po,DataValueo> value, StructureSlot<Co,Po,DataValueo> slot,
-            ClassInstance<Co,Po,DataValueo> instance, ClassInstance<Ci,Pi,DataValuei> targetInstance)
+    protected void convertValue(ValueSpecificationImpl<Co,Po,DataValueo> value, StructureSlot<Co,Po,DataValueo> slot,
+                                ClassInstance<Co,Po,DataValueo> instance, ClassInstance<Ci,Pi,DataValuei> targetInstance)
             throws MetaModelException {
         if (!conversion.doConvert(value, slot, instance)) {
             return;
         }
-        ValueSpecificationImpl<Ci,Pi,DataValuei> targetValue = null;
+        ValueSpecificationImpl<Ci,Pi,DataValuei> targetValue;
         if (value.asInstanceValue() != null) {
             targetValue = targetModel.createInstanceValue(convertInstance(value.asInstanceValue().getInstance()));
         } else if (value.asDataValue() != null) {
@@ -130,11 +131,17 @@ public class Converter <Co,Po,DataValueo,Ci,Pi,T,D,DataValuei> {
             D dataType = conversion.asDataType(type);
             if (dataType == null) {
                 // it must be a reference
-                for (ValueSpecificationImpl<Co,Po,DataValueo> aValue:
-                        sourceModel.createReferences((String)value.asUnspecifiedValue().getUnspecifiedData())) {
+                Iterable<? extends ValueSpecificationImpl<Co,Po,DataValueo>> references;
+                if (value.asUnspecifiedValue().getParameter() != null) {
+                    references = sourceModel.createReferences((String)value.asUnspecifiedValue().getUnspecifiedData(),
+                            (String)value.asUnspecifiedValue().getParameter());
+                } else {
+                    references = sourceModel.createReferences((String)value.asUnspecifiedValue().getUnspecifiedData());
+                }
+                for (ValueSpecificationImpl<Co,Po,DataValueo> aValue: references) {
                     value = aValue;
                     if (value.asInstanceValue().getInstance().isValid()) {
-                    	convertValue(value, slot, instance, targetInstance);
+                        convertValue(value, slot, instance, targetInstance);
                     }
                 }
                 return;

@@ -5,10 +5,17 @@ import cmof.Property;
 import cmof.cmofFactory;
 import cmof.reflection.Extent;
 import hub.sam.mof.Repository;
+import hub.sam.mof.xmi.Xmi2Reader;
+import hub.sam.mof.xmi.Xmi1Reader;
 import junit.framework.TestCase;
 
 import java.util.Collection;
 import java.util.Vector;
+import java.util.HashMap;
+import java.util.Map;
+import java.io.InputStream;
+import java.io.FileInputStream;
+import java.io.File;
 
 public class MergeTest extends TestCase {
     private Repository repository;
@@ -56,6 +63,30 @@ public class MergeTest extends TestCase {
         assertNull(difference);
     }
 
+    public void testUMLL0() throws Exception {
+        Extent umlExtent = repository.createExtent("uml test");
+        Map<String, InputStream> xmiMap = new HashMap<String, InputStream>();
+        xmiMap.put("Infrastructure.cmof", new FileInputStream(new File("resources/models/uml/Infrastructure.cmof.xml")));
+        xmiMap.put("L0.cmof", new FileInputStream(new File("resources/models/uml/L0.cmof.xml")));
+        Xmi2Reader.readMofXmi(xmiMap, umlExtent, m3, Xmi1Reader.XmiKind.mof);
+        MergeContext.mergePackages((cmof.Package)umlExtent.query("Package:L0"),
+                (cmof.cmofFactory)repository.createFactory(umlExtent, m3));
+        repository.writeExtentToXmi("resources/models/work/UML0MergeTest.xml", m3, umlExtent);
+        repository.deleteExtent("uml test");
+    }
+
+    public void testUMLL1() throws Exception {
+        Extent umlExtent = repository.createExtent("uml test");
+        Map<String, InputStream> xmiMap = new HashMap<String, InputStream>();
+        xmiMap.put("Infrastructure.cmof", new FileInputStream(new File("resources/models/uml/Infrastructure.cmof.xml")));
+        xmiMap.put("Superstructure.cmof", new FileInputStream(new File("resources/models/uml/Superstructure.cmof.xml")));
+        xmiMap.put("L1.cmof", new FileInputStream(new File("resources/models/uml/L1.cmof.xml")));
+        Xmi2Reader.readMofXmi(xmiMap, umlExtent, m3, Xmi1Reader.XmiKind.mof);
+        MergeContext.mergePackages((cmof.Package)umlExtent.query("Package:L1"),
+                (cmof.cmofFactory)repository.createFactory(umlExtent, m3));
+        repository.writeExtentToXmi("resources/models/work/UML1MergeTest.xml", m3, umlExtent);
+        repository.deleteExtent("uml test");
+    }
 
     public void test1() throws Exception {
         aTest(1);
@@ -87,6 +118,14 @@ public class MergeTest extends TestCase {
 
     public void test8() throws Exception {
         aTest(8);
+    }
+
+    public void test9() throws Exception {
+        aTest(9);
+    }
+
+    public void test10() throws Exception {
+        aTest(10);
     }
 
     @Override

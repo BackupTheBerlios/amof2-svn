@@ -5,6 +5,7 @@ import cmof.Parameter;
 import cmof.ParameterDirectionKind;
 import cmof.Property;
 import cmof.Type;
+import cmof.Constraint;
 import core.abstractions.elements.Element;
 import core.abstractions.namespaces.NamedElement;
 import core.abstractions.visibilities.VisibilityKind;
@@ -13,12 +14,33 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
+import java.util.Map;
+import java.util.HashMap;
 
 /**
  * This is the default implementation, suitable for cmof package merges.
  */
 public class DefaultMergeConfiguration implements MergeConfiguration {
 
+    private static final Map<String, Object> knownConflicts = new HashMap<String, Object>();
+    static {
+        knownConflicts.put("UML.Classes.Kernel.Property.subsettingContext.null", "UML.Classes.Kernel.Type");
+        knownConflicts.put("UML.Activities.BasicActivities.Pin", Boolean.FALSE);
+        knownConflicts.put("UML.CommonBehaviors.Communications.BehavioralFeature.raisedException",
+                "UML.Classes.Interfaces.Type");
+    }
+
+    private final Map<String, Object> conflicts;
+
+    public DefaultMergeConfiguration(Map<String, Object> conflicts) {
+        this.conflicts = conflicts;
+    }
+
+    DefaultMergeConfiguration() {
+        this.conflicts = knownConflicts;
+    }
+
+    @SuppressWarnings({"OverlyLongMethod"})
     public String getAlternativeName(NamedElement forElement) {
         if (forElement instanceof cmof.Association) {
             List<String> names = new Vector<String>(2);
@@ -32,8 +54,13 @@ public class DefaultMergeConfiguration implements MergeConfiguration {
             Collections.sort(names);
             return names.toString();
         } else if (forElement instanceof cmof.Property) {
-            String typeName = ((Property)forElement).getType().getName();
-            return typeName.substring(0, 1).toLowerCase() + typeName.substring(1);
+            String name = forElement.getName();
+            if (name == null) {
+                String typeName = ((Property)forElement).getType().getName();
+                return typeName.substring(0, 1).toLowerCase() + typeName.substring(1);
+            } else {
+                return name;
+            }
         } else if (forElement instanceof Operation) {
             Operation op = (Operation)forElement;
             StringBuffer opName = new StringBuffer(op.getName());
@@ -55,6 +82,25 @@ public class DefaultMergeConfiguration implements MergeConfiguration {
                     return null;
                 }
             }
+        } else if (forElement instanceof cmof.Constraint) {
+            String name = forElement.getName();
+            if (name == null) {
+                Constraint constraint = (Constraint)forElement;
+                Loop:
+                for(Element constraintedElement: constraint.getConstrainedElement()) {
+                    if (constraintedElement instanceof Operation) {
+                        if (((Operation)constraintedElement).getPrecondition().contains(constraint)) {
+                            name = "pre";
+                        } else if (((Operation)constraintedElement).getPostcondition().contains(constraint)) {
+                            name = "post";
+                        } else if (((Operation)constraintedElement).getBodyCondition().equals(constraint)) {
+                            name = "body";
+                        }
+                    }
+                    break Loop;
+                }
+            }
+            return name;
         } else {
             return null;
         }
@@ -78,6 +124,8 @@ public class DefaultMergeConfiguration implements MergeConfiguration {
             return Boolean.TRUE;
         } else if (propertyName.equals("isReadOnly")) {
             return Boolean.FALSE;
+        } else if (propertyName.equals("isDerived") || propertyName.equals("isDerivedUnion")) {
+            return Boolean.TRUE;
         } else if (propertyName.equals("visibility")) {
             // only PRIVATE and PUBLIC exist in cmof
             return VisibilityKind.PUBLIC;
@@ -88,9 +136,23 @@ public class DefaultMergeConfiguration implements MergeConfiguration {
             // is requested, null should be returned.
             return null;
         } else {
-            throw new MergeException(
-                    "conflicting values for merging property " + property + " in mergin element " +
-                            mergingElement);
+            if (mergingElement instanceof NamedElement &&
+                    conflicts.get(((NamedElement)mergingElement).getQualifiedName()) != null) {
+                Object solution = conflicts.get(((NamedElement)mergingElement).getQualifiedName());
+                for(Object value: values) {
+                    if (value instanceof NamedElement) {
+                        if (solution.equals(((NamedElement)value).getQualifiedName())) {
+                            return value;
+                        }
+                    } else {
+                        if (solution.equals(value)) {
+                            return value;
+                        }
+                    }
+                }
+            }
+            throw new MergeException("conflicting values for merging property " + property.getQualifiedName() +
+                    " in merging element " + mergingElement);
         }
     }
 

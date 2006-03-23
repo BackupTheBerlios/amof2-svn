@@ -38,13 +38,16 @@ public final class MergeContext {
         Collection<Namespace> mergedPackages = new Vector<Namespace>();
         Collection<PackageMerge> merges = new Vector<PackageMerge>();
         for (PackageMerge merge : thePackage.getPackageMerge()) {
+            mergePackages(merge.getMergedPackage(), factory);
             mergedPackages.add(merge.getMergedPackage());
             merges.add(merge);
         }
         for (PackageMerge merge : merges) {
             ((cmof.reflection.Object)merge).delete();
         }
-
+        if (mergedPackages.size() == 0) {
+            return;
+        }
         Property mergingProperty = (Property)Repository.getLocalRepository().getExtent(Repository.CMOF_EXTENT_NAME)
                 .query("Package:core/Package:abstractions/Package:namespaces/Class:Namespace/Property:member");
         MergeContext context = new MergeContext(mergingProperty, factory, new DefaultMergeConfiguration());
@@ -223,6 +226,7 @@ public final class MergeContext {
         private final Object o2;
 
         Link(Object o1, Object o2) {
+            super();
             this.o1 = o1;
             this.o2 = o2;
         }

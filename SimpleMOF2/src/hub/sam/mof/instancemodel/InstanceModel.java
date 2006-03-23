@@ -63,10 +63,19 @@ public class InstanceModel<C,P,DataValue> extends hub.sam.util.Identity {
     }
 
     public Collection<ReferenceValue<C,P,DataValue>> createReferences(String idString) {
+        return createReferences(idString, null);
+    }
+
+    public Collection<ReferenceValue<C,P,DataValue>> createReferences(String idString, String prefix) {
         String[] ids = idString.split(" ");
         Collection<ReferenceValue<C,P,DataValue>> result = new Vector<ReferenceValue<C,P,DataValue>>(ids.length);
         for (String id: ids) {
-            ReferenceValue<C,P,DataValue> ref = new ReferenceValue<C,P,DataValue>(id, this);
+            ReferenceValue<C,P,DataValue> ref;
+            if (prefix == null) {
+                ref = new ReferenceValue<C,P,DataValue>(id, this);
+            } else {
+                ref = new ReferenceValue<C,P,DataValue>(prefix + id, this);
+            }
             result.add(ref);
         }
         return result;
@@ -74,6 +83,11 @@ public class InstanceModel<C,P,DataValue> extends hub.sam.util.Identity {
 
     public UnspecifiedValue<C,P,DataValue> createUnspecifiedValue(Object unspecifiedData) {
         UnspecifiedValue<C,P,DataValue> result = new UnspecifiedValue<C,P,DataValue>(unspecifiedData);
+        return result;
+    }
+
+    public UnspecifiedValue<C,P,DataValue> createUnspecifiedValue(Object unspecifiedData, Object parameter) {
+        UnspecifiedValue<C,P,DataValue> result = new UnspecifiedValue<C,P,DataValue>(unspecifiedData, parameter);
         return result;
     }
 
