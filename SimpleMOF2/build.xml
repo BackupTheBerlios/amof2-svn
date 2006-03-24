@@ -197,5 +197,12 @@
     	<delete file="${build-dir}/hub/sam/mof/mofinstancemodel/MofClassSemantics.class"/>
 		<antcall target="compile"/>
 	</target>
+	
+	<target name="doclet-test" depends="compile">
+		<javadoc packagenames="hub.sam.mof.java.test" sourcepathref="sourcepath" source="1.5"
+				doclet="hub.sam.mof.java.JavaModelGenerationDoclet" docletpathref="classpath">
+			<classpath refid="classpath"/>
+		</javadoc>
+	</target>
 </project>
 <!-- vim:set ts=4: -->
