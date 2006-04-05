@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
-public abstract class AbstractImplementationsManager<ClassifierType> {
+public abstract class AbstractImplementationsManager<ClassifierType> implements ImplementationsManager<ClassifierType> {
 
 	protected abstract Collection<? extends ClassifierType> getSuperClassForClassifier(ClassifierType subClass);
 	protected abstract String getJavaImplementationClassNameForClassifier(ClassifierType classifier);
@@ -65,15 +65,15 @@ public abstract class AbstractImplementationsManager<ClassifierType> {
 	/**
 	 * Creates an object based on an existing instance and a given java class name.
 	 */
-	public cmof.reflection.Object createAnObjectImplInstance(String className) throws Exception {
+	private cmof.reflection.Object createAnObjectImplInstance(String className) throws Exception {
 	    Boolean exists = FactoryImpl.javaClassExists.get(className);
 	    if (exists == null) {
 	        java.lang.reflect.Constructor implementation = null;
 	        try {
 	     	   implementation = Thread.currentThread().getContextClassLoader().loadClass(className).getConstructor(new java.lang.Class[] {});
 	        } catch (Exception e) {
-	            exists = Boolean.FALSE;
-	        }
+                // empty
+            }
 	        if (implementation == null) {
 	            exists = Boolean.FALSE;
 	        } else {
@@ -82,7 +82,7 @@ public abstract class AbstractImplementationsManager<ClassifierType> {
 	        }
 	        FactoryImpl.javaClassExists.put(className, exists);
 	    }
-	    if (exists.booleanValue()) {
+	    if (exists) {
 	    		return (cmof.reflection.Object)FactoryImpl.javaClasses.get(className).newInstance();
 	    } else {
 	        return null;

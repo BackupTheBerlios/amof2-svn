@@ -7,14 +7,14 @@ import cmof.reflection.Factory;
 import hub.sam.mof.reflection.Implementation;
 import hub.sam.mof.reflection.Implementations;
 import hub.sam.mof.reflection.ImplementationsImpl;
-import hub.sam.mof.reflection.ImplementationsManager;
+import hub.sam.mof.reflection.ImplementationsManagerImpl;
 import hub.sam.mof.reflection.ObjectDlg;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MultiLevelImplementationsManager extends ImplementationsManager {
+public class MultiLevelImplementationsManager extends ImplementationsManagerImpl {
 
     private final Factory factory;
 

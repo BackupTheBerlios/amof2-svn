@@ -14,28 +14,36 @@ details.
 
     You should have received a copy of the GNU Lesser General Public License
 along with this library; if not, write to the Free Software Foundation, Inc.,
-59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
+59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
 package hub.sam.mof.bootstrap;
 
-import java.util.*;
+import cmof.Operation;
+import cmof.Property;
+import cmof.UmlClass;
+import cmof.common.ReflectiveCollection;
+import hub.sam.mof.instancemodel.ClassInstance;
+import hub.sam.mof.instancemodel.ClassifierSemantics;
+import hub.sam.mof.reflection.AbstractImplementationsManager;
+import hub.sam.mof.reflection.ExtentImpl;
+import hub.sam.mof.reflection.FactoryImpl;
+import hub.sam.mof.reflection.ImplementationsManager;
+import hub.sam.mof.reflection.ObjectImpl;
+import hub.sam.mof.util.SetImpl;
 
-import hub.sam.mof.instancemodel.*;
-import hub.sam.mof.javamapping.JavaMapping;
-import hub.sam.mof.reflection.*;
-import hub.sam.mof.util.*;
-import cmof.*;
-import cmof.common.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 public class BootstrapExtent extends ExtentImpl {
-    
+
     public static final String CMOF_EXTENT_NAME = "CMOF";
     private final BootstrapModel model;
     private final FactoryImpl factory;
     private final Map<ClassInstance, cmof.reflection.Object> objects;
     private hub.sam.mof.javamapping.JavaMapping javaMapping = hub.sam.mof.javamapping.JavaMapping.mapping;
-    
+
     public BootstrapExtent(BootstrapModel model) {
         super(false);
         this.model = model;
@@ -47,9 +55,9 @@ public class BootstrapExtent extends ExtentImpl {
             objects.put(instanceWrapper, createObject(instanceWrapper,model.getSemanticsWrapper(instance.getClassifier())));
         }
     }
-    
+
     @Override
-	protected AbstractImplementationsManager createImplementationManager() {
+	protected ImplementationsManager createImplementationManager() {
     	return new AbstractImplementationsManager<ClassInstance>() {
 			@SuppressWarnings("unchecked")
 			@Override
@@ -60,15 +68,15 @@ public class BootstrapExtent extends ExtentImpl {
 			@Override
 			protected String getJavaImplementationClassNameForClassifier(ClassInstance classifier) {
 				return getClassName(classifier) + "Custom";
-			}    		
+			}
     	};
     }
-    
+
     private String getName(ClassInstance<ClassInstance,ClassInstance,Object> instance) {
-        ClassifierSemanticsWrapper semantics = model.getSemanticsWrapper(instance.getClassifier());        
+        ClassifierSemanticsWrapper semantics = model.getSemanticsWrapper(instance.getClassifier());
         return instance.get(semantics.getSemantics().getProperty("name")).getValues().get(0).asDataValue().getValue().toString();
     }
-    
+
     @SuppressWarnings("unchecked")
 	private String getClassName(ClassInstance classifier) {
         String className = javaMapping.getJavaIdentifierForName(getName(classifier));
@@ -78,13 +86,13 @@ public class BootstrapExtent extends ExtentImpl {
         }
         return className;
     }
-       
-    
+
+
     @SuppressWarnings("unchecked")
 	private cmof.reflection.Object createObject(ClassInstanceWrapper instance, ClassifierSemantics<Property,Operation,String> semantics) {
         ClassInstance classifier = instance.getInstance().getClassifier();
         String className = getClassName(classifier);
-        
+
         ObjectImpl result = null;
         try {
             result = (ObjectImpl)factory.createAnObjectImplInstance(className + "Impl", instance);
@@ -98,7 +106,7 @@ public class BootstrapExtent extends ExtentImpl {
         result.setImplementations(getImplementationsManager().getImplementationsForClassifier(classifier));
         return result;
     }
-    
+
     @SuppressWarnings("unchecked")
 	@Override
 	public ReflectiveCollection<cmof.reflection.Object> getObject() {
@@ -111,15 +119,15 @@ public class BootstrapExtent extends ExtentImpl {
         if (type == null) {
             return getObject();
         } else {
-            return new SetImpl<cmof.reflection.Object>();            
+            return new SetImpl<cmof.reflection.Object>();
         }
     }
-        
+
     @Override
 	protected cmof.reflection.Object getObjectForInstance(ClassInstance<UmlClass,Property,java.lang.Object> instanceWrapper) {
         return objects.get(instanceWrapper);
     }
-    
+
     @Override
 	protected boolean contains(cmof.reflection.Object object) {
         return objects.values().contains(object);

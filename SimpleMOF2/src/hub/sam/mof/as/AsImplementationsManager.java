@@ -4,12 +4,12 @@ import cmof.UmlClass;
 import cmof.reflection.Extent;
 import hub.sam.mof.Repository;
 import hub.sam.mof.reflection.Implementations;
-import hub.sam.mof.reflection.ImplementationsManager;
+import hub.sam.mof.reflection.ImplementationsManagerImpl;
 import hub.sam.mof.reflection.ObjectDlg;
 
 import java.util.List;
 
-public class AsImplementationsManager extends ImplementationsManager {
+public class AsImplementationsManager extends ImplementationsManagerImpl {
 
     private final AsExecutionEnvironment environment;
 

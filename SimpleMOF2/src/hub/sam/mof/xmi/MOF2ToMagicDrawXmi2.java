@@ -89,9 +89,9 @@ public class MOF2ToMagicDrawXmi2 extends PatternClass implements XmiTransformato
         }
     }
 
-    //Model.Package.Class.Association.DataType.Enumeration.PrimitiveType
+    //Model.Package.Class.Association.DataType.Enumeration.PrimitiveType.Operation
     @SuppressWarnings({"unchecked"})
-    @Pattern ( order = 100, atype = "Package.Class.Association.DataType.Enumeration.PrimitiveType")
+    @Pattern ( order = 100, atype = "Package.Class.Association.DataType.Enumeration.PrimitiveType.Operation")
     public void classifier() throws Throwable {
         if (!visistedNodes.contains(actualNode())) {
             visistedNodes.add(actualNode());
@@ -102,7 +102,7 @@ public class MOF2ToMagicDrawXmi2 extends PatternClass implements XmiTransformato
     }
 
     //p=Package provided (p.getComposite() == null)
-    @Pattern ( order = 99, atype = "Package", variable = "p")
+    @Pattern ( order = 99, atype = "Package.Class.Tag.Enumeration.DataType.PrimitiveType", variable = "p")
     public void compositePackage(@Name("p") ClassInstance<XmiClassifier,String,String> p) {
         provided(p.getComposite() == null);
 
@@ -135,8 +135,8 @@ public class MOF2ToMagicDrawXmi2 extends PatternClass implements XmiTransformato
         }
     }
 
-    //p=Property
-    @Pattern ( order = 96, atype = "Property", variable = "p")
+    //p=Property.Parameter
+    @Pattern ( order = 96, atype = "Property.Parameter", variable = "p")
     public void property(@Name("p") ClassInstance<XmiClassifier,String,String> p) {
         String upper = getDataValue(p, "upper", 0);
         if (upper != null) {

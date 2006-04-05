@@ -14,25 +14,28 @@ details.
 
     You should have received a copy of the GNU Lesser General Public License
 along with this library; if not, write to the Free Software Foundation, Inc.,
-59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
+59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
 package hub.sam.mof.mofinstancemodel;
 
-import java.util.*;
+import cmof.Property;
+import cmof.UmlClass;
+import hub.sam.mof.instancemodel.StructureSlot;
+import hub.sam.mof.instancemodel.ValueSpecificationImpl;
 
-import cmof.*;
-import hub.sam.mof.instancemodel.*;
+import java.util.List;
+import java.util.Vector;
 
 public class MofStructureSlot extends StructureSlot<UmlClass,Property,java.lang.Object> {
-     
+
     private MofValueSpecificationList values;
-    	
+
 	protected MofStructureSlot(MofClassInstance owner, Property feature) {
-        super(feature, owner);      
+        super(feature, owner);
 		this.values = new MofValueSpecificationList(owner, this);
 	}
-    
+
     @Override
 	public MofValueSpecificationList getValuesAsList() {
         return values;
@@ -42,21 +45,21 @@ public class MofStructureSlot extends StructureSlot<UmlClass,Property,java.lang.
 	protected List<ValueSpecificationImpl<UmlClass,Property,java.lang.Object>> createValues() {    	
     	return null;
     }
-    
+
     @SuppressWarnings("unchecked")
 	@Override
 	public List<ValueSpecificationImpl<UmlClass,Property,java.lang.Object>> getValues() {
         List result = new Vector();
-        for (Object o: values) {
+        for (Object o: getValuesAsList()) {
             result.add(o);
         }
         return result;
     }
-        
+
     public Property getDefiningFeature() {
         return getProperty();
-    } 
-    
+    }
+
     @Override
 	protected void myFinalize() {
         super.myFinalize();

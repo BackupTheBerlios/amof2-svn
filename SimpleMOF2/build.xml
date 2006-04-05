@@ -113,7 +113,8 @@
 	<target name="dist-clean" depends="clean">
 		<delete dir="${repository-generated-src}"/>
 		<delete dir="${test-generated-src}"/>
-	</target>
+        <delete dir="reources/models/work"/>
+    </target>
 
 	<target name="dist" depends="dist-clean,bootstrap,tests,build-jar,doc"
 		description="Builds the complete MOF for Java and bundles as a JAR">
@@ -141,7 +142,8 @@
     	<taskdef name="mof" classname="hub.sam.mof.ant.GenerateCode" classpathref="classpath"/>
     	<mof src="resources/models/test/automaton-ea.xml" destdir="${test-generated-src}" ea="true" library="true" libraryFile="resources/models/user/core.xml" force="true"/>
     	<delete dir="${test-generated-src}/core"/>
-    	<antcall target="compile"/>
+        <antcall target="doclet-test"/>
+        <antcall target="compile"/>
     </target>
 
 	<target name="tests" depends="compile">
@@ -197,12 +199,22 @@
     	<delete file="${build-dir}/hub/sam/mof/mofinstancemodel/MofClassSemantics.class"/>
 		<antcall target="compile"/>
 	</target>
-	
+
 	<target name="doclet-test" depends="compile">
-		<javadoc packagenames="hub.sam.mof.java.test" sourcepathref="sourcepath" source="1.5"
+		<!--<javadoc packagenames="hub.sam.mof.java.builderexample" sourcepathref="sourcepath"
 				doclet="hub.sam.mof.java.JavaModelGenerationDoclet" docletpathref="classpath">
 			<classpath refid="classpath"/>
-		</javadoc>
-	</target>
+		</javadoc>-->
+        <javadoc packagenames="hub.sam.mof.java.solotest" sourcepathref="sourcepath">
+			<classpath refid="classpath"/>
+            <doclet name="hub.sam.mof.java.JavaModelGenerationDoclet" pathref="classpath">
+                <param name="-modelfile" value="resources/models/work/solo-domain-model-test.xml"/>
+                <param name="-modelname" value="soloDomainModel"/>
+            </doclet>
+        </javadoc>
+        <taskdef name="mof" classname="hub.sam.mof.ant.GenerateCode" classpathref="classpath"/>
+    	<mof src="resources/models/work/solo-domain-model-test.xml"
+             destdir="${test-generated-src}"/>
+    </target>
 </project>
 <!-- vim:set ts=4: -->

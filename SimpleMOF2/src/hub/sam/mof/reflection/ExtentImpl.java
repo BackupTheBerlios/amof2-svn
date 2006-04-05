@@ -23,15 +23,15 @@ import cmof.Association;
 import cmof.NamedElement;
 import cmof.Property;
 import cmof.UmlClass;
-import cmof.reflection.Extent;
 import cmof.common.ReflectiveCollection;
 import cmof.common.ReflectiveSequence;
+import cmof.reflection.Extent;
 import hub.sam.mof.Repository;
 import hub.sam.mof.instancemodel.ClassInstance;
 import hub.sam.mof.instancemodel.InstanceModel;
 import hub.sam.mof.instancemodel.ValueSpecification;
 import hub.sam.mof.instancemodel.ValueSpecificationList;
-import hub.sam.mof.mofinstancemodel.MofInstanceModel;
+import hub.sam.mof.java.ProxyModel;
 import hub.sam.mof.mofinstancemodel.MofValueSpecificationList;
 import hub.sam.mof.reflection.query.ParseException;
 import hub.sam.mof.reflection.query.Query;
@@ -58,14 +58,14 @@ public class ExtentImpl extends hub.sam.util.Identity implements cmof.reflection
     private Map<Identifier, ObjectImpl> objectForId = null;
     private final MultiMap<UmlClass, cmof.reflection.Object> objectsForTypes = new MultiMap<UmlClass, cmof.reflection.Object>();
     private final MultiMap<UmlClass, cmof.reflection.Object> objectsForTypesWithSubtypes = new MultiMap<UmlClass, cmof.reflection.Object>();
-    private AbstractImplementationsManager implementationsManager = null;
-    protected final InstanceModel<UmlClass,Property,java.lang.Object> model = new MofInstanceModel();//TODO
+    private ImplementationsManager implementationsManager = null;
+    protected final InstanceModel<UmlClass,Property,java.lang.Object> model = new ProxyModel();//TODO
 
-    protected AbstractImplementationsManager createImplementationManager() {
-        return new ImplementationsManager();
+    protected ImplementationsManager createImplementationManager() {
+        return new ImplementationsManagerImpl();
     }
 
-    public void setCustomImplementationsManager(AbstractImplementationsManager manager) {
+    public void setCustomImplementationsManager(ImplementationsManager manager) {
         implementationsManager = manager;
     }
 
@@ -92,6 +92,10 @@ public class ExtentImpl extends hub.sam.util.Identity implements cmof.reflection
         return model;
     }
 
+    protected cmof.reflection.Object getObjectForInstance(ClassInstance<UmlClass,Property,java.lang.Object> instance) {
+        return objectForInstance.get(instance);
+    }
+
     protected final java.lang.Object valueForSpecification(ValueSpecification<UmlClass,Property,java.lang.Object> spec) {
         if (spec.asDataValue() != null) {
             return spec.asDataValue().getValue();
@@ -103,10 +107,6 @@ public class ExtentImpl extends hub.sam.util.Identity implements cmof.reflection
         } else {
             throw new RuntimeException("assert");
         }
-    }
-
-    protected cmof.reflection.Object getObjectForInstance(ClassInstance<UmlClass,Property,java.lang.Object> instance) {
-        return objectForInstance.get(instance);
     }
 
     protected final ValueSpecification<UmlClass,Property,java.lang.Object> specificationForValue(java.lang.Object value) {
@@ -459,7 +459,7 @@ public class ExtentImpl extends hub.sam.util.Identity implements cmof.reflection
         return objectForId;
     }
 
-    protected AbstractImplementationsManager getImplementationsManager() {
+    protected ImplementationsManager getImplementationsManager() {
         if (implementationsManager == null) {
             implementationsManager = createImplementationManager();
         }

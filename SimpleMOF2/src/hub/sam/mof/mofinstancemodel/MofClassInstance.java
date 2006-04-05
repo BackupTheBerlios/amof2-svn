@@ -60,7 +60,7 @@ public class MofClassInstance extends ClassInstance<UmlClass,Property,java.lang.
      */
     protected void initialize() {
         for (Property property: instanceClass.getFinalProperties()) {
-            MofStructureSlot newSlot = new MofStructureSlot(this, property);
+            MofStructureSlot newSlot = createSlot(property); 
             slotForProperty.put(property, newSlot);
         }
         for (core.abstractions.elements.Element member: getClassifier().getMember()) {
@@ -73,6 +73,10 @@ public class MofClassInstance extends ClassInstance<UmlClass,Property,java.lang.
                 }
             }
         }
+    }
+
+    protected MofStructureSlot createSlot(Property property) {
+        return new MofStructureSlot(this, property);
     }
 
     private String collectDefaultValue(Property property) {
