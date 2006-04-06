@@ -1,15 +1,15 @@
-package hub.sam.mof.java;
+package hub.sam.mof.domainmodels;
 
 import cmof.UmlClass;
 import cmof.Tag;
 import hub.sam.mof.mofinstancemodel.MofClassInstance;
 
-public class ProxyClassClass extends MofClassInstance {
+public class ProxyClassInstance extends MofClassInstance {
 
     private final UmlClass classifier;
     private Class theClass = null;
 
-    protected ProxyClassClass(UmlClass classifier, ProxyModelContext context) {
+    protected ProxyClassInstance(UmlClass classifier, ProxyModelContext context) {
         super(classifier, context.getModel());
         this.classifier = classifier;
         for(Tag aTag: classifier.getTag()) {
@@ -28,8 +28,8 @@ public class ProxyClassClass extends MofClassInstance {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof ProxyClassClass) {
-            return ((ProxyClassClass)obj).classifier.equals(classifier);
+        if (obj instanceof ProxyClassInstance) {
+            return ((ProxyClassInstance)obj).classifier.equals(classifier);
         } else {
             return false;
         }

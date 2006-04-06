@@ -1,4 +1,4 @@
-package hub.sam.mof.java;
+package hub.sam.mof.domainmodels;
 
 import cmof.Property;
 import hub.sam.mof.mofinstancemodel.MofStructureSlot;
@@ -7,12 +7,12 @@ import hub.sam.mof.mofinstancemodel.MofValueSpecificationList;
 import java.lang.reflect.Method;
 
 public class ProxyStructureSlot extends MofStructureSlot {
-    private final ProxyClassInstance instance;
+    private final ProxyObjectInstance instance;
     private Method getter = null;
     private Method setter = null;
     private final Property property;
 
-    protected ProxyStructureSlot(ProxyClassInstance owner, Property property) {
+    protected ProxyStructureSlot(ProxyObjectInstance owner, Property property) {
         super(owner, property);
         this.instance = owner;
         this.property = property;

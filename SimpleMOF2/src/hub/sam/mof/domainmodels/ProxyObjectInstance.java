@@ -1,4 +1,4 @@
-package hub.sam.mof.java;
+package hub.sam.mof.domainmodels;
 
 import cmof.Property;
 import cmof.UmlClass;
@@ -10,12 +10,12 @@ import hub.sam.mof.mofinstancemodel.MofStructureSlot;
 import java.util.Collection;
 import java.util.Collections;
 
-public class ProxyClassInstance extends MofClassInstance {
+public class ProxyObjectInstance extends MofClassInstance {
 
     private java.lang.Object theObject = null;
     private final ProxyModelContext context;
 
-    protected ProxyClassInstance(UmlClass classifier, ProxyModelContext context) {
+    protected ProxyObjectInstance(UmlClass classifier, ProxyModelContext context) {
         super(classifier, context.getModel());
         this.context = context;
     }
@@ -56,8 +56,8 @@ public class ProxyClassInstance extends MofClassInstance {
         if (theObject == null) {
             return super.equals(obj);
         } else {
-            if (obj instanceof ProxyClassInstance) {
-                return theObject.equals(((ProxyClassInstance)obj).theObject);
+            if (obj instanceof ProxyObjectInstance) {
+                return theObject.equals(((ProxyObjectInstance)obj).theObject);
             } else {
                 return theObject.equals(obj);
             }

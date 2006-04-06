@@ -201,13 +201,13 @@
 	</target>
 
 	<target name="doclet-test" depends="compile">
-		<!--<javadoc packagenames="hub.sam.mof.java.builderexample" sourcepathref="sourcepath"
-				doclet="hub.sam.mof.java.JavaModelGenerationDoclet" docletpathref="classpath">
+		<!--<javadoc packagenames="hub.sam.mof.domainmodelsinmodels.builderexample" sourcepathref="sourcepath"
+				doclet="hub.sam.mof.domainmodelsinmodels.JavaModelGenerationDoclet" docletpathref="classpath">
 			<classpath refid="classpath"/>
 		</javadoc>-->
-        <javadoc packagenames="hub.sam.mof.java.solotest" sourcepathref="sourcepath">
+        <javadoc packagenames="hub.sam.mof.domainmodels.solotest" sourcepathref="sourcepath">
 			<classpath refid="classpath"/>
-            <doclet name="hub.sam.mof.java.JavaModelGenerationDoclet" pathref="classpath">
+            <doclet name="hub.sam.mof.domainmodels.JavaModelGenerationDoclet" pathref="classpath">
                 <param name="-modelfile" value="resources/models/work/solo-domain-model-test.xml"/>
                 <param name="-modelname" value="soloDomainModel"/>
             </doclet>

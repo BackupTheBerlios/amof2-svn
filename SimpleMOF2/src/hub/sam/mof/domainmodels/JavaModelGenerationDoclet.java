@@ -1,4 +1,4 @@
-package hub.sam.mof.java;
+package hub.sam.mof.domainmodels;
 
 import cmof.Element;
 import cmof.MultiplicityElement;
@@ -34,9 +34,9 @@ import java.util.Collection;
 import java.util.HashSet;
 
 public class JavaModelGenerationDoclet {
-    public static final String PROXY_TAG = "hub.sam.mof.java.proxy";
-    public static final String CLASS_PROXY_TAG = "hub.sam.mof.java.classProxy";
-    public static final String CONSTRUCTOR_TAG = "hub.sam.mof.java.constructor";
+    public static final String PROXY_TAG = "hub.sam.mof.domainmodels.proxy";
+    public static final String CLASS_PROXY_TAG = "hub.sam.mof.domainmodels.classProxy";
+    public static final String CONSTRUCTOR_TAG = "hub.sam.mof.domainmodels.constructor";
 
     private final Repository repository;
     private final Extent workingExtent;
@@ -64,7 +64,7 @@ public class JavaModelGenerationDoclet {
                 if (key == null) {
                     throw new RuntimeException("assert");
                 }
-                if (key.qualifiedName().equals("java.lang.Object")) {
+                if (key.qualifiedName().equals("domainmodels.lang.Object")) {
                     return object;
                 }
                 UmlClass result = factory.createUmlClass();
@@ -105,8 +105,8 @@ public class JavaModelGenerationDoclet {
 
         object = factory.createUmlClass();
         object.setVisibility(VisibilityKind.PUBLIC);
-        object.setName("java.lang.Object");
-        tag(PROXY_TAG, "java.lang.Object", object);
+        object.setName("domainmodels.lang.Object");
+        tag(PROXY_TAG, "domainmodels.lang.Object", object);
     }
 
     @SuppressWarnings({"OverlyLongMethod"})
@@ -197,15 +197,15 @@ public class JavaModelGenerationDoclet {
 
     private Type simpleType(com.sun.javadoc.Type javaType) {
         if ((javaType.isPrimitive() && javaType.simpleTypeName().equals("boolean")) ||
-                javaType.qualifiedTypeName().equals("java.lang.Boolean")) {
+                javaType.qualifiedTypeName().equals("domainmodels.lang.Boolean")) {
             return booleanType;
         } else if ((javaType.isPrimitive() && javaType.simpleTypeName().equals("int")) ||
-                javaType.qualifiedTypeName().equals("java.lang.Integer")) {
+                javaType.qualifiedTypeName().equals("domainmodels.lang.Integer")) {
             return integerType;
         } else if ((javaType.isPrimitive() && javaType.simpleTypeName().equals("long")) ||
-                javaType.qualifiedTypeName().equals("java.lang.Long")) {
+                javaType.qualifiedTypeName().equals("domainmodels.lang.Long")) {
             return unlimitedNaturalType;
-        } else if (javaType.qualifiedTypeName().equals("java.lang.String")) {
+        } else if (javaType.qualifiedTypeName().equals("domainmodels.lang.String")) {
             return stringType;
         } else {
             if (javaType.asClassDoc() == null) {
@@ -219,10 +219,10 @@ public class JavaModelGenerationDoclet {
     private void configureTypedElement(TypedElement mofTyped, com.sun.javadoc.Type javaType) {
         boolean isCollection = false;
         boolean isOrdered = false;
-        if (javaType.qualifiedTypeName().equals("java.util.Collection")) {
+        if (javaType.qualifiedTypeName().equals("domainmodels.util.Collection")) {
             isCollection = true;
             mofTyped.setType(object);
-        } else if (javaType.qualifiedTypeName().equals("java.util.List")) {
+        } else if (javaType.qualifiedTypeName().equals("domainmodels.util.List")) {
             isCollection = true;
             isOrdered = true;
             mofTyped.setType(object);
@@ -331,7 +331,7 @@ public class JavaModelGenerationDoclet {
             String javaPackageName;
             if (javaPackage.name().lastIndexOf('.') != -1) {
                 javaPackageName = javaPackage.name().substring(javaPackage.name().lastIndexOf('.') + 1);
-            } else {               
+            } else {
                 javaPackageName = javaPackage.name();
             }
             mofPackage.setName(modelName + javaPackageName.substring(0,1).toUpperCase() +

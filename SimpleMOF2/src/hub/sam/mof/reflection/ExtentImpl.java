@@ -31,7 +31,7 @@ import hub.sam.mof.instancemodel.ClassInstance;
 import hub.sam.mof.instancemodel.InstanceModel;
 import hub.sam.mof.instancemodel.ValueSpecification;
 import hub.sam.mof.instancemodel.ValueSpecificationList;
-import hub.sam.mof.java.ProxyModel;
+import hub.sam.mof.domainmodels.ProxyInstanceModel;
 import hub.sam.mof.mofinstancemodel.MofValueSpecificationList;
 import hub.sam.mof.reflection.query.ParseException;
 import hub.sam.mof.reflection.query.Query;
@@ -59,7 +59,7 @@ public class ExtentImpl extends hub.sam.util.Identity implements cmof.reflection
     private final MultiMap<UmlClass, cmof.reflection.Object> objectsForTypes = new MultiMap<UmlClass, cmof.reflection.Object>();
     private final MultiMap<UmlClass, cmof.reflection.Object> objectsForTypesWithSubtypes = new MultiMap<UmlClass, cmof.reflection.Object>();
     private ImplementationsManager implementationsManager = null;
-    protected final InstanceModel<UmlClass,Property,java.lang.Object> model = new ProxyModel();//TODO
+    protected final InstanceModel<UmlClass,Property,java.lang.Object> model = new ProxyInstanceModel();//TODO
 
     protected ImplementationsManager createImplementationManager() {
         return new ImplementationsManagerImpl();

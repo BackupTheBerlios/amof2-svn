@@ -14,7 +14,7 @@ details.
 
     You should have received a copy of the GNU Lesser General Public License
 along with this library; if not, write to the Free Software Foundation, Inc.,
-59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
+59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
 package hub.sam.mof.test;
@@ -32,7 +32,7 @@ import hub.sam.mof.test.lib.abstractions.redefinitions.TestRedfinableElement;
 import hub.sam.mof.test.lib.abstractions.umlsuper.TestClassifier;
 import junit.framework.*;
 
-public class Main extends TestCase {    
+public class Main extends TestCase {
     public static Test suite() {
         TestSuite suite = new TestSuite();
         suite.addTestSuite(BootstrapM3Model.class);
@@ -40,7 +40,8 @@ public class Main extends TestCase {
         suite.addTestSuite(UpdateGraph.class);
         suite.addTestSuite(CustomCode.class);
         suite.addTestSuite(ClientServer.class);
-        
+        suite.addTestSuite(DomainModelsTest.class);
+
         suite.addTestSuite(TestIsDistinguishAbleFrom.class);
         suite.addTestSuite(TestAllFeatures.class);
         suite.addTestSuite(TestGetGeneral.class);
@@ -52,7 +53,7 @@ public class Main extends TestCase {
         suite.addTestSuite(TestElement.class);
         suite.addTestSuite(TestRedfinableElement.class);
         suite.addTestSuite(TestClassifier.class);
-        
+
         return suite;
     }
 }

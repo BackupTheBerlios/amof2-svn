@@ -1,4 +1,4 @@
-package hub.sam.mof.java;
+package hub.sam.mof.domainmodels;
 
 import hub.sam.mof.reflection.Implementations;
 import hub.sam.mof.reflection.ImplementationsManager;
@@ -17,7 +17,7 @@ public class ProxyImplementationsManager implements ImplementationsManager<UmlCl
     public Implementations getImplementationsForClassifier(UmlClass metaClass) {
         for (Tag aTag: metaClass.getTag()) {
             if (aTag.getName().equals(JavaModelGenerationDoclet.PROXY_TAG)) {
-                return new ProxyImplementations(context);
+                return new ProxyObjectImplementations(context);
             } else if (aTag.getName().equals(JavaModelGenerationDoclet.CLASS_PROXY_TAG)) {
                 return new ProxyClassImplementations(context);
             }

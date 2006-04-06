@@ -1,4 +1,4 @@
-package hub.sam.mof.java.builderexample;
+package hub.sam.mof.domainmodels.builderexample;
 
 public abstract class Task {
 

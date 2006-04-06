@@ -1,4 +1,4 @@
-package hub.sam.mof.java.solotest;
+package hub.sam.mof.domainmodels.solotest;
 
 public class SoloTestClass {
 

@@ -1,4 +1,4 @@
-package hub.sam.mof.java;
+package hub.sam.mof.domainmodels;
 
 import cmof.Property;
 import cmof.UmlClass;

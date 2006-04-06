@@ -1,4 +1,4 @@
-package hub.sam.mof.java;
+package hub.sam.mof.domainmodels;
 
 import cmof.Package;
 import cmof.Property;
@@ -25,14 +25,14 @@ import java.util.Map;
  */
 public class ProxyModelContext {
 
-    private final ProxyModel model;
+    private final ProxyInstanceModel model;
     private final Map<Class, UmlClass> classes;
     private final Map<UmlClass, Factory> factories;
 
     @SuppressWarnings({"OverlyNestedMethod"})
     public ProxyModelContext(Collection<Package> packages, Repository repository, Extent extent) {
         super();
-        model = (ProxyModel)((ExtentImpl)extent).getModel();
+        model = (ProxyInstanceModel)((ExtentImpl)extent).getModel();
         classes = new HashMap<Class, UmlClass>();
         factories = new HashMap<UmlClass, Factory>();
         Map<Package, Factory> factoryForPackage = new HashMap<Package, Factory>();
@@ -100,7 +100,7 @@ public class ProxyModelContext {
                 throw new ProxyModelException("Java value has a class not known to the proxy model.");
             }
             ObjectImpl obj = (ObjectImpl)factories.get(theClass).create(theClass);
-            ((ProxyClassInstance)obj.getClassInstance()).setTheObject(object);
+            ((ProxyObjectInstance)obj.getClassInstance()).setTheObject(object);
             return model.createInstanceValue(obj.getClassInstance());
         }
     }
@@ -118,7 +118,7 @@ public class ProxyModelContext {
                 throw new ProxyModelException("Java value has a class not known to the proxy model.");
             }
             ObjectImpl obj = (ObjectImpl)factories.get(theClass).create(theClass);
-            ((ProxyClassInstance)obj.getClassInstance()).setTheObject(object);
+            ((ProxyObjectInstance)obj.getClassInstance()).setTheObject(object);
             return obj;
         }
     }
@@ -129,8 +129,8 @@ public class ProxyModelContext {
             return ((MofPrimitiveDataValue)object).getValue();
         } else if (object instanceof InstanceValue) {
             ClassInstance<UmlClass,Property,Object> classInstance = ((InstanceValue)object).getInstance();
-            if (classInstance instanceof ProxyClassInstance) {
-                return ((ProxyClassInstance)classInstance).getTheObject();
+            if (classInstance instanceof ProxyObjectInstance) {
+                return ((ProxyObjectInstance)classInstance).getTheObject();
             } else {
                 throw new ProxyModelException("Try to use a non Java value in a proxy object context.");
             }
@@ -146,8 +146,8 @@ public class ProxyModelContext {
             return object;
         } else if (object instanceof ObjectImpl) {
             ClassInstance<UmlClass,Property,Object> classInstance = ((ObjectImpl)object).getClassInstance();
-            if (classInstance instanceof ProxyClassInstance) {
-                return ((ProxyClassInstance)classInstance).getTheObject();
+            if (classInstance instanceof ProxyObjectInstance) {
+                return ((ProxyObjectInstance)classInstance).getTheObject();
             } else {
                 throw new ProxyModelException("Try to use a non Java value in a proxy object context.");
             }
