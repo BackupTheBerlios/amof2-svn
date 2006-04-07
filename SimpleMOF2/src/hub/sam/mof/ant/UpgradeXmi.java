@@ -21,6 +21,7 @@ public class UpgradeXmi extends Task {
 
     @Override
     public void execute() throws BuildException {
+        System.out.println("Hello");
         if (inKind == null) {
             throw new BuildException("Parameter inKind is mandatory");
         }
@@ -98,5 +99,14 @@ public class UpgradeXmi extends Task {
 
     protected void custom(Extent extent, cmof.Package m3Model, Repository repository) {
         // empty
+    }
+
+    public static void main(String[] args) {
+        UpgradeXmi xmi = new UpgradeXmi();
+        xmi.setInFile(new File(args[0]));
+        xmi.setInKind(args[1]);
+        xmi.setOutFile(new File(args[2]));
+        xmi.setOutKind(args[3]);
+        xmi.execute();
     }
 }
