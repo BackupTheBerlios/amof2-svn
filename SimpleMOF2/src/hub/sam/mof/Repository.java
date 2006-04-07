@@ -21,6 +21,7 @@ package hub.sam.mof;
 
 import cmof.NamedElement;
 import cmof.Package;
+import cmof.PrimitiveType;
 import cmof.reflection.Extent;
 import cmof.reflection.Factory;
 import hub.sam.mof.bootstrap.BootstrapExtent;
@@ -59,6 +60,12 @@ import java.util.Map;
  * models on all meta-modeling levels.
  */
 public class Repository extends hub.sam.util.Identity {
+
+    /**
+     * Extreeem dirty. This is needed for AS applications to communitcate the actual m2 boolean primitiv type to
+     * {@link hub.sam.mof.as.actions.AsGuardExpression}.
+     */
+    public static PrimitiveType booleanType = null;
 
     @SuppressWarnings("unchecked")
     private static Context getInitialContext(String providerUrl) throws NamingException {
@@ -115,6 +122,7 @@ public class Repository extends hub.sam.util.Identity {
         if (m3 instanceof hub.sam.util.Identity) {
             ((hub.sam.util.Identity)m3).setParentIdentity(this);
         }
+        booleanType = (PrimitiveType)m3.query("Package:core/Package:primitivetypes/PrimitiveType:Boolean");
     }
 
     public Extent addStaticModel(Class staticModel) throws SecurityException, NoSuchMethodException {

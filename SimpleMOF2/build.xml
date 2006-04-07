@@ -139,8 +139,8 @@
     	<java classname="hub.sam.mof.test.lib.GenerateConcreteLibrary" fork="false">
     		<classpath refid="classpath"/>
     	</java>
-    	<taskdef name="mof" classname="hub.sam.mof.ant.GenerateCode" classpathref="classpath"/>
-    	<mof src="resources/models/test/automaton-ea.xml" destdir="${test-generated-src}" ea="true" library="true" libraryFile="resources/models/user/core.xml" force="true"/>
+    	<!--<taskdef name="mof" classname="hub.sam.mof.ant.GenerateCode" classpathref="classpath"/>
+    	<mof src="resources/models/test/automaton-ea.xml" destdir="${test-generated-src}" ea="true" library="true" libraryFile="resources/models/user/core.xml" force="true"/>-->
     	<delete dir="${test-generated-src}/core"/>
         <antcall target="doclet-test"/>
         <antcall target="compile"/>
@@ -193,11 +193,6 @@
 		<copy todir="${test-initial-src}">
 	    	<fileset dir="${test-generated-src}"/>
 		</copy>
-	</target>
-
-	<target name="debug-eclipse">
-    	<delete file="${build-dir}/hub/sam/mof/mofinstancemodel/MofClassSemantics.class"/>
-		<antcall target="compile"/>
 	</target>
 
 	<target name="doclet-test" depends="compile">
