@@ -5,7 +5,6 @@ import cmof.Package;
 import cmof.PrimitiveType;
 import cmof.Tag;
 import cmof.cmofFactory;
-import cmof.Property;
 import cmof.reflection.Extent;
 import hub.sam.mof.Repository;
 import hub.sam.mof.as.AsAnalysisEnvironment;

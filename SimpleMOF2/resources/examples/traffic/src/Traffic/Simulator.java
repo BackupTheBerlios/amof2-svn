@@ -15,15 +15,6 @@ import hub.sam.mof.as.layers.MultiLevelImplementationsManager;
 public class Simulator {
 
     public static void main(String[] args) {
-        /*
-        Repository repository = Repository.getLocalRepository();
-        repository.reset();
-        Extent m3Extent = repository.getExtent(Repository.CMOF_EXTENT_NAME);
-        cmof.Package m3 = (cmof.Package)m3Extent.query("Package:cmof");
-
-        Extent m2Extent = repository.createExtent("m2");
-        repository.loadMagicDrawXmiIntoExtent(m2);   */
-
         Repository repo = Repository.getLocalRepository();
         Extent trafficM2 = Traffic.TrafficModel.createModel();
         Extent trafficM1M0 = repo.createExtent("extent");
@@ -33,6 +24,19 @@ public class Simulator {
 
         TrafficFactory trafficFactory = (TrafficFactory)repo.createFactory(trafficM1M0, trafficPackage);
 
+        Crossroad crossroad = createSampleModel(trafficFactory);
+
+        //while (true) {
+            crossroad.justDoIt();
+        //}
+
+        //repo.loadXmiIntoExtent(trafficM1M0, trafficPackage, "test.xml");
+        //repo.writeExtentToXmi("test-out.xml", trafficPackage, trafficM1M0);
+        //((Java.UmlClass)trafficM1M0.query("Class:c1")).runMain();
+
+    }
+
+    public static Crossroad createSampleModel(TrafficFactory trafficFactory) {
         Crossroad crossroad = trafficFactory.createCrossroad();
 
         SignalLightType red = trafficFactory.createSignalLightType();
@@ -151,14 +155,6 @@ public class Simulator {
         sequenceEntry44.setColor(Color.RED);
         sequenceEntry44.setSignal(light4);
         sequenceColumn4.getEntries().add(sequenceEntry44);
-
-        //while (true) {
-            crossroad.justDoIt();
-        //}
-
-        //repo.loadXmiIntoExtent(trafficM1M0, trafficPackage, "test.xml");
-        //repo.writeExtentToXmi("test-out.xml", trafficPackage, trafficM1M0);
-        //((Java.UmlClass)trafficM1M0.query("Class:c1")).runMain();
-
+        return crossroad;
     }
 }

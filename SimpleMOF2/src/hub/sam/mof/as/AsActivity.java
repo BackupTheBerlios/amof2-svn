@@ -49,23 +49,23 @@ public class AsActivity extends AsBehavior {
 	private Collection<ActivityNode> alreadyChecked = new HashSet<ActivityNode>();
 	private Operation context = null;
 	private Map<GuardSpecification, AsGuardExpression> guards = new HashMap<GuardSpecification, AsGuardExpression>();
-	
+
 	private InitialNode startNode = null;
-	
+
 	public AsActivity(Collection<String> context, Activity activity) {
 		this.contextQualifiedName = context;
 		this.activity = activity;
 	}
-	
+
 	public AsActivity(Activity activity) {
 		this.activity = activity;
 		context = (Operation)activity.getOwner();
 		contextQualifiedName = null;
 	}
-	
+
 	private Type resovleTypeOfObject(ValueNode object, Collection<Namespace> topLevelNamespaces) throws AsSemanticException {
 		NamedElement type = resolveQualifiedName(((TypeString)object.getType()).getQualifiedTypeName(), topLevelNamespaces);
-		if (type == null) {			
+		if (type == null) {
 			throw new AsSemanticException("Type type reference " + ((TypeString)object.getType()).getQualifiedTypeName() + " could not be resolved.");
 		}
 		if (!(type instanceof Type)) {
@@ -75,30 +75,37 @@ public class AsActivity extends AsBehavior {
 		object.setType((Type)type);
 		return (Type)type;
 	}
-	
+
 	@Override
 	public void staticSemantics(AsAnalysisEnvironment environment) throws AsSemanticException {
 		Collection<Namespace> topLevelNamespaces = new Vector<Namespace>(environment.getTopLevelPackages());
 		exceptions = new AsSemanticException("Errors in bevavior declarations for name " + contextQualifiedName);
-		
+
 		try {
 			// resolve the context name
 			NamedElement describedElement = resolveQualifiedName(contextQualifiedName, topLevelNamespaces);
-			if (describedElement instanceof Operation) {
+            if (describedElement == null) {
+                throw new AsSemanticException("The name " + contextQualifiedName + " does not denote an model element.");
+            }
+            if (describedElement instanceof Operation) {
 				context = (Operation)describedElement;
 			} else {
 				throw new AsSemanticException("The name " + contextQualifiedName + " does not denote an operation.");
 			}
 			// add the context's namespace to the topLevelNamespace (quasi import)
-			topLevelNamespaces.add(context.getNamespace().getNamespace());
-		} catch (AsSemanticException ex) {
+            Namespace additionalNamespace = context.getNamespace().getNamespace();
+            if (!topLevelNamespaces.contains(additionalNamespace)) {
+                topLevelNamespaces.add(additionalNamespace);
+            }
+        } catch (AsSemanticException ex) {
 			exceptions.addException(ex);
-		}
-				
+            throw exceptions;
+        }
+
 		// check context parameter
 		for (ValueNode object: activity.getArgument()) {
 			try {
-				Parameter parameterForArgument = null; 
+				Parameter parameterForArgument = null;
 				for (Parameter parameter: context.getFormalParameter()) {
 					if (object.getName().equals(parameter.getName())) {
 						parameterForArgument = parameter;
@@ -109,14 +116,14 @@ public class AsActivity extends AsBehavior {
 				}
 				Type type = resovleTypeOfObject(object, topLevelNamespaces);
 				if (!type.conformsTo(parameterForArgument.getType())) {
-					throw new AsSemanticException("The object " + object.getName() + " referencing an argument of " + context.getQualifiedName() + 
+					throw new AsSemanticException("The object " + object.getName() + " referencing an argument of " + context.getQualifiedName() +
 							" has a type that does not conform to the according parameter.");
 				}
 			} catch (AsSemanticException ex) {
 				exceptions.addException(ex);
 			}
-		}		
-						
+		}
+
 		// resovle all other TypeStrings
 		for (ActivityNode node: activity.getNode()) {
 			try {
@@ -130,7 +137,7 @@ public class AsActivity extends AsBehavior {
 				exceptions.addException(ex);
 			}
 		}
-		
+
 		// check return
 		boolean hasReturn = false;
 		for (ActivityNode node: activity.getNode()) {
@@ -147,7 +154,7 @@ public class AsActivity extends AsBehavior {
 		if (!hasReturn && context.getType() != null) {
 			exceptions.addException(new AsSemanticException("Return required."));
 		}
-		// check the actions 
+		// check the actions
 		// resolve the start
 		InitialNode start = null;
 		for (ActivityNode node: activity.getNode()) {
@@ -157,26 +164,26 @@ public class AsActivity extends AsBehavior {
 				} else {
 					start = (InitialNode)node;
 				}
-			}			
+			}
 		}
 		if (start == null) {
 			exceptions.addException(new AsSemanticException("The activity for + " + contextQualifiedName + " does not contain a start node."));
 			throw exceptions;
 		}
-		
+
 		if (exceptions.getExceptions().size() > 0) {
 			throw exceptions;
 		}
-		
+
 		// backtracking throw control flow graph
 		staticSemanticsForNode(start, environment);
-		
+
 		if (exceptions.getExceptions().size() > 0) {
 			throw exceptions;
 		}
 		context.setOwnedBehavior(activity);
-	}			
-	
+	}
+
 	private void checkInputPins(Iterable<? extends Pin> pins) {
 		for(Pin pin: pins) {
 			if (pin.getOutgoing().size() != 0) {
@@ -188,7 +195,7 @@ public class AsActivity extends AsBehavior {
 			pin.setType(((ValueNode)pin.getIncoming().iterator().next().getSource()).getType());
 		}
 	}
-	
+
 	private void checkOutputPins(Iterable<? extends Pin> pins) {
 		for(Pin pin: pins) {
 			if (pin.getIncoming().size() != 0) {
@@ -200,8 +207,8 @@ public class AsActivity extends AsBehavior {
 			pin.setType(((ValueNode)pin.getOutgoing().iterator().next().getTarget()).getType());
 		}
 	}
-	
-	private AsAction instantiateAction(String name) {		
+
+	private AsAction instantiateAction(String name) {
 		String actionClassName = "hub.sam.mof.as.actions." + name + "Action";
 		Class actionClass = null;
 		AsAction actionInstance = null;
@@ -215,13 +222,13 @@ public class AsActivity extends AsBehavior {
 				actionInstance = (AsAction)actionClass.getConstructor(new Class[] {}).newInstance(new Object[] {});
 			} catch (Exception e) {
 				throw new AssertionException(e);
-			}			
-			return actionInstance;			
+			}
+			return actionInstance;
 		} else {
 			return null;
 		}
 	}
-	
+
 	private void staticSemanticsForNode(ActivityNode node, AsAnalysisEnvironment environment) {
 		if (!alreadyChecked.contains(node)) {
 			alreadyChecked.add(node);
@@ -229,7 +236,7 @@ public class AsActivity extends AsBehavior {
 				OpaqueAction action = (OpaqueAction)node;
 				checkInputPins(action.getInput());
 				checkOutputPins(action.getOutput());
-				
+
 				String actionKind = action.getBody().get(0);
 				AsAction actionInstance = instantiateAction(actionKind);
 				if (actionInstance == null) {
@@ -241,17 +248,17 @@ public class AsActivity extends AsBehavior {
 						exceptions.addException(e);
 					}
 				}
-			} 
+			}
 			for (ActivityEdge outgoing: node.getOutgoing()) {
 				if (outgoing.getGuardSpecification() != null) {
 					try {
 						AsGuardExpression guard = new AsGuardExpression();
-						guard.staticSemantics(outgoing.getGuardSpecification(), context.getUmlClass(), environment);						
+						guard.staticSemantics(outgoing.getGuardSpecification(), context.getUmlClass(), environment);
 						if (outgoing.getGuardSpecification().getInput() != null) {
 							Collection<InputPin> inputPins = new Vector<InputPin>();
 							inputPins.add(outgoing.getGuardSpecification().getInput());
 							checkInputPins(inputPins);
-						}						
+						}
 						guards.put(outgoing.getGuardSpecification(), guard);
 					} catch (AsSemanticException e) {
 						exceptions.addException(e);
@@ -280,7 +287,7 @@ public class AsActivity extends AsBehavior {
 					startNode = (InitialNode)node;
 				}
 			}
-		}		
+		}
 		ActivityNode actualNode = startNode;
 		while (!(actualNode instanceof FinalNode)) {
 			if (actualNode instanceof Action) {
@@ -290,8 +297,8 @@ public class AsActivity extends AsBehavior {
 				Object context = object;
 				for (InputPin inPin: action.getInput()) {
 					if (inPin instanceof ContextPin) {
-						if (inPin instanceof ContextExtensionPin) {						
-							environment.addAdditionalContextAttribute((ContextExtensionPin)inPin, 
+						if (inPin instanceof ContextExtensionPin) {
+							environment.addAdditionalContextAttribute((ContextExtensionPin)inPin,
 									objects.get(((ContextExtensionPin)inPin).getExtensionName()), inPin.getType(), this.context.getUmlClass());
 						} else {
 							context = objects.get(((ValueNode)inPin.getIncoming().iterator().next().getSource()).getName());
@@ -318,23 +325,23 @@ public class AsActivity extends AsBehavior {
 						Object context = object;
 						ContextPin inPin = branch.getGuardSpecification().getInput();
 
-						if (inPin != null) {							
-							if (inPin instanceof ContextExtensionPin) {						
-								environment.addAdditionalContextAttribute((ContextExtensionPin)inPin, 
+						if (inPin != null) {
+							if (inPin instanceof ContextExtensionPin) {
+								environment.addAdditionalContextAttribute((ContextExtensionPin)inPin,
 										objects.get(((ContextExtensionPin)inPin).getExtensionName()), inPin.getType(), this.context.getUmlClass());
 							} else {
 								context = objects.get(((ValueNode)inPin.getIncoming().iterator().next().getSource()).getName());
-							}							
+							}
 						}
 						if (guard.invoke(branch.getGuardSpecification(), context, environment)) {
-							if (trueBranch != null) {								
+							if (trueBranch != null) {
 								throw new RuntimeException("More than one decision answer evaluated to true.");
 							} else {
 								trueBranch = branch;
 							}
 						}
-													
-						environment.removeAdditionalAttribute();						
+
+						environment.removeAdditionalAttribute();
 					}
 				}
 				if (trueBranch == null) {

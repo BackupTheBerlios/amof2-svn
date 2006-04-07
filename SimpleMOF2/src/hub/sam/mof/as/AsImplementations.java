@@ -27,23 +27,13 @@ public class AsImplementations extends ImplementationsImpl {
 	}
 
 	@Override
-	public boolean hasImplementationFor(Operation operatoin, ClassifierSemantics<Property, Operation, String> semantics) {
-		boolean result = super.hasImplementationFor(operatoin, semantics);
-		if (!result) {
-			return getBehaviorFor(operatoin) != null;
-		} else {
-			return result;
-		}
+	public boolean hasImplementationFor(Operation operation, ClassifierSemantics<Property, Operation, String> semantics) {
+        return getBehaviorFor(operation) != null;
 	}
 
 	@Override
 	public boolean hasImplementationFor(Property property, ClassifierSemantics<Property, Operation, String> semantics) {
-		boolean result = super.hasImplementationFor(property, semantics);
-		if (!result) {
-			return getBehaviorFor(property) != null;
-		} else {
-			return result;
-		}
+        return getBehaviorFor(property) != null;
 	}
 
 	private AsBehavior getBehaviorFor(Feature feature) {
@@ -81,19 +71,11 @@ public class AsImplementations extends ImplementationsImpl {
 
 	@Override
 	public Object invokeImplementationFor(Operation operation, cmof.reflection.Object object, Object[] args, ClassifierSemantics<Property, Operation, String> semantics) {
-		if (super.hasImplementationFor(operation, semantics)) {
-			return super.invokeImplementationFor(operation, object, args, semantics);
-		} else {
-			return getBehaviorFor(operation).invoke(object, args, environment);
-		}
+        return getBehaviorFor(operation).invoke(object, args, environment);
 	}
 
 	@Override
 	public Object invokeImplementationFor(Property property, cmof.reflection.Object object, ClassifierSemantics<Property, Operation, String> semantics) {
-		if (super.hasImplementationFor(property, semantics)) {
-			return super.invokeImplementationFor(property, object, semantics);
-		} else {
-			return getBehaviorFor(property).invoke(object, null, environment);
-		}
+	    return getBehaviorFor(property).invoke(object, null, environment);
 	}
 }

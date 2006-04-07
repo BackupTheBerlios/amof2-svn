@@ -1,6 +1,6 @@
-<project name = "Traffic Lights" default="compile">
+<project name = "Automaton" default="compile">
 	<description>
-        The World Famous Traffic Lights
+        An Automaton
 	</description>
 	<property name="base-dir" value="./"/>
 	<property name="build-dir" value="${base-dir}/build"/>

@@ -41,7 +41,7 @@ public class ImplementationsContainer implements Implementations {
                                           ClassifierSemantics<Property, Operation, String> semantics) {
         for(Implementations implementation: implementations) {
             if (implementation.hasImplementationFor(property, semantics)) {
-                return invokeImplementationFor(property, object, semantics);
+                return implementation.invokeImplementationFor(property, object, semantics);
             }
         }
         return null;
@@ -51,7 +51,7 @@ public class ImplementationsContainer implements Implementations {
                                           ClassifierSemantics<Property, Operation, String> semantics) {
         for(Implementations implementation: implementations) {
             if (implementation.hasImplementationFor(operation, semantics)) {
-                return invokeImplementationFor(operation, object, args, semantics);
+                return implementation.invokeImplementationFor(operation, object, args, semantics);
             }
         }
         return null;
