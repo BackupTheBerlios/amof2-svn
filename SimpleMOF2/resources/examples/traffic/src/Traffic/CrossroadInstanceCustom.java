@@ -1,12 +1,5 @@
 package Traffic;
 
-/**
- * Created by IntelliJ IDEA.
- * User: scheidge
- * Date: Apr 7, 2006
- * Time: 12:47:33 PM
- * To change this template use File | Settings | File Templates.
- */
 public class CrossroadInstanceCustom extends CrossroadInstanceDlg {
 
     @Override

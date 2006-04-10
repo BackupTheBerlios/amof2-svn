@@ -1,4 +1,4 @@
-<project name = "A MOF 2 for Java">
+<project name = "A MOF 2 for Java" basedir=".">
 	<description>
 		A MOF 2 for Java
 	</description>
@@ -152,8 +152,9 @@
     		<classpath refid="classpath"/>
 			<test name="hub.sam.mof.test.Main"/>
 		</junit>
-	</target>
-	<target name="performance" depends="compile">
+    </target>
+
+    <target name="performance" depends="compile">
 		<java classname="hub.sam.mof.test.Performance" fork="true">
 			<classpath refid="classpath"/>
             <jvmarg value="-Xrunhprof:cpu=samples,file=test-out/perf.txt,depth=1000,interval=1"/>

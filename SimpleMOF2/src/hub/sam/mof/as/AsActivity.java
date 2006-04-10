@@ -328,7 +328,7 @@ public class AsActivity extends AsBehavior {
 						if (inPin != null) {
 							if (inPin instanceof ContextExtensionPin) {
 								environment.addAdditionalContextAttribute((ContextExtensionPin)inPin,
-										objects.get(((ContextExtensionPin)inPin).getExtensionName()), inPin.getType(), this.context.getUmlClass());
+										objects.get(((ValueNode)inPin.getIncoming().iterator().next().getSource()).getName()), inPin.getType(), this.context.getUmlClass());
 							} else {
 								context = objects.get(((ValueNode)inPin.getIncoming().iterator().next().getSource()).getName());
 							}

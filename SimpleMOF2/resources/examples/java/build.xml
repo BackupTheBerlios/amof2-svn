@@ -41,7 +41,14 @@
 			<classpath refid="classpath"/>
 		</javac>
 	</target>
-
+     
+    <target name="test" depends="compile">
+        <junit printsummary="true" haltonfailure="true" haltonerror="true" fork="on" maxmemory="200000000">
+			<formatter type="plain" usefile="no"/>
+    		<classpath refid="classpath"/>
+			<test name="Java.Main"/>
+		</junit>
+    </target>
 
 	<target name="clean">
 		<delete dir="${build-dir}"/>

@@ -1,4 +1,4 @@
-<project name = "Automaton" default="compile">
+<project name = "Automaton" default="compile" basedir=".">
 	<description>
         An Automaton
 	</description>
@@ -45,7 +45,15 @@
 		</javac>
 	</target>
 
-	<target name="clean">
+    <target name="test" depends="compile">
+        <junit printsummary="true" haltonfailure="true" haltonerror="true" fork="on" maxmemory="200000000">
+			<formatter type="plain" usefile="no"/>
+    		<classpath refid="classpath"/>
+			<test name="hub.sam.mof.test.as.AsTest"/>
+		</junit>
+    </target>
+
+    <target name="clean">
 		<delete dir="${build-dir}"/>
 		<delete dir="./generated-src"/>
 	</target>

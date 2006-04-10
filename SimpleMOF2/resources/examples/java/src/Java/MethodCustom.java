@@ -1,15 +1,12 @@
 package Java;
 
 import cmof.exception.ModelException;
-
-import java.util.Vector;
-
 import hub.sam.mof.util.ListImpl;
 
 public class MethodCustom extends MethodDlg {
 
     @Override
-    public void run(CallFrame callingFrame, Object thisPointer) {
+    public void run(Object thisPointer, CallFrame callingFrame) {
         System.out.println("Method " + self.getName() + " was called.");
 
         // setup call frame
@@ -31,7 +28,7 @@ public class MethodCustom extends MethodDlg {
             } else if (statement instanceof MethodCall) {
                 Method method = ((MethodCall)statement).getCalledMethod();
                 if (method.getScope() == Scope.MEMBER) {
-                    method.run(callFrame, ((MethodCall)statement).getTarget().evaluate(callFrame));
+                    method.run(((MethodCall)statement).getTarget().evaluate(callFrame), callFrame);
                 }
             }
         }

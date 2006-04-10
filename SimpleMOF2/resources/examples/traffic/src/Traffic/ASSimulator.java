@@ -22,9 +22,11 @@ import java.io.FileReader;
 import java.util.Collection;
 import java.util.Vector;
 
+@SuppressWarnings({"OverlyCoupledClass"})
 public class ASSimulator {
-        @SuppressWarnings("unchecked")
-    public void run() throws Exception {
+
+    @SuppressWarnings({"unchecked", "OverlyLongMethod", "OverlyCoupledMethod"})
+    public void execute() throws Exception {
         System.out.println("initialize");
         Repository repo = Repository.getLocalRepository();
         Extent m2Extent = repo.createExtent("m2test");
@@ -33,7 +35,7 @@ public class ASSimulator {
         Package cmofPackage = (cmof.Package)m3Extent.query("Package:cmof");
 
         try {
-            repo.loadXmiIntoExtent(m2Extent, cmofPackage, "traffic.xml");            
+            repo.loadXmiIntoExtent(m2Extent, cmofPackage, "traffic.xml");
         } catch (Exception e) {
             if (e instanceof Clusterable) {
                 AbstractClusterableException.printReport((Clusterable)e, System.err);
@@ -95,6 +97,6 @@ public class ASSimulator {
 
 
     public static void main(String[] args) throws Exception {
-        new ASSimulator().run();
+        new ASSimulator().execute();
     }
 }

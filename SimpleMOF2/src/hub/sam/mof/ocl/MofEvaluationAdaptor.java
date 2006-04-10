@@ -2,11 +2,6 @@ package hub.sam.mof.ocl;
 
 import hub.sam.mof.javamapping.JavaMapping;
 import hub.sam.mof.util.AssertionException;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-
 import org.oslo.ocl20.semantics.bridge.Classifier;
 import org.oslo.ocl20.semantics.bridge.EnumLiteral;
 import org.oslo.ocl20.semantics.bridge.ModelElement;
@@ -19,17 +14,21 @@ import org.oslo.ocl20.standard.lib.OclType;
 import org.oslo.ocl20.standard.lib.OclUndefined;
 import org.oslo.ocl20.synthesis.ModelEvaluationAdapter;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
 public class MofEvaluationAdaptor implements ModelEvaluationAdapter {
 
 	public static Object currentValue = null;
-	
+
 	private final MofOclProcessor processor;
 	private Map<Property, Boolean> hasExtraGetter = new HashMap<Property, Boolean>();
-	
+
 	public MofEvaluationAdaptor(MofOclProcessor processor) {
 		this.processor = processor;
 	}
-	
+
 	public Object getImpl(ModelElement me) {
 		// TODO Auto-generated method stub
 		return null;
@@ -39,11 +38,11 @@ public class MofEvaluationAdaptor implements ModelEvaluationAdapter {
 		return null;
 	}
 
-	public String getGetterName(Property property) {		
+	public String getGetterName(Property property) {
 		if (property instanceof MofAdditionalPropertyImpl) {
 			return "getOclAdditionalValue";
 		}
-		
+
 		String result = JavaMapping.mapping.getJavaGetMethodNameForProperty((cmof.Property)property.getDelegate());
 		Boolean extraGetter = hasExtraGetter.get(property);
 		if (extraGetter == null) {
@@ -117,7 +116,7 @@ public class MofEvaluationAdaptor implements ModelEvaluationAdapter {
 
 	public OclType OclModelElement_oclType(OclAnyModelElement impl) {
 		Object o = impl.asJavaObject();
-		
+
 		if (o instanceof cmof.reflection.Object) {
 			Classifier type = processor.getBridgeFactory().buildClassifier(((cmof.reflection.Object)o).getMetaClass());
 			return processor.getStdLibAdapter().Type(type);
@@ -126,12 +125,22 @@ public class MofEvaluationAdaptor implements ModelEvaluationAdapter {
 			return processor.getStdLibAdapter().Type(type);
 		} else {
 			throw new AssertionException("not implemented");
-		}		
+		}
 	}
 
 	public boolean EnumLiteral_equalTo(OclEnumeration e1, OclAny e2) {
 		if (e2 instanceof OclEnumeration) {
-			return e1.asJavaObject() == e2.asJavaObject();
+            Object o1 = e1;
+            while(o1 instanceof OclAnyModelElement) {
+                o1 = ((OclAnyModelElement)o1).asJavaObject();
+            }
+
+            Object o2 = e2;
+            while(o2 instanceof OclAnyModelElement) {
+                o2 = ((OclAnyModelElement)o2).asJavaObject();
+            }
+
+            return o1.equals(o2);
 		} else {
 			return false;
 		}

@@ -3,7 +3,7 @@
 <!-- This xmi file is optimized for MagicDraw UML. Some references are not saved. -->
 <!-- Change MagicDraw UML environment options property General->.Save Rich XMI -->
 
-<xmi:XMI xmi:version='2.1' timestamp='Fri Apr 07 19:50:09 CEST 2006' xmlns:uml='http://schema.omg.org/spec/UML/2.0' xmlns:xmi='http://schema.omg.org/spec/XMI/2.1'>
+<xmi:XMI xmi:version='2.1' timestamp='Mon Apr 10 12:53:18 CEST 2006' xmlns:uml='http://schema.omg.org/spec/UML/2.0' xmlns:xmi='http://schema.omg.org/spec/XMI/2.1'>
 	<xmi:Documentation xmi:Exporter='MagicDraw UML' xmi:ExporterVersion='10.5'/>
 	<uml:Model xmi:id='eee_1045467100313_135436_1' name='Data' visibility='public'>
 		<xmi:Extension xmi:Extender='MagicDraw UML 10.5' xmi:ExtenderID='MagicDraw UML 10.5'>
@@ -159,12 +159,14 @@
 			<ownedMember xmi:type='uml:Realization' xmi:id='_10_5_ec1033d_1144403897978_350040_379' visibility='public' realizingClassifier='_10_5_ec1033d_1144403800883_797486_11' supplier='_10_5_ec1033d_1144403800883_797486_11' client='_10_5_ec1033d_1144403800883_367409_12'/>
 			<ownedMember xmi:type='uml:Realization' xmi:id='_10_5_ec1033d_1144403902475_469688_391' visibility='public' realizingClassifier='_10_5_ec1033d_1144403800871_269079_3' supplier='_10_5_ec1033d_1144403800871_269079_3' client='_10_5_ec1033d_1144403800878_198692_4'/>
 		</ownedMember>
-		<ownedMember xmi:type='uml:PrimitiveType' xmi:id='_10_5_ec1033d_1144413530232_176697_1' name='Boolean' visibility='public'/>
-		<ownedMember xmi:type='uml:PrimitiveType' xmi:id='_10_5_ec1033d_1144413540864_145559_2' name='Integer' visibility='public'/>
 		<ownedMember xmi:type='uml:Package' href='UML_Standard_Profile.xml|magicdraw_uml_standard_profile_v_0001'>
 			<xmi:Extension xmi:Extender='MagicDraw UML 10.5' xmi:ExtenderID='MagicDraw UML 10.5'>
 				<referenceExtension referentPath='UML Standard Profile' referentType='Package'/>
 			</xmi:Extension>
+		</ownedMember>
+		<ownedMember xmi:type='uml:Package' xmi:id='_10_5_ec1033d_1144666383742_38930_130' name='PrimitiveTypes' visibility='public'>
+			<ownedMember xmi:type='uml:PrimitiveType' xmi:id='_10_5_ec1033d_1144413540864_145559_2' name='Integer' visibility='public'/>
+			<ownedMember xmi:type='uml:PrimitiveType' xmi:id='_10_5_ec1033d_1144413530232_176697_1' name='Boolean' visibility='public'/>
 		</ownedMember>
 	</uml:Model>
 	<xmi:Extension xmi:Extender='MagicDraw UML 10.5'>
@@ -1337,7 +1339,7 @@
 					<mdElement elementClass='StringProperty'>
 						<propertyID>INFO_PROPERTY</propertyID>
 						<propertyDescriptionID>INFO_PROPERTY_DESCRIPTION</propertyDescriptionID>
-						<value>24 4d 4d 3c 23 61 46 4a 53 52 d2 27 34 86 75 9c 76 17 7 10 5a df 59 76 78 c2 de e1 a8 f9 8e 44 ce 50 1d ed 94 d 56 cf 75 f7 7d 95 75 92 52 69 b9 46 1e a7 36 2e 9b 68 1e e 37 1c a3 af 9d 44 ea 8f 80 51 db bc </value>
+						<value>24 4d 4d 3c 23 61 46 4a 53 52 d2 2c 29 81 75 9c 76 17 7 11 5d df 59 7d 78 c2 dd e1 a9 f8 8e 44 ce 50 1d ed 94 d 56 cf 75 f7 7d 95 75 92 52 69 b9 46 1e a7 36 2e 9b 68 1e e 37 1c a3 af 9d 44 ea 8f 80 51 db bc </value>
 						<multiline xmi:value='false'/>
 					</mdElement>
 					<mdElement elementClass='LIST_PROPERTY'>

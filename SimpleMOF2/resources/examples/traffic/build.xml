@@ -1,4 +1,4 @@
-<project name = "Traffic Lights" default="compile">
+<project name = "Traffic Lights" default="compile" basedir=".">
 	<description>
         The World Famous Traffic Lights
 	</description>
@@ -41,9 +41,17 @@
 			<src refid="sourcepath"/>
 			<classpath refid="classpath"/>
 		</javac>
-	</target>
+	</target>    
 
-	<target name="clean">
+    <target name="test" depends="compile">
+        <junit printsummary="true" haltonfailure="true" haltonerror="true" fork="on" maxmemory="200000000">
+			<formatter type="plain" usefile="no"/>
+    		<classpath refid="classpath"/>
+			<test name="Traffic.Test"/>
+		</junit>
+    </target>
+
+    <target name="clean">
 		<delete dir="${build-dir}"/>
 		<delete dir="./generated-src"/>
 	</target>

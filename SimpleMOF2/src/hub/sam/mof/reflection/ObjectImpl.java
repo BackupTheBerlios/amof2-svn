@@ -694,7 +694,7 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
         extent = null;
     }
 
-    /* This is super durty, I am really sorry. Ocl allows additional property,value-pairs added temorarely to
+    /* This is super dirty, I am really sorry. Ocl allows additional property,value-pairs added temorarely to
       * a value. Because oslo only uses a getter method identified by name to access properties and Java simply
       * cannot have temporarely methods, this solution has to work for it. For additional values the ocl interpreter
       * will use this getter method; the actual property to access and its values are stores staticly.
