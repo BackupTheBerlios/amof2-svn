@@ -48,7 +48,7 @@ public class PrepareLanguageModel extends Task {
         }
 
         // check if nessesary
-        if ((src.lastModified() <= destdir.lastModified()) && (destdir.listFiles().length > 0)) {
+        if ((src.lastModified() <= destdir.lastModified()) && (destdir.listFiles().length > 0) && (dest == null || dest.lastModified() > 0)) {
             if (!force) {
                 return;
             }

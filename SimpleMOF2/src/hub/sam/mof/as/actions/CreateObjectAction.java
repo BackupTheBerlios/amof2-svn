@@ -1,22 +1,5 @@
 package hub.sam.mof.as.actions;
 
-import hub.sam.mof.as.AsAnalysisEnvironment;
-import hub.sam.mof.as.AsExecutionEnvironment;
-import hub.sam.mof.as.AsExecutionFrame;
-import hub.sam.mof.as.AsSemanticException;
-import hub.sam.mof.ocl.MofEnumerationImpl;
-import hub.sam.mof.ocl.MofOclModelElementTypeImpl;
-import hub.sam.mof.util.AssertionException;
-
-import java.util.Arrays;
-import java.util.List;
-
-import org.oslo.ocl20.semantics.bridge.ModelElement;
-import org.oslo.ocl20.semantics.model.types.BooleanType;
-import org.oslo.ocl20.semantics.model.types.RealType;
-import org.oslo.ocl20.semantics.model.types.StringType;
-import org.oslo.ocl20.standard.types.PrimitiveImpl;
-
 import as.Action;
 import cmof.Classifier;
 import cmof.Enumeration;
@@ -26,16 +9,31 @@ import cmof.UmlClass;
 import core.primitivetypes.Boolean;
 import core.primitivetypes.Integer;
 import core.primitivetypes.UnlimitedNatural;
+import hub.sam.mof.as.AsAnalysisEnvironment;
+import hub.sam.mof.as.AsExecutionEnvironment;
+import hub.sam.mof.as.AsExecutionFrame;
+import hub.sam.mof.as.AsSemanticException;
+import hub.sam.mof.ocl.MofEnumerationImpl;
+import hub.sam.mof.ocl.MofOclModelElementTypeImpl;
+import hub.sam.mof.util.AssertionException;
+import org.oslo.ocl20.semantics.bridge.ModelElement;
+import org.oslo.ocl20.semantics.model.types.BooleanType;
+import org.oslo.ocl20.semantics.model.types.RealType;
+import org.oslo.ocl20.semantics.model.types.StringType;
+import org.oslo.ocl20.standard.types.PrimitiveImpl;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class CreateObjectAction extends AbstractAction {
-	
+
 	private static int unique = 0;
-	
-	private Classifier getClassifierToCreate(AsAnalysisEnvironment environment) {
+
+	protected Classifier getClassifierToCreate(AsAnalysisEnvironment environment) {
 		String body = getAction().getBody().get(1);
 		ModelElement oclModelElementTypeToCreate = null;
 		if (body.contains("::")) {
-			oclModelElementTypeToCreate = environment.getOclEnvironment().lookupPathName(Arrays.asList(body.split("::")));	
+			oclModelElementTypeToCreate = environment.getOclEnvironment().lookupPathName(Arrays.asList(body.split("::")));
 		} else {
 			oclModelElementTypeToCreate = environment.getOclEnvironment().lookup(body);
 		}
@@ -78,7 +76,7 @@ public class CreateObjectAction extends AbstractAction {
 						return environment.getIntegerType();
 					} else {
 						return environment.getUnlimitedNaturalType();
-					}					
+					}
 				}
 			} else {
 				throw new AsSemanticException(errorPrefix + "has unknown type.");
@@ -87,7 +85,7 @@ public class CreateObjectAction extends AbstractAction {
 			throw new AsSemanticException(errorPrefix + "has unknown type.");
 		}
 	}
-	
+
 	private boolean isUnique() {
 		if (getAction().getBody().size() == 3) {
 			if (!new String("unique").equals(getAction().getBody().get(2))) {
@@ -104,7 +102,7 @@ public class CreateObjectAction extends AbstractAction {
 	public void staticSemantics(Action action, Type contextType, AsAnalysisEnvironment environment) throws AsSemanticException {
 		setAction(action);
 		checkArgumentCounts(-1,0,1,false);
-		if (!(getAction().getBody().size() == 2 || getAction().getBody().size() == 3)) { 
+		if (!(getAction().getBody().size() == 2 || getAction().getBody().size() == 3)) {
 			throw new AsSemanticException("Action " + toString() + " has wrong number of arguments.");
 		}
 		if (isUnique() && !(getClassifierToCreate(environment).equals(environment.getIntegerType()))) {
@@ -112,7 +110,7 @@ public class CreateObjectAction extends AbstractAction {
 		}
 		getClassifierToCreate(environment);
 	}
-	
+
 	@Override
 	public void invoke(Action action, List in, List<Object> out, Object context, AsExecutionEnvironment environment, AsExecutionFrame frame) {
 		Object result = null;

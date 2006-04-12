@@ -25,4 +25,15 @@ public class Test extends TestCase {
             assertTrue(false);
         }
     }
+
+    /* TODO
+    public void testWithAsWithDomainModel() {
+        try {
+            ASSimulatorWithDomainModel.main(null);
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+            assertTrue(false);
+        }
+    }
+    */
 }

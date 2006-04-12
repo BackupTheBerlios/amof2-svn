@@ -26,10 +26,24 @@
         <taskdef name="prepare" classname="hub.sam.mof.ant.PrepareLanguageModel">
 	        <classpath refid="classpath"/>
 		</taskdef>
+        <taskdef name="upgrade" classname="hub.sam.mof.ant.UpgradeXmi">
+	        <classpath refid="classpath"/>
+		</taskdef>
     </target>
 
-	<target name="prepare" depends="init">
-        <prepare src="${meta-model}" dest="traffic.xml" destDir="./generated-src" staticModel="Traffic.TrafficModel"/>
+	<target name="domain-model" depends="init">
+        <javadoc packagenames="TrafficDomainModel" sourcepathref="sourcepath">
+			<classpath refid="classpath"/>
+            <doclet name="hub.sam.mof.domainmodels.JavaModelGenerationDoclet" pathref="classpath">
+                <param name="-modelfile" value="traffic-domain-model.xml"/>
+                <param name="-modelname" value="Traffic"/>
+            </doclet>
+        </javadoc>
+        <upgrade inFile="traffic-domain-model.xml" inKind="mof" outFile="traffic-domain-model.mdxml" outKind="md"/>
+	</target>
+
+    <target name="prepare" depends="init">
+        <prepare src="${meta-model}" dest="traffic-prepared.xml" destDir="./generated-src" staticModel="Traffic.TrafficModel"/>
 	</target>
 
     <target name="precompile">
@@ -41,7 +55,7 @@
 			<src refid="sourcepath"/>
 			<classpath refid="classpath"/>
 		</javac>
-	</target>    
+	</target>
 
     <target name="test" depends="compile">
         <junit printsummary="true" haltonfailure="true" haltonerror="true" fork="on" maxmemory="200000000">
