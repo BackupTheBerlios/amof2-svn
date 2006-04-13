@@ -48,6 +48,9 @@ public final class MergeContext {
         if (mergedPackages.size() == 0) {
             return;
         }
+
+        System.out.println("Merging packages: " + mergedPackages + " into " + thePackage.getQualifiedName());
+
         Property mergingProperty = (Property)Repository.getLocalRepository().getExtent(Repository.CMOF_EXTENT_NAME)
                 .query("Package:core/Package:abstractions/Package:namespaces/Class:Namespace/Property:member");
         MergeContext context = new MergeContext(mergingProperty, factory, new DefaultMergeConfiguration());
@@ -147,8 +150,8 @@ public final class MergeContext {
      * @return The merged value.
      * @see MergedValue
      */
-    MergedValue createCopy(Object original) {
-        MergedValue result = new MergedValue(null, this);
+    MergedValue createCopy(Object original, boolean isRunForMergingProperty) {
+        MergedValue result = new MergedValue(null, this, isRunForMergingProperty);
         result.addToMerge(original);
         return result;
     }
@@ -160,14 +163,14 @@ public final class MergeContext {
      * @param composite True if a composite value should be create, false for a reference value.
      * @see MergedValue
      */
-    MergedValue createValue(Object original, boolean composite) {
+    MergedValue createValue(Object original, boolean composite, boolean isRunForMergingProperty) {
         if (original == null) {
             throw new MergeException("Attempt to create composite merged value without original value.");
         }
         if (composite) {
-            return new MergedValue(original, this);
+            return new MergedValue(original, this, isRunForMergingProperty);
         } else {
-            MergedValue result = new MergedValue(this);
+            MergedValue result = new MergedValue(this, isRunForMergingProperty);
             result.addToMerge(original);
             return result;
         }

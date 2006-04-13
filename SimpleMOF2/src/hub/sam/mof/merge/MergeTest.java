@@ -5,6 +5,7 @@ import cmof.Property;
 import cmof.cmofFactory;
 import cmof.reflection.Extent;
 import hub.sam.mof.Repository;
+import hub.sam.mof.reflection.ObjectImpl;
 import hub.sam.mof.xmi.Xmi2Reader;
 import hub.sam.mof.xmi.Xmi1Reader;
 import junit.framework.TestCase;
@@ -82,8 +83,23 @@ public class MergeTest extends TestCase {
         xmiMap.put("Superstructure.cmof", new FileInputStream(new File("resources/models/uml/Superstructure.cmof.xml")));
         xmiMap.put("L1.cmof", new FileInputStream(new File("resources/models/uml/L1.cmof.xml")));
         Xmi2Reader.readMofXmi(xmiMap, umlExtent, m3, Xmi1Reader.XmiKind.mof);
-        MergeContext.mergePackages((cmof.Package)umlExtent.query("Package:L1"),
-                (cmof.cmofFactory)repository.createFactory(umlExtent, m3));
+        Package l1Package = (Package)umlExtent.query("Package:L1");
+        MergeContext.mergePackages(l1Package, (cmof.cmofFactory)repository.createFactory(umlExtent, m3));
+
+        Collection<cmof.reflection.Object> toDelete = new Vector<cmof.reflection.Object>();
+        for(cmof.reflection.Object obj: umlExtent.getObject()) {
+            if (obj instanceof cmof.Package && !l1Package.equals(obj)) {
+                toDelete.add(obj);
+            }
+        }
+        for(cmof.reflection.Object obj: toDelete) {
+            if (((ObjectImpl)obj).getClassInstance().isValid()) {
+                obj.delete();
+            } else {
+                System.out.println("DOUBLE");
+            }
+        }
+
         repository.writeExtentToXmi("resources/models/work/UML1MergeTest.xml", m3, umlExtent);
         repository.deleteExtent("uml test");
     }
@@ -128,8 +144,20 @@ public class MergeTest extends TestCase {
         aTest(10);
     }
 
+    public void test11() throws Exception {
+        aTest(11);
+        post();
+    }
+
     @Override
     protected void tearDown() throws Exception {
         post();
+    }
+
+    public static void main(String[] args) throws Exception {
+        MergeTest test = new MergeTest();
+        test.setUp();
+        test.testUMLL1();
+        test.tearDown();
     }
 }

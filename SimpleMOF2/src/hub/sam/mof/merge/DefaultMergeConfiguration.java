@@ -6,7 +6,7 @@ import cmof.ParameterDirectionKind;
 import cmof.Property;
 import cmof.Type;
 import cmof.Constraint;
-import core.abstractions.elements.Element;
+import core.abstractions.ownerships.Element;
 import core.abstractions.namespaces.NamedElement;
 import core.abstractions.visibilities.VisibilityKind;
 
@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Vector;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Arrays;
 
 /**
  * This is the default implementation, suitable for cmof package merges.
@@ -24,24 +25,38 @@ public class DefaultMergeConfiguration implements MergeConfiguration {
 
     private static final Map<String, Object> knownConflicts = new HashMap<String, Object>();
     static {
-        knownConflicts.put("UML.Classes.Kernel.Property.subsettingContext.null", "UML.Classes.Kernel.Type");
-        knownConflicts.put("UML.Activities.BasicActivities.Pin", Boolean.FALSE);
-        knownConflicts.put("UML.CommonBehaviors.Communications.BehavioralFeature.raisedException",
-                "UML.Classes.Interfaces.Type");
+        knownConflicts.put("InfrastructureLibrary.Core.Constructs.Property.subsettingContext.null.type, UML.Classes.Kernel.Property.subsettingContext.null.type", "UML.Classes.Kernel.Type");
+        knownConflicts.put("UML.Activities.BasicActivities.Pin.isAbstract, UML.Activities.FundamentalActivities.Pin.isAbstract", Boolean.FALSE);
+        knownConflicts.put("UML.Classes.Interfaces.BehavioralFeature.raisedException.type, UML.CommonBehaviors.Communications.BehavioralFeature.raisedException.type", "UML.Classes.Interfaces.Type");
+        knownConflicts.put("UML.Actions.BasicActions.Pin.isAbstract, UML.Activities.BasicActivities.Pin.isAbstract, UML.Activities.FundamentalActivities.Pin.isAbstract, null.isAbstract", Boolean.FALSE);
     }
 
     private final Map<String, Object> conflicts;
+    private final Map<NamedElement, String> alternativeNames = new HashMap<NamedElement, String>();
 
     public DefaultMergeConfiguration(Map<String, Object> conflicts) {
+        super();
         this.conflicts = conflicts;
     }
 
     DefaultMergeConfiguration() {
+        super();
         this.conflicts = knownConflicts;
     }
 
-    @SuppressWarnings({"OverlyLongMethod"})
     public String getAlternativeName(NamedElement forElement) {
+        String result = alternativeNames.get(forElement);
+        if (result == null) {
+            result = getNewAlternativeName(forElement);
+            if (result != null) {
+                alternativeNames.put(forElement, result);
+            }
+        }
+        return result;
+    }
+
+    @SuppressWarnings({"OverlyLongMethod"})
+    private String getNewAlternativeName(NamedElement forElement) {
         if (forElement instanceof cmof.Association) {
             List<String> names = new Vector<String>(2);
             for (Property end : ((cmof.Association)forElement).getMemberEnd()) {
@@ -107,7 +122,8 @@ public class DefaultMergeConfiguration implements MergeConfiguration {
     }
 
     @SuppressWarnings({"unchecked", "RedundantCast"})
-    public Object valueForConflictingValues(Property property, Collection<Object> values, Element mergingElement) {
+    public Object valueForConflictingValues(Property property, Collection<Object> values, Element mergingElement,
+                                            Collection<Element> mergedElements) {
         String propertyName = property.getName();
         if (propertyName.equals("lower")) {
             return Collections.max((Collection)values);
@@ -136,9 +152,35 @@ public class DefaultMergeConfiguration implements MergeConfiguration {
             // is requested, null should be returned.
             return null;
         } else {
-            if (mergingElement instanceof NamedElement &&
-                    conflicts.get(((NamedElement)mergingElement).getQualifiedName()) != null) {
-                Object solution = conflicts.get(((NamedElement)mergingElement).getQualifiedName());
+            return resolveBasedOnConflicts(mergingElement, mergedElements, values, property);
+        }
+    }
+
+    private Object resolveBasedOnConflicts(Element mergingElement, Collection<Element> mergedElements, Collection<Object> values, Property property) {
+        String propertyName = property.getName();
+        String serializedConflictKey = null;
+        if (mergingElement instanceof NamedElement) {
+            String[] conflictKey = new String[mergedElements.size() + 1];
+            conflictKey[0] = getElementUnique(mergingElement) + "." + propertyName;
+            int i = 1;
+            for (Element mergedElement: mergedElements) {
+                conflictKey[i] = getElementUnique(mergedElement) + "." + propertyName;
+                i++;
+            }
+            Arrays.sort(conflictKey);
+            StringBuffer serializedConflictKeyBuffer = new StringBuffer();
+            boolean first = true;
+            for (String conflictKeyPart: conflictKey) {
+                if (!first) {
+                    serializedConflictKeyBuffer.append(", ");
+                } else {
+                    first = false;
+                }
+                serializedConflictKeyBuffer.append(conflictKeyPart);
+            }
+            serializedConflictKey = serializedConflictKeyBuffer.toString();
+            if (conflicts.get(serializedConflictKey) != null) {
+                Object solution = conflicts.get(serializedConflictKey);
                 for(Object value: values) {
                     if (value instanceof NamedElement) {
                         if (solution.equals(((NamedElement)value).getQualifiedName())) {
@@ -151,9 +193,10 @@ public class DefaultMergeConfiguration implements MergeConfiguration {
                     }
                 }
             }
-            throw new MergeException("conflicting values for merging property " + property.getQualifiedName() +
-                    " in merging element " + mergingElement);
         }
+
+        throw new MergeException("conflicting values for merging property " + property.getQualifiedName() +
+                " in merging element " + mergingElement + ". The conflect key is " + serializedConflictKey + ".");
     }
 
     public void customMerge(Property property, Collection<Collection<Object>> valueCollections) {
@@ -179,6 +222,14 @@ public class DefaultMergeConfiguration implements MergeConfiguration {
             }
             values.remove(result);
             values.add(result);
+        }
+    }
+
+    private String getElementUnique(Element element) {
+        if (element instanceof NamedElement) {
+            return ((NamedElement)element).getQualifiedName();
+        } else {
+            return getElementUnique(element.getOwner()) + ".null";
         }
     }
 }

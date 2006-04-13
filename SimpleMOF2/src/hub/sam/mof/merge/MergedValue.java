@@ -29,7 +29,7 @@ final class MergedValue {
     private final List<Object> values = new Vector<Object>();
     private final boolean composite;
     private final MergeContext context;
-    private final boolean copy; // TODO: remove
+    private final boolean isRunForMergingProperty;
     private boolean merged = false;
 
     /**
@@ -38,15 +38,15 @@ final class MergedValue {
      * @param original The original value, or null for a copy.
      * @param context  The context of the merged value.
      */
-    MergedValue(Object original, MergeContext context) {
+    MergedValue(Object original, MergeContext context, boolean isRunForMergingProperty) {
         super();
+        this.isRunForMergingProperty = isRunForMergingProperty;
         this.original = original;
         this.context = context;
         this.composite = true;
         if (original != null && !(original instanceof cmof.reflection.Object)) {
             throw new MergeException("Attempt to merge non object values in a composite merged value.");
         }
-        copy = original == null;
     }
 
     /**
@@ -54,12 +54,12 @@ final class MergedValue {
      *
      * @param context The context of the merged value.
      */
-    MergedValue(MergeContext context) {
+    MergedValue(MergeContext context, boolean isRunForMergingProperty) {
         super();
+        this.isRunForMergingProperty = isRunForMergingProperty;
         this.original = null;
         this.context = context;
         this.composite = false;
-        this.copy = false;
     }
 
     /**
@@ -132,28 +132,42 @@ final class MergedValue {
         }
     }
 
+    /**
+     * There are to causes that make to object to be merged with each other. One they are structurally the same,
+     * for example the same UML Comment merged in twice in a complicated merge. The other is, they have to be merged
+     * because they are values of a merging property and have names that indicate a merge.
+     *
+     * @param comparetToValue
+     * @param v2
+     * @return Whether the objects have to be merged.
+     */
     private boolean isToMergeWithValue(Object comparetToValue, Object v2) {
-        if (comparetToValue.getClass().equals(v2.getClass())) {
-            if (comparetToValue.equals(v2)) {
-                return true;
-            } else {
-                if (comparetToValue instanceof NamedElement && v2 instanceof NamedElement) {
-                    NamedElement originalValue = (NamedElement)comparetToValue;
-                    NamedElement v2NamedElement = (NamedElement)v2;
-                    if (getNameForNamedElement(originalValue).equals(getNameForNamedElement(v2NamedElement))) {
-                        if (this.inMergeContext(originalValue) && inMergeContext(v2NamedElement)) {
-                            return !values.contains(v2);
+        if (isRunForMergingProperty) {
+            if (comparetToValue.getClass().equals(v2.getClass())) {
+                if (comparetToValue.equals(v2)) {
+                    return true;
+                } else {
+                    if (comparetToValue instanceof NamedElement && v2 instanceof NamedElement) {
+                        NamedElement originalValue = (NamedElement)comparetToValue;
+                        NamedElement v2NamedElement = (NamedElement)v2;
+                        if (getNameForNamedElement(originalValue).equals(getNameForNamedElement(v2NamedElement))) {
+                            if (this.inMergeContext(originalValue) && inMergeContext(v2NamedElement)) {
+                                return !values.contains(v2);
+                            } else {
+                                return false;
+                            }
                         } else {
                             return false;
                         }
                     } else {
                         return false;
                     }
-                } else {
-                    return false;
                 }
+            } else {
+                return false;
             }
         } else {
+            // TODO
             return false;
         }
     }
@@ -179,14 +193,6 @@ final class MergedValue {
      */
     boolean isSupersetMerge(MergedValue other) {
         return isSameValue(other) && containsAllOf(other);
-    }
-
-    private int size() {
-        if (original == null) {
-            return values.size();
-        } else {
-            return values.size() + 1;
-        }
     }
 
     private boolean containsAllOf(MergedValue other) {

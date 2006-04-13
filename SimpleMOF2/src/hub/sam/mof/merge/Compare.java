@@ -9,11 +9,58 @@ import hub.sam.mof.mofinstancemodel.MofClassifierSemantics;
 import hub.sam.util.MultiMap;
 
 import java.util.Collection;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Collections;
 
 /**
  * Compare allows recursive comparison of two models; the recursion is along composition.
  */
 public class Compare {
+
+    static class Tuple {
+        private final Object o1;
+        private final Object o2;
+
+        Tuple(Object o1, Object o2) {
+            super();
+            this.o1 = o1;
+            this.o2 = o2;
+        }
+
+        @Override
+        public int hashCode() {
+            return o1.hashCode() + o2.hashCode();
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj instanceof Tuple) {
+                Tuple tupe = (Tuple)obj;
+                if (o1 == null || o2 == null) {
+                    return ((o1 == tupe.o1) && (o2 == tupe.o2)) || ((o1 == tupe.o2) && (o2 == tupe.o1));
+                } else {
+                    return (o1.equals(tupe.o1) && o2.equals(tupe.o2)) || (o1.equals(tupe.o2) && o2.equals(tupe.o1));
+                }
+            } else {
+                return false;
+            }
+        }
+    }
+    private static final Map<Tuple, Difference> cache = new HashMap<Tuple, Difference>();
+    private static final Compare compareForCachedCompare = new Compare(Collections.EMPTY_LIST);
+
+    public static Difference cachedCompare(Object o1, Object o2) {
+        //Tuple asTuple = new Tuple(o1, o2); TODO
+        //Difference result = cache.get(asTuple);
+        //if (result == null) {
+        Difference result = compareForCachedCompare.compare(o1,o2);
+        //    if (result != null) {
+        //        cache.put(asTuple, result);
+        //    }
+        //}
+        return result;
+    }
 
     private final MultiMap<Object, Object> comparedElements = new MultiMap<Object, Object>();
     private final Collection<Property> doNotConvert;
@@ -89,7 +136,7 @@ public class Compare {
                         Object v2 = ((ReflectiveSequence)values1).get(i);
                         Difference difference = compare(v1, v2);
                         if (difference != null) {
-                            return new Difference("Two values differ.", e1, e2, property, null, null, difference);
+                            return new Difference("(2) Two values differ.", e1, e2, property, null, null, difference);
                         }
                     }
                 } else {
@@ -113,7 +160,7 @@ public class Compare {
                 Object v2 = ((cmof.reflection.Object)e2).get(property);
                 Difference difference = compare(v1, v2);
                 if (difference != null) {
-                    return new Difference("Two values differ.", e1, e2, property, null, null, difference);
+                    return new Difference("(1) Two values differ.", e1, e2, property, null, null, difference);
                 }
             }
         }

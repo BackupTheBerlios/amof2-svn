@@ -360,10 +360,10 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
         } catch (Throwable e) {
             result = super.toString();
         }
-        result += "(" + hashCode() + ")";
-        if (instance != null) {
-            result += " " + (instance.isValid() ? "valid" : "invalid");
-        }
+        //result += "(" + hashCode() + ")";
+        //if (instance != null) {
+        //    result += " " + (instance.isValid() ? "valid" : "invalid");
+        //}
         return result;
     }
 

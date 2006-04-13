@@ -1,7 +1,7 @@
 package hub.sam.mof.merge;
 
 import cmof.Property;
-import core.abstractions.elements.Element;
+import core.abstractions.ownerships.Element;
 import core.abstractions.namespaces.NamedElement;
 
 import java.util.Collection;
@@ -28,10 +28,12 @@ public interface MergeConfiguration {
      * @param property       The property that caused the conflict.
      * @param values         The values with at least two values in conflict.
      * @param mergingElement The element that the values are merged for.
+     * @param mergedElements The elements that are merged.
      * @return Returns the value that will prevail.
      * @throws MergeException If the conflict cannot be solved.
      */
-    public Object valueForConflictingValues(Property property, Collection<Object> values, Element mergingElement);
+    public Object valueForConflictingValues(Property property, Collection<Object> values, Element mergingElement,
+                                            Collection<Element> mergedElements);
 
     /**
      * This method allows the manipulation of values before they are merged. This enables custom merging for the
