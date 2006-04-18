@@ -358,7 +358,12 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
                 result = (String)get("name");
             }
         } catch (Throwable e) {
-            result = super.toString();
+            result = "[" + getMetaClass().toString() + "]";
+            if (container() != null) {
+                result+= " in " + container().toString();
+            }
+            String superString = super.toString();
+            result += " (" + superString.substring(superString.lastIndexOf('@') + 1, superString.length()) + ")";
         }
         //result += "(" + hashCode() + ")";
         //if (instance != null) {

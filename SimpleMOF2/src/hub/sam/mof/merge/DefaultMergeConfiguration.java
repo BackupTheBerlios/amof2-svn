@@ -6,6 +6,8 @@ import cmof.ParameterDirectionKind;
 import cmof.Property;
 import cmof.Type;
 import cmof.Constraint;
+import cmof.PackageImport;
+import cmof.Comment;
 import core.abstractions.ownerships.Element;
 import core.abstractions.namespaces.NamedElement;
 import core.abstractions.visibilities.VisibilityKind;
@@ -23,25 +25,32 @@ import java.util.Arrays;
  */
 public class DefaultMergeConfiguration implements MergeConfiguration {
 
-    private static final Map<String, Object> knownConflicts = new HashMap<String, Object>();
+    public static final Map<String, Object> knownConflicts = new HashMap<String, Object>();
     static {
         knownConflicts.put("InfrastructureLibrary.Core.Constructs.Property.subsettingContext.null.type, UML.Classes.Kernel.Property.subsettingContext.null.type", "UML.Classes.Kernel.Type");
         knownConflicts.put("UML.Activities.BasicActivities.Pin.isAbstract, UML.Activities.FundamentalActivities.Pin.isAbstract", Boolean.FALSE);
         knownConflicts.put("UML.Classes.Interfaces.BehavioralFeature.raisedException.type, UML.CommonBehaviors.Communications.BehavioralFeature.raisedException.type", "UML.Classes.Interfaces.Type");
-        knownConflicts.put("UML.Actions.BasicActions.Pin.isAbstract, UML.Activities.BasicActivities.Pin.isAbstract, UML.Activities.FundamentalActivities.Pin.isAbstract, null.isAbstract", Boolean.FALSE);
+        knownConflicts.put("UML.Actions.BasicActions.Pin.isAbstract, UML.Activities.BasicActivities.Pin.isAbstract, null.isAbstract", Boolean.FALSE);
     }
 
     private final Map<String, Object> conflicts;
     private final Map<NamedElement, String> alternativeNames = new HashMap<NamedElement, String>();
+    private final Collection<Property> mergingProperties;
 
-    public DefaultMergeConfiguration(Map<String, Object> conflicts) {
+    public DefaultMergeConfiguration(Map<String, Object> conflicts, Collection<Property> mergingProperties) {
         super();
         this.conflicts = conflicts;
+        this.mergingProperties = mergingProperties;
     }
 
+    /*
     DefaultMergeConfiguration() {
         super();
         this.conflicts = knownConflicts;
+    } */
+
+    public Collection<Property> getMergingProperties() {
+        return this.mergingProperties;
     }
 
     public String getAlternativeName(NamedElement forElement) {
@@ -202,6 +211,24 @@ public class DefaultMergeConfiguration implements MergeConfiguration {
     public void customMerge(Property property, Collection<Collection<Object>> valueCollections) {
         if (property.getQualifiedName().equals(cmof.Parameter.class.getCanonicalName())) {
             customMergeOperationParameter(valueCollections);
+        }
+    }
+
+    public Boolean customEquivalence(Object v1, Object v2, MergeContext context) {
+        if (v1 instanceof PackageImport) {
+            cmof.Package p1 = ((PackageImport)v1).getImportedPackage();
+            cmof.Package p2 = ((PackageImport)v2).getImportedPackage();
+            if (context.isEquivalent(p1,p2) || context.isEquivalent(p2,p1)) {
+                return Boolean.TRUE;
+            } else {
+                return null;
+            }
+        } else if (v1 instanceof Comment) {
+            String body1 = ((Comment)v1).getBody();
+            String body2 = ((Comment)v2).getBody();
+            return (body1 != null) && body1.equals(body2);
+        } else {
+            return null;
         }
     }
 

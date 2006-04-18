@@ -1,6 +1,7 @@
 package hub.sam.mof.merge;
 
 import cmof.Property;
+import cmof.exception.MultiplicityViolation;
 import cmof.common.ReflectiveCollection;
 import core.abstractions.ownerships.Element;
 import hub.sam.mof.mofinstancemodel.MofClassSemantics;
@@ -89,7 +90,13 @@ final class Update {
             for (MergedValue value : values) {
                 Object mergedValue = value.getMergedValue();
                 if (context.isNewLink(property, mergedValue, mergingElement)) {
-                    objectValues.add(mergedValue);
+                    try {
+                        objectValues.add(mergedValue);
+                        context.addNewLink(property, mergedValue, mergingElement);
+                    } catch (MultiplicityViolation e) {
+                        throw new MergeException("Merge caused multiplicity violation for " + property + " on value " +
+                                mergingElement + " for value " + mergedValue);
+                    }
                 }
             }
         } else {
@@ -97,6 +104,7 @@ final class Update {
                 Object value = values.iterator().next().getMergedValue();
                 if (context.isNewLink(property, value, mergingElement)) {
                     ((cmof.reflection.Object)mergingElement).set(property, value);
+                    context.addNewLink(property, value, mergingElement);
                 }
             }
         }

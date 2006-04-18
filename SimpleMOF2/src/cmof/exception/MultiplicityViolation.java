@@ -14,7 +14,7 @@ details.
 
     You should have received a copy of the GNU Lesser General Public License
 along with this library; if not, write to the Free Software Foundation, Inc.,
-59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
+59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
 package cmof.exception;
@@ -22,8 +22,8 @@ package cmof.exception;
 import hub.sam.mof.mofinstancemodel.MofStructureSlot;
 
 /**
- * Denotes a violation of the multiplicity constraint of a slot. It is thrown 
- * whenever the number of values in a slot does not fulfil the 
+ * Denotes a violation of the multiplicity constraint of a slot. It is thrown
+ * whenever the number of values in a slot does not fulfil the
  * mulitplicity given by the defining property of the slot.
  */
 public class MultiplicityViolation extends ModelException {
@@ -31,13 +31,13 @@ public class MultiplicityViolation extends ModelException {
 	private static final long serialVersionUID = 1L;
 
 	private final MofStructureSlot src;
-	
+
 	public MultiplicityViolation(MofStructureSlot src) {
-		super("Multiplicity of property " + src.getDefiningFeature().getQualifiedName() + 
-				" on value " + src.getParentIdentity() + " has been violated");
+		super("Multiplicity of property " + src.getDefiningFeature().getQualifiedName() +
+				" on value " + src.getParentIdentity().getSecondaryIdentity() + " has been violated");
 		this.src = src;
 	}
-	
+
 	/**
 	 * @return The slot that causes this vialation.
 	 */

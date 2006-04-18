@@ -7,6 +7,7 @@ import core.abstractions.ownerships.Element;
 import hub.sam.mof.mofinstancemodel.MofClassSemantics;
 import hub.sam.mof.mofinstancemodel.MofClassifierSemantics;
 import hub.sam.util.MultiMap;
+import hub.sam.util.Tuple;
 
 import java.util.Collection;
 import java.util.Map;
@@ -17,36 +18,7 @@ import java.util.Collections;
  * Compare allows recursive comparison of two models; the recursion is along composition.
  */
 public class Compare {
-
-    static class Tuple {
-        private final Object o1;
-        private final Object o2;
-
-        Tuple(Object o1, Object o2) {
-            super();
-            this.o1 = o1;
-            this.o2 = o2;
-        }
-
-        @Override
-        public int hashCode() {
-            return o1.hashCode() + o2.hashCode();
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            if (obj instanceof Tuple) {
-                Tuple tupe = (Tuple)obj;
-                if (o1 == null || o2 == null) {
-                    return ((o1 == tupe.o1) && (o2 == tupe.o2)) || ((o1 == tupe.o2) && (o2 == tupe.o1));
-                } else {
-                    return (o1.equals(tupe.o1) && o2.equals(tupe.o2)) || (o1.equals(tupe.o2) && o2.equals(tupe.o1));
-                }
-            } else {
-                return false;
-            }
-        }
-    }
+    
     private static final Map<Tuple, Difference> cache = new HashMap<Tuple, Difference>();
     private static final Compare compareForCachedCompare = new Compare(Collections.EMPTY_LIST);
 
@@ -54,7 +26,7 @@ public class Compare {
         //Tuple asTuple = new Tuple(o1, o2); TODO
         //Difference result = cache.get(asTuple);
         //if (result == null) {
-        Difference result = compareForCachedCompare.compare(o1,o2);
+        Difference result = new Compare(Collections.EMPTY_LIST).compare(o1,o2);
         //    if (result != null) {
         //        cache.put(asTuple, result);
         //    }

@@ -78,6 +78,16 @@ final class MergedValue {
         if (!composite && original == null) {
             original = value;
         } else {
+            if (original != null) {
+                if (context.isEquivalent(original, value)) {
+                    return;
+                }
+            }
+            for (Object o: values) {
+                if (context.isEquivalent(o, value)) {
+                    return;
+                }
+            }
             values.add(value);
         }
     }
@@ -167,8 +177,7 @@ final class MergedValue {
                 return false;
             }
         } else {
-            // TODO
-            return false;
+            return context.isEquivalent(comparetToValue, v2);
         }
     }
 

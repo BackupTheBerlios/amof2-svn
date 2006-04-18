@@ -30,9 +30,14 @@ import hub.sam.mof.test.lib.abstractions.namespaces.TestNamespace;
 import hub.sam.mof.test.lib.abstractions.ownerships.TestElement;
 import hub.sam.mof.test.lib.abstractions.redefinitions.TestRedfinableElement;
 import hub.sam.mof.test.lib.abstractions.umlsuper.TestClassifier;
-import junit.framework.*;
+import junit.framework.TestCase;
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
+@SuppressWarnings({"OverlyCoupledClass"})
 public class Main extends TestCase {
+
+    @SuppressWarnings({"OverlyCoupledMethod"})
     public static Test suite() {
         TestSuite suite = new TestSuite();
         suite.addTestSuite(BootstrapM3Model.class);
@@ -41,6 +46,8 @@ public class Main extends TestCase {
         suite.addTestSuite(CustomCode.class);
         suite.addTestSuite(ClientServer.class);
         suite.addTestSuite(DomainModelsTest.class);
+
+        suite.addTestSuite(hub.sam.mof.merge.MergeTest.class);
 
         suite.addTestSuite(TestIsDistinguishAbleFrom.class);
         suite.addTestSuite(TestAllFeatures.class);

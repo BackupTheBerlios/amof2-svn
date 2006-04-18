@@ -3,7 +3,7 @@
 <!-- This xmi file is optimized for MagicDraw UML. Some references are not saved. -->
 <!-- Change MagicDraw UML environment options property General->.Save Rich XMI -->
 
-<xmi:XMI xmi:version='2.1' timestamp='Wed Apr 12 15:18:40 CEST 2006' xmlns:uml='http://schema.omg.org/spec/UML/2.0' xmlns:xmi='http://schema.omg.org/spec/XMI/2.1'>
+<xmi:XMI xmi:version='2.1' timestamp='Tue Apr 18 12:56:57 CEST 2006' xmlns:uml='http://schema.omg.org/spec/UML/2.0' xmlns:xmi='http://schema.omg.org/spec/XMI/2.1'>
 	<xmi:Documentation xmi:Exporter='MagicDraw UML' xmi:ExporterVersion='10.5'/>
 	<uml:Model xmi:id='eee_1045467100313_135436_1' name='org.omg.xmi.nsPrefix' visibility='public'>
 		<xmi:Extension xmi:Extender='MagicDraw UML 10.5' xmi:ExtenderID='MagicDraw UML 10.5'>
@@ -406,7 +406,6 @@
 			<ownedMember xmi:type='uml:Package' xmi:id='_10_5_ec1033d_1144846256920_426994_2' name='A' visibility='public'>
 				<packageMerge xmi:type='uml:PackageMerge' xmi:id='_10_5_ec1033d_1144847447815_689401_599' mergedPackage='_10_5_ec1033d_1144846256924_758291_3'/>
 				<packageMerge xmi:type='uml:PackageMerge' xmi:id='_10_5_ec1033d_1144847450415_669845_611' mergedPackage='_10_5_ec1033d_1144846760377_566395_87'/>
-				<ownedComment xmi:type='uml:Comment' xmi:id='_10_5_ec1033d_1144847855407_254522_744' body='Huh'/>
 				<ownedMember xmi:type='uml:Class' xmi:id='_10_5_ec1033d_1144846256930_691133_6' name='Class' visibility='public'>
 					<ownedAttribute xmi:type='uml:Property' xmi:id='_10_5_ec1033d_1144846256978_225586_21' name='property' visibility='public' association='_10_5_ec1033d_1144846256943_191722_8' type='_10_5_ec1033d_1144846256941_300427_7'/>
 				</ownedMember>
@@ -421,7 +420,6 @@
 				<packageMerge xmi:type='uml:PackageMerge' xmi:id='_10_5_ec1033d_1144847457872_288183_623' mergedPackage='_10_5_ec1033d_1144847266686_877076_458'/>
 				<packageMerge xmi:type='uml:PackageMerge' xmi:id='_10_5_ec1033d_1144847460704_845542_635' mergedPackage='_10_5_ec1033d_1144847260565_841625_437'/>
 				<packageMerge xmi:type='uml:PackageMerge' xmi:id='_10_5_ec1033d_1144847475489_766131_671' mergedPackage='_10_5_ec1033d_1144846760377_566395_87'/>
-				<ownedComment xmi:type='uml:Comment' xmi:id='_10_5_ec1033d_1144847874168_976699_745' body='Huh'/>
 				<ownedMember xmi:type='uml:Class' xmi:id='_10_5_ec1033d_1144846256961_91140_11' name='Class' visibility='public'>
 					<ownedAttribute xmi:type='uml:Property' xmi:id='_10_5_ec1033d_1144846257015_326647_29' name='property' visibility='public' association='_10_5_ec1033d_1144846256966_956210_13' type='_10_5_ec1033d_1144846256964_266019_12'/>
 				</ownedMember>
@@ -454,7 +452,6 @@
 			<ownedMember xmi:type='uml:Package' xmi:id='_10_5_ec1033d_1144846760377_566395_87' name='C' visibility='public'>
 				<packageMerge xmi:type='uml:PackageMerge' xmi:id='_10_5_ec1033d_1144847466800_909497_647' mergedPackage='_10_5_ec1033d_1144847266686_877076_458'/>
 				<packageMerge xmi:type='uml:PackageMerge' xmi:id='_10_5_ec1033d_1144847469465_710425_659' mergedPackage='_10_5_ec1033d_1144847260565_841625_437'/>
-				<ownedComment xmi:type='uml:Comment' xmi:id='_10_5_ec1033d_1144847896698_938422_747' body='Huh'/>
 				<ownedMember xmi:type='uml:Class' xmi:id='_10_5_ec1033d_1144846760379_948040_88' name='Class' visibility='public'>
 					<ownedAttribute xmi:type='uml:Property' xmi:id='_10_5_ec1033d_1144846760387_466240_94' name='property2' visibility='public' association='_10_5_ec1033d_1144846760383_944155_90' type='_10_5_ec1033d_1144846760381_287043_89'/>
 				</ownedMember>
@@ -478,7 +475,6 @@
 				</ownedMember>
 			</ownedMember>
 			<ownedMember xmi:type='uml:Package' xmi:id='_10_5_ec1033d_1144847266686_877076_458' name='B1' visibility='public'>
-				<ownedComment xmi:type='uml:Comment' xmi:id='_10_5_ec1033d_1144847882344_682168_746' body='Huh'/>
 				<ownedMember xmi:type='uml:Class' xmi:id='_10_5_ec1033d_1144847266688_443154_460' name='Class' visibility='public'>
 					<ownedAttribute xmi:type='uml:Property' xmi:id='_10_5_ec1033d_1144847266696_683932_464' name='property' visibility='public' association='_10_5_ec1033d_1144847266693_185725_462' type='_10_5_ec1033d_1144847266691_21997_461'/>
 				</ownedMember>
@@ -487,6 +483,46 @@
 					<memberEnd xmi:idref='_10_5_ec1033d_1144847266696_683932_464'/>
 					<memberEnd xmi:idref='_10_5_ec1033d_1144847266698_4693_465'/>
 					<ownedEnd xmi:type='uml:Property' xmi:id='_10_5_ec1033d_1144847266698_4693_465' name='property2' visibility='public' association='_10_5_ec1033d_1144847266693_185725_462' type='_10_5_ec1033d_1144847266688_443154_460'/>
+				</ownedMember>
+			</ownedMember>
+		</ownedMember>
+		<ownedMember xmi:type='uml:Package' xmi:id='_10_5_ec1033d_1145357465315_579802_750' name='MergeTest12' visibility='public'>
+			<ownedMember xmi:type='uml:Package' xmi:id='_10_5_ec1033d_1145357465316_371739_751' name='A' visibility='public'>
+				<packageMerge xmi:type='uml:PackageMerge' xmi:id='_10_5_ec1033d_1145357465319_652663_754' mergedPackage='_10_5_ec1033d_1145357465317_104069_752'/>
+				<ownedMember xmi:type='uml:Class' xmi:id='_10_5_ec1033d_1145357465319_863333_755' name='Class' visibility='public'/>
+			</ownedMember>
+			<ownedMember xmi:type='uml:Package' xmi:id='_10_5_ec1033d_1145357465317_104069_752' name='B' visibility='public'>
+				<ownedMember xmi:type='uml:Class' xmi:id='_10_5_ec1033d_1145357465323_481604_757' name='Class' visibility='public'>
+					<ownedAttribute xmi:type='uml:Property' xmi:id='_10_5_ec1033d_1145357465333_588430_768' name='PA11' visibility='public' association='_10_5_ec1033d_1145357465325_662850_759' type='_10_5_ec1033d_1145357465324_309406_758'/>
+					<ownedAttribute xmi:type='uml:Property' xmi:id='_10_5_ec1033d_1145357720078_887879_910' name='PA21' visibility='public' association='_10_5_ec1033d_1145357720077_782597_909' type='_10_5_ec1033d_1145357465324_309406_758'/>
+				</ownedMember>
+				<ownedMember xmi:type='uml:Class' xmi:id='_10_5_ec1033d_1145357465324_309406_758' name='Class2' visibility='public'/>
+				<ownedMember xmi:type='uml:Association' xmi:id='_10_5_ec1033d_1145357465325_662850_759' name='A1' visibility='public'>
+					<memberEnd xmi:idref='_10_5_ec1033d_1145357465333_588430_768'/>
+					<memberEnd xmi:idref='_10_5_ec1033d_1145357465334_226324_769'/>
+					<ownedEnd xmi:type='uml:Property' xmi:id='_10_5_ec1033d_1145357465334_226324_769' name='PA12' visibility='public' association='_10_5_ec1033d_1145357465325_662850_759' type='_10_5_ec1033d_1145357465323_481604_757'/>
+				</ownedMember>
+				<ownedMember xmi:type='uml:Association' xmi:id='_10_5_ec1033d_1145357720077_782597_909' name='A2' visibility='public'>
+					<memberEnd xmi:idref='_10_5_ec1033d_1145357720078_887879_910'/>
+					<memberEnd xmi:idref='_10_5_ec1033d_1145357720079_731727_911'/>
+					<ownedEnd xmi:type='uml:Property' xmi:id='_10_5_ec1033d_1145357720079_731727_911' name='PA22' visibility='public' association='_10_5_ec1033d_1145357720077_782597_909' type='_10_5_ec1033d_1145357465323_481604_757'/>
+				</ownedMember>
+			</ownedMember>
+			<ownedMember xmi:type='uml:Package' xmi:id='_10_5_ec1033d_1145357785588_877799_955' name='Result' visibility='public'>
+				<ownedMember xmi:type='uml:Class' xmi:id='_10_5_ec1033d_1145357785589_575167_956' name='Class' visibility='public'>
+					<ownedAttribute xmi:type='uml:Property' xmi:id='_10_5_ec1033d_1145357785596_603024_961' name='PA11' visibility='public' association='_10_5_ec1033d_1145357785592_212670_958' type='_10_5_ec1033d_1145357785591_602972_957'/>
+					<ownedAttribute xmi:type='uml:Property' xmi:id='_10_5_ec1033d_1145357785597_308785_962' name='PA21' visibility='public' association='_10_5_ec1033d_1145357785593_108115_959' type='_10_5_ec1033d_1145357785591_602972_957'/>
+				</ownedMember>
+				<ownedMember xmi:type='uml:Class' xmi:id='_10_5_ec1033d_1145357785591_602972_957' name='Class2' visibility='public'/>
+				<ownedMember xmi:type='uml:Association' xmi:id='_10_5_ec1033d_1145357785592_212670_958' name='A1' visibility='public'>
+					<memberEnd xmi:idref='_10_5_ec1033d_1145357785596_603024_961'/>
+					<memberEnd xmi:idref='_10_5_ec1033d_1145357785598_803212_963'/>
+					<ownedEnd xmi:type='uml:Property' xmi:id='_10_5_ec1033d_1145357785598_803212_963' name='PA12' visibility='public' association='_10_5_ec1033d_1145357785592_212670_958' type='_10_5_ec1033d_1145357785589_575167_956'/>
+				</ownedMember>
+				<ownedMember xmi:type='uml:Association' xmi:id='_10_5_ec1033d_1145357785593_108115_959' name='A2' visibility='public'>
+					<memberEnd xmi:idref='_10_5_ec1033d_1145357785597_308785_962'/>
+					<memberEnd xmi:idref='_10_5_ec1033d_1145357785599_621084_964'/>
+					<ownedEnd xmi:type='uml:Property' xmi:id='_10_5_ec1033d_1145357785599_621084_964' name='PA22' visibility='public' association='_10_5_ec1033d_1145357785593_108115_959' type='_10_5_ec1033d_1145357785589_575167_956'/>
 				</ownedMember>
 			</ownedMember>
 		</ownedMember>
@@ -504,7 +540,7 @@
 					<diagramScrollPositionX xmi:value='0'/>
 					<diagramScrollPositionY xmi:value='0'/>
 					<maximized xmi:value='true'/>
-					<active xmi:value='true'/>
+					<active xmi:value='false'/>
 					<mdOwnedViews>
 						<mdElement elementClass='Class' xmi:id='_10_5_ec1033d_1144846257048_259297_45'>
 							<elementID xmi:idref='_10_5_ec1033d_1144846256941_300427_7'/>
@@ -1694,6 +1730,270 @@
 							<linkTaggedValuesID xmi:idref='_10_5_ec1033d_1144847346773_105237_559'/>
 							<associationFirstEndID xmi:idref='_10_5_ec1033d_1144847260592_293970_448'/>
 							<associationSecondEndID xmi:idref='_10_5_ec1033d_1144847260592_481103_449'/>
+						</mdElement>
+					</mdOwnedViews>
+				</mdElement>
+			</mdElement>
+			<mdElement elementClass='Diagram' xmi:id='_10_5_ec1033d_1145357483416_58924_778' name='12A' visibility='public' ownerOfDiagram='_10_5_ec1033d_1145357465316_371739_751'>
+				<mdElement elementClass='DiagramPresentationElement' xmi:id='_10_5_ec1033d_1145357483421_313470_779'>
+					<elementID xmi:idref='_10_5_ec1033d_1145357483416_58924_778'/>
+					<type>Class Diagram</type>
+					<umlType>Class Diagram</umlType>
+					<zoomFactor xmi:value='1.0'/>
+					<diagramOpened xmi:value='true'/>
+					<diagramWindowBounds>0, 0, 827, 844</diagramWindowBounds>
+					<diagramScrollPositionX xmi:value='0'/>
+					<diagramScrollPositionY xmi:value='0'/>
+					<maximized xmi:value='true'/>
+					<active xmi:value='false'/>
+					<mdOwnedViews>
+						<mdElement elementClass='Class' xmi:id='_10_5_ec1033d_1145357496740_478610_780'>
+							<elementID xmi:idref='_10_5_ec1033d_1145357465319_863333_755'/>
+							<geometry>105, 119, 95, 58</geometry>
+						</mdElement>
+					</mdOwnedViews>
+				</mdElement>
+			</mdElement>
+			<mdElement elementClass='Diagram' xmi:id='_10_5_ec1033d_1145357465326_307966_760' name='12B' visibility='public' ownerOfDiagram='_10_5_ec1033d_1145357465317_104069_752'>
+				<mdElement elementClass='DiagramPresentationElement' xmi:id='_10_5_ec1033d_1145357465337_354899_772'>
+					<elementID xmi:idref='_10_5_ec1033d_1145357465326_307966_760'/>
+					<type>Class Diagram</type>
+					<umlType>Class Diagram</umlType>
+					<zoomFactor xmi:value='1.0'/>
+					<diagramOpened xmi:value='true'/>
+					<diagramWindowBounds>0, 0, 827, 844</diagramWindowBounds>
+					<diagramScrollPositionX xmi:value='0'/>
+					<diagramScrollPositionY xmi:value='0'/>
+					<maximized xmi:value='true'/>
+					<active xmi:value='true'/>
+					<mdOwnedViews>
+						<mdElement elementClass='Class' xmi:id='_10_5_ec1033d_1145357564683_617351_831'>
+							<elementID xmi:idref='_10_5_ec1033d_1145357465324_309406_758'/>
+							<geometry>105, 189, 45, 44</geometry>
+						</mdElement>
+						<mdElement elementClass='Class' xmi:id='_10_5_ec1033d_1145357564697_857885_847'>
+							<elementID xmi:idref='_10_5_ec1033d_1145357465323_481604_757'/>
+							<geometry>406, 189, 45, 44</geometry>
+						</mdElement>
+						<mdElement elementClass='Association' xmi:id='_10_5_ec1033d_1145357567107_892647_863'>
+							<elementID xmi:idref='_10_5_ec1033d_1145357465325_662850_759'/>
+							<linkFirstEndID xmi:idref='_10_5_ec1033d_1145357564683_617351_831'/>
+							<linkSecondEndID xmi:idref='_10_5_ec1033d_1145357564697_857885_847'/>
+							<geometry>123, 189; 123, 135; 423, 135; 423, 189; </geometry>
+							<linkNameID xmi:idref='_10_5_ec1033d_1145357567109_241265_903'/>
+							<nameVisible xmi:value='true'/>
+							<mdOwnedViews>
+								<mdElement elementClass='TextBox' xmi:id='_10_5_ec1033d_1145357567108_242452_864'>
+									<editable xmi:value='false'/>
+									<visible xmi:value='false'/>
+									<geometry>258, 105, 30, 15</geometry>
+								</mdElement>
+								<mdElement elementClass='TextBoxWithIcon' xmi:id='_10_5_ec1033d_1145357567108_665509_866'>
+									<editable xmi:value='false'/>
+									<visible xmi:value='false'/>
+									<geometry>258, 150, 30, 15</geometry>
+								</mdElement>
+								<mdElement elementClass='TextBox' xmi:id='_10_5_ec1033d_1145357567108_990190_869'>
+									<editable xmi:value='false'/>
+									<visible xmi:value='false'/>
+									<geometry>260, 163, 30, 15</geometry>
+								</mdElement>
+								<mdElement elementClass='Role' xmi:id='_10_5_ec1033d_1145357567108_85522_871'>
+									<elementID xmi:idref='_10_5_ec1033d_1145357465333_588430_768'/>
+									<geometry>118, 179, 10, 10</geometry>
+									<mdOwnedViews>
+										<mdElement elementClass='TextBox' xmi:id='_10_5_ec1033d_1145357567108_183882_872'>
+											<geometry>133, 168, 32, 15</geometry>
+											<text>+PA11</text>
+										</mdElement>
+										<mdElement elementClass='TextBox' xmi:id='_10_5_ec1033d_1145357567108_211868_874'>
+											<visible xmi:value='false'/>
+											<geometry>118, 179, 30, 15</geometry>
+										</mdElement>
+										<mdElement elementClass='TextBox' xmi:id='_10_5_ec1033d_1145357567108_385505_876'>
+											<visible xmi:value='false'/>
+											<geometry>118, 179, 30, 15</geometry>
+										</mdElement>
+										<mdElement elementClass='TextBox' xmi:id='_10_5_ec1033d_1145357567108_803485_878'>
+											<editable xmi:value='false'/>
+											<visible xmi:value='false'/>
+											<geometry>118, 179, 30, 15</geometry>
+										</mdElement>
+										<mdElement elementClass='TextBoxWithIcon' xmi:id='_10_5_ec1033d_1145357567108_361543_880'>
+											<editable xmi:value='false'/>
+											<visible xmi:value='false'/>
+											<geometry>165, 204, 30, 15</geometry>
+										</mdElement>
+										<mdElement elementClass='TextBox' xmi:id='_10_5_ec1033d_1145357567108_358983_883'>
+											<visible xmi:value='false'/>
+											<geometry>118, 179, 30, 15</geometry>
+										</mdElement>
+									</mdOwnedViews>
+									<roleNameID xmi:idref='_10_5_ec1033d_1145357567108_183882_872'/>
+									<roleMultiplicityID xmi:idref='_10_5_ec1033d_1145357567108_211868_874'/>
+									<rolePropertyStringID xmi:idref='_10_5_ec1033d_1145357567108_803485_878'/>
+									<roleConstraintsID xmi:idref='_10_5_ec1033d_1145357567108_385505_876'/>
+									<roleStereotypeID xmi:idref='_10_5_ec1033d_1145357567108_361543_880'/>
+									<roleTaggedValuesID xmi:idref='_10_5_ec1033d_1145357567108_358983_883'/>
+								</mdElement>
+								<mdElement elementClass='Role' xmi:id='_10_5_ec1033d_1145357567109_197633_887'>
+									<elementID xmi:idref='_10_5_ec1033d_1145357465334_226324_769'/>
+									<geometry>418, 179, 10, 10</geometry>
+									<mdOwnedViews>
+										<mdElement elementClass='TextBox' xmi:id='_10_5_ec1033d_1145357567109_871943_888'>
+											<geometry>427, 168, 32, 15</geometry>
+											<text>+PA12</text>
+										</mdElement>
+										<mdElement elementClass='TextBox' xmi:id='_10_5_ec1033d_1145357567109_210479_890'>
+											<visible xmi:value='false'/>
+											<geometry>418, 179, 30, 15</geometry>
+										</mdElement>
+										<mdElement elementClass='TextBox' xmi:id='_10_5_ec1033d_1145357567109_313841_892'>
+											<visible xmi:value='false'/>
+											<geometry>418, 179, 30, 15</geometry>
+										</mdElement>
+										<mdElement elementClass='TextBox' xmi:id='_10_5_ec1033d_1145357567109_158704_894'>
+											<editable xmi:value='false'/>
+											<visible xmi:value='false'/>
+											<geometry>418, 179, 30, 15</geometry>
+										</mdElement>
+										<mdElement elementClass='TextBoxWithIcon' xmi:id='_10_5_ec1033d_1145357567109_38949_896'>
+											<editable xmi:value='false'/>
+											<visible xmi:value='false'/>
+											<geometry>418, 219, 30, 15</geometry>
+										</mdElement>
+										<mdElement elementClass='TextBox' xmi:id='_10_5_ec1033d_1145357567109_993604_899'>
+											<visible xmi:value='false'/>
+											<geometry>418, 179, 30, 15</geometry>
+										</mdElement>
+									</mdOwnedViews>
+									<roleNameID xmi:idref='_10_5_ec1033d_1145357567109_871943_888'/>
+									<roleMultiplicityID xmi:idref='_10_5_ec1033d_1145357567109_210479_890'/>
+									<rolePropertyStringID xmi:idref='_10_5_ec1033d_1145357567109_158704_894'/>
+									<roleConstraintsID xmi:idref='_10_5_ec1033d_1145357567109_313841_892'/>
+									<roleStereotypeID xmi:idref='_10_5_ec1033d_1145357567109_38949_896'/>
+									<roleTaggedValuesID xmi:idref='_10_5_ec1033d_1145357567109_993604_899'/>
+								</mdElement>
+								<mdElement elementClass='AssociationTextBox' xmi:id='_10_5_ec1033d_1145357567109_241265_903'>
+									<geometry>252, 140, 45, 15</geometry>
+									<text>A1</text>
+								</mdElement>
+							</mdOwnedViews>
+							<linkConstraintID xmi:idref='_10_5_ec1033d_1145357567108_242452_864'/>
+							<linkStereotypeID xmi:idref='_10_5_ec1033d_1145357567108_665509_866'/>
+							<linkTaggedValuesID xmi:idref='_10_5_ec1033d_1145357567108_990190_869'/>
+							<associationFirstEndID xmi:idref='_10_5_ec1033d_1145357567108_85522_871'/>
+							<associationSecondEndID xmi:idref='_10_5_ec1033d_1145357567109_197633_887'/>
+						</mdElement>
+						<mdElement elementClass='Association' xmi:id='_10_5_ec1033d_1145357720088_293367_912'>
+							<elementID xmi:idref='_10_5_ec1033d_1145357720077_782597_909'/>
+							<linkFirstEndID xmi:idref='_10_5_ec1033d_1145357564683_617351_831'/>
+							<linkSecondEndID xmi:idref='_10_5_ec1033d_1145357564697_857885_847'/>
+							<geometry>150, 231; 406, 231; </geometry>
+							<linkNameID xmi:idref='_10_5_ec1033d_1145357720090_54745_952'/>
+							<nameVisible xmi:value='true'/>
+							<mdOwnedViews>
+								<mdElement elementClass='TextBox' xmi:id='_10_5_ec1033d_1145357720088_261781_913'>
+									<editable xmi:value='false'/>
+									<visible xmi:value='false'/>
+									<geometry>263, 216, 30, 15</geometry>
+								</mdElement>
+								<mdElement elementClass='TextBoxWithIcon' xmi:id='_10_5_ec1033d_1145357720088_1402_915'>
+									<editable xmi:value='false'/>
+									<visible xmi:value='false'/>
+									<geometry>263, 246, 30, 15</geometry>
+								</mdElement>
+								<mdElement elementClass='TextBox' xmi:id='_10_5_ec1033d_1145357720088_355394_918'>
+									<editable xmi:value='false'/>
+									<visible xmi:value='false'/>
+									<geometry>263, 261, 30, 15</geometry>
+								</mdElement>
+								<mdElement elementClass='Role' xmi:id='_10_5_ec1033d_1145357720088_412593_920'>
+									<elementID xmi:idref='_10_5_ec1033d_1145357720078_887879_910'/>
+									<geometry>150, 226, 10, 10</geometry>
+									<mdOwnedViews>
+										<mdElement elementClass='TextBox' xmi:id='_10_5_ec1033d_1145357720088_558770_921'>
+											<geometry>155, 216, 32, 15</geometry>
+											<text>+PA21</text>
+										</mdElement>
+										<mdElement elementClass='TextBox' xmi:id='_10_5_ec1033d_1145357720088_588805_923'>
+											<visible xmi:value='false'/>
+											<geometry>150, 226, 30, 15</geometry>
+										</mdElement>
+										<mdElement elementClass='TextBox' xmi:id='_10_5_ec1033d_1145357720088_696204_925'>
+											<visible xmi:value='false'/>
+											<geometry>150, 226, 30, 15</geometry>
+										</mdElement>
+										<mdElement elementClass='TextBox' xmi:id='_10_5_ec1033d_1145357720088_234474_927'>
+											<editable xmi:value='false'/>
+											<visible xmi:value='false'/>
+											<geometry>150, 226, 30, 15</geometry>
+										</mdElement>
+										<mdElement elementClass='TextBoxWithIcon' xmi:id='_10_5_ec1033d_1145357720088_602145_929'>
+											<editable xmi:value='false'/>
+											<visible xmi:value='false'/>
+											<geometry>150, 226, 30, 15</geometry>
+										</mdElement>
+										<mdElement elementClass='TextBox' xmi:id='_10_5_ec1033d_1145357720089_385633_932'>
+											<visible xmi:value='false'/>
+											<geometry>150, 226, 30, 15</geometry>
+										</mdElement>
+									</mdOwnedViews>
+									<roleNameID xmi:idref='_10_5_ec1033d_1145357720088_558770_921'/>
+									<roleMultiplicityID xmi:idref='_10_5_ec1033d_1145357720088_588805_923'/>
+									<rolePropertyStringID xmi:idref='_10_5_ec1033d_1145357720088_234474_927'/>
+									<roleConstraintsID xmi:idref='_10_5_ec1033d_1145357720088_696204_925'/>
+									<roleStereotypeID xmi:idref='_10_5_ec1033d_1145357720088_602145_929'/>
+									<roleTaggedValuesID xmi:idref='_10_5_ec1033d_1145357720089_385633_932'/>
+								</mdElement>
+								<mdElement elementClass='Role' xmi:id='_10_5_ec1033d_1145357720089_728881_936'>
+									<elementID xmi:idref='_10_5_ec1033d_1145357720079_731727_911'/>
+									<geometry>396, 226, 10, 10</geometry>
+									<mdOwnedViews>
+										<mdElement elementClass='TextBox' xmi:id='_10_5_ec1033d_1145357720089_681194_937'>
+											<geometry>371, 216, 32, 15</geometry>
+											<text>+PA22</text>
+										</mdElement>
+										<mdElement elementClass='TextBox' xmi:id='_10_5_ec1033d_1145357720089_904382_939'>
+											<visible xmi:value='false'/>
+											<geometry>396, 226, 30, 15</geometry>
+										</mdElement>
+										<mdElement elementClass='TextBox' xmi:id='_10_5_ec1033d_1145357720089_797629_941'>
+											<visible xmi:value='false'/>
+											<geometry>396, 226, 30, 15</geometry>
+										</mdElement>
+										<mdElement elementClass='TextBox' xmi:id='_10_5_ec1033d_1145357720089_838278_943'>
+											<editable xmi:value='false'/>
+											<visible xmi:value='false'/>
+											<geometry>396, 226, 30, 15</geometry>
+										</mdElement>
+										<mdElement elementClass='TextBoxWithIcon' xmi:id='_10_5_ec1033d_1145357720089_552944_945'>
+											<editable xmi:value='false'/>
+											<visible xmi:value='false'/>
+											<geometry>396, 246, 30, 15</geometry>
+										</mdElement>
+										<mdElement elementClass='TextBox' xmi:id='_10_5_ec1033d_1145357720089_438942_948'>
+											<visible xmi:value='false'/>
+											<geometry>396, 226, 30, 15</geometry>
+										</mdElement>
+									</mdOwnedViews>
+									<roleNameID xmi:idref='_10_5_ec1033d_1145357720089_681194_937'/>
+									<roleMultiplicityID xmi:idref='_10_5_ec1033d_1145357720089_904382_939'/>
+									<rolePropertyStringID xmi:idref='_10_5_ec1033d_1145357720089_838278_943'/>
+									<roleConstraintsID xmi:idref='_10_5_ec1033d_1145357720089_797629_941'/>
+									<roleStereotypeID xmi:idref='_10_5_ec1033d_1145357720089_552944_945'/>
+									<roleTaggedValuesID xmi:idref='_10_5_ec1033d_1145357720089_438942_948'/>
+								</mdElement>
+								<mdElement elementClass='AssociationTextBox' xmi:id='_10_5_ec1033d_1145357720090_54745_952'>
+									<geometry>256, 216, 45, 15</geometry>
+									<text>A2</text>
+								</mdElement>
+							</mdOwnedViews>
+							<linkConstraintID xmi:idref='_10_5_ec1033d_1145357720088_261781_913'/>
+							<linkStereotypeID xmi:idref='_10_5_ec1033d_1145357720088_1402_915'/>
+							<linkTaggedValuesID xmi:idref='_10_5_ec1033d_1145357720088_355394_918'/>
+							<associationFirstEndID xmi:idref='_10_5_ec1033d_1145357720088_412593_920'/>
+							<associationSecondEndID xmi:idref='_10_5_ec1033d_1145357720089_728881_936'/>
 						</mdElement>
 					</mdOwnedViews>
 				</mdElement>
@@ -4782,6 +5082,245 @@
 					</mdOwnedViews>
 				</mdElement>
 			</mdElement>
+			<mdElement elementClass='Diagram' xmi:id='_10_5_ec1033d_1145357785594_969714_960' name='12Result' visibility='public' ownerOfDiagram='_10_5_ec1033d_1145357785588_877799_955'>
+				<mdElement elementClass='DiagramPresentationElement' xmi:id='_10_5_ec1033d_1145357785612_391711_977'>
+					<elementID xmi:idref='_10_5_ec1033d_1145357785594_969714_960'/>
+					<type>Class Diagram</type>
+					<umlType>Class Diagram</umlType>
+					<zoomFactor xmi:value='1.0'/>
+					<diagramOpened xmi:value='false'/>
+					<mdOwnedViews>
+						<mdElement elementClass='Class' xmi:id='_10_5_ec1033d_1145357785611_819357_965'>
+							<elementID xmi:idref='_10_5_ec1033d_1145357785591_602972_957'/>
+							<geometry>105, 189, 45, 44</geometry>
+						</mdElement>
+						<mdElement elementClass='Class' xmi:id='_10_5_ec1033d_1145357785611_458771_966'>
+							<elementID xmi:idref='_10_5_ec1033d_1145357785589_575167_956'/>
+							<geometry>406, 189, 45, 44</geometry>
+						</mdElement>
+						<mdElement elementClass='Association' xmi:id='_10_5_ec1033d_1145357785611_131285_967'>
+							<elementID xmi:idref='_10_5_ec1033d_1145357785592_212670_958'/>
+							<linkFirstEndID xmi:idref='_10_5_ec1033d_1145357785611_819357_965'/>
+							<linkSecondEndID xmi:idref='_10_5_ec1033d_1145357785611_458771_966'/>
+							<geometry>123, 189; 123, 135; 423, 135; 423, 189; </geometry>
+							<linkNameID xmi:idref='_10_5_ec1033d_1145357785611_278941_968'/>
+							<nameVisible xmi:value='true'/>
+							<mdOwnedViews>
+								<mdElement elementClass='AssociationTextBox' xmi:id='_10_5_ec1033d_1145357785611_278941_968'>
+									<geometry>252, 140, 45, 15</geometry>
+									<text>A1</text>
+								</mdElement>
+								<mdElement elementClass='TextBoxWithIcon' xmi:id='_10_5_ec1033d_1145357818162_984830_983'>
+									<editable xmi:value='false'/>
+									<visible xmi:value='false'/>
+									<geometry>258, 150, 30, 15</geometry>
+								</mdElement>
+								<mdElement elementClass='TextBox' xmi:id='_10_5_ec1033d_1145357818162_162981_984'>
+									<editable xmi:value='false'/>
+									<visible xmi:value='false'/>
+									<geometry>260, 163, 30, 15</geometry>
+								</mdElement>
+								<mdElement elementClass='TextBox' xmi:id='_10_5_ec1033d_1145357818162_494402_985'>
+									<editable xmi:value='false'/>
+									<visible xmi:value='false'/>
+									<geometry>258, 105, 30, 15</geometry>
+								</mdElement>
+								<mdElement elementClass='Role' xmi:id='_10_5_ec1033d_1145357785611_749004_971'>
+									<elementID xmi:idref='_10_5_ec1033d_1145357785596_603024_961'/>
+									<geometry>118, 179, 10, 10</geometry>
+									<mdOwnedViews>
+										<mdElement elementClass='TextBox' xmi:id='_10_5_ec1033d_1145357818162_219919_986'>
+											<visible xmi:value='false'/>
+											<geometry>118, 179, 30, 15</geometry>
+										</mdElement>
+										<mdElement elementClass='TextBox' xmi:id='_10_5_ec1033d_1145357818162_520247_987'>
+											<visible xmi:value='false'/>
+											<geometry>118, 179, 30, 15</geometry>
+										</mdElement>
+										<mdElement elementClass='TextBox' xmi:id='_10_5_ec1033d_1145357818163_173450_988'>
+											<editable xmi:value='false'/>
+											<visible xmi:value='false'/>
+											<geometry>118, 179, 30, 15</geometry>
+										</mdElement>
+										<mdElement elementClass='TextBox' xmi:id='_10_5_ec1033d_1145357818163_526574_989'>
+											<geometry>133, 168, 32, 15</geometry>
+											<text>+PA11</text>
+										</mdElement>
+										<mdElement elementClass='TextBoxWithIcon' xmi:id='_10_5_ec1033d_1145357818163_341169_990'>
+											<editable xmi:value='false'/>
+											<visible xmi:value='false'/>
+											<geometry>165, 204, 30, 15</geometry>
+										</mdElement>
+										<mdElement elementClass='TextBox' xmi:id='_10_5_ec1033d_1145357818163_130203_991'>
+											<visible xmi:value='false'/>
+											<geometry>118, 179, 30, 15</geometry>
+										</mdElement>
+									</mdOwnedViews>
+									<roleNameID xmi:idref='_10_5_ec1033d_1145357818163_526574_989'/>
+									<roleMultiplicityID xmi:idref='_10_5_ec1033d_1145357818162_219919_986'/>
+									<rolePropertyStringID xmi:idref='_10_5_ec1033d_1145357818163_173450_988'/>
+									<roleConstraintsID xmi:idref='_10_5_ec1033d_1145357818162_520247_987'/>
+									<roleStereotypeID xmi:idref='_10_5_ec1033d_1145357818163_341169_990'/>
+									<roleTaggedValuesID xmi:idref='_10_5_ec1033d_1145357818163_130203_991'/>
+								</mdElement>
+								<mdElement elementClass='Role' xmi:id='_10_5_ec1033d_1145357785611_237511_972'>
+									<elementID xmi:idref='_10_5_ec1033d_1145357785598_803212_963'/>
+									<geometry>418, 179, 10, 10</geometry>
+									<mdOwnedViews>
+										<mdElement elementClass='TextBox' xmi:id='_10_5_ec1033d_1145357818163_849463_992'>
+											<visible xmi:value='false'/>
+											<geometry>418, 179, 30, 15</geometry>
+										</mdElement>
+										<mdElement elementClass='TextBox' xmi:id='_10_5_ec1033d_1145357818163_326155_993'>
+											<visible xmi:value='false'/>
+											<geometry>418, 179, 30, 15</geometry>
+										</mdElement>
+										<mdElement elementClass='TextBox' xmi:id='_10_5_ec1033d_1145357818163_247101_994'>
+											<editable xmi:value='false'/>
+											<visible xmi:value='false'/>
+											<geometry>418, 179, 30, 15</geometry>
+										</mdElement>
+										<mdElement elementClass='TextBox' xmi:id='_10_5_ec1033d_1145357818163_786010_995'>
+											<geometry>427, 168, 32, 15</geometry>
+											<text>+PA12</text>
+										</mdElement>
+										<mdElement elementClass='TextBoxWithIcon' xmi:id='_10_5_ec1033d_1145357818164_281888_996'>
+											<editable xmi:value='false'/>
+											<visible xmi:value='false'/>
+											<geometry>418, 219, 30, 15</geometry>
+										</mdElement>
+										<mdElement elementClass='TextBox' xmi:id='_10_5_ec1033d_1145357818164_705408_997'>
+											<visible xmi:value='false'/>
+											<geometry>418, 179, 30, 15</geometry>
+										</mdElement>
+									</mdOwnedViews>
+									<roleNameID xmi:idref='_10_5_ec1033d_1145357818163_786010_995'/>
+									<roleMultiplicityID xmi:idref='_10_5_ec1033d_1145357818163_849463_992'/>
+									<rolePropertyStringID xmi:idref='_10_5_ec1033d_1145357818163_247101_994'/>
+									<roleConstraintsID xmi:idref='_10_5_ec1033d_1145357818163_326155_993'/>
+									<roleStereotypeID xmi:idref='_10_5_ec1033d_1145357818164_281888_996'/>
+									<roleTaggedValuesID xmi:idref='_10_5_ec1033d_1145357818164_705408_997'/>
+								</mdElement>
+							</mdOwnedViews>
+							<linkConstraintID xmi:idref='_10_5_ec1033d_1145357818162_494402_985'/>
+							<linkStereotypeID xmi:idref='_10_5_ec1033d_1145357818162_984830_983'/>
+							<linkTaggedValuesID xmi:idref='_10_5_ec1033d_1145357818162_162981_984'/>
+							<associationFirstEndID xmi:idref='_10_5_ec1033d_1145357785611_749004_971'/>
+							<associationSecondEndID xmi:idref='_10_5_ec1033d_1145357785611_237511_972'/>
+						</mdElement>
+						<mdElement elementClass='Association' xmi:id='_10_5_ec1033d_1145357785611_264547_969'>
+							<elementID xmi:idref='_10_5_ec1033d_1145357785593_108115_959'/>
+							<linkFirstEndID xmi:idref='_10_5_ec1033d_1145357785611_819357_965'/>
+							<linkSecondEndID xmi:idref='_10_5_ec1033d_1145357785611_458771_966'/>
+							<geometry>150, 231; 406, 231; </geometry>
+							<linkNameID xmi:idref='_10_5_ec1033d_1145357785611_319976_970'/>
+							<nameVisible xmi:value='true'/>
+							<mdOwnedViews>
+								<mdElement elementClass='AssociationTextBox' xmi:id='_10_5_ec1033d_1145357785611_319976_970'>
+									<geometry>256, 216, 45, 15</geometry>
+									<text>A2</text>
+								</mdElement>
+								<mdElement elementClass='TextBoxWithIcon' xmi:id='_10_5_ec1033d_1145357818164_828573_998'>
+									<editable xmi:value='false'/>
+									<visible xmi:value='false'/>
+									<geometry>263, 246, 30, 15</geometry>
+								</mdElement>
+								<mdElement elementClass='TextBox' xmi:id='_10_5_ec1033d_1145357818164_209052_999'>
+									<editable xmi:value='false'/>
+									<visible xmi:value='false'/>
+									<geometry>263, 261, 30, 15</geometry>
+								</mdElement>
+								<mdElement elementClass='TextBox' xmi:id='_10_5_ec1033d_1145357818164_821506_1000'>
+									<editable xmi:value='false'/>
+									<visible xmi:value='false'/>
+									<geometry>263, 201, 30, 15</geometry>
+								</mdElement>
+								<mdElement elementClass='Role' xmi:id='_10_5_ec1033d_1145357785611_394131_973'>
+									<elementID xmi:idref='_10_5_ec1033d_1145357785597_308785_962'/>
+									<geometry>150, 226, 10, 10</geometry>
+									<mdOwnedViews>
+										<mdElement elementClass='TextBox' xmi:id='_10_5_ec1033d_1145357818165_384732_1001'>
+											<visible xmi:value='false'/>
+											<geometry>150, 226, 30, 15</geometry>
+										</mdElement>
+										<mdElement elementClass='TextBox' xmi:id='_10_5_ec1033d_1145357818165_204139_1002'>
+											<visible xmi:value='false'/>
+											<geometry>150, 226, 30, 15</geometry>
+										</mdElement>
+										<mdElement elementClass='TextBox' xmi:id='_10_5_ec1033d_1145357818165_655941_1003'>
+											<editable xmi:value='false'/>
+											<visible xmi:value='false'/>
+											<geometry>150, 226, 30, 15</geometry>
+										</mdElement>
+										<mdElement elementClass='TextBox' xmi:id='_10_5_ec1033d_1145357818165_473559_1004'>
+											<geometry>155, 216, 32, 15</geometry>
+											<text>+PA21</text>
+										</mdElement>
+										<mdElement elementClass='TextBoxWithIcon' xmi:id='_10_5_ec1033d_1145357818165_912889_1005'>
+											<editable xmi:value='false'/>
+											<visible xmi:value='false'/>
+											<geometry>150, 226, 30, 15</geometry>
+										</mdElement>
+										<mdElement elementClass='TextBox' xmi:id='_10_5_ec1033d_1145357818165_64314_1006'>
+											<visible xmi:value='false'/>
+											<geometry>150, 226, 30, 15</geometry>
+										</mdElement>
+									</mdOwnedViews>
+									<roleNameID xmi:idref='_10_5_ec1033d_1145357818165_473559_1004'/>
+									<roleMultiplicityID xmi:idref='_10_5_ec1033d_1145357818165_384732_1001'/>
+									<rolePropertyStringID xmi:idref='_10_5_ec1033d_1145357818165_655941_1003'/>
+									<roleConstraintsID xmi:idref='_10_5_ec1033d_1145357818165_204139_1002'/>
+									<roleStereotypeID xmi:idref='_10_5_ec1033d_1145357818165_912889_1005'/>
+									<roleTaggedValuesID xmi:idref='_10_5_ec1033d_1145357818165_64314_1006'/>
+								</mdElement>
+								<mdElement elementClass='Role' xmi:id='_10_5_ec1033d_1145357785611_530556_974'>
+									<elementID xmi:idref='_10_5_ec1033d_1145357785599_621084_964'/>
+									<geometry>396, 226, 10, 10</geometry>
+									<mdOwnedViews>
+										<mdElement elementClass='TextBox' xmi:id='_10_5_ec1033d_1145357818166_804175_1007'>
+											<visible xmi:value='false'/>
+											<geometry>396, 226, 30, 15</geometry>
+										</mdElement>
+										<mdElement elementClass='TextBox' xmi:id='_10_5_ec1033d_1145357818166_102216_1008'>
+											<visible xmi:value='false'/>
+											<geometry>396, 226, 30, 15</geometry>
+										</mdElement>
+										<mdElement elementClass='TextBox' xmi:id='_10_5_ec1033d_1145357818166_999446_1009'>
+											<editable xmi:value='false'/>
+											<visible xmi:value='false'/>
+											<geometry>396, 226, 30, 15</geometry>
+										</mdElement>
+										<mdElement elementClass='TextBox' xmi:id='_10_5_ec1033d_1145357818166_564339_1010'>
+											<geometry>371, 216, 32, 15</geometry>
+											<text>+PA22</text>
+										</mdElement>
+										<mdElement elementClass='TextBoxWithIcon' xmi:id='_10_5_ec1033d_1145357818166_423493_1011'>
+											<editable xmi:value='false'/>
+											<visible xmi:value='false'/>
+											<geometry>396, 246, 30, 15</geometry>
+										</mdElement>
+										<mdElement elementClass='TextBox' xmi:id='_10_5_ec1033d_1145357818166_532745_1012'>
+											<visible xmi:value='false'/>
+											<geometry>396, 226, 30, 15</geometry>
+										</mdElement>
+									</mdOwnedViews>
+									<roleNameID xmi:idref='_10_5_ec1033d_1145357818166_564339_1010'/>
+									<roleMultiplicityID xmi:idref='_10_5_ec1033d_1145357818166_804175_1007'/>
+									<rolePropertyStringID xmi:idref='_10_5_ec1033d_1145357818166_999446_1009'/>
+									<roleConstraintsID xmi:idref='_10_5_ec1033d_1145357818166_102216_1008'/>
+									<roleStereotypeID xmi:idref='_10_5_ec1033d_1145357818166_423493_1011'/>
+									<roleTaggedValuesID xmi:idref='_10_5_ec1033d_1145357818166_532745_1012'/>
+								</mdElement>
+							</mdOwnedViews>
+							<linkConstraintID xmi:idref='_10_5_ec1033d_1145357818164_821506_1000'/>
+							<linkStereotypeID xmi:idref='_10_5_ec1033d_1145357818164_828573_998'/>
+							<linkTaggedValuesID xmi:idref='_10_5_ec1033d_1145357818164_209052_999'/>
+							<associationFirstEndID xmi:idref='_10_5_ec1033d_1145357785611_394131_973'/>
+							<associationSecondEndID xmi:idref='_10_5_ec1033d_1145357785611_530556_974'/>
+						</mdElement>
+					</mdOwnedViews>
+				</mdElement>
+			</mdElement>
 		</mdOwnedDiagrams>
 		<options>
 			<mdElement elementClass='SimpleStyle'>
@@ -4918,7 +5457,7 @@
 					<mdElement elementClass='StringProperty'>
 						<propertyID>INFO_PROPERTY</propertyID>
 						<propertyDescriptionID>INFO_PROPERTY_DESCRIPTION</propertyDescriptionID>
-						<value>71 7a 2f 3 49 7c 63 2f 30 17 f6 cf f6 7d f9 a3 69 a4 3 86 94 2b b1 f9 8e 8d e 8c 7e fd 8b 3d 6f 47 3c 28 d8 d9 28 92 b3 3b 52 af 3a d1 2e bc ad 5c 31 7d 6a 4a 30 8e 28 11 c4 ce f3 f1 dd 92 88 76 b5 ae 10 f3 </value>
+						<value>71 7a 2f 3 49 7c 63 2f 30 17 f6 cc e6 7c f9 a3 69 a4 3 86 9e 2b b1 fe 8e 89 0 8c 7f fa 8b 3d 6f 47 3c 28 d8 d9 28 92 b3 3b 52 af 3a d1 2e bc ad 5c 31 7d 6a 4a 30 8e 28 11 c4 ce f3 f1 dd 92 88 76 b5 ae 10 f3 </value>
 						<multiline xmi:value='false'/>
 					</mdElement>
 					<mdElement elementClass='LIST_PROPERTY'>
@@ -4928,7 +5467,7 @@
 					<mdElement elementClass='ChoiceProperty'>
 						<propertyID>RECENT_DIAGRAMS</propertyID>
 						<propertyDescriptionID>RECENT_DIAGRAMS_DESCRIPTION</propertyDescriptionID>
-						<choice xmi:value='_10_5_ec1033d_1143124011286_771491_615^_10_5_ec1033d_1143124011283_930634_610^_10_5_ec1033d_1143124019757_762088_626^_10_5_ec1033d_1141331937990_498861_246^_10_5_ec1033d_1142956032284_476988_16^_10_5_ec1033d_1142956116638_806388_162^_10_5_ec1033d_1142956032277_721702_11^_10_5_ec1033d_1141393044131_754479_744^_10_5_ec1033d_1141392734816_953298_377^_10_5_ec1033d_1141392711933_972781_332'/>
+						<choice xmi:value='_10_5_ec1033d_1143124011286_771491_615^_10_5_ec1033d_1143124011283_930634_610^_10_5_ec1033d_1143124019757_762088_626^_10_5_ec1033d_1141331937990_498861_246^_10_5_ec1033d_1142956032284_476988_16^_10_5_ec1033d_1142956116638_806388_162^_10_5_ec1033d_1142956032277_721702_11^_10_5_ec1033d_1141393044131_754479_744'/>
 						<index xmi:value='-1'/>
 					</mdElement>
 				</mdElement>

@@ -5,6 +5,7 @@ import cmof.Property;
 import cmof.cmofFactory;
 import cmof.reflection.Extent;
 import hub.sam.mof.Repository;
+import hub.sam.mof.Tools;
 import hub.sam.mof.reflection.ObjectImpl;
 import hub.sam.mof.xmi.Xmi2Reader;
 import hub.sam.mof.xmi.Xmi1Reader;
@@ -54,7 +55,7 @@ public class MergeTest extends TestCase {
     private void aTest(int number) throws Exception {
         Package A = (Package)testModel.query("Package:MergeTest" + number + "/Package:A");
 
-        MergeContext.mergePackages(A, factory);
+        MergeContext.mergePackages(A, factory, null);
 
         Package Result = (Package)testModel.query("Package:MergeTest" + number + "/Package:Result");
         Difference difference = compare.compare(Result, A);
@@ -70,8 +71,11 @@ public class MergeTest extends TestCase {
         xmiMap.put("Infrastructure.cmof", new FileInputStream(new File("resources/models/uml/Infrastructure.cmof.xml")));
         xmiMap.put("L0.cmof", new FileInputStream(new File("resources/models/uml/L0.cmof.xml")));
         Xmi2Reader.readMofXmi(xmiMap, umlExtent, m3, Xmi1Reader.XmiKind.mof);
+        Tools.setOppositeValues(umlExtent);
+
         MergeContext.mergePackages((cmof.Package)umlExtent.query("Package:L0"),
-                (cmof.cmofFactory)repository.createFactory(umlExtent, m3));
+                (cmof.cmofFactory)repository.createFactory(umlExtent, m3), null);
+
         repository.writeExtentToXmi("resources/models/work/UML0MergeTest.xml", m3, umlExtent);
         repository.deleteExtent("uml test");
     }
@@ -83,8 +87,11 @@ public class MergeTest extends TestCase {
         xmiMap.put("Superstructure.cmof", new FileInputStream(new File("resources/models/uml/Superstructure.cmof.xml")));
         xmiMap.put("L1.cmof", new FileInputStream(new File("resources/models/uml/L1.cmof.xml")));
         Xmi2Reader.readMofXmi(xmiMap, umlExtent, m3, Xmi1Reader.XmiKind.mof);
+
+        Tools.setOppositeValues(umlExtent);
         Package l1Package = (Package)umlExtent.query("Package:L1");
-        MergeContext.mergePackages(l1Package, (cmof.cmofFactory)repository.createFactory(umlExtent, m3));
+        MergeContext.mergePackages(l1Package, (cmof.cmofFactory)repository.createFactory(umlExtent, m3), null);
+        Tools.removeFoldedImports(umlExtent);
 
         Collection<cmof.reflection.Object> toDelete = new Vector<cmof.reflection.Object>();
         for(cmof.reflection.Object obj: umlExtent.getObject()) {
@@ -95,8 +102,6 @@ public class MergeTest extends TestCase {
         for(cmof.reflection.Object obj: toDelete) {
             if (((ObjectImpl)obj).getClassInstance().isValid()) {
                 obj.delete();
-            } else {
-                System.out.println("DOUBLE");
             }
         }
 
@@ -146,6 +151,11 @@ public class MergeTest extends TestCase {
 
     public void test11() throws Exception {
         aTest(11);
+        post();
+    }
+
+    public void test12() throws Exception {
+        aTest(12);
         post();
     }
 

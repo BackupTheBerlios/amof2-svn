@@ -182,15 +182,16 @@ final class Merge {
      * @return Returns true if the property is the context's merging property or is a direct or indirect sub set of it.
      */
     private boolean isMergingProperty(Property property) {
-        if (semantics.getSubsettedProperties(property).contains(context.getMergingProperty())) {
-            if (property.isComposite()) {
-                return true;
-            } else {
-                throw new MergeException("A merging property is not composite.");
+        for(Property mergingProperty: context.getMergingProperties()) {
+            if (semantics.getSubsettedProperties(property).contains(mergingProperty)) {
+                if (property.isComposite()) {
+                    return true;
+                } else {
+                    throw new MergeException("A merging property is not composite.");
+                }
             }
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**

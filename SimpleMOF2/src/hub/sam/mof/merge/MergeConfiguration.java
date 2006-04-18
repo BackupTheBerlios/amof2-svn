@@ -14,6 +14,12 @@ import java.util.Collection;
 public interface MergeConfiguration {
 
     /**
+     * Gives the properties for that all values are considered to be merged.
+     * @return A collection of properties.
+     */
+    public Collection<Property> getMergingProperties();
+
+    /**
      * Returns an alternative name for named elements that are supposed to have a name but don't, e.g. Associations or
      * non navigable properties.
      *
@@ -44,4 +50,15 @@ public interface MergeConfiguration {
      *                         supposed to be an inout parameter.
      */
     public void customMerge(Property property, Collection<Collection<Object>> valueCollections);
+
+    /**
+     * Determines whether 2 values are equivalent. The standard semantics of equivalence is, that the first object was
+     * created from the second, either by copy or merge, thus v2 can be discarded since v1 already
+     * contains all features of v2.
+     * @param v1 The first object (merging element, copy)
+     * @param v2 The second object (merged element, to be copied)
+     * @param context The context.
+     * @return The boolean value or null if there is no custom semantics for this values.
+     */
+    public Boolean customEquivalence(Object v1, Object v2, MergeContext context);
 }

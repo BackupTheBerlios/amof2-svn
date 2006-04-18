@@ -1,8 +1,9 @@
 package hub.sam.mof.ant;
 
 import cmof.reflection.Extent;
-import cmof.*;
 import cmof.Package;
+import cmof.cmofFactory;
+import cmof.Tag;
 import hub.sam.mof.Repository;
 import hub.sam.mof.merge.MergeContext;
 import hub.sam.mof.as.layers.M1SemanticModel;
@@ -87,7 +88,7 @@ public class PrepareLanguageModel extends Task {
                 } catch (Throwable e) {
                     throw new BuildException("Cannot resolve root package " + this.rootPackage);
                 }
-                MergeContext.mergePackages(rootPackage, factory);
+                MergeContext.mergePackages(rootPackage, factory, null);
 
                 Tag nsNamespace = factory.createTag();
                 nsNamespace.setValue(rootPackage.getName());

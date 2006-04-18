@@ -1,16 +1,17 @@
 package hub.sam.mof.merge;
 
+import cmof.Association;
 import cmof.Package;
 import cmof.PackageMerge;
 import cmof.Property;
 import cmof.cmofFactory;
-import cmof.Association;
 import core.abstractions.namespaces.Namespace;
 import core.abstractions.ownerships.Element;
 import hub.sam.mof.Repository;
 import hub.sam.mof.mofinstancemodel.MofClassSemantics;
 import hub.sam.mof.mofinstancemodel.MofClassifierSemantics;
 import hub.sam.util.MultiMap;
+import hub.sam.util.Tuple;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -27,18 +28,24 @@ import java.util.Vector;
 public final class MergeContext {
 
     /**
-     * Creates a merge context and executes all necessary merges for a package merge. The given package is
+     * Creates a merge globalContext and executes all necessary merges for a package merge. The given package is
      * searched for package merged, which will be executed.
      *
      * @param thePackage The package with package merges.
      * @param factory    A cmof factory for the extend that contain all the merged packages.
+     * @param globalContext A GlobalMergeContext, when this merge is to be executed in the context of other merges.
+     *          Use null to open a new GlobalMergeContext.
      */
     @SuppressWarnings("unchecked")
-    public static void mergePackages(Package thePackage, cmofFactory factory) {
+    public static void mergePackages(Package thePackage, cmofFactory factory, GlobalMergeContext globalContext) {
+        if (globalContext == null) {
+            globalContext = new GlobalMergeContext();
+        }
+
         Collection<Namespace> mergedPackages = new Vector<Namespace>();
         Collection<PackageMerge> merges = new Vector<PackageMerge>();
         for (PackageMerge merge : thePackage.getPackageMerge()) {
-            mergePackages(merge.getMergedPackage(), factory);
+            mergePackages(merge.getMergedPackage(), factory, globalContext);
             mergedPackages.add(merge.getMergedPackage());
             merges.add(merge);
         }
@@ -51,35 +58,34 @@ public final class MergeContext {
 
         System.out.println("Merging packages: " + mergedPackages + " into " + thePackage.getQualifiedName());
 
-        Property mergingProperty = (Property)Repository.getLocalRepository().getExtent(Repository.CMOF_EXTENT_NAME)
-                .query("Package:core/Package:abstractions/Package:namespaces/Class:Namespace/Property:member");
-        MergeContext context = new MergeContext(mergingProperty, factory, new DefaultMergeConfiguration());
+        Collection<Property> mergingProperties = new Vector<Property>();
+        mergingProperties.add((Property)Repository.getLocalRepository().getExtent(Repository.CMOF_EXTENT_NAME)
+                .query("Package:core/Package:abstractions/Package:namespaces/Class:Namespace/Property:member"));
+        MergeContext context = new MergeContext(factory, new DefaultMergeConfiguration(
+                DefaultMergeConfiguration.knownConflicts, mergingProperties), globalContext);
         context.getToplevelMergedNamespaces().add(thePackage);
         context.getToplevelMergedNamespaces().addAll(mergedPackages);
         context.merge(thePackage, (Collection)mergedPackages, false);
         context.executeUpdates();
     }
 
+    private final GlobalMergeContext globalContext;
     private final cmofFactory factory;
-    private final Property mergingProperty;
     private final Collection<Namespace> toplevelMergedNamespaces = new Vector<Namespace>();
     private final Map<Element, Element> mergedElementForElement = new HashMap<Element, Element>();
     private final Collection<Merge> merges = new Vector<Merge>();
     private final MergeConfiguration configuration;
-    private final MultiMap<Association, Link> linksCreatedInThisContext = new MultiMap<Association, Link>();
+    private final MultiMap<Association, Tuple> linksCreatedInThisContext = new MultiMap<Association, Tuple>();
 
     /**
      * Creates a new merge context.
      *
-     * @param mergingProperty The property for that and for all subsetted properties the values are considered to be merged with
-     *                        other values. This is usually
-     *                        InfraStructureLibrary::Core::Abstraction::Namespaces::Namespace::ownedMember.
      * @param factory         The factory for the extend that all the merging is executed in.
      */
-    public MergeContext(Property mergingProperty, cmofFactory factory, MergeConfiguration configuration) {
+    public MergeContext(cmofFactory factory, MergeConfiguration configuration, GlobalMergeContext globalContext) {
         super();
+        this.globalContext = globalContext;
         this.factory = factory;
-        this.mergingProperty = mergingProperty;
         this.configuration = configuration;
     }
 
@@ -93,7 +99,7 @@ public final class MergeContext {
      *                       before the merge is executed).
      */
     public void merge(Element mergingElement, Collection<Element> mergedElements, boolean copy) {
-        assert mergingElement != null;
+        globalContext.merge(mergingElement, mergedElements, copy);
 
         Merge merge = new Merge(mergingElement, mergedElements, this, copy);
         merge.execute();
@@ -119,6 +125,20 @@ public final class MergeContext {
     }
 
     /**
+     * Determines whether two Objects are logicallz equivalent. They are equivalent when they are equal. A object o1
+     * is also equivalent to o2 when it is created by being copied from o2 or by having o2 merged into it. Note
+     * thate isEquivalent is not symetric but transitive. IsEquivalent is not per context, but per
+     * {@link GlobalMergeContext}.
+     */
+    boolean isEquivalent(Object o1, Object o2) {
+        Boolean customResult = configuration.customEquivalence(o1, o2, this);
+        if (customResult != null) {
+            return customResult;
+        }
+        return globalContext.isEquivalent(o1, o2);
+    }
+
+    /**
      * Retrieves a semantics instance based on the meta-class of a given element.
      *
      * @param element The element for that semantics is needed for.
@@ -138,8 +158,8 @@ public final class MergeContext {
      *
      * @return The merging property for all merges in this context.
      */
-    Property getMergingProperty() {
-        return mergingProperty;
+    Collection<Property> getMergingProperties() {
+        return configuration.getMergingProperties();
     }
 
     /**
@@ -214,38 +234,12 @@ public final class MergeContext {
             return true;
         } else {
             boolean alreadyExist = linksCreatedInThisContext.get(property.getAssociation()).contains(
-                    new Link(propertyValue, oppositeValue));
-            if (alreadyExist) {
-                return false;
-            } else {
-                linksCreatedInThisContext.put(property.getAssociation(), new Link(oppositeValue, propertyValue));
-                return true;
-            }
+                    new Tuple(propertyValue, oppositeValue));
+            return !alreadyExist;
         }
     }
 
-    class Link {
-        private final Object o1;
-        private final Object o2;
-
-        Link(Object o1, Object o2) {
-            super();
-            this.o1 = o1;
-            this.o2 = o2;
-        }
-
-        @Override
-        public int hashCode() {
-            return o1.hashCode() + o2.hashCode();
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            if (obj instanceof Link) {
-                return ((Link)obj).o1 == this.o1 && ((Link)obj).o2 == this.o2;
-            } else {
-                return false;
-            }
-        }
+    void addNewLink(Property property, Object propertyValue, Object oppositeValue) {
+        linksCreatedInThisContext.put(property.getAssociation(), new Tuple(oppositeValue, propertyValue));
     }
 }

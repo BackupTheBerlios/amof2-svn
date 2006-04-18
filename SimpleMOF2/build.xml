@@ -147,7 +147,7 @@
     </target>
 
 	<target name="tests" depends="compile">
-		<junit printsummary="true" haltonfailure="true" haltonerror="true" fork="on" maxmemory="200000000">
+		<junit printsummary="true" haltonfailure="true" haltonerror="true" fork="on" maxmemory="1024000000">
 			<formatter type="plain" usefile="no"/>
     		<classpath refid="classpath"/>
 			<test name="hub.sam.mof.test.Main"/>
