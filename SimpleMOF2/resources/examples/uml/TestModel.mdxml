@@ -3,7 +3,7 @@
 <!-- This xmi file is optimized for MagicDraw UML. Some references are not saved. -->
 <!-- Change MagicDraw UML environment options property General->.Save Rich XMI -->
 
-<xmi:XMI xmi:version='2.1' timestamp='Mon Apr 24 15:05:36 CEST 2006' xmlns:uml='http://schema.omg.org/spec/UML/2.0' xmlns:xmi='http://schema.omg.org/spec/XMI/2.1'>
+<xmi:XMI xmi:version='2.1' timestamp='Thu Apr 20 15:35:56 CEST 2006' xmlns:uml='http://schema.omg.org/spec/UML/2.0' xmlns:xmi='http://schema.omg.org/spec/XMI/2.1'>
 	<xmi:Documentation xmi:Exporter='MagicDraw UML' xmi:ExporterVersion='10.5'/>
 	<uml:Model xmi:id='eee_1045467100313_135436_1' name='org.omg.xmi.nsPrefix' visibility='public'>
 		<xmi:Extension xmi:Extender='MagicDraw UML 10.5' xmi:ExtenderID='MagicDraw UML 10.5'>
@@ -584,36 +584,6 @@
 					</ownedOperation>
 					<ownedOperation xmi:type='uml:Operation' xmi:id='_10_5_ec1033d_1145540130084_154212_1053' concurrency='sequential' name='op3' visibility='public'>
 						<ownedParameter xmi:type='uml:Parameter' xmi:id='_10_5_ec1033d_1145540130086_31484_1054' name='p1' visibility='public' type='_10_5_ec1033d_1145539995363_911937_1033'/>
-					</ownedOperation>
-				</ownedMember>
-			</ownedMember>
-		</ownedMember>
-		<ownedMember xmi:type='uml:Package' xmi:id='_10_5_ec1033d_1145883722504_984874_1055' name='MergeTest15' visibility='public'>
-			<ownedMember xmi:type='uml:Package' xmi:id='_10_5_ec1033d_1145883722505_280910_1056' name='A' visibility='public'>
-				<packageMerge xmi:type='uml:PackageMerge' xmi:id='_10_5_ec1033d_1145883722507_502207_1059' mergedPackage='_10_5_ec1033d_1145883722506_236111_1057'/>
-				<ownedMember xmi:type='uml:Class' xmi:id='_10_5_ec1033d_1145883722507_783769_1060' name='AClass' visibility='public'>
-					<ownedOperation xmi:type='uml:Operation' xmi:id='_10_5_ec1033d_1145883722510_499341_1063' concurrency='sequential' name='op1' visibility='public'>
-						<ownedParameter xmi:type='uml:Parameter' xmi:id='_10_5_ec1033d_1145883722519_65892_1072' direction='return' name='return' visibility='public' type='_10_5_ec1033d_1145883722507_783769_1060'/>
-						<ownedParameter xmi:type='uml:Parameter' xmi:id='_10_5_ec1033d_1145883744045_380724_1081' name='s1' visibility='public' type='_10_5_ec1033d_1145883722507_783769_1060'/>
-						<ownedParameter xmi:type='uml:Parameter' xmi:id='_10_5_ec1033d_1145883800730_577260_1082' name='s2' visibility='public' type='_10_5_ec1033d_1145883722507_783769_1060'/>
-					</ownedOperation>
-				</ownedMember>
-			</ownedMember>
-			<ownedMember xmi:type='uml:Package' xmi:id='_10_5_ec1033d_1145883722506_236111_1057' name='B' visibility='public'>
-				<ownedMember xmi:type='uml:Class' xmi:id='_10_5_ec1033d_1145883722508_327793_1061' name='AClass' visibility='public'>
-					<ownedOperation xmi:type='uml:Operation' xmi:id='_10_5_ec1033d_1145883722513_809124_1066' concurrency='sequential' name='op1' visibility='public'>
-						<ownedParameter xmi:type='uml:Parameter' xmi:id='_10_5_ec1033d_1145883816345_189333_1083' direction='return' name='return' visibility='public' type='_10_5_ec1033d_1145883722508_327793_1061'/>
-						<ownedParameter xmi:type='uml:Parameter' xmi:id='_10_5_ec1033d_1145883816346_828756_1084' name='s1' visibility='public' type='_10_5_ec1033d_1145883722508_327793_1061'/>
-						<ownedParameter xmi:type='uml:Parameter' xmi:id='_10_5_ec1033d_1145883816347_595114_1085' name='s2' visibility='public' type='_10_5_ec1033d_1145883722508_327793_1061'/>
-					</ownedOperation>
-				</ownedMember>
-			</ownedMember>
-			<ownedMember xmi:type='uml:Package' xmi:id='_10_5_ec1033d_1145883865843_493346_1086' name='Result' visibility='public'>
-				<ownedMember xmi:type='uml:Class' xmi:id='_10_5_ec1033d_1145883865845_365878_1088' name='AClass' visibility='public'>
-					<ownedOperation xmi:type='uml:Operation' xmi:id='_10_5_ec1033d_1145883865846_683000_1089' concurrency='sequential' name='op1' visibility='public'>
-						<ownedParameter xmi:type='uml:Parameter' xmi:id='_10_5_ec1033d_1145883865847_486277_1090' direction='return' name='return' visibility='public' type='_10_5_ec1033d_1145883865845_365878_1088'/>
-						<ownedParameter xmi:type='uml:Parameter' xmi:id='_10_5_ec1033d_1145883865848_684519_1091' name='s1' visibility='public' type='_10_5_ec1033d_1145883865845_365878_1088'/>
-						<ownedParameter xmi:type='uml:Parameter' xmi:id='_10_5_ec1033d_1145883865849_15146_1092' name='s2' visibility='public' type='_10_5_ec1033d_1145883865845_365878_1088'/>
 					</ownedOperation>
 				</ownedMember>
 			</ownedMember>
@@ -5549,7 +5519,7 @@
 					<mdElement elementClass='StringProperty'>
 						<propertyID>INFO_PROPERTY</propertyID>
 						<propertyDescriptionID>INFO_PROPERTY_DESCRIPTION</propertyDescriptionID>
-						<value>71 7a 2f 3 49 7c 63 2f 30 17 f6 d5 fc 77 f9 a3 69 a4 3 85 92 2b b1 f9 8e 8c 3 8c 79 fb 8b 3d 6f 47 3c 28 d8 d9 28 92 b3 3b 52 af 3a d1 2e bc ad 5c 31 7d 6a 4a 30 8e 28 11 c4 ce f3 f1 dd 92 88 76 b5 ae 10 f3 </value>
+						<value>71 7a 2f 3 49 7c 63 2f 30 17 f6 cc fb 6c f9 a3 69 a4 3 85 96 2b b1 f9 8e 8f 3 8c 7f fb 8b 3d 6f 47 3c 28 d8 d9 28 92 b3 3b 52 af 3a d1 2e bc ad 5c 31 7d 6a 4a 30 8e 28 11 c4 ce f3 f1 dd 92 88 76 b5 ae 10 f3 </value>
 						<multiline xmi:value='false'/>
 					</mdElement>
 					<mdElement elementClass='LIST_PROPERTY'>
@@ -5559,13 +5529,13 @@
 					<mdElement elementClass='ChoiceProperty'>
 						<propertyID>RECENT_DIAGRAMS</propertyID>
 						<propertyDescriptionID>RECENT_DIAGRAMS_DESCRIPTION</propertyDescriptionID>
-						<choice xmi:value='_10_5_ec1033d_1145883899406_139466_1093^_10_5_ec1033d_1143124011286_771491_615^_10_5_ec1033d_1143124011283_930634_610^_10_5_ec1033d_1143124019757_762088_626^_10_5_ec1033d_1141331937990_498861_246^_10_5_ec1033d_1142956032284_476988_16^_10_5_ec1033d_1142956116638_806388_162'/>
+						<choice xmi:value='_10_5_ec1033d_1143124011286_771491_615^_10_5_ec1033d_1143124011283_930634_610^_10_5_ec1033d_1143124019757_762088_626^_10_5_ec1033d_1141331937990_498861_246^_10_5_ec1033d_1142956032284_476988_16^_10_5_ec1033d_1142956116638_806388_162^_10_5_ec1033d_1142956032277_721702_11^_10_5_ec1033d_1141393044131_754479_744'/>
 						<index xmi:value='-1'/>
 					</mdElement>
 					<mdElement elementClass='StringProperty'>
 						<propertyID>LAST_SELECTED_ELEMENT</propertyID>
 						<propertyDescriptionID>LAST_SELECTED_ELEMENT_DESCRIPTION</propertyDescriptionID>
-						<value>_10_5_ec1033d_1145883722508_327793_1061</value>
+						<value>_10_5_ec1033d_1145539995363_911937_1033</value>
 						<multiline xmi:value='false'/>
 					</mdElement>
 				</mdElement>

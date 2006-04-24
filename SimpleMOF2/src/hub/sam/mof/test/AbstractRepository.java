@@ -14,34 +14,34 @@ details.
 
     You should have received a copy of the GNU Lesser General Public License
 along with this library; if not, write to the Free Software Foundation, Inc.,
-59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
+59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
 package hub.sam.mof.test;
 
-import junit.framework.*;
-import hub.sam.mof.*;
-import cmof.reflection.*;
+import junit.framework.TestCase;
+import cmof.reflection.Extent;
+import hub.sam.mof.Repository;
 
 public class AbstractRepository extends TestCase {
-    
-	public AbstractRepository(String name) {
+
+    public AbstractRepository(String name) {
         super(name);
     }
-    
+
     protected Repository repository;
     protected Extent m3Extent;
     protected cmof.Package m3;
-    
+
     @Override
-	public void setUp() throws Exception {
+    public void setUp() throws Exception {
         repository = Repository.getLocalRepository();
         repository.reset();
         m3Extent = repository.getExtent(Repository.CMOF_EXTENT_NAME);
         m3 = (cmof.Package)m3Extent.query("Package:cmof");
-    }      
-    
+    }
+
     protected Repository getRepository() {
-    	return Repository.getLocalRepository();
+        return Repository.getLocalRepository();
     }
 }

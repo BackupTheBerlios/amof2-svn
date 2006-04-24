@@ -177,7 +177,7 @@
 		<delete dir="${uml-src}"/>
 		<mkdir dir="${uml-src}"/>
 		<taskdef name="mof" classname="hub.sam.mof.ant.GenerateCode" classpathref="classpath"/>
-		<mof src="resources/models/uml/uml.xml" destdir="${uml-src}"/>
+		<mof src="resources/models/uml/CD.merged.cmof.xml" destdir="${uml-src}"/>
 		<antcall target="compile-uml"/>
 	</target>
 

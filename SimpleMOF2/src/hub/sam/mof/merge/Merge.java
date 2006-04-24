@@ -10,9 +10,9 @@ import hub.sam.util.MultiMap;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Vector;
-import java.util.List;
 
 /**
  * The main Merge class. It is responsible for merging multiple mergedElements into an exisiting merging element. It
@@ -70,11 +70,10 @@ final class Merge {
                 continue PropertyLoop;
             }
 
-            if (isMergingProperty(property) || !property.isComposite()) {
+            if (isMergingProperty(property)) {
                 mergeValuesOfProperty(property, true);
             } else {
                 mergeValuesOfProperty(property, false);
-                //copyValuesOfProperty(property);
             }
         }
 
@@ -157,7 +156,12 @@ final class Merge {
      *         for those that have no values for the property an empty value list is created.
      */
     private MultiMap<Element, Object> getValues(Property property) {
-        MultiMap<Element, Object> result = new MultiMap<Element, Object>();
+        MultiMap<Element, Object> result = new MultiMap<Element, Object>() {
+            @Override
+            protected Collection<Object> createCollection() {
+                return new Vector<Object>();
+            }
+        };
         for (Element element : getAllElements()) {
             Object values = ((cmof.reflection.Object)element).get(property);
             if (values != null) {
@@ -201,6 +205,7 @@ final class Merge {
      * combined in a collection of values. The method only collects updates.
      *
      * @param property The property for that the values shall be merged.
+     * @param isRunForMergingProperty Determines the character of the property.
      */
     private void mergeValuesOfProperty(Property property, boolean isRunForMergingProperty) {
         boolean isComposite = property.isComposite();
@@ -211,17 +216,15 @@ final class Merge {
         }
         boolean isSingleMultiplicity = property.getUpper() == 1;
         context.getConfiguration().customMerge(property, valueCollections);
-        Collection<MergedValue> mergedValues =
-                mergedValuesForValueCollections(valueCollections, isComposite,
-                        isRunForMergingProperty, isSingleMultiplicity);
+        Collection<MergedValue> mergedValues = mergedValuesForValueCollections(valueCollections, isComposite,
+                isRunForMergingProperty, isSingleMultiplicity);
 
         if (property.getUpper() < mergedValues.size() && property.getUpper() != -1) {
             if (isSingleMultiplicity) {
                 mergeConflictingValues(mergedValues, property, values, isComposite, isRunForMergingProperty);
             } else {
-                throw new MergeException(
-                        "Merge would cause a multiplicity violation for " + property + " in "
-                                + mergingElement);
+                throw new MergeException("Merge would cause a multiplicity violation for " + property + " in "
+                        + mergingElement);
             }
         } else {
             updateProperty(property, mergedValues);
@@ -247,7 +250,8 @@ final class Merge {
         Loop:
         for (Collection<Object> values : valueCollections) {
             Collection<MergedValue> moreMergedValues = new Vector<MergedValue>();
-            if (isSingleMultiplicity && !isRunForMergingProperty && !isRunForMergingElement && mergedValues.size() > 0) {
+
+            if (isSingleMultiplicity && !isRunForMergingProperty && isComposite && mergedValues.size() > 0) {
                 // all other values will be ignored anyway.
                 break Loop;
             }

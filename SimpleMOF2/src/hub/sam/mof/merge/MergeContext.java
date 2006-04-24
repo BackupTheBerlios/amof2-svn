@@ -62,7 +62,7 @@ public final class MergeContext {
         mergingProperties.add((Property)Repository.getLocalRepository().getExtent(Repository.CMOF_EXTENT_NAME)
                 .query("Package:core/Package:abstractions/Package:namespaces/Class:Namespace/Property:member"));
         MergeContext context = new MergeContext(factory, new DefaultMergeConfiguration(
-                DefaultMergeConfiguration.knownConflicts, mergingProperties), globalContext);
+                DefaultMergeConfiguration.knownConflicts, mergingProperties, globalContext), globalContext);
         context.getToplevelMergedNamespaces().add(thePackage);
         context.getToplevelMergedNamespaces().addAll(mergedPackages);
         context.merge(thePackage, (Collection)mergedPackages, false);
@@ -125,7 +125,7 @@ public final class MergeContext {
     }
 
     /**
-     * Determines whether two Objects are logicallz equivalent. They are equivalent when they are equal. A object o1
+     * Determines whether two Objects are logically equivalent. They are equivalent when they are equal. A object o1
      * is also equivalent to o2 when it is created by being copied from o2 or by having o2 merged into it. Note
      * thate isEquivalent is not symetric but transitive. IsEquivalent is not per context, but per
      * {@link GlobalMergeContext}.
@@ -209,10 +209,20 @@ public final class MergeContext {
     Element getMergedElement(Element forElement) {
         Element result = mergedElementForElement.get(forElement);
         if (result == null) {
+            // first try to find an equivalent that lays within the merge context
+            for (Object equivalent: globalContext.getEquivalents(forElement)) {
+                if (equivalent instanceof Element && isInMergeContext((Element)equivalent)) {
+                    return (Element)equivalent;
+                }
+            }
             return forElement;
         } else {
             return result;
         }
+    }
+
+    boolean isInMergeContext(Element forElement) {
+        return mergedElementForElement.values().contains(forElement);
     }
 
     MergeConfiguration getConfiguration() {

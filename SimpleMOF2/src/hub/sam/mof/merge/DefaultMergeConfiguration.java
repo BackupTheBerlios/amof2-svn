@@ -1,24 +1,25 @@
 package hub.sam.mof.merge;
 
+import cmof.Comment;
+import cmof.Constraint;
 import cmof.Operation;
+import cmof.PackageImport;
 import cmof.Parameter;
 import cmof.ParameterDirectionKind;
 import cmof.Property;
 import cmof.Type;
-import cmof.Constraint;
-import cmof.PackageImport;
-import cmof.Comment;
-import core.abstractions.ownerships.Element;
+import cmof.Association;
 import core.abstractions.namespaces.NamedElement;
+import core.abstractions.ownerships.Element;
 import core.abstractions.visibilities.VisibilityKind;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
-import java.util.Vector;
-import java.util.Map;
 import java.util.HashMap;
-import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.Vector;
 
 /**
  * This is the default implementation, suitable for cmof package merges.
@@ -28,17 +29,30 @@ public class DefaultMergeConfiguration implements MergeConfiguration {
     public static final Map<String, Object> knownConflicts = new HashMap<String, Object>();
     static {
         knownConflicts.put("InfrastructureLibrary.Core.Constructs.Property.subsettingContext.null.type, UML.Classes.Kernel.Property.subsettingContext.null.type", "UML.Classes.Kernel.Type");
+        knownConflicts.put("InfrastructureLibrary.Core.Constructs.VisibilityKind.bestVisibility.null.type, UML.Classes.Kernel.VisibilityKind.bestVisibility.null.type", "UML.Classes.Kernel.VisibilityKind");
         knownConflicts.put("UML.Activities.BasicActivities.Pin.isAbstract, UML.Activities.FundamentalActivities.Pin.isAbstract", Boolean.FALSE);
         knownConflicts.put("UML.Classes.Interfaces.BehavioralFeature.raisedException.type, UML.CommonBehaviors.Communications.BehavioralFeature.raisedException.type", "UML.Classes.Interfaces.Type");
         knownConflicts.put("UML.Actions.BasicActions.Pin.isAbstract, UML.Activities.BasicActivities.Pin.isAbstract, null.isAbstract", Boolean.FALSE);
+        knownConflicts.put("UML.CompositeStructures.InvocationActions.Trigger.isAbstract, UML.CompositeStructures.Ports.Trigger.isAbstract", Boolean.FALSE);
+        knownConflicts.put("UML.Activities.BasicActivities.Pin.isAbstract, UML.Activities.StructuredActivities.Pin.isAbstract, null.isAbstract", Boolean.FALSE);
+        knownConflicts.put("UML.Activities.CompleteActivities.Pin.isAbstract, UML.CompositeStructures.StructuredActivities.Pin.isAbstract, null.isAbstract", Boolean.FALSE);
+        knownConflicts.put("UML.Actions.BasicActions.Pin.isAbstract, UML.Activities.BasicActivities.Pin.isAbstract, UML.Activities.FundamentalActivities.Pin.isAbstract, null.isAbstract", Boolean.FALSE);
+        knownConflicts.put("L1.Pin.isAbstract, UML.CompositeStructures.InvocationActions.Pin.isAbstract, null.isAbstract", Boolean.FALSE);
+        knownConflicts.put("L1.Pin.isAbstract, UML.Activities.IntermediateActivities.Pin.isAbstract, UML.Activities.StructuredActivities.Pin.isAbstract, UML.CompositeStructures.InvocationActions.Pin.isAbstract, null.isAbstract", Boolean.FALSE);
+        knownConflicts.put("L2.Pin.isAbstract, UML.Activities.CompleteActivities.Pin.isAbstract, UML.Activities.CompleteStructuredActivities.Pin.isAbstract, UML.Activities.ExtraStructuredActivities.Pin.isAbstract, UML.CompositeStructures.StructuredActivities.Pin.isAbstract, null.isAbstract", Boolean.FALSE);
+        knownConflicts.put("L2.Port.required.type, UML.Components.PackagingComponents.Port.required.type, UML.Deployments.ComponentDeployments.Port.required.type, UML.StateMachines.ProtocolStateMachines.Port.required.type, null.type", "L2.Interface");
+        knownConflicts.put("L2.Port.provided.type, UML.Components.PackagingComponents.Port.provided.type, UML.Deployments.ComponentDeployments.Port.provided.type, UML.StateMachines.ProtocolStateMachines.Port.provided.type, null.type", "L2.Interface");
     }
 
     private final Map<String, Object> conflicts;
     private final Map<NamedElement, String> alternativeNames = new HashMap<NamedElement, String>();
     private final Collection<Property> mergingProperties;
+    private final GlobalMergeContext globalContext;
 
-    public DefaultMergeConfiguration(Map<String, Object> conflicts, Collection<Property> mergingProperties) {
+    public DefaultMergeConfiguration(Map<String, Object> conflicts, Collection<Property> mergingProperties,
+                                     GlobalMergeContext globalContext) {
         super();
+        this.globalContext = globalContext;
         this.conflicts = conflicts;
         this.mergingProperties = mergingProperties;
     }
@@ -67,6 +81,9 @@ public class DefaultMergeConfiguration implements MergeConfiguration {
     @SuppressWarnings({"OverlyLongMethod"})
     private String getNewAlternativeName(NamedElement forElement) {
         if (forElement instanceof cmof.Association) {
+            if (forElement.getName() != null) {
+                return forElement.getName();
+            }
             List<String> names = new Vector<String>(2);
             for (Property end : ((cmof.Association)forElement).getMemberEnd()) {
                 String name = end.getName();
@@ -91,7 +108,7 @@ public class DefaultMergeConfiguration implements MergeConfiguration {
             for (Parameter parameter : op.getFormalParameter()) {
                 if (!parameter.getDirection().equals(ParameterDirectionKind.RETURN)) {
                     opName.append("_");
-                    opName.append(parameter.getType().getQualifiedName());
+                    opName.append(parameter.getType().getName());
                 }
             }
             return opName.toString();
@@ -99,9 +116,22 @@ public class DefaultMergeConfiguration implements MergeConfiguration {
             if (((Parameter)forElement).getDirection() == ParameterDirectionKind.RETURN) {
                 return "return";
             } else {
+                int position = 0;
+                int i = 1;
+                for (Parameter otherParameter: ((Parameter)forElement).getOperation().getFormalParameter()) {
+                    if (otherParameter.equals(forElement)) {
+                        position = i;
+                    }
+                    if (otherParameter.getDirection() != ParameterDirectionKind.RETURN) {
+                        i++;
+                    }
+                }
+                if (position == 0) {
+                    throw new MergeException("assert");
+                }
                 Type type = (cmof.Type)((Parameter)forElement).getType();
                 if (type != null) {
-                    return type.getName();
+                    return type.getName() + position;
                 } else {
                     return null;
                 }
@@ -120,8 +150,17 @@ public class DefaultMergeConfiguration implements MergeConfiguration {
                         } else if (((Operation)constraintedElement).getBodyCondition().equals(constraint)) {
                             name = "body";
                         }
+                    } else if (constraintedElement instanceof Association) {
+                        name = getAlternativeName((NamedElement)constraintedElement);
+                        if (name == null) {
+                            System.out.println("halt2");
+                        } else {
+                            name += "_constraint";
+                        }
                     }
-                    break Loop;
+                    if (name != null) {
+                        break Loop;
+                    }
                 }
             }
             return name;
@@ -156,6 +195,26 @@ public class DefaultMergeConfiguration implements MergeConfiguration {
             return VisibilityKind.PUBLIC;
         } else if (propertyName.equals("name")) {
             return null;
+        } else if (propertyName.equals("type")) {
+            boolean equivalent = true;
+            for (Object o1: values) {
+                for (Object o2: values) {
+                    if (!globalContext.isEquivalent(o1, o2)) { // TODO, this should be used commonly not only for type
+                        equivalent = false;
+                    }
+                }
+            }
+            if (equivalent) {
+                return values.iterator().next();
+            } else {
+                try {
+                    return resolveBasedOnConflicts(mergingElement, mergedElements, values, property);
+                } catch (MergeException e) {// TODO
+                    System.out.println("WARNING: autoresolve exception: ");
+                    System.out.println(e.getMessage());
+                    return values.iterator().next();
+                }
+            }
         } else if (values.iterator().next() instanceof cmof.Package) {
             // TODO: here is a more comprehensive check needed, only when the container of a toplevel merging element
             // is requested, null should be returned.
@@ -247,8 +306,10 @@ public class DefaultMergeConfiguration implements MergeConfiguration {
                     result = parameter;
                 }
             }
-            values.remove(result);
-            values.add(result);
+            if (result != null) {
+                values.remove(result);
+                values.add(result);
+            }
         }
     }
 

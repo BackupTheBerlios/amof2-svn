@@ -27,6 +27,7 @@ import cmof.Property;
 import cmof.RedefinableElement;
 import cmof.Type;
 import cmof.UmlClass;
+import cmof.ParameterDirectionKind;
 import cmof.common.ReflectiveCollection;
 import cmof.exception.MetaModelException;
 import hub.sam.mof.codegeneration.wrapper.OperationWrapper;
@@ -39,6 +40,8 @@ import hub.sam.util.MultiMap;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Vector;
+import java.util.List;
 
 public abstract class AbstractObjectProxyGenerator extends AbstractGenerator {
 
@@ -219,11 +222,20 @@ public abstract class AbstractObjectProxyGenerator extends AbstractGenerator {
         if (!op1.getName().equals(op2.getName())) {
             return false;
         }
-        cmof.common.ReflectiveSequence<? extends Parameter> op1p;
-        cmof.common.ReflectiveSequence<? extends Parameter> op2p;
+        List<Parameter> op1p = new Vector<Parameter>();
+        List<Parameter> op2p = new Vector<Parameter>();
 
-        op1p = op1.getFormalParameter();
-        op2p = op2.getFormalParameter();
+        for(Parameter parameter: op1.getFormalParameter()) {
+            if (parameter.getDirection() != ParameterDirectionKind.RETURN) {
+                op1p.add(parameter);
+            }
+        }
+        for(Parameter parameter: op2.getFormalParameter()) {
+            if (parameter.getDirection() != ParameterDirectionKind.RETURN) {
+                op2p.add(parameter);
+            }
+        }
+
         if (op1p.size() != op2p.size()) {
             return false;
         }

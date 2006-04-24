@@ -1,4 +1,6 @@
 package warehouse;
+
+/* TEST */ 
 public class WarehouseModel{
     private static hub.sam.mof.reflection.Identifier _732 = new hub.sam.mof.reflection.Identifier();
     private static cmof.reflection.Object getObject0(hub.sam.mof.reflection.ExtentImpl extent) {

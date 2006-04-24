@@ -59,7 +59,7 @@ public class GlobalMergeContext {
     }
 
     /**
-     * Determines whether two objects are equivalence based on prior executed merges.     
+     * Determines whether two objects are equivalence based on prior executed merges.
      */
     public boolean isEquivalent(Object o1, Object o2) {
         if (o1 instanceof Element && o2 instanceof Element) {
@@ -75,5 +75,9 @@ public class GlobalMergeContext {
                 return o1.equals(o2);
             }
         }
+    }
+
+    public Collection<Object> getEquivalents(Object obj) {
+        return equivalence.get(obj);
     }
 }

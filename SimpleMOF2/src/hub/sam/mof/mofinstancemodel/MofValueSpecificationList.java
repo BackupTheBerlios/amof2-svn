@@ -198,7 +198,8 @@ public class MofValueSpecificationList extends ListImpl<ValueSpecification<UmlCl
     @SuppressWarnings({"unchecked","synthetic-access"})
 	@Override
 	public boolean add(Object o) {
-    	checkDerived();
+        checkReadOnly();
+        checkDerived();
     	ValueSpecification<UmlClass,Property,java.lang.Object> value = (ValueSpecification<UmlClass,Property,java.lang.Object>)o;
         return new UpdateGraphCreation().add(this, value).primaryAdd();
     }
@@ -206,7 +207,8 @@ public class MofValueSpecificationList extends ListImpl<ValueSpecification<UmlCl
     @SuppressWarnings("unchecked")
 	@Override
 	public boolean remove(Object o) {
-    	checkDerived();
+        checkReadOnly();
+        checkDerived();
         ValueSpecification<UmlClass,Property,java.lang.Object> value = (ValueSpecification<UmlClass,Property,java.lang.Object>)o;
         int index = values.indexOf(value);
         boolean removed = false;
@@ -223,6 +225,8 @@ public class MofValueSpecificationList extends ListImpl<ValueSpecification<UmlCl
     @SuppressWarnings("unchecked")
 	@Override
 	public synchronized void set(int index, Object o) {
+        checkReadOnly();
+        checkDerived();
         performingSet = true;
         if (o == null || !o.equals(values.get(index))) {
         	remove(index);
@@ -236,14 +240,16 @@ public class MofValueSpecificationList extends ListImpl<ValueSpecification<UmlCl
     @SuppressWarnings({"unchecked","synthetic-access"})
 	@Override
 	public void add(int index, Object o) {
-    	checkDerived();
+        checkReadOnly();
+        checkDerived();
         ValueSpecification<UmlClass,Property,java.lang.Object> value = (ValueSpecification<UmlClass,Property,java.lang.Object>)o;
         new UpdateGraphCreation().add(this, value).primaryAdd(index);
     }
 
     @Override
 	public void remove(int index) {
-    	checkDerived();
+        checkReadOnly();
+        checkDerived();
         for (UpdateGraphNode node: new Vector<UpdateGraphNode>(nodes.get(index))) {
             node.primaryRemove();
         }
@@ -254,7 +260,6 @@ public class MofValueSpecificationList extends ListImpl<ValueSpecification<UmlCl
      */
     @SuppressWarnings("unchecked")
 	public boolean addPlain(ValueSpecification<UmlClass,Property,java.lang.Object> value) {
-        checkReadOnly();
         boolean returnValue;
         if (property.isUnique()) {
             if (!values.contains(value)) {
@@ -281,7 +286,6 @@ public class MofValueSpecificationList extends ListImpl<ValueSpecification<UmlCl
 
 	@SuppressWarnings("unchecked")
 	public boolean removePlain(ValueSpecification<UmlClass,Property,java.lang.Object> value) {
-		checkReadOnly();
         int index = values.indexOf(value);
         if (index != -1) {
         	removePlain(index);
@@ -293,7 +297,6 @@ public class MofValueSpecificationList extends ListImpl<ValueSpecification<UmlCl
 
     @SuppressWarnings("unchecked")
 	public void setPlain(int index, ValueSpecification<UmlClass,Property,java.lang.Object> newValue) {
-        checkReadOnly();
         ValueSpecification<UmlClass,Property,java.lang.Object> oldValue = values.get(index);
         values.set(index, newValue);
         if (property.isComposite()) {
@@ -318,7 +321,6 @@ public class MofValueSpecificationList extends ListImpl<ValueSpecification<UmlCl
 
     @SuppressWarnings("unchecked")
 	public void addPlain(int index, ValueSpecification<UmlClass,Property,java.lang.Object> value) {
-        checkReadOnly();
         if (performingSet && index < values.size()) {
             values.set(index, value);
         } else {
@@ -337,7 +339,6 @@ public class MofValueSpecificationList extends ListImpl<ValueSpecification<UmlCl
 
     @SuppressWarnings("unchecked")
 	public void removePlain(int index) {
-        checkReadOnly();
         ValueSpecification<UmlClass,Property,java.lang.Object> oldValue = values.get(index);
         if (oldValue == null) {
             return;
@@ -495,7 +496,7 @@ public class MofValueSpecificationList extends ListImpl<ValueSpecification<UmlCl
             MofClassInstance instance = (MofClassInstance)((InstanceValue)value).getInstance();
             ReflectiveCollection<MofValueSpecificationList> occurences = instanceOccurences.get(instance);
             if (occurences != null) {
-                if (!contains(values)) {//???
+                if (!contains(values)) {// TODO ???
                     occurences.remove(this);
                 }
             }

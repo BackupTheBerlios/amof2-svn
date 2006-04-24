@@ -46,6 +46,7 @@ public class Main extends TestCase {
         suite.addTestSuite(CustomCode.class);
         suite.addTestSuite(ClientServer.class);
         suite.addTestSuite(DomainModelsTest.class);
+        suite.addTestSuite(Misc.class);
 
         suite.addTestSuite(hub.sam.mof.merge.MergeTest.class);
 

@@ -78,14 +78,17 @@ final class MergedValue {
         if (!composite && original == null) {
             original = value;
         } else {
-            if (original != null) {
-                if (context.isEquivalent(original, value)) {
-                    return;
+            if (!isRunForMergingProperty && composite) {
+                // for copys: equivalent values are ignored, in order not to create unecessary copies
+                if (original != null) {
+                    if (context.isEquivalent(original, value)) {
+                        return;
+                    }
                 }
-            }
-            for (Object o: values) {
-                if (context.isEquivalent(o, value)) {
-                    return;
+                for (Object o: values) {
+                    if (context.isEquivalent(o, value)) {
+                        return;
+                    }
                 }
             }
             values.add(value);
@@ -153,31 +156,45 @@ final class MergedValue {
      */
     private boolean isToMergeWithValue(Object comparetToValue, Object v2) {
         if (isRunForMergingProperty) {
-            if (comparetToValue.getClass().equals(v2.getClass())) {
-                if (comparetToValue.equals(v2)) {
-                    return true;
-                } else {
-                    if (comparetToValue instanceof NamedElement && v2 instanceof NamedElement) {
-                        NamedElement originalValue = (NamedElement)comparetToValue;
-                        NamedElement v2NamedElement = (NamedElement)v2;
-                        if (getNameForNamedElement(originalValue).equals(getNameForNamedElement(v2NamedElement))) {
-                            if (this.inMergeContext(originalValue) && inMergeContext(v2NamedElement)) {
-                                return !values.contains(v2);
-                            } else {
-                                return false;
-                            }
+            return valuesCanBeMerged(comparetToValue, v2);
+        } else if (!isRunForMergingProperty && !composite) {
+            return context.isEquivalent(comparetToValue, v2) || valuesCanBeMerged(comparetToValue, v2);
+        } else {
+            return context.isEquivalent(comparetToValue, v2);
+        }
+    }
+
+    /**
+     * Determines whether two objects have to be merged
+     * because they have names that indicate a merge.
+     *
+     * @param comparetToValue
+     * @param v2
+     * @return Whether the objects have to be merged.
+     */
+    private boolean valuesCanBeMerged(Object comparetToValue, Object v2) {
+        if (comparetToValue.getClass().equals(v2.getClass())) {
+            if (comparetToValue.equals(v2)) {
+                return true;
+            } else {
+                if (comparetToValue instanceof NamedElement && v2 instanceof NamedElement) {
+                    NamedElement originalValue = (NamedElement)comparetToValue;
+                    NamedElement v2NamedElement = (NamedElement)v2;
+                    if (getNameForNamedElement(originalValue).equals(getNameForNamedElement(v2NamedElement))) {
+                        if (this.inMergeContext(originalValue) && inMergeContext(v2NamedElement)) {
+                            return !values.contains(v2);
                         } else {
                             return false;
                         }
                     } else {
                         return false;
                     }
+                } else {
+                    return false;
                 }
-            } else {
-                return false;
             }
         } else {
-            return context.isEquivalent(comparetToValue, v2);
+            return false;
         }
     }
 
@@ -278,6 +295,6 @@ final class MergedValue {
             return original;
         } else {
             return context.getMergedElement((Element)original);
-        }
+        }        
     }
 }

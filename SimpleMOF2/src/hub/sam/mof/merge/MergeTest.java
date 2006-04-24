@@ -7,18 +7,19 @@ import cmof.reflection.Extent;
 import hub.sam.mof.Repository;
 import hub.sam.mof.Tools;
 import hub.sam.mof.reflection.ObjectImpl;
-import hub.sam.mof.xmi.Xmi2Reader;
 import hub.sam.mof.xmi.Xmi1Reader;
+import hub.sam.mof.xmi.Xmi2Reader;
 import junit.framework.TestCase;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.Collection;
-import java.util.Vector;
 import java.util.HashMap;
 import java.util.Map;
-import java.io.InputStream;
-import java.io.FileInputStream;
-import java.io.File;
+import java.util.Vector;
 
+@SuppressWarnings({"ClassWithTooManyMethods"})
 public class MergeTest extends TestCase {
     private Repository repository;
     private Package m3;
@@ -65,7 +66,7 @@ public class MergeTest extends TestCase {
         assertNull(difference);
     }
 
-    public void testUMLL0() throws Exception {
+    public void atestUMLL0() throws Exception {
         Extent umlExtent = repository.createExtent("uml test");
         Map<String, InputStream> xmiMap = new HashMap<String, InputStream>();
         xmiMap.put("Infrastructure.cmof", new FileInputStream(new File("resources/models/uml/Infrastructure.cmof.xml")));
@@ -76,11 +77,13 @@ public class MergeTest extends TestCase {
         MergeContext.mergePackages((cmof.Package)umlExtent.query("Package:L0"),
                 (cmof.cmofFactory)repository.createFactory(umlExtent, m3), null);
 
+        Tools.showPropertiesWithoutType(umlExtent);
+
         repository.writeExtentToXmi("resources/models/work/UML0MergeTest.xml", m3, umlExtent);
         repository.deleteExtent("uml test");
     }
 
-    public void testUMLL1() throws Exception {
+    public void atestUMLL1() throws Exception {
         Extent umlExtent = repository.createExtent("uml test");
         Map<String, InputStream> xmiMap = new HashMap<String, InputStream>();
         xmiMap.put("Infrastructure.cmof", new FileInputStream(new File("resources/models/uml/Infrastructure.cmof.xml")));
@@ -105,7 +108,74 @@ public class MergeTest extends TestCase {
             }
         }
 
+        Tools.showPropertiesWithoutType(umlExtent);
+
         repository.writeExtentToXmi("resources/models/work/UML1MergeTest.xml", m3, umlExtent);
+        repository.deleteExtent("uml test");
+    }
+
+    public void atestUMLL2() throws Exception {
+        Extent umlExtent = repository.createExtent("uml test");
+        Map<String, InputStream> xmiMap = new HashMap<String, InputStream>();
+        xmiMap.put("Infrastructure.cmof", new FileInputStream(new File("resources/models/uml/Infrastructure.cmof.xml")));
+        xmiMap.put("Superstructure.cmof", new FileInputStream(new File("resources/models/uml/Superstructure.cmof.xml")));
+        xmiMap.put("L1.cmof", new FileInputStream(new File("resources/models/uml/L1.cmof.xml")));
+        xmiMap.put("L2.cmof", new FileInputStream(new File("resources/models/uml/L2.cmof.xml")));
+        Xmi2Reader.readMofXmi(xmiMap, umlExtent, m3, Xmi1Reader.XmiKind.mof);
+
+        Tools.setOppositeValues(umlExtent);
+        Package l1Package = (Package)umlExtent.query("Package:L2");
+        MergeContext.mergePackages(l1Package, (cmof.cmofFactory)repository.createFactory(umlExtent, m3), null);
+        Tools.removeFoldedImports(umlExtent);
+
+        Collection<cmof.reflection.Object> toDelete = new Vector<cmof.reflection.Object>();
+        for(cmof.reflection.Object obj: umlExtent.getObject()) {
+            if (obj instanceof cmof.Package && !l1Package.equals(obj)) {
+                toDelete.add(obj);
+            }
+        }
+        for(cmof.reflection.Object obj: toDelete) {
+            if (((ObjectImpl)obj).getClassInstance().isValid()) {
+                obj.delete();
+            }
+        }
+
+        Tools.showPropertiesWithoutType(umlExtent);
+
+        repository.writeExtentToXmi("resources/models/work/UML2MergeTest.xml", m3, umlExtent);
+        repository.deleteExtent("uml test");
+    }
+
+    public void atestUMLL3() throws Exception {
+        Extent umlExtent = repository.createExtent("uml test");
+        Map<String, InputStream> xmiMap = new HashMap<String, InputStream>();
+        xmiMap.put("Infrastructure.cmof", new FileInputStream(new File("resources/models/uml/Infrastructure.cmof.xml")));
+        xmiMap.put("Superstructure.cmof", new FileInputStream(new File("resources/models/uml/Superstructure.cmof.xml")));
+        xmiMap.put("L1.cmof", new FileInputStream(new File("resources/models/uml/L1.cmof.xml")));
+        xmiMap.put("L2.cmof", new FileInputStream(new File("resources/models/uml/L2.cmof.xml")));
+        xmiMap.put("L3.cmof", new FileInputStream(new File("resources/models/uml/L3.cmof.xml")));
+        Xmi2Reader.readMofXmi(xmiMap, umlExtent, m3, Xmi1Reader.XmiKind.mof);
+
+        Tools.setOppositeValues(umlExtent);
+        Package l1Package = (Package)umlExtent.query("Package:L3");
+        MergeContext.mergePackages(l1Package, (cmof.cmofFactory)repository.createFactory(umlExtent, m3), null);
+        Tools.removeFoldedImports(umlExtent);
+
+        Collection<cmof.reflection.Object> toDelete = new Vector<cmof.reflection.Object>();
+        for(cmof.reflection.Object obj: umlExtent.getObject()) {
+            if (obj instanceof cmof.Package && !l1Package.equals(obj)) {
+                toDelete.add(obj);
+            }
+        }
+        for(cmof.reflection.Object obj: toDelete) {
+            if (((ObjectImpl)obj).getClassInstance().isValid()) {
+                obj.delete();
+            }
+        }
+
+        Tools.showPropertiesWithoutType(umlExtent);
+
+        repository.writeExtentToXmi("resources/models/work/UML3MergeTest.xml", m3, umlExtent);
         repository.deleteExtent("uml test");
     }
 
@@ -151,12 +221,22 @@ public class MergeTest extends TestCase {
 
     public void test11() throws Exception {
         aTest(11);
-        post();
     }
 
     public void test12() throws Exception {
         aTest(12);
-        post();
+    }
+
+    public void test13() throws Exception {
+        aTest(13);
+    }
+
+    public void test14() throws Exception {
+        aTest(14);
+    }
+
+    public void test15() throws Exception {
+        aTest(15);
     }
 
     @Override
@@ -167,7 +247,7 @@ public class MergeTest extends TestCase {
     public static void main(String[] args) throws Exception {
         MergeTest test = new MergeTest();
         test.setUp();
-        test.testUMLL1();
+        //test.testUMLL1();
         test.tearDown();
     }
 }

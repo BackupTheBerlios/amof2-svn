@@ -333,7 +333,7 @@ public class ExtentImpl extends hub.sam.util.Identity implements cmof.reflection
     }
 
     public static void writeStaticModel(String fileName, String packageName, String className, Extent extent) throws IOException {
-       new File(fileName.substring(0,fileName.lastIndexOf("/"))).mkdir();
+        new File(fileName.substring(0,fileName.lastIndexOf("/"))).mkdir();
         PrintWriter out = new PrintWriter(new File(fileName));
         if (packageName != null) {
             out.println("package " + packageName + ";");
