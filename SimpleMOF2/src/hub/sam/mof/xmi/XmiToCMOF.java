@@ -208,7 +208,7 @@ public class XmiToCMOF
             Type type = value.asInstanceValue().getInstance().getClassifier();
             for (Property supersettedProperty : MofClassifierSemantics.createClassClassifierForUmlClass(
                     classifier).getSupersettedProperties(result)) {
-                if (type.conformsTo(supersettedProperty.getType())) {
+                if (!supersettedProperty.isDerived() && type.conformsTo(supersettedProperty.getType())) {
                     if (((Classifier)supersettedProperty.getType()).allParents().contains(closestProperty.getType())) {
                         closestProperty = supersettedProperty;
                     }

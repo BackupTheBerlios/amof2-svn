@@ -60,16 +60,18 @@ public class MofClassInstance extends ClassInstance<UmlClass,Property,java.lang.
      */
     protected void initialize() {
         for (Property property: instanceClass.getFinalProperties()) {
-            MofStructureSlot newSlot = createSlot(property); 
+            MofStructureSlot newSlot = createSlot(property);
             slotForProperty.put(property, newSlot);
         }
         for (core.abstractions.elements.Element member: getClassifier().getMember()) {
             if (member instanceof Property) {
                 Property property = (Property)member;
-                Type type = (cmof.Type)property.getType();
-                String defaultValue = collectDefaultValue(property);
-                if (type instanceof cmof.DataType && defaultValue != null) {
-                    addValue(property, getModel().createPrimitiveValue(hub.sam.mof.reflection.FactoryImpl.staticCreateFromString((DataType)type, defaultValue)));
+                if (!property.isDerived()) {
+                    Type type = (cmof.Type)property.getType();
+                    String defaultValue = collectDefaultValue(property);
+                    if (type instanceof cmof.DataType && defaultValue != null) {
+                        addValue(property, getModel().createPrimitiveValue(hub.sam.mof.reflection.FactoryImpl.staticCreateFromString((DataType)type, defaultValue)));
+                    }
                 }
             }
         }
