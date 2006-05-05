@@ -1,0 +1,46 @@
+<project name = "SDL" default="compile" basedir=".">
+	<description>
+        SDL
+	</description>
+	<property name="build-dir" value="${basedir}/build"/>
+	<path id="classpath">
+		<pathelement path="${build/dir}"/>
+        <pathelement path="${basedir}/../../../build"/>
+        <fileset dir="${basedir}/../../../resources/lib">
+			<include name="**/*.jar"/>
+		</fileset>
+    </path>
+
+	<path id="sourcepath">
+		<pathelement path="${basedir}/src"/>
+		<pathelement path="${basedir}/generated-src"/>
+	</path>
+
+    <target name="init" depends="precompile" >
+	   	<mkdir dir="./generated-src"/>
+        <mkdir dir="./build"/>
+        <taskdef name="mofgencode" classname="hub.sam.mof.ant.GenerateCode" classpathref="classpath"/>
+        <taskdef name="upgradexmi" classname="hub.sam.mof.ant.UpgradeXmi" classpathref="classpath"/>
+    </target>
+
+	<target name="prepare" depends="init">
+        <upgradexmi inFile="${basedir}/resources/models/sdl.mdxml" inKind="md" outFile="${basedir}/resources/models/sdl.xml" outKind="mof"/>
+    	<mofgencode src="${basedir}/resources/models/sdl.xml" destdir="generated-src"/>    	
+    </target>
+
+    <target name="precompile">
+        <ant antfile="${basedir}/../../../build.xml" dir="${basedir}/../../../" inheritAll="false" target="compile" />
+    </target>
+
+    <target name="compile" depends="prepare, init">
+		<javac debug="on" destdir="${build-dir}" source="1.5" nowarn="yes" memorymaximumsize="100m" fork="true">
+			<src refid="sourcepath"/>
+			<classpath refid="classpath"/>
+		</javac>
+	</target>
+
+    <target name="clean">
+		<delete dir="${build-dir}"/>
+		<delete dir="./generated-src"/>
+	</target>
+</project>
