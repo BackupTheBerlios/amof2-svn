@@ -2,23 +2,22 @@
 	<description>
 		A MOF 2 for Java
 	</description>
-	<property name="base-dir" value="./"/>
 	<property name="src" value="${basedir}/src"/>
-	<property name="build-dir" value="${base-dir}/build"/>
-	<property name="doc-dir" value="${base-dir}/resources/doc/javadoc/"/>
-	<property name="jar-file" value="aMOF2.0forJava.jar"/>
+	<property name="build-dir" value="${basedir}/build"/>
+	<property name="doc-dir" value="${basedir}/resources/doc/javadoc/"/>
+	<property name="jar-file" value="${basedir}/aMOF2.0forJava.jar"/>
 
-	<property name="repository-generated-src" value="${base-dir}/resources/repository/generated-src/"/>
-	<property name="test-generated-src" value="${base-dir}/resources/test/generated-src/"/>
-	<property name="repository-initial-src" value="${base-dir}/resources/repository/initial-src/"/>
-	<property name="test-initial-src" value="${base-dir}/resources/test/initial-src/"/>
-	<property name="uml-src" value="${base-dir}/resources/uml-src/"/>
-	<property name="sdl-src" value="${base-dir}/resources/sdl-src/"/>
+	<property name="repository-generated-src" value="${basedir}/resources/repository/generated-src/"/>
+	<property name="test-generated-src" value="${basedir}/resources/test/generated-src/"/>
+	<property name="repository-initial-src" value="${basedir}/resources/repository/initial-src/"/>
+	<property name="test-initial-src" value="${basedir}/resources/test/initial-src/"/>
+	<property name="uml-src" value="${basedir}/resources/uml-src/"/>
+	<property name="sdl-src" value="${basedir}/resources/sdl-src/"/>
 
 
 	<path id="classpath">
 		<pathelement path="${build-dir}"/>
-		<fileset dir="${base-dir}/resources/lib">
+		<fileset dir="${basedir}/resources/lib">
 			<include name="**/*.jar"/>
 		</fileset>
 	</path>
@@ -52,7 +51,7 @@
 		<antcall target="init-repository-generated"/>
     	<antcall target="init-test-generated"/>
 
-		<mkdir dir="resources/models/work"/>
+		<mkdir dir="${basedir}/resources/models/work"/>
 		<mkdir dir="${build-dir}"/>
 		<mkdir dir="${doc-dir}"/>
 	</target>
@@ -67,7 +66,7 @@
 
 	<target name="javacc" depends="init">
 		<javacc target="${src}/hub/sam/mof/as/parser/ActionSemanticsParser.jj"
-				javacchome="resources/lib/javacc" outputdirectory="${src}/hub/sam/mof/as/parser/"/>
+				javacchome="${basedir}/resources/lib/javacc" outputdirectory="${src}/hub/sam/mof/as/parser/"/>
 	</target>
 
 	<target name="compile" depends="init, mopa, javacc">
@@ -83,15 +82,15 @@
 		    <attribute name="Main-Class" value="hub.sam.mof.Repository"/>
 		</manifest>
 	    </jar>
-        <mkdir dir="resources/lib/mopa"/>
-        <unjar dest="resources/lib/mopa" src="resources/lib/mopa.jar"/>
-        <jar destfile="${jar-file}" basedir="resources/lib/mopa" update="true"/>
-        <mkdir dir="resources/lib/jdom"/>
-        <unjar dest="resources/lib/jdom" src="resources/lib/jdom.jar"/>
-        <jar destfile="${jar-file}" basedir="resources/lib/jdom" update="true"/>
-        <mkdir dir="resources/lib/oslo"/>
-        <unjar dest="resources/lib/oslo" src="resources/lib/oslo.jar"/>
-        <jar destfile="${jar-file}" basedir="resources/lib/oslo" update="true"/>
+        <mkdir dir="${basedir}/resources/lib/mopa"/>
+        <unjar dest="${basedir}/resources/lib/mopa" src="${basedir}/resources/lib/mopa.jar"/>
+        <jar destfile="${jar-file}" basedir="${basedir}/resources/lib/mopa" update="true"/>
+        <mkdir dir="${basedir}/resources/lib/jdom"/>
+        <unjar dest="${basedir}/resources/lib/jdom" src="${basedir}/resources/lib/jdom.jar"/>
+        <jar destfile="${jar-file}" basedir="${basedir}/resources/lib/jdom" update="true"/>
+        <mkdir dir="${basedir}/resources/lib/oslo"/>
+        <unjar dest="${basedir}/resources/lib/oslo" src="${basedir}/resources/lib/oslo.jar"/>
+        <jar destfile="${jar-file}" basedir="${basedir}/resources/lib/oslo" update="true"/>
 	</target>
 
 	<target name="doc" depends="compile">
@@ -113,12 +112,12 @@
 	<target name="dist-clean" depends="clean">
 		<delete dir="${repository-generated-src}"/>
 		<delete dir="${test-generated-src}"/>
-        <delete dir="reources/models/work"/>
+        <delete dir="${basedir}/reources/models/work"/>
     </target>
 
 	<target name="dist" depends="dist-clean,bootstrap,tests,build-jar,doc"
 		description="Builds the complete MOF for Java and bundles as a JAR">
-		<zip destfile="aMOF2.0forJava-doc.zip">
+		<zip destfile="${basedir}/aMOF2.0forJava-doc.zip">
 			<fileset dir="${doc-dir}" defaultexcludes="yes">
 				<include name="**/*"/>
 			</fileset>
@@ -177,7 +176,7 @@
 		<delete dir="${uml-src}"/>
 		<mkdir dir="${uml-src}"/>
 		<taskdef name="mof" classname="hub.sam.mof.ant.GenerateCode" classpathref="classpath"/>
-		<mof src="resources/models/uml/CD.merged.cmof.xml" destdir="${uml-src}"/>
+		<mof src="${basedir}/resources/models/uml/CD.merged.cmof.xml" destdir="${uml-src}"/>
 		<antcall target="compile-uml"/>
 	</target>
 
@@ -209,7 +208,7 @@
             </doclet>
         </javadoc>
         <taskdef name="mof" classname="hub.sam.mof.ant.GenerateCode" classpathref="classpath"/>
-    	<mof src="resources/models/work/solo-domain-model-test.xml"
+    	<mof src="${basedir}/resources/models/work/solo-domain-model-test.xml"
              destdir="${test-generated-src}"/>
     </target>
 </project>

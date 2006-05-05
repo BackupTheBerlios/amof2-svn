@@ -3,6 +3,7 @@ package hub.sam.tools;
 import cmof.Package;
 import cmof.reflection.Extent;
 import hub.sam.mof.Repository;
+import hub.sam.mof.Tools;
 import hub.sam.mof.xmi.Xmi1Reader;
 
 public class UpgradeXMI {
@@ -34,6 +35,8 @@ public class UpgradeXMI {
 
         Extent m2 = repo.createExtent("m2");
         repo.loadXmiIntoExtent(m2, cmof, args[1], fromKind);
+        Tools.setOppositeValues(m2);
+        Tools.changeFromPackagedElement(m2);
         repo.writeExtentToXmi(args[3], cmof, m2, toKind);
     }
 

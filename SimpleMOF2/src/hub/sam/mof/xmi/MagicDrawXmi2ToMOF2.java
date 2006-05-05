@@ -83,9 +83,9 @@ public class MagicDrawXmi2ToMOF2 extends PatternClass implements XmiTransformato
         }
     }
 
-    //Package.Class.Association.DataType.Enumeration.PrimitiveType
+    //Package.Class.Association.DataType.Enumeration.PrimitiveType.Operation
     @SuppressWarnings({"unchecked"})
-    @Pattern( order = 100, atype = "Package.Class.Association.DataType.Enumeration.PrimitiveType")
+    @Pattern( order = 100, atype = "Package.Class.Association.DataType.Enumeration.PrimitiveType.Operation")
     public void classifier() throws Throwable {
         if (!visistedNodes.contains(actualNode())) {
             visistedNodes.add(actualNode());
@@ -132,9 +132,9 @@ public class MagicDrawXmi2ToMOF2 extends PatternClass implements XmiTransformato
         g.delete();
     }
 
-    //p=Property(d=defaultValue:LiteralString.LiteralInteger.LiteralBoolean)
+    //p=Property.Parameter(d=defaultValue:LiteralString.LiteralInteger.LiteralBoolean)
     @PatternList( order = 96, value = {
-        @Pattern( atype = "Property", variable = "p", children = "value"),
+        @Pattern( atype = "Property.Parameter", variable = "p", children = "value"),
         @Pattern( atype = "LiteralString.LiteralInteger.LiteralBoolean", property = "defaultValue", variable = "d", name = "value")})
     public void defaultValue(
             @Name("p")  ClassInstance<XmiClassifier,String,String> p,
@@ -149,9 +149,9 @@ public class MagicDrawXmi2ToMOF2 extends PatternClass implements XmiTransformato
         d.delete();
     }
 
-    //p=Property(l=lowerValue:LiteralString.LiteralInteger) -> {
+    //p=Property.Parameter(l=lowerValue:LiteralString.LiteralInteger) -> {
     @PatternList( order = 95, value = {
-        @Pattern( atype = "Property", variable = "p", children = "value"),
+        @Pattern( atype = "Property.Parameter", variable = "p", children = "value"),
         @Pattern( atype = "LiteralString.LiteralInteger", property = "lowerValue", variable = "l", name = "value")})
     public void lowerValue(
             @Name("p")  ClassInstance<XmiClassifier,String,String> p,
@@ -166,9 +166,9 @@ public class MagicDrawXmi2ToMOF2 extends PatternClass implements XmiTransformato
         l.delete();
     }
 
-    //p=Property(u=upperValue:LiteralString.LiteralInteger)
+    //p=Property.Parameter(u=upperValue:LiteralString.LiteralInteger)
     @PatternList( order = 94, value = {
-        @Pattern( atype = "Property", variable = "p", children = "value"),
+        @Pattern( atype = "Property.Parameter", variable = "p", children = "value"),
         @Pattern( atype = "LiteralString.LiteralInteger", property = "upperValue", variable = "u", name = "value")})
     public void upperValue(
             @Name("p")  ClassInstance<XmiClassifier,String,String> p,
@@ -206,5 +206,13 @@ public class MagicDrawXmi2ToMOF2 extends PatternClass implements XmiTransformato
     @Pattern( order = 92, atype = "Operation", variable = "o")
     public void operation(@Name("o") ClassInstance<XmiClassifier,String,String> o) {
         removeAttribute(o, "concurrency");
+    }
+
+    //d=Dependency
+    @Pattern( order = 92, atype = "Dependency", variable = "d")
+    public void dependency(@Name("d") ClassInstance<XmiClassifier,String,String> d) {
+        d.getComposite().get("ownedMember").getValues().remove(model.createInstanceValue(d));
+        d.setComposite(null);
+        d.delete();
     }
 }

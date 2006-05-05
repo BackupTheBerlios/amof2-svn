@@ -2,34 +2,40 @@
 	<description>
         UML
 	</description>
-	<property name="base-dir" value="./"/>
-	<property name="build-dir" value="${base-dir}/build"/>
+	<property name="build-dir" value="${basedir}/build"/>
 
 	<path id="classpath">
 		<pathelement path="${build-dir}"/>
-        <pathelement path="../../../build"/>
-        <fileset dir="../../../resources/lib">
+        <pathelement path="${basedir}/../../../build"/>
+        <fileset dir="${basedir}/../../../resources/lib">
 			<include name="**/*.jar"/>
 		</fileset>
     </path>
 
 	<path id="sourcepath">
-		<pathelement path="./src"/>
-		<pathelement path="./generated-src"/>
+		<pathelement path="${basedir}/src"/>
+		<pathelement path="${basedir}/generated-src"/>
 	</path>
 
     <target name="init" depends="precompile" >
-	   	<mkdir dir="./generated-src"/>
-        <mkdir dir="./build"/>
+	   	<mkdir dir="${basedir}/generated-src"/>
+        <mkdir dir="${basedir}/build"/>
         <taskdef name="mofgencode" classname="hub.sam.mof.ant.GenerateCode" classpathref="classpath"/>
+        <typedef name="xmifile" classname="hub.sam.mof.ant.XmiFile" classpathref="classpath"/>
+        <taskdef name="mofmerge" classname="hub.sam.mof.ant.MergeModel" classpathref="classpath"/>
     </target>
 
 	<target name="prepare" depends="init">
-    	<mofgencode src="CD.merged.cmof.xml" destdir="generated-src"/>    	
+        <mofmerge dest="${basedir}/resources/models/CD.merged.cmof.xml" packageToMerge="Package:uml">
+            <xmifile key="Infrastructure.cmof" file="${basedir}/../../models/uml/Infrastructure.cmof.xml"/>
+            <xmifile key="Superstructure.cmof" file="${basedir}/../../models/uml/Superstructure.cmof.xml"/>
+            <xmifile key="CD.cmof" file="${basedir}/resources/models/CD.cmof.xml"/>
+        </mofmerge>
+    	<mofgencode src="${basedir}/resources/models/CD.merged.cmof.xml" destdir="${basedir}/generated-src"/>
     </target>
 
     <target name="precompile">
-        <ant antfile="build.xml" dir="../../../" target="compile" />
+        <ant antfile="${basedir}/../../../build.xml" dir="${basedir}/../../../" target="compile" inheritAll="false"/>
     </target>
 
     <target name="compile" depends="prepare, init">
@@ -41,7 +47,7 @@
 
     <target name="clean">
 		<delete dir="${build-dir}"/>
-		<delete dir="./generated-src"/>
+		<delete dir="${basedir}/generated-src"/>
 	</target>
 
     <target name="test" depends="compile">
@@ -51,5 +57,4 @@
 			<test name="umltest.ReadASampleModel"/>
 		</junit>
     </target>
-
 </project>

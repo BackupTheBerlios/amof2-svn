@@ -1,11 +1,10 @@
 package hub.sam.mof;
 
 import cmof.reflection.Extent;
-import cmof.Property;
-import cmof.Association;
-import cmof.PackageImport;
-import cmof.NamedElement;
+import cmof.*;
+import cmof.Package;
 import hub.sam.mof.util.ListImpl;
+import hub.sam.mof.util.SetImpl;
 
 public class Tools {
     public static void setOppositeValues(Extent extent) {
@@ -26,6 +25,25 @@ public class Tools {
                         property.setOpposite(property);
                     } else {
                         property.setOpposite(opposite);
+                    }
+                }
+            }
+        }
+    }
+
+    public static void changeFromPackagedElement(Extent extent) {
+        for (Object o: extent.getObject()) {
+            if (o instanceof cmof.Package) {
+                Package pkg = (Package)o;
+                for (PackageableElement element: new SetImpl<PackageableElement>(pkg.getPackagedElement())) {
+                    if (element instanceof Package) {
+                        pkg.getPackagedElement().remove(element);
+                        pkg.getNestedPackage().add(element);
+                    } else if (element instanceof Type) {
+                        pkg.getPackagedElement().remove(element);
+                        pkg.getOwnedType().add(element);
+                    } else {
+                        System.out.println("WARNING: cold not reset all packagedElement values");
                     }
                 }
             }

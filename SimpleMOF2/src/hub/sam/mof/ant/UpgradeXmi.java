@@ -20,8 +20,7 @@ public class UpgradeXmi extends Task {
     private File outFile = null;
 
     @Override
-    public void execute() throws BuildException {
-        System.out.println("Hello");
+    public void execute() throws BuildException {        
         if (inKind == null) {
             throw new BuildException("Parameter inKind is mandatory");
         }

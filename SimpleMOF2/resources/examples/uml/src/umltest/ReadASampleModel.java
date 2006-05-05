@@ -20,10 +20,10 @@ public class ReadASampleModel extends TestCase {
         cmof.Package cmofPackage = (cmof.Package)cmofExtent.query("Package:cmof");
 
         Extent umlExtent = repo.createExtent("uml");
-        repo.loadXmiIntoExtent(umlExtent, cmofPackage, "CD.merged.cmof.xml");
+        repo.loadXmiIntoExtent(umlExtent, cmofPackage, "resources/models/CD.merged.cmof.xml");
         cmof.Package umlPackage = (cmof.Package)umlExtent.query("Package:uml");
 
         Extent modelExtent = repo.createExtent("model");
-        repo.loadXmiIntoExtent(modelExtent, umlPackage, "TestModel.xml");
+        repo.loadXmiIntoExtent(modelExtent, umlPackage, "resources/models/TestModel.mdxml");
     }
 }

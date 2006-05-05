@@ -141,7 +141,16 @@ public class Xmi2Reader {
         return element.getChild("Extension", xmiNamespace) != null;
     }
 
+    private boolean ignoreElement(Element element) {
+        return element.getNamespace().equals(xmiNamespace) ||
+            (element.getAttribute("href") != null && ignoreHRefs(element));        
+    }
+
     public void readInstance(Element child) throws XmiException, MetaModelException {
+        if (ignoreElement(child)) {
+            //ignore unsupported xmi elements
+            return;
+        }
         String id = readXmiId(child, "id");
         actualNamespacePrefix = child.getNamespacePrefix();
         ClassInstance<XmiClassifier, String, String> instance = model.createInstance(id,
@@ -151,6 +160,11 @@ public class Xmi2Reader {
 
     @SuppressWarnings({"ReuseOfLocalVariable"})
     public void readContentForInstance(Element element, ClassInstance<XmiClassifier, String, String> instance) throws XmiException, MetaModelException {
+        if (ignoreElement(element)) {
+            //ignore unsupported xmi elements
+            return;
+        }
+
         for (Object oAttr : element.getAttributes()) {
             Attribute attr = (Attribute) oAttr;
             String namespace = attr.getNamespacePrefix();

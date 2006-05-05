@@ -101,6 +101,16 @@ public class MOF2ToMagicDrawXmi2 extends PatternClass implements XmiTransformato
         }
     }
 
+    //Model.Package.Class.Association.DataType.Enumeration.PrimitiveType.Operation.Property
+    @SuppressWarnings({"unchecked"})
+    @Pattern ( order = 100, atype = "Package.Class.Association.DataType.Enumeration.PrimitiveType.Operation.Property",
+            variable = "e")
+    public void visibility(@Name("e")ClassInstance<XmiClassifier,String,String> e) throws Throwable {
+        if ((e.get("visibility") == null) || (e.get("visibility").getValues().size() == 0)) {
+            e.addValue("visibility", model.createPrimitiveValue("public"));
+        }
+    }
+
     //p=Package provided (p.getComposite() == null)
     @Pattern ( order = 99, atype = "Package.Class.Tag.Enumeration.DataType.PrimitiveType", variable = "p")
     public void compositePackage(@Name("p") ClassInstance<XmiClassifier,String,String> p) {
