@@ -3,6 +3,7 @@
         SDL
 	</description>
 	<property name="build-dir" value="${basedir}/build"/>
+    <property name="javacc-home" location="${basedir}/../../lib/javacc"/>
 	<path id="classpath">
 		<pathelement path="${build/dir}"/>
         <pathelement path="${basedir}/../../../build"/>
@@ -19,20 +20,29 @@
     <target name="init" depends="precompile" >
 	   	<mkdir dir="./generated-src"/>
         <mkdir dir="./build"/>
+        <mkdir dir="${basedir}/generated-src/hub/sam/sdlplus/parser"/>
         <taskdef name="mofgencode" classname="hub.sam.mof.ant.GenerateCode" classpathref="classpath"/>
         <taskdef name="upgradexmi" classname="hub.sam.mof.ant.UpgradeXmi" classpathref="classpath"/>
     </target>
 
 	<target name="prepare" depends="init">
         <upgradexmi inFile="${basedir}/resources/models/sdl.mdxml" inKind="md" outFile="${basedir}/resources/models/sdl.xml" outKind="mof"/>
-    	<mofgencode src="${basedir}/resources/models/sdl.xml" destdir="generated-src"/>    	
+    	<mofgencode src="${basedir}/resources/models/sdl.xml" destdir="generated-src" staticmodel="SDL.SdlModel"/>
     </target>
 
     <target name="precompile">
         <ant antfile="${basedir}/../../../build.xml" dir="${basedir}/../../../" inheritAll="false" target="compile" />
     </target>
 
-    <target name="compile" depends="prepare, init">
+    <target name="gen-parser" depends="init">
+        <javacc
+                target="${basedir}/src/hub/sam/sdlplus/parser/SdlplusParser.jj"
+                outputdirectory="${basedir}/generated-src/hub/sam/sdlplus/parser/"
+                javacchome="${javacc-home}"
+                />
+    </target>
+
+    <target name="compile" depends="gen-parser, prepare, init">
 		<javac debug="on" destdir="${build-dir}" source="1.5" nowarn="yes" memorymaximumsize="100m" fork="true">
 			<src refid="sourcepath"/>
 			<classpath refid="classpath"/>
@@ -41,6 +51,7 @@
 
     <target name="clean">
 		<delete dir="${build-dir}"/>
-		<delete dir="./generated-src"/>
-	</target>
+		<delete dir="${basedir}/generated-src"/>
+        <delete file="${basedir}/resources/models/sdl.xml"/>
+    </target>
 </project>

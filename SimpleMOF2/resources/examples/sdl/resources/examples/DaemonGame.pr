@@ -1,0 +1,54 @@
+SYSTEM deamonGame_sys : << daemonGame_pkg >> daemonGame_type;
+
+/* a commment */
+
+PACKAGE daemonGame ;
+  PACKAGE innerPackage ;
+  ENDPACKAGE;
+  signal newGame, endGame, probe, result, gameId, win, lose, score(Integer), lose; 
+  BLOCK TYPE daemonGame_type ;
+    PROCESS deamonGame_sys(,) : daemonGame_type;
+    signal Gameover (PId); 
+    CHANNEL r1 
+        FROM ENV TO monitor WITH newGame; 
+    ENDCHANNEL;
+    CHANNEL r4 
+        FROM game TO monitor WITH Gameover; 
+    ENDCHANNEL;
+    CHANNEL r2 
+        FROM game TO ENV WITH gameId, score, win, lose; 
+    ENDCHANNEL;
+    CHANNEL r3 
+        FROM ENV TO game WITH endGame, probe, result; 
+    ENDCHANNEL;
+
+    PROCESS TYPE Game_type;
+        GATE env_gate
+            out with gameId, score, win, lose;
+            in with endGame, probe, result;
+        GATE monitor_gate
+            out with Gameover;
+        PROCEDURE aTestProcedure ( IN a1 anotherSort, IN a2 theSort, INOUT out1 theSort ) -> theSort;
+            PROCEDURE aNestedProcedure;
+                STATE -!-EMPTY-!- ;
+            ENDPROCEDURE;
+            STATE -!-EMPTY-!- ;
+        ENDPROCEDURE;
+        STATE TYPE AStateType; SUBSTRUCTURE 
+                STATE -!-EMPTY-!- ;
+        ENDSUBSTRUCTURE STATE TYPE;
+        STATE AGGREGATION theState : AStateType;
+    ENDPROCESS TYPE; 
+    PROCESS Game (0,) : Game_type;
+
+    PROCESS TYPE Monitor_type;
+        STATE TYPE AStateType; SUBSTRUCTURE 
+                STATE -!-EMPTY-!- ;
+        ENDSUBSTRUCTURE STATE TYPE;
+        STATE AGGREGATION theState : AStateType;
+    ENDPROCESS TYPE;
+    PROCESS Monitor (1,1) : << PACKAGE daemonGame / PACKAGE internal >> Monitor_type;
+  ENDBLOCK TYPE;
+  BLOCK TYPE daemonGame_type;
+  ENDBLOCK TYPE;
+ENDPACKAGE;
