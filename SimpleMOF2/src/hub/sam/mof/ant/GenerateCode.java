@@ -1,7 +1,10 @@
 package hub.sam.mof.ant;
 
 import cmof.reflection.Extent;
+import cmof.*;
+import cmof.Package;
 import hub.sam.mof.Repository;
+import hub.sam.mof.as.layers.M1SemanticModel;
 import hub.sam.mof.codegeneration.GenerationException;
 import hub.sam.mof.xmi.XmiException;
 import hub.sam.util.AbstractClusterableException;
@@ -9,11 +12,15 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 
 import java.io.File;
+import java.util.Collection;
+import java.util.Vector;
 
 public class GenerateCode extends Task {
 
     private boolean unisys = false;
     private boolean ea = false;
+    private boolean md = false;
+    private boolean instances = false;
     private boolean library = false;
     private boolean force = false;
     private File libraryFile = null;
@@ -23,7 +30,7 @@ public class GenerateCode extends Task {
 
     @SuppressWarnings({"OverlyLongMethod"})
     @Override
-	public void execute() throws BuildException {
+    public void execute() throws BuildException {
         // check all parameters
         if (src == null) {
             throw new BuildException("Parameter src is mandatory");
@@ -32,10 +39,10 @@ public class GenerateCode extends Task {
             throw new BuildException("Parameter destdir is mandatory");
         }
         if (library && libraryFile == null) {
-        	throw new BuildException("Parameter libraryFile is mandatory");
+            throw new BuildException("Parameter libraryFile is mandatory");
         }
         if (library && !libraryFile.isFile()) {
-        	throw new BuildException(libraryFile.toString() + " is not a file");
+            throw new BuildException(libraryFile.toString() + " is not a file");
         }
         if (!src.isFile()) {
             throw new BuildException(src.toString() + " is not a file");
@@ -65,18 +72,33 @@ public class GenerateCode extends Task {
 
             Extent extent = repository.createExtent("extent");
             if (library) {
-            	System.out.println("Reading library.");
-            	repository.loadXmiIntoExtent(extent, cmof, libraryFile.toString());
+                System.out.println("Reading library.");
+                repository.loadXmiIntoExtent(extent, cmof, libraryFile.toString());
             }
 
             System.out.println("Reading model.");
-            if (!unisys && !ea) {
+            if (!unisys && !ea && !md) {
                 repository.loadXmiIntoExtent(extent, cmof, src.toString());
             } else if (unisys){
                 repository.loadUnisysXmiIntoExtent(extent, cmof, src.toString());
             } else if (ea) {
-            	repository.loadEAXmiIntoExtent(extent, cmof, src.toString());
+                repository.loadEAXmiIntoExtent(extent, cmof, src.toString());
+            } else if (md) {
+                repository.loadMagicDrawXmiIntoExtent(extent, cmof, src.toString());
             }
+
+            if (instances) {
+                System.out.println("Creating semantic elements.");
+                Collection<cmof.Package> packages = new Vector<Package>();
+                for (Object o : extent.outermostComposites()) {
+                    if (o instanceof cmof.Package) {
+                        packages.add((cmof.Package)o);
+                    }
+                }
+                cmofFactory factory = (cmofFactory)repository.createFactory(extent, cmof);
+                new M1SemanticModel(factory).createImplicitElements(packages);
+            }
+
             System.out.println("Generating code.");
             repository.generateCode(extent, destdir.toString(), false);
             if (staticModel != null) {
@@ -84,11 +106,11 @@ public class GenerateCode extends Task {
                 repository.generateStaticModel(extent, staticModel, destdir.toString());
             }
         } catch (XmiException xe) {
-        	AbstractClusterableException.printReport(xe, System.err);
-        	throw new BuildException(xe);
+            AbstractClusterableException.printReport(xe, System.err);
+            throw new BuildException(xe);
         } catch (GenerationException ge) {
-        	AbstractClusterableException.printReport(ge, System.err);
-        	throw new BuildException(ge);
+            AbstractClusterableException.printReport(ge, System.err);
+            throw new BuildException(ge);
         } catch (Exception e) {
             e.printStackTrace(System.err);
             throw new BuildException(e);
@@ -112,18 +134,37 @@ public class GenerateCode extends Task {
     }
 
     public void setLibrary(boolean core) {
-    	this.library = core;
+        this.library = core;
     }
 
     public void setLibraryFile(File file) {
-    	this.libraryFile = file;
+        this.libraryFile = file;
     }
 
-	public void setEa(boolean ea) {
-		this.ea = ea;
-	}
+    public void setEa(boolean ea) {
+        this.ea = ea;
+    }
 
     public void setForce(boolean force) {
         this.force = force;
+    }
+
+    public void setMd(boolean md) {
+        this.md = md;
+    }
+
+    public void setInstances(boolean instances) {
+        this.instances = instances;
+    }
+
+    public static void main(String[] args) {
+        GenerateCode gc = new GenerateCode();
+        gc.setSrc(new File("resources/models/sdl.mdxml"));
+        gc.setDestdir(new File("generated-src"));
+        gc.setMd(true);
+        gc.setInstances(true);
+        gc.setStaticModel("SDL.SdlModel");
+        gc.setForce(true);
+        gc.execute();
     }
 }

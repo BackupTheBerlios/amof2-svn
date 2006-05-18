@@ -519,7 +519,9 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
         } else if (value instanceof Long) {
             return "new Long(" + value + ")";
         } else if (value instanceof String) {
-            return "\"" + value + "\"";
+            value = quoteCharacter((String)value, "\n", "\\n");
+            value = quoteCharacter((String)value, "\"", "\\\"");
+            return "\"" +value + "\"";
         } else if (value instanceof Boolean) {
             return "new Boolean(" + value + ")";
         } else if (value.getClass().isEnum()) {
@@ -529,6 +531,20 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
         } else {
             throw new RuntimeException("assert");
         }
+    }
+
+    private String quoteCharacter(String stringValue, String character, String quote) {
+        StringBuffer quotedValue = new StringBuffer();
+        int pos = 0;
+        int occurence = stringValue.indexOf(character, pos);
+        while (occurence != -1) {
+            quotedValue.append(stringValue.substring(pos, occurence));
+            quotedValue.append(quote);
+            pos = occurence + 1;
+            occurence = stringValue.indexOf(character, pos);
+        }
+        quotedValue.append(stringValue.substring(pos, stringValue.length()));
+        return quotedValue.toString();
     }
 
     public String serialize() {

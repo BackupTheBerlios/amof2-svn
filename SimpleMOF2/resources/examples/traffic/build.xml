@@ -43,7 +43,7 @@
 	</target>
 
     <target name="prepare" depends="init">
-        <prepare src="${meta-model}" dest="traffic-prepared.xml" destDir="./generated-src" staticModel="Traffic.TrafficModel"/>
+        <prepare src="${meta-model}" dest="traffic.xml" destDir="./generated-src" staticModel="Traffic.TrafficModel"/>
 	</target>
 
     <target name="precompile">
@@ -68,6 +68,7 @@
     <target name="clean">
 		<delete dir="${build-dir}"/>
 		<delete dir="./generated-src"/>
+        <delete file="traffic.xml"/>
 	</target>
 
 </project>

@@ -253,6 +253,7 @@ TOKEN:
 //|   <TOK_for: "FOR" | "for">
 |   <TOK_from: "FROM" | "from">
 |   <TOK_gate: "GATE" | "gate">
+|   <TOK_fpar: "FPAR" | "fpar">
 //|   <TOK_handle: "HANDLE" | "handle">
 //|   <TOK_if: "IF" | "if">
 //|   <TOK_import: "IMPORT" | "import">
@@ -272,7 +273,7 @@ TOKEN:
 //|   <TOK_nameclass: "NAMECLASS" | "nameclass">
 |   <TOK_nextstate: "NEXTSTATE" | "nextstate">
 |   <TOK_nodelay: "NODELAY" | "nodelay">
-//|   <TOK_none: "NONE" | "none">
+|   <TOK_none: "NONE" | "none">
 //|   <TOK_not: "NOT" | "not">
 |   <TOK_now: "NOW" | "now">
 //|   <TOK_object: "OBJECT" | "object">
@@ -625,6 +626,7 @@ void block_type_definition(SdlAgentType agentType):
         agentType.setKind(SdlAgentKind.BLOCK);
     }
     <TOK_block> <TOK_type> name(agentType) // block type heading
+    [ fpar(agentType) ( "," fpar(agentType) )* ]
     <TOK_end>
     agent_type_structure(agentType) <TOK_endblock> <TOK_type>
     // [ <TCL_name>]
@@ -638,6 +640,7 @@ void process_type_definition(SdlAgentType agentType):
         agentType.setKind(SdlAgentKind.PROCESS);
     }
     <TOK_process> <TOK_type> name(agentType) // process type heading
+    [ fpar(agentType) ( "," fpar(agentType) )* ]
     <TOK_end>
     agent_type_structure(agentType) <TOK_endprocess> <TOK_type>
     // [ <TCL_name>]
@@ -1091,7 +1094,7 @@ void input_part(SdlStateAutomaton automaton, SdlStateNode state):
     state.getTrigger().add(input);
 }
 {
-    <TOK_input> input_list(input) <TOK_end> transition(automaton, input)
+    <TOK_input> ( <TOK_none> | input_list(input) ) <TOK_end> transition(automaton, input)
 }
 
 void input_list(SdlInput input):
@@ -1161,9 +1164,9 @@ void terminator_statement(SdlStateAutomaton automaton, SdlTransition transition)
     (
         return_terminator(automaton, transition)
     |
-        nextstate(transition)
+        nextstate(transition, automaton)
     |
-        join(transition)
+        join(transition, automaton)
     |
         stop(automaton, transition)
     ) <TOK_end>
@@ -1189,7 +1192,7 @@ void create_request(SdlTransition transition):
     transition.getAction().add(create);
 }
 {
-    <TOK_create> identifier=identifier() <TOK_end>
+    <TOK_create> identifier=identifier() [ actual_parameters(create) ]<TOK_end>
     {
         create.setAgent(createCsePlaceHolderForSdlAgent(identifier));
     }
@@ -1227,15 +1230,21 @@ void actual_parameters(BehavioralFeatureAccessExpression element):
 
 void output(SdlTransition transition):
 {
-    SdlIdentifier gate;
+    SdlIdentifier gate = null;
+    Expression to = null;
     List<SdlOutput> outputs = new Vector<SdlOutput>();
 }
 {
     <TOK_output> output_item(outputs) ( "," output_item(outputs) )*
-    gate=communication_constraints() <TOK_end>
+    [ to=communication_constraints_to() ] [ gate=communication_constraints_gate() ] <TOK_end>
     {
         for(SdlOutput output: outputs) {
-            output.setVia(createCsePlaceHolderForSdlGate(gate));
+            if (to != null) {
+                output.setTo(to);
+            }
+            if (gate != null) {
+                output.setVia(createCsePlaceHolderForSdlGate(gate));
+            }
             transition.getAction().add(output);
         }
     }
@@ -1255,7 +1264,18 @@ void output_item(List<SdlOutput> outputs):
     }
 }
 
-SdlIdentifier communication_constraints():
+Expression communication_constraints_to():
+{
+    Expression to;
+}
+{
+    <TOK_to> to=expression()
+    {
+        return to;
+    }
+}
+
+SdlIdentifier communication_constraints_gate():
 {
     SdlIdentifier gate;
 }
@@ -1313,21 +1333,30 @@ void else_part(SdlStateAutomaton automaton, SdlSplit decisionNode):
     <TOK_else> <TOK_colon> [ transition(automaton, answer) ]
 }
 
-void nextstate(SdlTransition transition):
+void nextstate(SdlTransition transition, SdlStateAutomaton automaton):
 {
     SdlIdentifier nextState;
 }
 {
-    <TOK_nextstate> nextState=simple_identifier()
-    {
-        transition.setTarget(createCsePlaceHolderForSdlState(nextState));
-    }
+    <TOK_nextstate> (
+        nextState=simple_identifier()
+        {
+            transition.setTarget(createCsePlaceHolderForSdlState(nextState));
+        }
+        |
+        "-"
+        {
+            SdlStateNode stateNode = sdl.createSdlStateNode();
+            automaton.getState().add(stateNode);
+            transition.setTarget(stateNode);
+        }
+    )
 }
 
-void join(SdlTransition transition):
+void join(SdlTransition transition, SdlStateAutomaton automaton):
 {}
 {
-    <TOK_join> nextstate(transition) //connector name
+    <TOK_join> nextstate(transition, automaton) //connector name
 }
 
 void stop(SdlStateAutomaton automaton, SdlTransition transition):
@@ -1530,15 +1559,19 @@ SdlLiteralExpression literal():
 {
     SdlLiteralExpression expression = sdl.createSdlLiteralExpression();
     addContextM1((cmof.reflection.Object)expression);
+    SdlQualifier qualifier = null;
 }
 {
     {
         String name;
     }
-    name=aStringName()
+    [ qualifier=qualifier() ] name=aStringName()
     {
         expression.setValue(name);
         SdlIdentifier identifier = cse.createSdlIdentifier();
+        if (qualifier != null) {
+            identifier.setQualifier(qualifier);
+        }
         identifier.setName(name);
         addContextM1((cmof.reflection.Object)identifier);
         expression.setLiteral(createCsePlaceHolderForSdlLiteral(identifier));
@@ -1752,6 +1785,21 @@ void operation_signature(SdlDataType namespace):
     [ result(operation) ]
     {
         operation.setName(name);
+    }
+}
+
+
+void fpar(BehavioralFeature signatured):
+{
+    SdlParameter typeReference = sdl.createSdlParameter();
+    addContextM1((cmof.reflection.Object)typeReference);
+    String name = null;
+}
+{
+    /*typeReference_kind(typeReference)*/ <TOK_fpar> name=aName() sort_reference(typeReference)
+    {
+        signatured.getParameter().add(typeReference);
+        typeReference.setName(name);
     }
 }
 

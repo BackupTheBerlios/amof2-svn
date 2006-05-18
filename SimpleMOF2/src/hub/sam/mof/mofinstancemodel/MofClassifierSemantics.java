@@ -14,7 +14,7 @@ details.
 
     You should have received a copy of the GNU Lesser General Public License
 along with this library; if not, write to the Free Software Foundation, Inc.,
-59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
+59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
 package hub.sam.mof.mofinstancemodel;
@@ -27,25 +27,29 @@ import hub.sam.mof.instancemodel.*;
 import hub.sam.mof.javamapping.*;
 
 /**
- * This class is not specified within MOF or UML. It offers helper functionalty for analysis of inter property relations 
+ * This class is not specified within MOF or UML. It offers helper functionalty for analysis of inter property relations
  * with in a single UML classifier.
  */
 public abstract class MofClassifierSemantics extends CommonClassifierSemantics<Classifier,Property,Operation,String> implements ClassifierSemantics<Property, Operation, String> {
 
     private JavaMapping javaMapping = hub.sam.mof.javamapping.JavaMapping.mapping;
-    
+
     protected MofClassifierSemantics(Classifier classifier) {
         super(classifier);
         initialize();
-    }    
-    
+    }
+
     private static final Map<UmlClass, MofClassSemantics> classInstances = new HashMap<UmlClass, MofClassSemantics>();
-       
+
     /**
      * Creates an instance that will represent the given class.
      * @param classifier the UmlClass
      * @return A new instance that represents the given class.
      */
+    public static MofClassSemantics createNewClassClassifierForUmlClass(UmlClass classifier) {
+        return new MofClassSemantics(classifier);        
+    }
+
     public static MofClassSemantics createClassClassifierForUmlClass(UmlClass classifier) {
         MofClassSemantics result = classInstances.get(classifier);
         if (result == null) {
@@ -54,11 +58,11 @@ public abstract class MofClassifierSemantics extends CommonClassifierSemantics<C
         }
         return result;
     }
-    
-    public static void changedClassClassifierForUmlClass(UmlClass classifier) {        
-    	classInstances.remove(classifier);        
+
+    public static void changedClassClassifierForUmlClass(UmlClass classifier) {
+    	classInstances.remove(classifier);
     }
-    
+
 	/**
      * Creates an instance that will represent the given data type.
      * @param classifier the data type
@@ -67,61 +71,61 @@ public abstract class MofClassifierSemantics extends CommonClassifierSemantics<C
     public static MofDataTypeSemantics createDataValueTypeForDataType(DataType dataType) {
         return new MofDataTypeSemantics(dataType);
     }
-    
+
     // eclipse but, when compiled with eclipse, this method isnt inherited if not overwritten
     @Override
 	public Property getProperty(String name) {
         return super.getProperty(name);
-    } 
-   
+    }
+
     public String getName(Property forProperty) {
         return forProperty.getName();
     }
-    
+
     private Property redefinesCollectionProperty(Property property) {
         if (property.getUpper() != 1) {
             return property;
-        } else {        	
+        } else {
             for(Property redefined: property.getRedefinedProperty()) {
-            	Property result = redefinesCollectionProperty(redefined); 
-                if (result != null) {                	                	               
-                	return result;                	
+            	Property result = redefinesCollectionProperty(redefined);
+                if (result != null) {
+                	return result;
                 }
             }
             return null;
         }
     }
-    
+
     public boolean isCollectionProperty(Property property) {
         if (redefinesCollectionProperty(property) != null) {
             return true;
         } else {
             return false;
-        }        
-    }   
-    
+        }
+    }
+
     public boolean isSequenceProperty(Property property) {
     	Property redefined = redefinesCollectionProperty(property);
         if (redefined != null) {
             return redefined.isOrdered();
         } else {
             return false;
-        }        
-    }    
+        }
+    }
 
     @Override
 	public String getJavaGetMethodNameForProperty(Property forProperty) {
         return javaMapping.getJavaGetMethodNameForProperty(forProperty);
     }
-    
+
     protected <E> Collection<E> toCollection(ReflectiveCollection<E> reflectiveCollection) {
         Collection<E> result = new Vector<E>(reflectiveCollection.size());
         for (E e: reflectiveCollection) {
             result.add(e);
-        }        
+        }
         return result;
     }
-    
+
     @Override
 	protected Collection<? extends Property> redefinedProperties(Property p) {
         return toCollection(p.getRedefinedProperty());
@@ -130,5 +134,5 @@ public abstract class MofClassifierSemantics extends CommonClassifierSemantics<C
     @Override
 	protected Collection<? extends Property> subsettedProperties(Property p) {
         return toCollection(p.getSubsettedProperty());
-    }      
+    }
 }

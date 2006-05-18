@@ -22,12 +22,10 @@
         <mkdir dir="./build"/>
         <mkdir dir="${basedir}/generated-src/hub/sam/sdlplus/parser"/>
         <taskdef name="mofgencode" classname="hub.sam.mof.ant.GenerateCode" classpathref="classpath"/>
-        <taskdef name="upgradexmi" classname="hub.sam.mof.ant.UpgradeXmi" classpathref="classpath"/>
     </target>
 
 	<target name="prepare" depends="init">
-        <upgradexmi inFile="${basedir}/resources/models/sdl.mdxml" inKind="md" outFile="${basedir}/resources/models/sdl.xml" outKind="mof"/>
-    	<mofgencode src="${basedir}/resources/models/sdl.xml" destdir="generated-src" staticmodel="SDL.SdlModel"/>
+    	<mofgencode src="${basedir}/resources/models/sdl.mdxml" destdir="${basedir}/generated-src" staticmodel="SDL.SdlModel" md="true" instances="true"/>
     </target>
 
     <target name="precompile">

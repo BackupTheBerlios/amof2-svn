@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
+import java.util.HashSet;
 
 public class ResolveConcreteSyntaxExtensions extends PatternClass {
 
@@ -127,7 +128,7 @@ public class ResolveConcreteSyntaxExtensions extends PatternClass {
     //SdlVariableAccess(variable=variable:Variable)
     @PatternList(set="determineType",order=8,value={
         @Pattern(type= SdlVariableAccess.class,children="c1"),
-        @Pattern(type=SdlVariable.class,variable="variable",property="variable",name="c1")})
+        @Pattern(type=SdlVariable.class,variable="variable",property="feature",name="c1")})
     public void determineTypeVariable(@Name("variable") SdlVariable variable) {
         checkIfValueDataTypeIsResolved((cmof.reflection.Object)variable.getType(), variable);
         if (variable.getType() instanceof SdlDataType) {
@@ -164,6 +165,7 @@ public class ResolveConcreteSyntaxExtensions extends PatternClass {
         SdlIdentifier identifier = element.getIdentifier();
         if (context instanceof SdlOperationCall) {
             SdlDataType typeOfArgument = null;
+
             try {
                 resolveSdlIdentifiers((cmof.reflection.Object)((SdlOperationCall)context).getArgument().get(0));
                 typeOfArgument = determineTypeOfExpression(
@@ -200,7 +202,14 @@ public class ResolveConcreteSyntaxExtensions extends PatternClass {
         }
     }
 
+    private Collection<cmof.reflection.Object> resolved = new HashSet<cmof.reflection.Object>();
+
     private void resolveSdlIdentifiers(cmof.reflection.Object o) {
+        if (resolved.contains(o)) {
+            return;
+        } else {
+            resolved.add(o);
+        }
         MofClassSemantics semantics = MofClassifierSemantics.createClassClassifierForUmlClass(o.getMetaClass());
         for (Property property: semantics.getFinalProperties()) {
             if ((semantics.getSupersettedProperties(property).size() == 0) && !property.isDerived()) {
@@ -212,6 +221,7 @@ public class ResolveConcreteSyntaxExtensions extends PatternClass {
                                     (UmlClass)property.getType());
                             if (resolved != null) {
                                 o.set(property, resolved);
+                                resolveSdlIdentifiers((cmof.reflection.Object)resolved);
                                 toDelete.add((cmof.reflection.Object)value);
                             }
                         }
@@ -233,6 +243,7 @@ public class ResolveConcreteSyntaxExtensions extends PatternClass {
                     for (NamedElement oldValue: oldAndNewValus.keySet()) {
                         values.remove(oldValue);
                         values.add(oldAndNewValus.get(oldValue));
+                        resolveSdlIdentifiers((cmof.reflection.Object)oldAndNewValus.get(oldValue));
                         toDelete.add((cmof.reflection.Object)oldValue);
                     }
                 }

@@ -10,14 +10,14 @@ public class MethodCustom extends MethodDlg {
         System.out.println("Method " + self.getName() + " was called.");
 
         // setup call frame
-        CallFrame callFrame = self.createCallFrame();
+        CallFrame callFrame = self.metaCreate();
         callFrame.setCallingFrame(callFrame);
         callFrame.setThis(thisPointer);
         if (self.getScope() == Scope.MEMBER && callFrame.getThis() == null) {
             throw new ModelException("Member variable without this pointer.");
         }
         for (Variable localVar: self.getVariable()) {
-            callFrame.getLocalVariable().add(localVar.createSlot());
+            callFrame.getLocalVariable().add(localVar.metaCreate());
         }
 
         // run body
@@ -35,8 +35,8 @@ public class MethodCustom extends MethodDlg {
 
         // destroy call frame
         for (Slot slot: new ListImpl<Slot>((callFrame.getLocalVariable()))) {
-            slot.destroy();
+            slot.metaDelete();
         }
-        callFrame.destroy();
+        callFrame.metaDelete();
     }
 }

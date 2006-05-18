@@ -6,14 +6,14 @@ public class CrossroadCustom extends CrossroadDlg {
 
     @Override
     public void justDoIt() {
-        CrossroadInstance crossroadInstance = this.createCrossroadInstance();
+        CrossroadInstance crossroadInstance = this.metaCreate();
         ReflectiveCollection signals = crossroadInstance.getSignals();
         for(TrafficLight trafficLight: getSignalDef()) {
-            TrafficLightInstance trafficLightInstance = trafficLight.createTrafficLightInstance();
+            TrafficLightInstance trafficLightInstance = trafficLight.metaCreate();
             signals.add(trafficLightInstance);
             ReflectiveCollection lights = trafficLightInstance.getLights();
             for(SignalLightType signalLightType: trafficLight.getType().getLights()) {
-                SignalLightInstance signalLightInstance = signalLightType.createSignalLightInstance();
+                SignalLightInstance signalLightInstance = signalLightType.metaCreate();
                 lights.add(signalLightInstance);
                 signalLightInstance.switchOff();
             }

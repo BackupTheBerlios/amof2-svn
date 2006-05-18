@@ -16,7 +16,7 @@ public class CreateImpl implements Implementation  {
 
     public Object invoke(cmof.reflection.Object object, Object[] args) {
         cmof.reflection.Object result = factory.create(classifierToCreateInstanceFrom);
-        result.set("metaClassifier", object);
+        result.set(M1SemanticModel.CLASSIFIER_NAME, object);
         return result;
     }
 }

@@ -4,7 +4,7 @@ import hub.sam.mof.reflection.Implementation;
 
 public class DestroyImpl implements Implementation {
     public Object invoke(cmof.reflection.Object object, Object[] args) {
-        object.set("metaClassifier", null);
+        object.set(M1SemanticModel.CLASSIFIER_NAME, null);
         object.delete();
         return null;
     }

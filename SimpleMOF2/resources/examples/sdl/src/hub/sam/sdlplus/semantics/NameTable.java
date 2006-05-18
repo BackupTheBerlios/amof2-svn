@@ -44,6 +44,9 @@ public class NameTable extends PatternClass {
             result = resolveEntityInContainer(identifier.getName(), context, referenceTypeConstraint);
         } else {
             context = resolveAQualifier(qualifier, model);
+            if (context == null) {
+                return null;
+            }
             result = resolveEntityInContainer(identifier.getName(), context, referenceTypeConstraint);
         }
 
