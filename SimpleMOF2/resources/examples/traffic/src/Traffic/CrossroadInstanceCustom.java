@@ -4,13 +4,13 @@ public class CrossroadInstanceCustom extends CrossroadInstanceDlg {
 
     @Override
     public void justDoIt() {
-        Crossroad crossroad = getMetaClassifier();
+        Crossroad crossroad = getMetaClassifierCrossroad();
         for(SequenceColumn col: crossroad.getLightSequence()) {
             System.out.println("-----");
             for(SequenceEntry entry: col.getEntries()) {
                 Color color = entry.getColor();
                 TrafficLight light = entry.getSignal();
-                TrafficLightInstance trafficLightInstance = light.getMetaInstance().iterator().next();
+                TrafficLightInstance trafficLightInstance = light.getMetaInstanceTrafficLightInstance().iterator().next();
 
                 SignalLightType lightType = null;
                 TypeLoop:

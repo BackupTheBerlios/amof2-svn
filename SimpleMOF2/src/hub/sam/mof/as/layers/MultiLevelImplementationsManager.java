@@ -28,7 +28,7 @@ public class MultiLevelImplementationsManager extends ImplementationsManagerImpl
         if (forMetaClass.getMetaClassifier() != null) {
             for (Operation operation: forMetaClass.getOwnedOperation()) {
                 if (operation.getName().equals(M1SemanticModel.getDestroyOperationName(forMetaClass))) {
-                    result.put(operation, new DestroyImpl());
+                    result.put(operation, new DestroyImpl((UmlClass)forMetaClass));
                 }
             }
 

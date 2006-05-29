@@ -7,19 +7,19 @@ public class CallFrameCustom extends CallFrameDlg {
     @Override
     public Slot slotForVariable(Variable var) {
         for (Slot local: self.getLocalVariable()) {
-            if (local.getMetaClassifier().equals(var)) {
+            if (local.getMetaClassifierVariable().equals(var)) {
                 return local;
             }
         }
 
         for (Slot member: self.getThis().getMemberVariable()) {
-            if (member.getMetaClassifier().equals(var)) {
+            if (member.getMetaClassifierVariable().equals(var)) {
                 return member;
             }
         }
 
-        for (Slot classVar: self.getThis().getMetaClassifier().getClassVariable()) {
-            if (classVar.getMetaClassifier().equals(var)) {
+        for (Slot classVar: self.getThis().getMetaClassifierClass().getClassVariable()) {
+            if (classVar.getMetaClassifierVariable().equals(var)) {
                 return classVar;
             }
         }

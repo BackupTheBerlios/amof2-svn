@@ -10,14 +10,14 @@ public class MethodCustom extends MethodDlg {
         System.out.println("Method " + self.getName() + " was called.");
 
         // setup call frame
-        CallFrame callFrame = self.metaCreate();
+        CallFrame callFrame = self.metaCreateCallFrame();
         callFrame.setCallingFrame(callFrame);
         callFrame.setThis(thisPointer);
         if (self.getScope() == Scope.MEMBER && callFrame.getThis() == null) {
             throw new ModelException("Member variable without this pointer.");
         }
         for (Variable localVar: self.getVariable()) {
-            callFrame.getLocalVariable().add(localVar.metaCreate());
+            callFrame.getLocalVariable().add(localVar.metaCreateSlot());
         }
 
         // run body

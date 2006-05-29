@@ -51,14 +51,14 @@ Traffic::CrossroadInstance::justDoIt activity {
 
 Traffic::Crossroad::justDoIt activity {
     start;
-        Call: metaCreate >new crossroadInstance:CrossroadInstance;
+        Call: metaCreateCrossroadInstance >new crossroadInstance:CrossroadInstance;
         do {
             Iterate: [signalDef], i >new trafficLight:TrafficLight;
-            Call: metaCreate <trafficLight as context, >new trafficLightInstance:TrafficLightInstance;
+            Call: metaCreateTrafficLightInstance <trafficLight as context, >new trafficLightInstance:TrafficLightInstance;
             WriteStructuralFeatureValue: signals <crossroadInstance as context, <trafficLightInstance;
             do {
                 Iterate: [type.lights], ii <trafficLight as context, >new signalLightType:SignalLightType;
-                Call: metaCreate <signalLightType as context, >new signalLight:SignalLightInstance;
+                Call: metaCreateSignalLightInstance <signalLightType as context, >new signalLight:SignalLightInstance;
                 WriteStructuralFeatureValue: lights <trafficLightInstance as context, <signalLight;
                 Call: switchOff <signalLight as context;
             } while [next] <{HasNext: ii}:Boolean as next

@@ -23,21 +23,42 @@ import java.util.Vector;
  * This means that you can search in a model for "double-instance" classifiers, create the instance
  * association between them an their corresponding general classifier and create create and delete
  * operations for "double-instance" manipulation.
+ *
+ * Constraints for the instanceOf relation (M3-constraints)
+ *
+ * context Classifier
+ * inv: self.metaInstances->size() <= 1 and self.metaClassifier->size() <= 1
+ *
+ * context InstanceOf
+ * inv: self.metaInstance.allParents()->collect(metaClassifier)->forAll(c|self.metaClassifier.allParents().contains(c))
+ *   and self.metaClassifier.allParents()->collect(metaInstance)->forAll(i|self.metaInstance.allParents().contains(i))
  */
 public class M1SemanticModel {
 
     private static String CREATE_NAME = "metaCreate";
     private static String DELETE_NAME = "metaDelete";
-    public static String INSTANCE_NAME = "metaInstance";
-    public static String CLASSIFIER_NAME = "metaClassifier";
+    private static String INSTANCE_NAME = "metaInstance";
+    private static String CLASSIFIER_NAME = "metaClassifier";
+
+    private static String firstUpper(String string) {
+        return string.substring(0,1).toUpperCase() + string.substring(1, string.length());
+    }
 
     public static String getCreateOperationName(UmlClass instanceClassifier) {
-        return CREATE_NAME;
+        return CREATE_NAME + firstUpper(instanceClassifier.getName());
     }
 
     @SuppressWarnings({"UNUSED_SYMBOL"})
     public static String getDestroyOperationName(UmlClass instanceClassifier) {
         return DELETE_NAME;
+    }
+
+    public static String getInstancePropertyName(UmlClass instanceClassifier) {
+        return INSTANCE_NAME  + firstUpper(instanceClassifier.getName());
+    }
+
+    public static String getClassifierPropertyName(UmlClass classifierClassifier) {
+        return CLASSIFIER_NAME  + firstUpper(classifierClassifier.getName());
     }
 
     private final cmofFactory factory;
@@ -75,28 +96,37 @@ public class M1SemanticModel {
         create.setName(getCreateOperationName(instanceClassifier));
         classifierClassifier.getOwnedOperation().add(create);
         for(MofClassSemantics parent: parentClassifierClassifier) {
-            add(create.getRedefinedOperation(), parent.getFinalOperation(CREATE_NAME));
+            for (Classifier metaInstances: parent.getClassifier().getMetaInstances()) {
+                add(create.getRedefinedOperation(), parent.getFinalOperation(getCreateOperationName((UmlClass)metaInstances)));
+            }
         }
 
         Operation delete = factory.createOperation();
         delete.setName(getDestroyOperationName(instanceClassifier));
         instanceClassifier.getOwnedOperation().add(delete);
         for(MofClassSemantics parent: parentInstanceClassifier) {
-            add(delete.getRedefinedOperation(), parent.getFinalOperation(DELETE_NAME));
+            add(delete.getRedefinedOperation(), parent.getFinalOperation(getDestroyOperationName(parent.getClassifier())));
         }
 
         Association instanceOf = factory.createAssociation();
         instanceOf.setName(instanceClassifier.getName() + "InstanceOf");
         instanceClassifier.getPackage().getOwnedType().add(instanceOf);
 
-        Property instance = createProperty(INSTANCE_NAME, instanceClassifier, classifierClassifier, instanceOf, 0, -1);
+        Property instance = createProperty(getInstancePropertyName(instanceClassifier),
+                instanceClassifier, classifierClassifier, instanceOf, 0, -1);
         for(MofClassSemantics parent: parentClassifierClassifier) {
-            add(instance.getRedefinedProperty(),parent.getProperty(INSTANCE_NAME));
+            for (Classifier metaInstance: parent.getClassifier().getMetaInstances()) {
+                add(instance.getRedefinedProperty(),parent.getProperty(getInstancePropertyName((UmlClass)metaInstance)));
+            }
         }
 
-        Property classifier = createProperty(CLASSIFIER_NAME, classifierClassifier, instanceClassifier, instanceOf, 0, 1);
+        Property classifier = createProperty(getClassifierPropertyName(classifierClassifier),
+                classifierClassifier, instanceClassifier, instanceOf, 0, 1);
         for(MofClassSemantics parent: parentInstanceClassifier) {
-            add(classifier.getRedefinedProperty(), parent.getProperty(CLASSIFIER_NAME));
+            UmlClass metaClassifier = (UmlClass)parent.getClassifier().getMetaClassifier();
+            if (metaClassifier != null) {
+                add(classifier.getRedefinedProperty(), parent.getProperty(getClassifierPropertyName(metaClassifier)));
+            }
         }
         instance.setOpposite(classifier);
         classifier.setOpposite(instance);

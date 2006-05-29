@@ -3,7 +3,7 @@
 <!-- This xmi file is optimized for MagicDraw UML. Some references are not saved. -->
 <!-- Change MagicDraw UML environment options property General->.Save Rich XMI -->
 
-<xmi:XMI xmi:version='2.1' timestamp='Wed May 17 19:52:57 CEST 2006' xmlns:uml='http://schema.omg.org/spec/UML/2.0' xmlns:xmi='http://schema.omg.org/spec/XMI/2.1'>
+<xmi:XMI xmi:version='2.1' timestamp='Fri May 26 15:01:28 CEST 2006' xmlns:uml='http://schema.omg.org/spec/UML/2.0' xmlns:xmi='http://schema.omg.org/spec/XMI/2.1'>
 	<xmi:Documentation xmi:Exporter='MagicDraw UML' xmi:ExporterVersion='11.0'/>
 	<uml:Model xmi:id='eee_1045467100313_135436_1' name='Data' visibility='public'>
 		<xmi:Extension xmi:Extender='MagicDraw UML 11.0' xmi:ExtenderID='MagicDraw UML 11.0'>
@@ -2665,7 +2665,10 @@
 				<generalization xmi:type='uml:Generalization' xmi:id='_11_0_ec1033d_1146661618537_204507_6217' general='_11_0_ec1033d_1146065781832_141667_966'/>
 			</ownedMember>
 			<ownedMember xmi:type='uml:Class' xmi:id='_11_0_ec1033d_1146749333340_310013_8715' name='SdlVariableAccessEvaluation' visibility='public'>
-				<ownedAttribute xmi:type='uml:Property' xmi:id='_11_0_ec1033d_1146749353502_832321_8736' isDerived='true' name='value' visibility='public' association='_11_0_ec1033d_1146749353502_362952_8735' type='_11_0_ec1033d_1146228365222_198710_4218'/>
+				<ownedAttribute xmi:type='uml:Property' xmi:id='_11_0_ec1033d_1146749353502_832321_8736' isDerived='true' name='value' visibility='public' redefinedProperty='_11_0_ec1033d_1147879529787_801662_6300' association='_11_0_ec1033d_1146749353502_362952_8735' type='_11_0_ec1033d_1146228365222_198710_4218'>
+					<upperValue xmi:type='uml:LiteralInteger' xmi:id='_11_0_ec1033d_1148648481857_180699_6725' value='1' visibility='public'/>
+					<lowerValue xmi:type='uml:LiteralInteger' xmi:id='_11_0_ec1033d_1148648481856_925942_6724' value='1' visibility='public'/>
+				</ownedAttribute>
 				<generalization xmi:type='uml:Generalization' xmi:id='_11_0_ec1033d_1147887090820_351077_6546' general='_11_0_ec1033d_1146056338143_654993_418'/>
 			</ownedMember>
 			<ownedMember xmi:type='uml:Association' xmi:id='_11_0_ec1033d_1146749926915_813620_9113' visibility='public'>
@@ -14294,10 +14297,10 @@
 					<zoomFactor xmi:value='1.0'/>
 					<diagramOpened xmi:value='true'/>
 					<diagramWindowBounds>0, 0, 882, 826</diagramWindowBounds>
-					<diagramScrollPositionX xmi:value='124'/>
+					<diagramScrollPositionX xmi:value='357'/>
 					<diagramScrollPositionY xmi:value='0'/>
 					<maximized xmi:value='true'/>
-					<active xmi:value='false'/>
+					<active xmi:value='true'/>
 					<mdOwnedViews>
 						<mdElement elementClass='Class' xmi:id='_11_0_ec1033d_1146745822347_172295_7816'>
 							<elementID xmi:idref='_11_0_ec1033d_1146056156409_317328_77'/>
@@ -14708,7 +14711,7 @@
 										</mdElement>
 										<mdElement elementClass='TextBox' xmi:id='_11_0_ec1033d_1146749295266_150941_8672'>
 											<editable xmi:value='false'/>
-											<geometry>647, 687, 83, 15</geometry>
+											<geometry>644, 686, 83, 15</geometry>
 											<text>{redefines value}</text>
 										</mdElement>
 										<mdElement elementClass='TextBoxWithIcon' xmi:id='_11_0_ec1033d_1146749295266_275866_8674'>
@@ -14845,8 +14848,8 @@
 											<text>+/value</text>
 										</mdElement>
 										<mdElement elementClass='TextBox' xmi:id='_11_0_ec1033d_1146749353507_899499_8750'>
-											<visible xmi:value='false'/>
-											<geometry>757, 681, 30, 15</geometry>
+											<geometry>770, 726, 30, 15</geometry>
+											<text>1</text>
 										</mdElement>
 										<mdElement elementClass='TextBox' xmi:id='_11_0_ec1033d_1146749353507_416499_8752'>
 											<visible xmi:value='false'/>
@@ -14854,8 +14857,8 @@
 										</mdElement>
 										<mdElement elementClass='TextBox' xmi:id='_11_0_ec1033d_1146749353507_224941_8754'>
 											<editable xmi:value='false'/>
-											<visible xmi:value='false'/>
 											<geometry>770, 706, 83, 15</geometry>
+											<text>{redefines value}</text>
 										</mdElement>
 										<mdElement elementClass='TextBoxWithIcon' xmi:id='_11_0_ec1033d_1146749353507_652118_8756'>
 											<editable xmi:value='false'/>
@@ -19806,7 +19809,7 @@
 					<diagramScrollPositionX xmi:value='0'/>
 					<diagramScrollPositionY xmi:value='0'/>
 					<maximized xmi:value='true'/>
-					<active xmi:value='true'/>
+					<active xmi:value='false'/>
 					<mdOwnedViews>
 						<mdElement elementClass='Class' xmi:id='_11_0_ec1033d_1146065286012_548615_723'>
 							<elementID xmi:idref='_11_0_ec1033d_1146065286011_427433_722'/>
@@ -23465,7 +23468,7 @@
 					<mdElement elementClass='StringProperty'>
 						<propertyID>INFO_PROPERTY</propertyID>
 						<propertyDescriptionID>INFO_PROPERTY_DESCRIPTION</propertyDescriptionID>
-						<value>3a c 6d 16 3f 25 60 36 49 e 31 20 d0 c1 10 9 e9 42 6e b6 5c 50 f5 b5 7d e1 f6 12 7b e 29 7a dc d2 88 11 3f c3 c9 e f9 cd 41 3c e3 39 eb 81 3a 45 1a 6f af bc 52 2f 59 5f 3 72 fe d0 b9 78 e 62 7c 7b fc </value>
+						<value>3a c 6d 16 3f 25 60 36 49 e 31 31 c7 cc 10 9 e9 42 6e b5 5d 50 f5 b9 7d e4 f5 12 7c 1 29 7a dc d2 88 11 3f c3 c9 e f9 cd 41 3c e3 39 eb 81 3a 45 1a 6f af bc 52 2f 59 5f 3 72 fe d0 b9 78 e 62 7c 7b fc </value>
 						<multiline xmi:value='false'/>
 					</mdElement>
 					<mdElement elementClass='LIST_PROPERTY'>
