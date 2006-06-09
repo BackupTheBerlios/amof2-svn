@@ -14,7 +14,7 @@ details.
 
     You should have received a copy of the GNU Lesser General Public License
 along with this library; if not, write to the Free Software Foundation, Inc.,
-59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
+59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
 package core.abstractions.multiplicities;
@@ -22,7 +22,7 @@ package core.abstractions.multiplicities;
 public class MultiplicityElementCustom extends MultiplicityElementDlg {
 	 /**
      * <b>lowerBound</b>, multiplicity=(0,1)
-     * 
+     *
      * The query lowerBound() returns the lower bound of the multiplicity as an integer.
      */
     @Override
@@ -32,7 +32,7 @@ public class MultiplicityElementCustom extends MultiplicityElementDlg {
 
     /**
      * <b>upperBound</b>, multiplicity=(0,1)
-     * 
+     *
      *  The query upperBound() returns the upper bound of the multiplicity for a bounded multiplicity
      *   as an unlimited natural.
      */
@@ -43,17 +43,17 @@ public class MultiplicityElementCustom extends MultiplicityElementDlg {
 
     /**
      * <b>isMultivalued</b>, multiplicity=(1,1)
-     * 
+     *
      * The query isMultivalued() checks whether this multiplicity has an upper bound greater than one.
      */
     @Override
 	public boolean isMultivalued() {
-    	return self.upperBound() >1;
+    	return self.upperBound() >1 || self.upperBound() < 0;
     }
 
     /**
      * <b>includesCardinality</b>, multiplicity=(1,1)
-     * 
+     *
      * The query includesCardinality() checks whether the specified cardinality is valid for this multiplicity.
      */
     @Override
@@ -63,9 +63,9 @@ public class MultiplicityElementCustom extends MultiplicityElementDlg {
 
     /**
      * <b>includesMultiplicity</b>, multiplicity=(1,1)
-     * 
+     *
      * The query includesMultiplicity() checks whether this multiplicity includes all the cardinalities allowed by the specified
-     * multiplicity. 
+     * multiplicity.
      */
     @Override
 	public boolean includesMultiplicity(core.abstractions.multiplicities.MultiplicityElement M) {

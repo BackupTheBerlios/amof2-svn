@@ -24,6 +24,9 @@ public class ImplementationsImpl implements Implementations {
 	public ImplementationsImpl(List<ObjectDlg> delegates, Map<Object, Implementation> predefined) {
         super();
         this.delegates = delegates;
+        for (ObjectDlg dlg: delegates) {
+            dlg.setImplementations(this);
+        }
         if (predefined != null) {
             for (Object key: predefined.keySet()) {
                 implementations.put(key, predefined.get(key));
@@ -31,7 +34,16 @@ public class ImplementationsImpl implements Implementations {
         }
     }
 
-	public List<ObjectDlg> getDelegates() {
+    public ObjectDlg getDelegate(String className) {
+        for (ObjectDlg dlg: delegates) {
+            if (dlg.getClass().getCanonicalName().equals(className)) {
+                return dlg;
+            }
+        }
+        return null;
+    }
+
+    public List<ObjectDlg> getDelegates() {
 		return delegates;
 	}
 

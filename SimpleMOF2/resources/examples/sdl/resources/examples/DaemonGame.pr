@@ -95,6 +95,7 @@ PACKAGE daemonGame_pkg;
                     NEXTSTATE wait;
                 ENDSTATE;
             ENDSUBSTRUCTURE STATE TYPE;
+            STATE AGGREGATION monitorState:monitorStateType;
         ENDPROCESS TYPE;
 
         PROCESS TYPE Game_type FPAR user <<predefined>>Pid;

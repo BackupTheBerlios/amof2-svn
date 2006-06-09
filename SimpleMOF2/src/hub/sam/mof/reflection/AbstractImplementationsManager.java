@@ -49,7 +49,7 @@ public abstract class AbstractImplementationsManager<ClassifierType> implements 
 	                throw new cmof.exception.IllegalArgumentException(ex);
 	            }
 	            if (delegate != null) {
-	                delegates.add(delegate);
+                    delegates.add(delegate);
 	            }
 	        }
 	        result = createImplementations(delegates, metaClass);

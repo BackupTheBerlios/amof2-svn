@@ -300,10 +300,20 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
             throw new IllegalArgumentException("wrong op"); // TODO
         }
         if (implementation.hasImplementationFor(op, semantics)) {
-            return implementation.invokeImplementationFor(op, this, args, semantics);
+            return invokeCustomImplementation(op, args);
         } else {
             throw new MetaModelException("no implementation found for " + opName);
         }
+    }
+
+    private Object invokeCustomImplementation(Operation op, Object[] args) {
+        Object result;
+        try {
+            result = implementation.invokeImplementationFor(op, this, args, semantics);
+        } catch (RuntimeException ex) {
+            throw ex;
+        }
+        return result;
     }
 
     public void addObjectEventHandler(ObjectEventHandler handler) {
@@ -313,7 +323,7 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
         this.handler.add(handler);
     }
 
-    public java.lang.Object invokeOperation(cmof.Operation op, ReflectiveSequence<Argument> arguments) {
+    private String getOperationNameForOperation(cmof.Operation op) {
         StringBuffer opName = new StringBuffer(op.getName());
         for (Parameter parameter : op.getFormalParameter()) {
             if (!parameter.getDirection().equals(ParameterDirectionKind.RETURN)) {
@@ -321,12 +331,16 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
                 opName.append(parameter.getType().getQualifiedName());
             }
         }
+        return opName.toString();
+    }
+
+    public java.lang.Object invokeOperation(cmof.Operation op, ReflectiveSequence<Argument> arguments) {
         java.lang.Object[] args = new Object[arguments.size()];
         int i = 0;
         for (Argument arg : arguments) {
             args[i++] = arg.getValue();
         }
-        return invokeOperation(opName.toString(), args);
+        return invokeOperation(getOperationNameForOperation(op), args);
     }
 
     public boolean isInstanceOfType(cmof.UmlClass type, boolean includeSubTypes) {

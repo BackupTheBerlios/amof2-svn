@@ -1,7 +1,11 @@
 package hub.sam.sdlplus;
 
+import SDL.SdlAgent;
+import SDL.SdlAgentKind;
 import cmof.reflection.Extent;
 import hub.sam.mof.Repository;
+import hub.sam.mof.as.layers.MultiLevelImplementationsManager;
+import hub.sam.mof.reflection.ExtentImpl;
 import hub.sam.sdlplus.parser.ParseException;
 import hub.sam.sdlplus.parser.SdlplusParser;
 import hub.sam.sdlplus.semantics.SemanticAnalysis;
@@ -34,9 +38,11 @@ public class SdlCompiler {
      */
     private void initializeRepository() throws Exception {
         repository = Repository.getLocalRepository();
-        sdlModelExtent = repository.createExtent("sdl-model-extent");
         sdlMetaExtent = SDL.SdlModel.createModel();
         sdlPackage = (cmof.Package)sdlMetaExtent.query("Package:SdlPlus");
+        sdlModelExtent = repository.createExtent("sdl-model-extent");
+        ((ExtentImpl)sdlModelExtent).setCustomImplementationsManager(new MultiLevelImplementationsManager(
+                repository.createFactory(sdlModelExtent, sdlPackage)));        
     }
 
     /**
@@ -102,6 +108,21 @@ public class SdlCompiler {
                //System.out.println("Write output.");
                //repository.writeExtentToXmi("resources/test-files/test-out.xml", sdlPackage, sdlModelExtent);
             }
+
+            System.out.println("Running the model");
+            SdlAgent system = null;
+            for (cmof.reflection.Object o: sdlModelExtent.getObject()) {
+                if (o instanceof SdlAgent) {
+                    if (((SdlAgent)o).getType().getKind() == SdlAgentKind.SYSTEM) {
+                        system = (SdlAgent)o;
+                    }
+                }
+            }
+            if (system == null) {
+                System.err.println("Model does not contain a system");
+                return;
+            }
+            system.instanciate();
         } catch (ParseException e) {
             System.out.println("Encountered errors during parse:");
             System.out.println(e.getMessage());

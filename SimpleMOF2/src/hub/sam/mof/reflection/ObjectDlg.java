@@ -14,6 +14,20 @@ import cmof.reflection.ObjectEventHandler;
 public class ObjectDlg implements Object {
 
     private Object reflectionself = null;
+    private ImplementationsImpl implementations = null;
+
+    protected ObjectDlg getSuper(java.lang.Class javaClass) {
+        ObjectDlg result = implementations.getDelegate(javaClass.getCanonicalName() + "Custom");
+        if (result == null) {
+            throw new IllegalArgumentException("no super delegator found");
+        }
+        result.setSelf(reflectionself);
+        return result;
+    }
+
+    protected void setImplementations(ImplementationsImpl implementations) {
+        this.implementations = implementations;
+    }
 
     protected void setSelf(Object self) {
         reflectionself = self;
