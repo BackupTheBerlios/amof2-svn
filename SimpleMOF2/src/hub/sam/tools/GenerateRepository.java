@@ -1,13 +1,18 @@
 package hub.sam.tools;
 
 import cmof.reflection.Extent;
+import cmof.*;
+import cmof.Package;
 import hub.sam.mof.Repository;
+import hub.sam.mof.as.layers.M1SemanticModel;
 import hub.sam.mof.instancemodel.MetaModelException;
 import hub.sam.mof.xmi.Xmi1Reader;
 import hub.sam.mof.xmi.XmiException;
 import org.jdom.JDOMException;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Vector;
 
 public class GenerateRepository {
 
@@ -40,6 +45,18 @@ public class GenerateRepository {
 
         System.out.println("Reading xmi.");
         repo.loadXmiIntoExtent(m2, cmof, args[1], xmiKind);
+
+        // if instces
+        System.out.println("Creating semantic elements.");
+        Collection<cmof.Package> packages = new Vector<Package>();
+        for (Object o : m2.outermostComposites()) {
+            if (o instanceof cmof.Package) {
+                packages.add((cmof.Package)o);
+            }
+        }
+        cmofFactory factory = (cmofFactory)repo.createFactory(m2, cmof);
+        new M1SemanticModel(factory).createImplicitElements(packages);
+
         System.out.println("Generating code.");
         repo.generateCode(m2, args[2]);
     }

@@ -7,10 +7,14 @@ import cmof.Package;
 import cmof.Property;
 import cmof.UmlClass;
 import cmof.cmofFactory;
+import cmof.Parameter;
+import cmof.PrimitiveType;
+import cmof.Type;
 import cmof.common.ReflectiveCollection;
 import cmof.exception.MetaModelException;
 import hub.sam.mof.mofinstancemodel.MofClassSemantics;
 import hub.sam.mof.mofinstancemodel.MofClassifierSemantics;
+import hub.sam.mof.reflection.ObjectImpl;
 
 import java.util.Collection;
 import java.util.Comparator;
@@ -36,6 +40,7 @@ import java.util.Vector;
 public class M1SemanticModel {
 
     private static String CREATE_NAME = "metaCreate";
+    private static String GENERIC_CREATE_NAME = "metaGCreate";
     private static String DELETE_NAME = "metaDelete";
     private static String INSTANCE_NAME = "metaInstance";
     private static String CLASSIFIER_NAME = "metaClassifier";
@@ -46,6 +51,10 @@ public class M1SemanticModel {
 
     public static String getCreateOperationName(UmlClass instanceClassifier) {
         return CREATE_NAME + firstUpper(instanceClassifier.getName());
+    }
+
+       public static String getGenericCreateOperationName(UmlClass instanceClassifier) {
+        return GENERIC_CREATE_NAME + firstUpper(instanceClassifier.getName());
     }
 
     @SuppressWarnings({"UNUSED_SYMBOL"})
@@ -62,6 +71,18 @@ public class M1SemanticModel {
     }
 
     private final cmofFactory factory;
+    private PrimitiveType stringType = null;
+
+    private Type getStringType(UmlClass extentMember) {
+        if (stringType == null) {
+            for(Object obj: ((ObjectImpl)extentMember).getExtent().getObject()) {
+                if (obj instanceof PrimitiveType && "String".equals(((PrimitiveType)obj).getName())) {
+                    stringType = (PrimitiveType)obj;
+                }
+            }
+        }
+        return stringType;
+    }
 
     public M1SemanticModel(cmofFactory factory) {
         super();
@@ -91,6 +112,7 @@ public class M1SemanticModel {
             throw new MetaModelException("InstanceOf not allowed in this spezialization context: " + instanceClassifier.toString());
         }
 
+        // create operation
         Operation create = factory.createOperation();
         create.setType(instanceClassifier);
         create.setName(getCreateOperationName(instanceClassifier));
@@ -98,6 +120,25 @@ public class M1SemanticModel {
         for(MofClassSemantics parent: parentClassifierClassifier) {
             for (Classifier metaInstances: parent.getClassifier().getMetaInstances()) {
                 add(create.getRedefinedOperation(), parent.getFinalOperation(getCreateOperationName((UmlClass)metaInstances)));
+            }
+        }
+
+        // create generic create operation
+        Operation genericCreate = factory.createOperation();
+        genericCreate.setType(instanceClassifier);
+        genericCreate.setName(getGenericCreateOperationName(instanceClassifier));
+        Parameter parameter = factory.createParameter();
+        parameter.setName("className");
+        parameter.setType(getStringType(classifierClassifier));
+        genericCreate.getFormalParameter().add(parameter);
+
+        classifierClassifier.getOwnedOperation().add(genericCreate);
+        for(MofClassSemantics parent: parentClassifierClassifier) {
+            for (Classifier metaInstances: parent.getClassifier().getMetaInstances()) {
+                add(genericCreate.getRedefinedOperation(),
+                        // TODO very ugly coding of the operation name
+                        parent.getFinalOperation(getGenericCreateOperationName((UmlClass)metaInstances) + "_" +
+                                getStringType(classifierClassifier).getQualifiedName()));
             }
         }
 
@@ -140,9 +181,6 @@ public class M1SemanticModel {
     }
 
     private Collection<MofClassSemantics> getParentInstanceClassifier(UmlClass instanceClassifier) {
-        if (instanceClassifier.getName().equals("SdlProcedureFrame")) {
-            System.out.println();
-        }
         Collection<MofClassSemantics> parentInstanceClassifier = new HashSet<MofClassSemantics>();
         List<core.abstractions.umlsuper.Classifier> parentClassifier = new Vector<core.abstractions.umlsuper.Classifier>();
         for (core.abstractions.umlsuper.Classifier parent: instanceClassifier.allParents()) {

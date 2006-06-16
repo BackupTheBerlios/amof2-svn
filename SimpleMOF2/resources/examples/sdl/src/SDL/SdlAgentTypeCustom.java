@@ -5,7 +5,6 @@ public class SdlAgentTypeCustom extends SdlAgentTypeDlg {
     public SdlAgentInstance instanciate() {
         SdlAgentInstance result = self.metaCreateSdlAgentInstance();
         result.initialize();
-        result.run();
         return result;
     }
 }

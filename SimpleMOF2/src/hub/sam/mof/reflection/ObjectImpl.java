@@ -162,7 +162,7 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
         }
     }
 
-    public void set(String propertyName, java.lang.Object value) {
+    public synchronized void set(String propertyName, java.lang.Object value) {
 
         Property property = semantics.getProperty(propertyName);
         if (property == null) {
@@ -183,6 +183,8 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
                 return value instanceof Integer;
             } else if (type.getName().equals(core.primitivetypes.Boolean.class.getSimpleName())) {
                 return value instanceof Boolean;
+            } else if (type.getName().equals(core.primitivetypes.Object.class.getSimpleName())) {
+                return value instanceof Object;
             } else if (type.getName().equals(core.primitivetypes.UnlimitedNatural.class.getSimpleName())) {
                 return value instanceof Long;
             } else {
@@ -203,7 +205,7 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
         }
     }
 
-    public void set(Property property, java.lang.Object value) {
+    public synchronized void set(Property property, java.lang.Object value) {
         if (value == null) {
             unset(property);
         } else {
@@ -238,7 +240,7 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
         }
     }
 
-    public void unset(Property property) {
+    public synchronized void unset(Property property) {
         if (instance == null) {
             throw new MetaModelException("Static modelelements cant be changed");
         }
@@ -284,7 +286,7 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
         extent.removeObject(this, getClassInstance());
     }
 
-    public java.lang.Object invokeOperation(String opName, java.lang.Object[] args) {
+    public synchronized java.lang.Object invokeOperation(String opName, java.lang.Object[] args) {
         if (semantics == null) {
             // lazy semantics innitialisation is nessessary to avoid endless recusion in bootstrap and static models
             if (getMetaClass() != null) {
@@ -334,7 +336,7 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
         return opName.toString();
     }
 
-    public java.lang.Object invokeOperation(cmof.Operation op, ReflectiveSequence<Argument> arguments) {
+    public synchronized java.lang.Object invokeOperation(cmof.Operation op, ReflectiveSequence<Argument> arguments) {
         java.lang.Object[] args = new Object[arguments.size()];
         int i = 0;
         for (Argument arg : arguments) {

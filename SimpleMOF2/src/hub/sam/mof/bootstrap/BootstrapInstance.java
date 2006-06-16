@@ -14,49 +14,54 @@ details.
 
     You should have received a copy of the GNU Lesser General Public License
 along with this library; if not, write to the Free Software Foundation, Inc.,
-59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
+59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
 package hub.sam.mof.bootstrap;
 
-import java.util.*;
-
-import core.abstractions.visibilities.VisibilityKind;
-
 import cmof.ParameterDirectionKind;
-import hub.sam.mof.instancemodel.*;
+import core.abstractions.visibilities.VisibilityKind;
+import hub.sam.mof.instancemodel.ClassInstance;
+import hub.sam.mof.instancemodel.StructureSlot;
+import hub.sam.mof.instancemodel.ValueSpecificationImpl;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Vector;
 
 public class BootstrapInstance extends ClassInstance<ClassInstance<ClassInstance,ClassInstance,Object>,ClassInstance<ClassInstance,ClassInstance,Object>,Object> {
 
     private final BootstrapModel model;
-    
+
     protected BootstrapInstance(String id, ClassInstance<ClassInstance, ClassInstance, Object> classifier, BootstrapModel model) {
         super(id, classifier, model);
         this.model = model;
     }
-        
+
     @SuppressWarnings("unchecked")
 	private ClassInstance<ClassInstance,ClassInstance,Object> getType(ClassInstance<ClassInstance,ClassInstance,Object> property) {
-        BootstrapSemantics semantics = model.createBootstrapSemantics(property.getClassifier());        
-        try {            
+        BootstrapSemantics semantics = model.createBootstrapSemantics(property.getClassifier());
+        try {
             return property.get(semantics.getProperty("type")).getValues().get(0).asInstanceValue().getInstance();
         } catch (NullPointerException e) {
             return null;
-        }  
+        }
     }
-    
+
     @SuppressWarnings("unchecked")
-	private boolean isDataProperty(ClassInstance<ClassInstance,ClassInstance,Object> property) {       
+	private boolean isDataProperty(ClassInstance<ClassInstance,ClassInstance,Object> property) {
         String typeClassifierName = null;
         try {
-            typeClassifierName = (String) 
+            typeClassifierName = (String)
             model.get(getType(property).getClassifier(),"name");
         } catch (NullPointerException e) {
             return false;
-        } 
+        }
         return typeClassifierName.equals(cmof.PrimitiveType.class.getSimpleName()) || typeClassifierName.equals(cmof.Enumeration.class.getSimpleName());
     }
-    
+
     @SuppressWarnings("unchecked")
 	private String getDefault(ClassInstance<ClassInstance,ClassInstance,Object> property) {
         String result = (String)model.get(property, "default");
@@ -65,12 +70,12 @@ public class BootstrapInstance extends ClassInstance<ClassInstance<ClassInstance
             if (property != null) {
                 result = (String)model.get(property, "default");
             } else {
-                break loop; 
+                break loop;
             }
         }
         return result;
     }
-          
+
     protected void insertDefaults() {
         BootstrapSemantics semantics = model.createBootstrapSemantics(getClassifier());
         for (ClassInstance<ClassInstance,ClassInstance,Object> property: semantics.getFinalProperties()) {
@@ -86,6 +91,8 @@ public class BootstrapInstance extends ClassInstance<ClassInstance<ClassInstance
                             defaultValue = new Boolean(stringRepresentation);
                         } else if (name.equals(core.primitivetypes.Integer.class.getSimpleName())) {
                             defaultValue = new Integer(stringRepresentation);
+                        } else if (name.equals(core.primitivetypes.Object.class.getSimpleName())) {
+                            defaultValue = null;
                         } else if (name.equals(core.primitivetypes.UnlimitedNatural.class.getSimpleName())) {
                             if (stringRepresentation.equals("*")) {
                                 defaultValue =  new Long(-1);
@@ -100,8 +107,8 @@ public class BootstrapInstance extends ClassInstance<ClassInstance<ClassInstance
                         	} else {
                         		throw new RuntimeException("assert, unrecognised value for ParameterDirectionKind.");
                         	}
-                        } else if ( name.equals(VisibilityKind.class.getSimpleName())) {                        	
-                        	defaultValue = VisibilityKind.PUBLIC;                        	
+                        } else if ( name.equals(VisibilityKind.class.getSimpleName())) {
+                        	defaultValue = VisibilityKind.PUBLIC;
                         } else {
                             throw new RuntimeException("assert");
                         }
@@ -111,10 +118,10 @@ public class BootstrapInstance extends ClassInstance<ClassInstance<ClassInstance
             }
         }
     }
-            
+
     private Map<ClassInstance, Collection<ClassInstance>> updatedOpposites = new HashMap<ClassInstance, Collection<ClassInstance>>();
     @SuppressWarnings("unchecked")
-	protected void insertOppositeValues() {      
+	protected void insertOppositeValues() {
         for (StructureSlot<ClassInstance<ClassInstance,ClassInstance,Object>,ClassInstance<ClassInstance,ClassInstance,Object>,Object> slot: new Vector<StructureSlot<ClassInstance<ClassInstance,ClassInstance,Object>,ClassInstance<ClassInstance,ClassInstance,Object>,Object>>(getSlots())) {
             ClassInstance<ClassInstance,ClassInstance,Object> forProperty = slot.getProperty();
             ClassInstance<ClassInstance,ClassInstance,Object> opposite = (ClassInstance<ClassInstance,ClassInstance,Object>)model.get(forProperty,"opposite");
@@ -123,7 +130,7 @@ public class BootstrapInstance extends ClassInstance<ClassInstance<ClassInstance
                     if (value.asInstanceValue() != null) {
                         BootstrapInstance oppositeValue = (BootstrapInstance)value.asInstanceValue().getInstance();
                         Collection<ClassInstance> alreadyUpdatedValues = oppositeValue.updatedOpposites.get(opposite);
-                        if (alreadyUpdatedValues == null || !alreadyUpdatedValues.contains(this)) {                            
+                        if (alreadyUpdatedValues == null || !alreadyUpdatedValues.contains(this)) {
                             BootstrapSemantics oppositeSemantics = model.createBootstrapSemantics(oppositeValue.getClassifier());
                             ClassInstance finalOpposite = oppositeSemantics.getFinalProperty(opposite);
                             if (finalOpposite != null) {
@@ -137,28 +144,28 @@ public class BootstrapInstance extends ClassInstance<ClassInstance<ClassInstance
                                 this.updatedOpposites.put(forProperty, updatedValues);
                             }
                             updatedValues.add(oppositeValue);
-                        } 
-                    } 
-                }        
-            }
-        }      
-    }
-    
-    private void collectSupersets(ClassInstance<ClassInstance,ClassInstance,Object> forProperty,Collection<ClassInstance<ClassInstance,ClassInstance,Object>> supersets ) {
-        BootstrapSemantics semantics = model.createBootstrapSemantics(this.getClassifier());        
-        supersets.addAll(semantics.getSubsettedProperties(forProperty));
-        for(ClassInstance<ClassInstance,ClassInstance,Object> superset: semantics.getSubsettedProperties(forProperty)) {
-            for (ValueSpecificationImpl<ClassInstance,ClassInstance,Object> redefinedOfSuperset: model.getList(superset, "redefinedProperty")) {               
-                collectSupersets(redefinedOfSuperset.asInstanceValue().getInstance(), supersets);                           
+                        }
+                    }
+                }
             }
         }
     }
-       
+
+    private void collectSupersets(ClassInstance<ClassInstance,ClassInstance,Object> forProperty,Collection<ClassInstance<ClassInstance,ClassInstance,Object>> supersets ) {
+        BootstrapSemantics semantics = model.createBootstrapSemantics(this.getClassifier());
+        supersets.addAll(semantics.getSubsettedProperties(forProperty));
+        for(ClassInstance<ClassInstance,ClassInstance,Object> superset: semantics.getSubsettedProperties(forProperty)) {
+            for (ValueSpecificationImpl<ClassInstance,ClassInstance,Object> redefinedOfSuperset: model.getList(superset, "redefinedProperty")) {
+                collectSupersets(redefinedOfSuperset.asInstanceValue().getInstance(), supersets);
+            }
+        }
+    }
+
     @SuppressWarnings("unchecked")
 	private void insertSupersetValues(ClassInstance<ClassInstance,ClassInstance,Object> forProperty) {
         BootstrapSemantics semantics = model.createBootstrapSemantics(this.getClassifier());
         // collect all supersets, all means superset of supersets and supersets of redefines
-        Collection<ClassInstance<ClassInstance,ClassInstance,Object>> supersets = new HashSet<ClassInstance<ClassInstance,ClassInstance,Object>>();        
+        Collection<ClassInstance<ClassInstance,ClassInstance,Object>> supersets = new HashSet<ClassInstance<ClassInstance,ClassInstance,Object>>();
         collectSupersets(forProperty,supersets);
         // collapse them to final properties
         Collection<ClassInstance<ClassInstance,ClassInstance,Object>> finalSupersets = new HashSet<ClassInstance<ClassInstance,ClassInstance,Object>>();
@@ -167,22 +174,22 @@ public class BootstrapInstance extends ClassInstance<ClassInstance<ClassInstance
                 finalSupersets.add(semantics.getFinalProperty(superset));
             }
         }
-        // add the values to them        
-        for (ClassInstance<ClassInstance,ClassInstance,Object> finalSupersetProperty: finalSupersets) {                                        
-            for (ValueSpecificationImpl value: get(forProperty).getValues()) {                
+        // add the values to them
+        for (ClassInstance<ClassInstance,ClassInstance,Object> finalSupersetProperty: finalSupersets) {
+            for (ValueSpecificationImpl value: get(forProperty).getValues()) {
                 addValue(finalSupersetProperty, value);
-            }            
+            }
         }
     }
-    
+
     protected void insertSupersetValues() {
         for (StructureSlot<ClassInstance<ClassInstance,ClassInstance,Object>,ClassInstance<ClassInstance,ClassInstance,Object>,Object> slot: new Vector<StructureSlot<ClassInstance<ClassInstance,ClassInstance,Object>,ClassInstance<ClassInstance,ClassInstance,Object>,Object>>(getSlots())) {
             insertSupersetValues(slot.getProperty());
         }
     }
-          
+
     @Override
-	public Collection<StructureSlot<ClassInstance<ClassInstance,ClassInstance,Object>,ClassInstance<ClassInstance,ClassInstance,Object>,Object>> getSlots() {  
+	public Collection<StructureSlot<ClassInstance<ClassInstance,ClassInstance,Object>,ClassInstance<ClassInstance,ClassInstance,Object>,Object>> getSlots() {
         return super.getSlots();
     }
 
@@ -190,7 +197,7 @@ public class BootstrapInstance extends ClassInstance<ClassInstance<ClassInstance
 	public StructureSlot<ClassInstance<ClassInstance,ClassInstance,Object>,ClassInstance<ClassInstance,ClassInstance,Object>,Object> get(ClassInstance<ClassInstance,ClassInstance,Object> property) {
         return super.get(property);
     }
-    
+
     @SuppressWarnings("unchecked")
 	@Override
 	public String toString() {

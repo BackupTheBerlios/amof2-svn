@@ -31,7 +31,7 @@ import cmof.UmlClass;
 import cmof.common.ReflectiveSequence;
 
 public class OperationWrapper extends TypedElementWrapper {
-    private final Operation operation;    
+    private final Operation operation;
     private boolean hasNoType = false;
     private Type type = null;
 
@@ -66,7 +66,7 @@ public class OperationWrapper extends TypedElementWrapper {
         if (typeName.equals("void")) {
             return typeName;
         }
-        if (operation.getUpper() == 1) {
+        if (!isJavaList()) {
             return typeName;
         } else {
             if (!(getUmlType() instanceof DataType)) {
@@ -89,11 +89,22 @@ public class OperationWrapper extends TypedElementWrapper {
     }
 
     public boolean isJavaList() {
-        return operation.getUpper() != 1;
+        Parameter returnParameter = getReturnParameter();
+        return !((returnParameter != null && returnParameter.getUpper() == 1) ||
+                (returnParameter == null && operation.getUpper() ==1));
     }
 
     public boolean isList() {
         return operation.isOrdered();
+    }
+
+    private Parameter getReturnParameter() {
+        for (core.basic.Parameter parameter : operation.getOwnedParameter()) {
+            if (((cmof.Parameter)parameter).getDirection() == ParameterDirectionKind.RETURN) {
+                return (cmof.Parameter)parameter;
+            }
+        }
+        return null;
     }
 
     @Override
@@ -106,10 +117,9 @@ public class OperationWrapper extends TypedElementWrapper {
             result = operation.getType();
         }
         if (result == null) {
-            for (core.basic.Parameter parameter : operation.getOwnedParameter()) {
-                if (((cmof.Parameter)parameter).getDirection() == ParameterDirectionKind.RETURN) {
-                    result = (cmof.Type)((cmof.Parameter)parameter).getType();
-                }
+            Parameter returnParameter = getReturnParameter();
+            if (returnParameter != null) {
+                result = (cmof.Type)returnParameter.getType();
             }
         }
         if (result == null) {

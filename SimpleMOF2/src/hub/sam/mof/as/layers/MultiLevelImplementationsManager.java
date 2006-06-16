@@ -38,6 +38,9 @@ public class MultiLevelImplementationsManager extends ImplementationsManagerImpl
                 if (operation.getName().equals(M1SemanticModel.getCreateOperationName((UmlClass)metaInstance))) {
                     result.put(operation, new CreateImpl(factory, (UmlClass)metaInstance));
                 }
+                if (operation.getName().equals(M1SemanticModel.getGenericCreateOperationName((UmlClass)metaInstance))) {
+                    result.put(operation, new GenericCreateImpl(factory, (UmlClass)metaInstance));
+                }
             }
         }
         return result;

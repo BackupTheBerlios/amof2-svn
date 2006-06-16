@@ -1,4 +1,4 @@
-<project name = "Automaton" default="compile" basedir=".">
+<project name = "UML" default="compile" basedir=".">
 	<description>
         UML
 	</description>

@@ -14,7 +14,7 @@ details.
 
     You should have received a copy of the GNU Lesser General Public License
 along with this library; if not, write to the Free Software Foundation, Inc.,
-59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
+59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
 package hub.sam.mof.codegeneration.wrapper;
@@ -25,7 +25,7 @@ import cmof.Type;
 public abstract class TypedElementWrapper extends AbstractWrapper {
 	  public abstract String getName();
       public abstract Type getUmlType();
-      public String getUpperName() {            
+      public String getUpperName() {
           String name = getName();
           return name.substring(0,1).toUpperCase() + name.substring(1, name.length());
       }
@@ -38,6 +38,8 @@ public abstract class TypedElementWrapper extends AbstractWrapper {
           if (type instanceof PrimitiveType) {
               if (type.getName().equals(core.primitivetypes.String.class.getSimpleName())) {
                   typeName = String.class.getCanonicalName();
+              } else if (type.getName().equals(core.primitivetypes.Object.class.getSimpleName())) {
+                  typeName = Object.class.getCanonicalName();
               } else if (type.getName().equals(core.primitivetypes.Integer.class.getSimpleName())) {
                   typeName = "int";
               } else if (type.getName().equals(core.primitivetypes.Boolean.class.getSimpleName())) {
@@ -58,6 +60,8 @@ public abstract class TypedElementWrapper extends AbstractWrapper {
           if (type instanceof PrimitiveType) {
               if (type.getName().equals(core.primitivetypes.String.class.getSimpleName())) {
                   typeName = java.lang.String.class.getCanonicalName();
+              } else if (type.getName().equals(core.primitivetypes.Object.class.getSimpleName())) {
+                  typeName = java.lang.Object.class.getCanonicalName();
               } else if (type.getName().equals(core.primitivetypes.Integer.class.getSimpleName())) {
                   typeName = Integer.class.getCanonicalName();
               } else if (type.getName().equals(core.primitivetypes.Boolean.class.getSimpleName())) {

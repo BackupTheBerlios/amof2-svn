@@ -71,6 +71,8 @@ public class FactoryImpl extends hub.sam.util.Identity implements Factory {
             if (dataType instanceof PrimitiveType) {
                 if (dataType.getName().equals(core.primitivetypes.String.class.getSimpleName())) {
                     return string;
+                } else if (dataType.getName().equals(core.primitivetypes.Object.class.getSimpleName())) {
+                    return null;
                 } else if (dataType.getName().equals(core.primitivetypes.Boolean.class.getSimpleName())) {
                     return Boolean.valueOf(string);
                 } else if (dataType.getName().equals(core.primitivetypes.Integer.class.getSimpleName())) {

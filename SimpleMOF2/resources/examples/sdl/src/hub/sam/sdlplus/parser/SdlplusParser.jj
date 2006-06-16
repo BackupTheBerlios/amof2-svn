@@ -659,8 +659,8 @@ void composite_state_type_definition(SdlNamespace container):
     <TOK_substructure>
     (
     //not in abstract sdl+ syntax
-        entity_in_composite_state(stateType) |
-        gate_in_definition(stateType)
+        entity_in_composite_state(stateType) 
+        // no gates in at states | gate_in_definition(stateType)
     )*
     composite_state_body(stateType)
     <TOK_endsubstructure> <TOK_state> <TOK_type>
@@ -764,7 +764,7 @@ void typebased_composite_state_definition(SdlBehaviorElement bodiedElement):
 //}}}
 
 //{{{ gates
-void gate_in_definition(SdlClassifier container):
+void gate_in_definition(SdlAgentType container):
 {
     SdlGate gate = sdl.createSdlGate();
     addContextM1((cmof.reflection.Object)gate);

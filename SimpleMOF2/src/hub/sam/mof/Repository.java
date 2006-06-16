@@ -67,6 +67,11 @@ public class Repository extends hub.sam.util.Identity {
      */
     public static PrimitiveType booleanType = null;
 
+    /**
+     * In order to be thread safe some caches have to be disabled.
+     */
+    public static boolean threadsafe = true;
+
     @SuppressWarnings("unchecked")
     private static Context getInitialContext(String providerUrl) throws NamingException {
         Hashtable props = new Hashtable();

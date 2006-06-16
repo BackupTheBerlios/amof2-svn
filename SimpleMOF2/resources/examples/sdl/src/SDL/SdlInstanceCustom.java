@@ -13,4 +13,18 @@ public class SdlInstanceCustom extends SdlInstanceDlg {
             self.getVariable().add(variable.metaCreateSdlVariableSlot());
         }
     }
+
+    @Override
+    public SdlVariableSlot resolveSlot(SdlVariable v) {
+        SdlInstance instance = self;
+        while (instance != null) {
+            for (SdlVariableSlot slot: instance.getVariable()) {
+                if (slot.getMetaClassifierSdlVariable().equals(v)) {
+                    return slot;
+                }
+            }
+            instance = getContainingInstance();
+        }
+        return null;
+    }
 }

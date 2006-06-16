@@ -2,6 +2,7 @@ package hub.sam.sdlplus;
 
 import SDL.SdlAgent;
 import SDL.SdlAgentKind;
+import SDL.SdlAgentInstanceSet;
 import cmof.reflection.Extent;
 import hub.sam.mof.Repository;
 import hub.sam.mof.as.layers.MultiLevelImplementationsManager;
@@ -42,7 +43,7 @@ public class SdlCompiler {
         sdlPackage = (cmof.Package)sdlMetaExtent.query("Package:SdlPlus");
         sdlModelExtent = repository.createExtent("sdl-model-extent");
         ((ExtentImpl)sdlModelExtent).setCustomImplementationsManager(new MultiLevelImplementationsManager(
-                repository.createFactory(sdlModelExtent, sdlPackage)));        
+                repository.createFactory(sdlModelExtent, sdlPackage)));
     }
 
     /**
@@ -122,7 +123,8 @@ public class SdlCompiler {
                 System.err.println("Model does not contain a system");
                 return;
             }
-            system.instanciate();
+            SdlAgentInstanceSet systemInstance = (SdlAgentInstanceSet)system.instanciate();
+            systemInstance.getValue().iterator().next().run();
         } catch (ParseException e) {
             System.out.println("Encountered errors during parse:");
             System.out.println(e.getMessage());

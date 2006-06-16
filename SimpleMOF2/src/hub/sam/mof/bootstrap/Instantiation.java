@@ -102,6 +102,8 @@ public class Instantiation extends AbstractXmiConversion<ClassInstance<XmiClassi
         	String name = InstanciatedXmiModel.get(type, "name");
             if (name.equals(core.primitivetypes.String.class.getSimpleName())) {
                 return stringRepresentation;
+            } else if (name.equals(core.primitivetypes.Object.class.getSimpleName())) {
+                return null;
             } else if (name.equals(core.primitivetypes.Boolean.class.getSimpleName())) {
                 return new Boolean(stringRepresentation);
             } else if (name.equals(core.primitivetypes.Integer.class.getSimpleName())) {

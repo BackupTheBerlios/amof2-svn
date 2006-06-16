@@ -48,6 +48,7 @@ public class JavaModelGenerationDoclet {
     private final PrimitiveType integerType;
     private final PrimitiveType stringType;
     private final PrimitiveType unlimitedNaturalType;
+    private final PrimitiveType objectType;
 
     private final UmlClass object;
 
@@ -102,6 +103,11 @@ public class JavaModelGenerationDoclet {
         unlimitedNaturalType.setName(core.primitivetypes.UnlimitedNatural.class.getSimpleName());
         unlimitedNaturalType.setPackage(primitives);
         unlimitedNaturalType.setVisibility(VisibilityKind.PUBLIC);
+
+        objectType = factory.createPrimitiveType();
+        objectType.setName(core.primitivetypes.Object.class.getSimpleName());
+        objectType.setPackage(primitives);
+        objectType.setVisibility(VisibilityKind.PUBLIC);
 
         object = factory.createUmlClass();
         object.setVisibility(VisibilityKind.PUBLIC);
@@ -207,6 +213,8 @@ public class JavaModelGenerationDoclet {
             return unlimitedNaturalType;
         } else if (javaType.qualifiedTypeName().equals("domainmodels.lang.String")) {
             return stringType;
+        } else if (javaType.qualifiedTypeName().equals("domainmodels.lang.Object")) {
+            return objectType;
         } else {
             if (javaType.asClassDoc() == null) {
                 throw new RuntimeException("Unexpected type " + javaType);
