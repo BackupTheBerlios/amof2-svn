@@ -11,7 +11,8 @@ public class DestroyImpl implements Implementation {
     }
 
     public Object invoke(cmof.reflection.Object object, Object[] args) {
-        object.set(M1SemanticModel.getClassifierPropertyName((UmlClass)classifer.getMetaClassifier()), null);
+        object.set(M1SemanticModel.getClassifierPropertyName((UmlClass)
+                MultiLevelImplementationsManager.getMetaClassifier((UmlClass)classifer)), null);
         object.delete();
         return null;
     }

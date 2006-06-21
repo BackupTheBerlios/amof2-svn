@@ -122,7 +122,7 @@ public class ExtentImpl extends hub.sam.util.Identity implements cmof.reflection
         } else if (value instanceof Integer || value instanceof Long || value instanceof Boolean || value instanceof String || value instanceof Enum) {
             return model.createPrimitiveValue(value);
         } else {
-            throw new RuntimeException("not implemented value type " + value.getClass().getCanonicalName());
+            return model.createPrimitiveValue(value);            
         }
     }
 

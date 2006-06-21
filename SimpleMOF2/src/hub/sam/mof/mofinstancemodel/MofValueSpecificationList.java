@@ -228,9 +228,11 @@ public class MofValueSpecificationList extends ListImpl<ValueSpecification<UmlCl
         checkReadOnly();
         checkDerived();
         performingSet = true;
-        if (o == null || !o.equals(values.get(index))) {
-        	remove(index);
-        	if (o != null) {
+        if (o == null || index >= values.size() || !o.equals(values.get(index))) {
+            if (index < values.size()) {
+                remove(index);
+            }
+            if (o != null) {
         		add(index, o);
         	}
         }

@@ -3,6 +3,11 @@ package hub.sam.sdlplus;
 import SDL.SdlAgent;
 import SDL.SdlAgentKind;
 import SDL.SdlAgentInstanceSet;
+import SDL.SdlGate;
+import SDL.SdlSignal;
+import SDL.SdlSignalInstance;
+import SDL.SdlAgentInstance;
+import SDL.SdlDataType;
 import cmof.reflection.Extent;
 import hub.sam.mof.Repository;
 import hub.sam.mof.as.layers.MultiLevelImplementationsManager;
@@ -27,10 +32,15 @@ public class SdlCompiler {
         return theCompiler;
     }
 
+    public SdlDataType getPidType() {
+        return pidType;
+    }
+
     private Extent sdlMetaExtent = null;
     private Extent sdlModelExtent = null;
     private Repository repository = null;
     private cmof.Package sdlPackage = null;
+    private SdlDataType pidType = null;
 
     /**
      * Initializes the repository. It creates all nessasary extends for all needed meta-models and models.
@@ -40,7 +50,7 @@ public class SdlCompiler {
     private void initializeRepository() throws Exception {
         repository = Repository.getLocalRepository();
         sdlMetaExtent = SDL.SdlModel.createModel();
-        sdlPackage = (cmof.Package)sdlMetaExtent.query("Package:SdlPlus");
+        sdlPackage = (cmof.Package)sdlMetaExtent.query("Package:SDL");
         sdlModelExtent = repository.createExtent("sdl-model-extent");
         ((ExtentImpl)sdlModelExtent).setCustomImplementationsManager(new MultiLevelImplementationsManager(
                 repository.createFactory(sdlModelExtent, sdlPackage)));
@@ -110,6 +120,8 @@ public class SdlCompiler {
                //repository.writeExtentToXmi("resources/test-files/test-out.xml", sdlPackage, sdlModelExtent);
             }
 
+            pidType = (SdlDataType)sdlModelExtent.query("SdlPackage:predefined/SdlDataType:Pid");
+
             System.out.println("Running the model");
             SdlAgent system = null;
             for (cmof.reflection.Object o: sdlModelExtent.getObject()) {
@@ -123,8 +135,13 @@ public class SdlCompiler {
                 System.err.println("Model does not contain a system");
                 return;
             }
-            SdlAgentInstanceSet systemInstance = (SdlAgentInstanceSet)system.instanciate();
-            systemInstance.getValue().iterator().next().run();
+            SdlAgentInstanceSet systemInstanceSet = (SdlAgentInstanceSet)system.instanciate();
+            SdlAgentInstance systemInstance = systemInstanceSet.getValue().iterator().next();
+            systemInstance.run();
+            SdlGate envGate = (SdlGate)sdlModelExtent.query("SdlPackage:daemonGame_pkg/SdlAgentType:daemonGameSystem_type/SdlGate:envGate");
+            SdlSignal newGameType = (SdlSignal)sdlModelExtent.query("SdlPackage:daemonGame_pkg/SdlAgentType:daemonGameSystem_type/SdlSignal:newGame");
+            SdlSignalInstance newGame = newGameType.metaCreateSdlSignalInstance();
+            systemInstance.dispatchSignal(newGame, envGate);
         } catch (ParseException e) {
             System.out.println("Encountered errors during parse:");
             System.out.println(e.getMessage());

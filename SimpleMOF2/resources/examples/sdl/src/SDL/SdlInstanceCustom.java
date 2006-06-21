@@ -1,5 +1,7 @@
 package SDL;
 
+import Pattern.Evaluation.Expression;
+
 public class SdlInstanceCustom extends SdlInstanceDlg {
 
     @Override
@@ -10,7 +12,15 @@ public class SdlInstanceCustom extends SdlInstanceDlg {
     @Override
     public void createSlots() {
         for(SdlVariable variable : self.getMetaClassifierSdlClassifier().getVariable()) {
-            self.getVariable().add(variable.metaCreateSdlVariableSlot());
+            SdlVariableSlot slot = variable.metaCreateSdlVariableSlot();
+            self.getVariable().add(slot);
+            Expression expr = variable.getInitExpression();
+            if (expr != null) {
+                SdlEvaluation eval = (SdlEvaluation)expr.instantiate();
+                eval.updateContext(self);
+                SdlDataValue value = (SdlDataValue)eval.getValue();
+                slot.updateValue(value);
+            }
         }
     }
 

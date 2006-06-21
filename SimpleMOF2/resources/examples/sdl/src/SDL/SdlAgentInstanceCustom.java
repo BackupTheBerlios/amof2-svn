@@ -38,7 +38,7 @@ public class SdlAgentInstanceCustom extends SdlAgentInstanceDlg {
         }
         SdlCompositeStateInstance behavior = self.getBehavior();
         if (behavior != null) {
-            behavior.run();
+            behavior.start();
         }
     }
 
@@ -71,15 +71,27 @@ public class SdlAgentInstanceCustom extends SdlAgentInstanceDlg {
         return agent;
     }
 
+    /**
+     * Queries a set of SdlChannelPaths for a path. The result contains all ChannelPaths that source
+     * in the paths target end point.
+     *
+     * @param path A SdlChannelPath
+     * @return A set of SdlChannelPaths
+     */
     @Override
     public ReflectiveCollection<? extends SdlChannelPath> continuesWith(SdlChannelPath path) {
-        SdlAgentType context = getAgentTypeForPath(path, self);
-        SdlGate gate = path.getTarget().iterator().next().getGate();
-
         ReflectiveCollection<? extends SdlChannelPath> result = new SetImpl<SdlChannelPath>();
+        SdlAgentType context = getAgentTypeForPath(path, self);
+
+        SdlGate gate = path.getTarget().iterator().next().getGate();
+        if (gate == null) {
+            return result;
+        }
+
         for (SdlChannel channel: context.getChannel()) {
             for (SdlChannelPath continuingPath: channel.getPath()) {
-                if (continuingPath.getSource().iterator().next().getGate().equals(gate)) {
+                SdlGate continueingGate = continuingPath.getSource().iterator().next().getGate();
+                if (gate.equals(continueingGate)) {
                     result.add(continuingPath);
                 }
             }
@@ -89,22 +101,26 @@ public class SdlAgentInstanceCustom extends SdlAgentInstanceDlg {
 
     @Override
     public void dispatchSignal(SdlSignalInstance s, SdlGate via) {
-        boolean dispatched = false;
+        SdlAgentInstanceSet dispatchedTo = null;
+        SdlSignal signal = s.getMetaClassifierSdlSignal();
         for (SdlAgentInstanceSet receiver: collectAgentInstanceSets(s, via, self)) {
             if (s.getReceiver() != null) {
                 if (receiver.getValue().contains(s.getReceiver())) {
-                    dispatched = true;
+                    dispatchedTo = receiver;
                     receiver.getInputQueue().add(s);
                     receiver.update();
                 }
             } else {
-                dispatched = true;
+                dispatchedTo = receiver;
                 receiver.getInputQueue().add(s);
                 receiver.update();
             }
         }
-        if (!dispatched) {
+        if (dispatchedTo == null) {
             System.out.println("signal dropped");
+        } else {
+            System.out.println("signal of type " + signal + " dipatched to instance of agent " +
+                    dispatchedTo.getMetaClassifierSdlAgent());
         }
     }
 
@@ -127,6 +143,8 @@ public class SdlAgentInstanceCustom extends SdlAgentInstanceDlg {
             SdlChannelPath path = end.getChannel();
             if (path.getTarget().equals(end)) {
                 collectAgentInstanceSets(s, path, result, self.getOwningInstanceSet().getAgentInstance());
+            } else {
+                collectAgentInstanceSets(s, path, result, self);
             }
         }
         return result;

@@ -121,7 +121,7 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
 
     private Map<String, Identity> staticCollectionValueIds = new HashMap<String, Identity>();
 
-    public java.lang.Object get(String propertyName) {
+    public synchronized java.lang.Object get(String propertyName) {
         if (attributes != null) {
             java.lang.Object result = staticCollectionValueIds.get(propertyName);
             if (result == null) {
@@ -135,7 +135,13 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
         }
         Property property = semantics.getProperty(propertyName);
         if (property == null) {
-            throw new cmof.exception.IllegalArgumentException(propertyName);
+            // this is ugly, only to prevent exception during toString, which make some debugging
+            // processes really nasty
+            if (propertyName.equals("qualifiedName") || propertyName.equals("name")) {
+                return null;
+            } else {
+                throw new cmof.exception.IllegalArgumentException(propertyName);
+            }
         } else {
             return get(property);
         }
@@ -143,7 +149,7 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
 
     //private final Map<Property, Boolean> hasCustomImpl = new HashMap<Property, Boolean>();
 
-    public java.lang.Object get(Property property) throws IllegalArgumentException {
+    public synchronized java.lang.Object get(Property property) throws IllegalArgumentException {
         if (attributes != null) {
             return get(property.getName());
         }
@@ -232,7 +238,7 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
         }
     }
 
-    public boolean isSet(Property property) {
+    public synchronized boolean isSet(Property property) {
         if (instance == null) {
             return attributes.get(property.getName()) != null;
         } else {
@@ -271,7 +277,7 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
         }
     }
 
-    public void delete() {
+    public synchronized void delete() {
         if (instance == null || isStatic) {
             throw new MetaModelException("Static modelelements cant be changed");
         }
@@ -397,7 +403,7 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
         return extent;
     }
 
-    public cmof.reflection.Object container() {
+    public synchronized cmof.reflection.Object container() {
         if (attributes != null) {
             return (cmof.reflection.Object)valueForStaticValue(attributes.get("__container"));
         } else {
