@@ -158,6 +158,23 @@ public class SdlplusParser {
     }
 
     private Map<SdlStateAutomaton, Stop> stopsForAutomata = new HashMap<SdlStateAutomaton, Stop>();
+	private Map<SdlStateAutomaton, Map<String, SdlState>> stateNamesForAutomata = new HashMap<SdlStateAutomaton, Map<String, SdlState>>();
+
+	private SdlState getStateForNameAndAutomaton(String stateName, SdlStateAutomaton automaton) {
+		Map<String, SdlState> statesOfAutomaton = stateNamesForAutomata.get(automaton);
+		if (statesOfAutomaton == null) {
+			statesOfAutomaton = new HashMap<String, SdlState>();
+			stateNamesForAutomata.put(automaton, statesOfAutomaton);
+		}
+		SdlState result = statesOfAutomaton.get(stateName);
+		if (result == null) {
+			result = sdl.createSdlState();
+			result.setName(stateName);
+			addContextM1((cmof.reflection.Object)result);
+			statesOfAutomaton.put(stateName, result);
+		}
+		return result;
+	}
 
     private SDLFactory sdl = null;
     private ConcreteSyntaxFactory cse = null;
@@ -1063,28 +1080,34 @@ void basic_state(SdlStateAutomaton automaton):
     automaton.getState().add(stateNode);
 }
 {
-    <TOK_state> state_list(states) <TOK_end> input_part(automaton, stateNode) <TOK_endstate>
+    <TOK_state> state_list(states, automaton) <TOK_end> input_part(automaton, stateNode) <TOK_endstate>
     <TOK_end>
     {
         stateNode.getState().addAll(states);
-        automaton.getNamedState().addAll(states);
+		for (SdlState state: states) {
+			if (!automaton.getNamedState().contains(state)) {
+				automaton.getNamedState().add(state);
+			}
+		}
     }
 }
 
-void state_list(Collection<SdlState> states):
+void state_list(Collection<SdlState> states, SdlStateAutomaton automaton):
 {}
 {
-    state(states) ( "," state(states) )*
+    state(states, automaton) ( "," state(states, automaton) )*
 }
 
-void state(Collection<SdlState> states):
+void state(Collection<SdlState> states, SdlStateAutomaton automaton):
 {
-    SdlState state = sdl.createSdlState();
-    addContextM1((cmof.reflection.Object)state);
-    states.add(state);
+	String stateName = null;
 }
 {
-    name(state)
+	stateName=aName()
+	{
+		SdlState state = getStateForNameAndAutomaton(stateName, automaton);
+		states.add(state);
+	}
 }
 
 void input_part(SdlStateAutomaton automaton, SdlStateNode state):
@@ -1208,11 +1231,11 @@ void procedure_call(SdlTransition transition):
 {
     <TOK_call> procedure=identifier() [ actual_parameters(call) ] <TOK_end>
     {
-        call.setFeature(createCsePlaceHolderForSdlProcedure(procedure));
+        call.setProcedure(createCsePlaceHolderForSdlProcedure(procedure));
     }
 }
 
-void actual_parameters(BehavioralFeatureAccessExpression element):
+void actual_parameters(BehavioralFeatureAccess element):
 {
     Expression expression;
 }
@@ -1665,7 +1688,7 @@ Expression value_returning_call_node():
 {
     <TOK_call> procedure=identifier() [ actual_parameters(expr) ]
     {
-        expr.setFeature(createCsePlaceHolderForSdlProcedure(procedure));
+        expr.setProcedure(createCsePlaceHolderForSdlProcedure(procedure));
         return expr;
     }
 }

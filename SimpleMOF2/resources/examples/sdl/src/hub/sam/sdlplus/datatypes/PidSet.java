@@ -22,7 +22,7 @@ public class PidSet extends ReflectiveDataValue {
         return this;
     }
 
-    public PidSet decl(PidValue value) {
+    public PidSet del(PidValue value) {
         pidSet.remove(value);
         return this;
     }

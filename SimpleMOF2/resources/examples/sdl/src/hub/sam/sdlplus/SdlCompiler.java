@@ -1,12 +1,9 @@
 package hub.sam.sdlplus;
 
 import SDL.SdlAgent;
-import SDL.SdlAgentKind;
-import SDL.SdlAgentInstanceSet;
-import SDL.SdlGate;
-import SDL.SdlSignal;
-import SDL.SdlSignalInstance;
 import SDL.SdlAgentInstance;
+import SDL.SdlAgentInstanceSet;
+import SDL.SdlAgentKind;
 import SDL.SdlDataType;
 import cmof.reflection.Extent;
 import hub.sam.mof.Repository;
@@ -138,10 +135,12 @@ public class SdlCompiler {
             SdlAgentInstanceSet systemInstanceSet = (SdlAgentInstanceSet)system.instanciate();
             SdlAgentInstance systemInstance = systemInstanceSet.getValue().iterator().next();
             systemInstance.run();
+            /*
             SdlGate envGate = (SdlGate)sdlModelExtent.query("SdlPackage:daemonGame_pkg/SdlAgentType:daemonGameSystem_type/SdlGate:envGate");
             SdlSignal newGameType = (SdlSignal)sdlModelExtent.query("SdlPackage:daemonGame_pkg/SdlAgentType:daemonGameSystem_type/SdlSignal:newGame");
             SdlSignalInstance newGame = newGameType.metaCreateSdlSignalInstance();
             systemInstance.dispatchSignal(newGame, envGate);
+            */
         } catch (ParseException e) {
             System.out.println("Encountered errors during parse:");
             System.out.println(e.getMessage());

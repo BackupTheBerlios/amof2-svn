@@ -1,0 +1,36 @@
+package Pattern.Instanciation;
+
+import InfrastructureLibrary.Core.Abstractions.Classifiers.Classifier;
+import InfrastructureLibrary.Core.Abstractions.BehavioralFeatures.BehavioralFeature;
+import InfrastructureLibrary.Core.Abstractions.BehavioralFeatures.Parameter;
+import cmof.common.ReflectiveSequence;
+import Pattern.Evaluation.Expression;
+import Pattern.Evaluation.Evaluation;
+
+public class CreateCustom extends CreateDlg {
+
+    @Override
+    public Instance create(Instance context) {
+        Classifier classifier = self.getClassifier();
+        Instance result = classifier.instanciate();
+        BehavioralFeature feature = self.getBehavioralFeature();
+
+        ReflectiveSequence<? extends Parameter> parameters = feature.getParameter();
+        ReflectiveSequence<? extends Expression> arguments = self.getArgument();
+        int parameterCount = parameters.size();
+        for (int i = 0; i < parameterCount; i++) {
+            Parameter parameter = parameters.get(i);
+            Expression argument = arguments.get(i);
+            Evaluation eval = argument.instantiate();
+            eval.updateContext(context);
+            Value value = eval.getValue();
+            for(Slot slot: result.getSlot()) {
+                if (slot.getMetaClassifierStructuralFeature().equals(parameter)) {
+                    slot.updateValue(value);
+                }
+            }
+        }
+
+        return result;
+    }
+}

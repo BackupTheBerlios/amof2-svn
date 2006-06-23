@@ -3,8 +3,10 @@ package SDL;
 import Pattern.Communication.Event;
 import Pattern.Communication.Listener;
 import Pattern.Evaluation.Evaluation;
+import Pattern.Evaluation.Expression;
 import cmof.common.ReflectiveSequence;
 import hub.sam.mof.util.ListImpl;
+import hub.sam.sdlplus.GlobalLock;
 
 import java.util.Collection;
 import java.util.Vector;
@@ -32,26 +34,55 @@ public class SdlCompositeStateInstanceCustom extends SdlCompositeStateInstanceDl
     @Override
     public synchronized void run() {
         System.out.println("Run composite state type " + self.getMetaClassifierSdlStateType().getName());
-
+        self.setStatus(SdlStateStatus.STARTED);
         SdlStateAutomaton automaton = self.getMetaClassifierSdlStateType().getStateAutomaton();
         Start start = automaton.getStart();
+
+        GlobalLock.getGlobalLock().waitForLock(self);
         executeImmidiateTransition(start, self);
 
         //noinspection InfiniteLoopStatement
-        while(true) {
+        while(self.getStatus() != SdlStateStatus.STOPED) {
             // execute any possibly imidiate transition
             while(executeImmidiateTransition(self.getActualState().iterator().next().getMetaClassifierSdlState(), self)) {
                 // nothing
+            }
+            if (self.getStatus() == SdlStateStatus.STARTED) {
+                self.setStatus(SdlStateStatus.RUNNING);
+            }
+
+            // check for other signals
+            if (self.getTriggered() == null) {
+                self.getOwningInstance().getOwningInstanceSet().update();
+            }
+
+            // perhaps take a none transition
+            if (self.getTriggered() == null) {
+                // check for none transitions
+                SdlInputInstance none = null;
+                for(SdlInputInstance input: self.getInput()) {
+                    if (input.getMetaClassifierSdlInput().getType() == null) {
+                        none = input;
+                    }
+                }
+                if (none != null) {
+                    // flip coin
+                    if (((System.nanoTime() / 23) % 2) == 1) {
+                        self.setTriggered(none);
+                    }
+                }
             }
 
             // wait for arriving signal
             if (self.getTriggered() == null) {
                 try {
+                    GlobalLock.getGlobalLock().releaseLock(self);
                     self.wait();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
+            GlobalLock.getGlobalLock().waitForLock(self);
 
             // consume input
             SdlTransition transition = self.getTriggered().getMetaClassifierSdlInput().getTransition();
@@ -67,15 +98,37 @@ public class SdlCompositeStateInstanceCustom extends SdlCompositeStateInstanceDl
             }
             executeTransition(transition, self);
         }
+
+        if (self.getTriggered() != null) {
+            System.out.println("drop trigger at line " + self.getTriggered().getMetaClassifierSdlInput().getLine());
+        }
+        System.out.println("composite state of type " + self.getMetaClassifierSdlStateType() + " stopped.");
+        GlobalLock.getGlobalLock().releaseLock(self);
+        self.getOwningInstance().getOwningInstanceSet().terminate(self.getOwningInstance());
     }
 
     @Override
-    public void consume(Listener listener, Event event) {
-        SdlSignalInstance signal = (SdlSignalInstance)event;
-        // TODO parameter
-        self.setSender(((SdlSignalInstance)event).getSender());
-        self.setTriggered((SdlInputInstance)listener);
-        self.notify();
+    public boolean consume(Listener listener, Event event) {
+        if (self.getTriggered() == null) {
+            SdlSignalInstance signal = (SdlSignalInstance)event;
+            SdlInputInstance input = (SdlInputInstance)listener;
+
+            int i = 0;
+            for(SdlVariable variable: input.getMetaClassifierSdlInput().getParameter()) {
+                SdlDataValue argumentValue = signal.getParameter().get(i).getValue().iterator().next();
+                signal.getParameter().get(i).getValue().remove(argumentValue);
+                resolveSlot(variable).updateValue(argumentValue);
+                i++;
+            }
+
+            self.setSender(signal.getSender());
+            signal.metaDelete();
+            self.setTriggered((SdlInputInstance)listener);
+            self.notify();
+            return true;
+        } else {
+            return false;
+        }
     }
 
     class Runner implements Runnable {
@@ -99,29 +152,28 @@ public class SdlCompositeStateInstanceCustom extends SdlCompositeStateInstanceDl
         System.out.println("execute action at line " + action.getLine());
         if (action instanceof SdlOutput) {
             SdlOutput output = (SdlOutput)action;
-            SdlSignalInstance signal = output.getClassifier().metaCreateSdlSignalInstance();
-            signal.initialize();
+            SdlSignalInstance signal = (SdlSignalInstance)output.create(self);
             signal.setSender(self.getOwningInstance());
 
             // evaluate the to expression
-            SdlEvaluation toEval = (SdlEvaluation)output.getTo().instantiate();
-            toEval.updateContext(self.getOwningInstance());
-            signal.setReceiver(((PidValue)toEval.getValue()).getValue());
+            Expression toExpression = output.getTo();
+            if (toExpression != null) {
+                SdlEvaluation toEval = (SdlEvaluation)toExpression.instantiate();
+                toEval.updateContext(self);
+                signal.setReceiver(((PidValue)toEval.getValue()).getValue());
+            }
 
             self.getOwningInstance().dispatchSignal(signal, output.getVia());
         } else if (action instanceof SdlCreate) {
             SdlCreate create = (SdlCreate)action;
             SdlAgent agent = create.getAgent();
             boolean created = false;
-            for(SdlAgentInstanceSet instanceSet: self.getOwningInstance().getAgentInstanceSet()) {
+            for(SdlAgentInstanceSet instanceSet: self.getOwningInstance().getOwningInstanceSet().getAgentInstance().getAgentInstanceSet()) {
                 if (agent.equals(instanceSet.getMetaClassifierSdlAgent())) {
-                    SdlAgentType type = agent.getType();
-                    SdlAgentInstance instance = type.metaCreateSdlAgentInstance();
-                    instance.initialize();
+                    SdlAgentInstance instance = (SdlAgentInstance)create.create(self);
                     self.getOwningInstance().setOffspring(instance);
                     instanceSet.getValue().add(instance); // TODO max instances check
                     instance.run();
-                    // TODO parameters
                     created = true;
                 }
             }
@@ -174,16 +226,19 @@ public class SdlCompositeStateInstanceCustom extends SdlCompositeStateInstanceDl
         if (target instanceof SdlPseudoState) {
             if (target instanceof SdlSplit) {
                 executeSplit((SdlSplit)target, self);
+            } else if (target instanceof Stop) {
+                self.setStatus(SdlStateStatus.STOPED);
+            } else if (target instanceof SdlStateNode) {
+                SdlStateNode targetStateNode = (SdlStateNode)target;
+                if (targetStateNode.getState().size() == 0) {
+                    // reenter the current state
+                    nextstate(self, self.getActualState().iterator().next().getMetaClassifierSdlState());
+                } else {
+                    nextstate(self, targetStateNode.getState().iterator().next());
+                }
             } else {
-                // TODO stop, fork, join, etc.
+                // TODO fork, join, etc.
                 executeImmidiateTransition(target, self);
-            }
-        } else if (target instanceof SdlStateNode) {
-            SdlStateNode targetStateNode = (SdlStateNode)target;
-            if (targetStateNode.getState().size() == 0) {
-                // stay in the current state
-            } else {
-                nextstate(self, targetStateNode.getState().iterator().next());
             }
         } else {
             nextstate(self, target);
@@ -268,6 +323,7 @@ public class SdlCompositeStateInstanceCustom extends SdlCompositeStateInstanceDl
                 }
             }
         }
+        // set up triggers for the new states inputs
         for (SdlStateNode stateNode: stateNodesWithActualState) {
             for (SdlTrigger trigger: stateNode.getTrigger()) {
                 self.getInput().add(((SdlInput)trigger).metaCreateSdlInputInstance());

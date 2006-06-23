@@ -26,4 +26,16 @@ public class SdlAgentInstanceSetCustom extends SdlAgentInstanceSetDlg {
         }
         return result;
     }
+
+    @Override
+    public void terminate(SdlAgentInstance agent) {
+        ReflectiveCollection<? extends SdlAgentInstance> values = self.getValue();
+        values.remove(agent);
+        agent.metaDelete();
+        if (values.size() < self.getMetaClassifierSdlAgent().getLower()) {
+            SdlAgentInstance newValue = (SdlAgentInstance)getMetaClassifierSdlAgent().getType().instanciate();
+            values.add(newValue);
+            newValue.run();
+        }
+    }
 }

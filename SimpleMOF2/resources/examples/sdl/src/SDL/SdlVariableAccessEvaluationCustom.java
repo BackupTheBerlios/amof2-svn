@@ -10,7 +10,19 @@ public class SdlVariableAccessEvaluationCustom extends SdlVariableAccessEvaluati
         if (values.size() == 0) {
             return null;
         } else {
-            return values.iterator().next();
+            SdlDataValue value = values.iterator().next();
+            // copy the value;
+            SdlDataValue copy = null;
+            if (value instanceof PidValue) {
+                copy = value.getMetaClassifierSdlDataType().metaGCreateSdlDataValue(PidValue.class.getName());
+                ((PidValue)copy).setValue(((PidValue)value).getValue());
+            } else if (value instanceof SdlGeneralValue) {
+                copy = value.getMetaClassifierSdlDataType().metaGCreateSdlDataValue(SdlGeneralValue.class.getName());
+                ((SdlGeneralValue)copy).setValue(((SdlGeneralValue)value).getValue());
+            } else {
+                throw new RuntimeException("assert, unknown SdlDataValue");
+            }
+            return copy;
         }
     }
 }

@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Vector;
 
 public class MultiLevelImplementationsManager extends ImplementationsManagerImpl {
 
@@ -47,6 +48,19 @@ public class MultiLevelImplementationsManager extends ImplementationsManagerImpl
         return null;
     }
 
+    protected static Iterable<Classifier> getMetaInstances(UmlClass aClass) {
+        Collection<Classifier> result = new Vector<Classifier>();
+        for (Classifier aMetaInstance: aClass.getMetaInstances()) {
+            result.add(aMetaInstance);
+        }
+        for (Object aSuperClassifier: aClass.allParents()) {
+            for (Classifier aMetaInstance: ((Classifier)aSuperClassifier).getMetaInstances()) {
+                result.add(aMetaInstance);
+            }
+        }
+        return result;
+    }
+
     private Map<Object, Implementation> getPredefinedImplementations(UmlClass forMetaClass) {
         Map<Object, Implementation> result = new HashMap<Object, Implementation>();
         if (getMetaClassifier(forMetaClass) != null) {
@@ -54,21 +68,24 @@ public class MultiLevelImplementationsManager extends ImplementationsManagerImpl
                 if (member instanceof Operation) {
                     Operation operation = (Operation)member;
                     if (operation.getName().equals(M1SemanticModel.getDestroyOperationName(forMetaClass))) {
-                        result.put(operation, new DestroyImpl((UmlClass)forMetaClass));
+                        result.put(operation, new DestroyImpl(forMetaClass));
                         for (Operation redefined: collectAllRedefined(operation, new HashSet<Operation>())) {
-                            result.put(redefined, new DestroyImpl((UmlClass)forMetaClass));
+                            result.put(redefined, new DestroyImpl(forMetaClass));
                         }
                     }
                 }
             }
         }
-        for (Classifier metaInstance: forMetaClass.getMetaInstances()) {
-            for (Operation operation: forMetaClass.getOwnedOperation()) {
-                if (operation.getName().equals(M1SemanticModel.getCreateOperationName((UmlClass)metaInstance))) {
-                    result.put(operation, new CreateImpl(factory, (UmlClass)metaInstance));
-                }
-                if (operation.getName().equals(M1SemanticModel.getGenericCreateOperationName((UmlClass)metaInstance))) {
-                    result.put(operation, new GenericCreateImpl(factory, (UmlClass)metaInstance));
+        for (Classifier metaInstance: getMetaInstances(forMetaClass)) {
+            for (Element member: forMetaClass.getMember()) {
+                if (member instanceof Operation) {
+                    Operation operation = (Operation)member;
+                    if (operation.getName().equals(M1SemanticModel.getCreateOperationName((UmlClass)metaInstance))) {
+                        result.put(operation, new CreateImpl(factory, (UmlClass)metaInstance));
+                    }
+                    if (operation.getName().equals(M1SemanticModel.getGenericCreateOperationName((UmlClass)metaInstance))) {
+                        result.put(operation, new GenericCreateImpl(factory, (UmlClass)metaInstance));
+                    }
                 }
             }
         }
