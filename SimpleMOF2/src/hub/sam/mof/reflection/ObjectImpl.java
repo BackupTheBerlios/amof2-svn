@@ -49,6 +49,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 
 public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection.Object {
     protected boolean isStatic; //TODO
@@ -226,9 +228,14 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
                     throw new IllegalArgumentException(value);
                 }
                 ReflectiveSequence<? extends ValueSpecification<UmlClass, Property, java.lang.Object>> values =
-                        instance.get(property).getValuesAsList();
+                        instance.get(property).getValuesAsList();                
+
+                if (propertyChangeListeners.hasListeners(null)) {
+                	propertyChangeListeners.firePropertyChange(property.getName(), null, value);
+                }
+
                 if (values.size() == 0) {
-                    values.add(0, extent.specificationForValue(value));
+                    values.add(0, extent.specificationForValue(value));                    
                 } else {
                     values.set(0, extent.specificationForValue(value));
                 }
@@ -253,6 +260,9 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
         instance.get(property).getValuesAsList().removeAll(
                 new hub.sam.mof.util.SetImpl<ValueSpecification<UmlClass, Property, java.lang.Object>>(
                         instance.get(property).getValuesAsList()));
+        if (isSet(property) && propertyChangeListeners.hasListeners(null)) {
+        	propertyChangeListeners.firePropertyChange(property.getName(), null, null);
+        }
     }
 
     @Override
@@ -777,5 +787,16 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
             }
         }
     }
+    
+    protected PropertyChangeSupport propertyChangeListeners = new PropertyChangeSupport(this);
+    
+    public void addListener(PropertyChangeListener listener) {
+    	propertyChangeListeners.addPropertyChangeListener(listener);
+    }
+
+    public void removeListener(PropertyChangeListener listener) {
+    	propertyChangeListeners.removePropertyChangeListener(listener);
+    }
+
 }
 
