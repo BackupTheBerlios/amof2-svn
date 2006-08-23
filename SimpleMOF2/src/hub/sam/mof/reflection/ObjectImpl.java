@@ -231,7 +231,7 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
                         instance.get(property).getValuesAsList();                
 
                 if (propertyChangeListeners.hasListeners(null)) {
-                	propertyChangeListeners.firePropertyChange(property.getName(), null, value);
+                	propertyChangeListeners.firePropertyChange(property.getName(), get(property), value);
                 }
 
                 if (values.size() == 0) {
@@ -257,12 +257,12 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
         if (instance == null) {
             throw new MetaModelException("Static modelelements cant be changed");
         }
-        instance.get(property).getValuesAsList().removeAll(
-                new hub.sam.mof.util.SetImpl<ValueSpecification<UmlClass, Property, java.lang.Object>>(
-                        instance.get(property).getValuesAsList()));
         if (isSet(property) && propertyChangeListeners.hasListeners(null)) {
         	propertyChangeListeners.firePropertyChange(property.getName(), null, null);
         }
+        instance.get(property).getValuesAsList().removeAll(
+                new hub.sam.mof.util.SetImpl<ValueSpecification<UmlClass, Property, java.lang.Object>>(
+                        instance.get(property).getValuesAsList()));
     }
 
     @Override
@@ -796,6 +796,14 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
 
     public void removeListener(PropertyChangeListener listener) {
     	propertyChangeListeners.removePropertyChangeListener(listener);
+    }
+    
+    public boolean hasListeners() {
+    	return propertyChangeListeners.hasListeners(null);
+    }
+    
+    public void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
+    	propertyChangeListeners.firePropertyChange(propertyName, oldValue, newValue);
     }
 
 }

@@ -22,10 +22,14 @@ package hub.sam.mof.util;
 import java.util.Iterator;
 
 import cmof.common.ReflectiveCollection;
+import hub.sam.mof.reflection.ObjectImpl;
+import hub.sam.mof.reflection.client.impl.ClientObjectImpl;
 
 public class TypeWrapperSetImpl<E> implements ReflectiveCollection<E> {
     
     private final ReflectiveCollection untypedSet;
+    protected final ObjectImpl objectImpl;
+    protected final String propertyName;
     
     public ReflectiveCollection getUnypedSet() {
     	return untypedSet;
@@ -33,10 +37,29 @@ public class TypeWrapperSetImpl<E> implements ReflectiveCollection<E> {
     
     public TypeWrapperSetImpl(ReflectiveCollection untypedSet) {
         this.untypedSet = untypedSet;
+        this.objectImpl = null;
+        this.propertyName = null;
+    }
+
+    public TypeWrapperSetImpl(ReflectiveCollection untypedSet, ObjectImpl objectImpl, String propertyName) {
+        this.untypedSet = untypedSet;
+        this.objectImpl = objectImpl;
+        this.propertyName = propertyName;
     }    
 
+    // dummy
+    public TypeWrapperSetImpl(ReflectiveCollection untypedSet, ClientObjectImpl clientObjectImpl, String propertyName) {
+        this.untypedSet = untypedSet;
+        this.objectImpl = null;
+        this.propertyName = null;
+    }
+    
     public boolean add(Object element) {
-        return untypedSet.add(element);
+    	boolean successful = untypedSet.add(element);
+   		if (successful && objectImpl != null && objectImpl.hasListeners()) {
+   			objectImpl.firePropertyChange(propertyName, null, null);
+   		}
+        return successful;
     }
 
     public boolean contains(Object element) {
@@ -44,12 +67,20 @@ public class TypeWrapperSetImpl<E> implements ReflectiveCollection<E> {
     }
 
     public boolean remove(Object element) {
-        return untypedSet.remove(element);
+    	boolean successful = untypedSet.remove(element);
+   		if (successful && objectImpl != null && objectImpl.hasListeners()) {
+   			objectImpl.firePropertyChange(propertyName, null, null);
+   		}
+        return successful;
     }
 
     @SuppressWarnings("unchecked")
 	public boolean addAll(Iterable<? extends Object> elements) {
-        return untypedSet.addAll(elements);
+    	boolean successful = untypedSet.addAll(elements);
+   		if (successful && objectImpl != null && objectImpl.hasListeners()) {
+   			objectImpl.firePropertyChange(propertyName, null, null);
+   		}
+        return successful;
     }
 
     @SuppressWarnings("unchecked")
@@ -59,7 +90,11 @@ public class TypeWrapperSetImpl<E> implements ReflectiveCollection<E> {
 
     @SuppressWarnings("unchecked")
 	public boolean removeAll(Iterable<? extends Object> elements) {
-        return untypedSet.removeAll(elements);
+    	boolean successful = untypedSet.removeAll(elements);
+   		if (successful && objectImpl != null && objectImpl.hasListeners()) {
+   			objectImpl.firePropertyChange(propertyName, null, null);
+   		}
+        return successful;
     }
 
     @SuppressWarnings("unchecked")
@@ -78,6 +113,9 @@ public class TypeWrapperSetImpl<E> implements ReflectiveCollection<E> {
     }
 
 	public void clear() {
+   		if (objectImpl != null && objectImpl.hasListeners() && untypedSet.size() > 0) {
+   			objectImpl.firePropertyChange(propertyName, null, null);
+   		}
 		untypedSet.clear();		
 	}
 }

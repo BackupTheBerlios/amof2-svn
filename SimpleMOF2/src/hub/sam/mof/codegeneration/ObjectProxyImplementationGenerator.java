@@ -55,9 +55,9 @@ public class ObjectProxyImplementationGenerator extends AbstractObjectProxyGener
         add("    } else {");               
         if (property.isJavaList()) {
             if (property.isList()) {
-        add("        return new " + hub.sam.mof.util.TypeWrapperListImpl.class.getCanonicalName() + "((" + cmof.common.ReflectiveSequence.class.getName() + ")value);");
+        add("        return new " + hub.sam.mof.util.TypeWrapperListImpl.class.getCanonicalName() + "((" + cmof.common.ReflectiveSequence.class.getName() + ")value, this, \"$umlName\");");
             } else {
-        add("        return new " + hub.sam.mof.util.TypeWrapperSetImpl.class.getCanonicalName() + "((" + cmof.common.ReflectiveCollection.class.getName() + ")value);");
+        add("        return new " + hub.sam.mof.util.TypeWrapperSetImpl.class.getCanonicalName() + "((" + cmof.common.ReflectiveCollection.class.getName() + ")value, this, \"$umlName\");");
             }
         } else {
         add("        return ($javaObjectType)value;"); 

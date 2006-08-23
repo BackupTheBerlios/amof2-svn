@@ -19,6 +19,8 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 
 package hub.sam.mof.util;
 
+import hub.sam.mof.reflection.ObjectImpl;
+import hub.sam.mof.reflection.client.impl.ClientObjectImpl;
 import cmof.common.ReflectiveCollection;
 import cmof.common.ReflectiveSequence;
 
@@ -35,25 +37,47 @@ public class TypeWrapperListImpl<E> extends TypeWrapperSetImpl<E> implements Ref
         this.untypedList = untypedList;
     }    
     
+    public TypeWrapperListImpl(ReflectiveSequence untypedList, ObjectImpl objectImpl, String propertyName) {
+        super(untypedList,objectImpl,propertyName);
+        this.untypedList = untypedList;
+    }    
+    
+    public TypeWrapperListImpl(ReflectiveSequence untypedList, ClientObjectImpl clientObjectImpl, String propertyName) {
+        super(untypedList);
+        this.untypedList = untypedList;
+    }    
+    
     @SuppressWarnings("unchecked")
 	public E get(int index) {
         return (E)untypedList.get(index);
     }
 
     public void set(int index, Object element) {
+   		if ( !((Object) get(index)).equals(element) && objectImpl != null && objectImpl.hasListeners()) {
+   			objectImpl.firePropertyChange(propertyName, null, null);
+   		}
         untypedList.set(index, element);
     }
 
     public void add(int index, Object element) {
+   		if (objectImpl != null && objectImpl.hasListeners()) {
+   			objectImpl.firePropertyChange(propertyName, null, null);
+   		}
         untypedList.add(index, element);
     }
 
     @SuppressWarnings("unchecked")
 	public void addAll(int index, Iterable<? extends Object> elements) {
+   		if (objectImpl != null && objectImpl.hasListeners()) {
+   			objectImpl.firePropertyChange(propertyName, null, null);
+   		}
         untypedList.addAll(index, elements);
     }
 
     public void remove(int index) {
+   		if (untypedList.size() > 0 && objectImpl != null && objectImpl.hasListeners()) {
+   			objectImpl.firePropertyChange(propertyName, null, null);
+   		}
         untypedList.remove(index);
     }
 
