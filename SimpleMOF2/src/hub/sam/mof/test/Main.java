@@ -40,7 +40,7 @@ public class Main extends TestCase {
     @SuppressWarnings({"OverlyCoupledMethod"})
     public static Test suite() {
         TestSuite suite = new TestSuite();
-        /*suite.addTestSuite(BootstrapM3Model.class);
+        suite.addTestSuite(BootstrapM3Model.class);
         suite.addTestSuite(XmiM2.class);
         suite.addTestSuite(UpdateGraph.class);
         suite.addTestSuite(CustomCode.class);
@@ -60,7 +60,7 @@ public class Main extends TestCase {
         suite.addTestSuite(TestNamespace.class);
         suite.addTestSuite(TestElement.class);
         suite.addTestSuite(TestRedfinableElement.class);
-        suite.addTestSuite(TestClassifier.class);*/
+        suite.addTestSuite(TestClassifier.class);
         
         suite.addTestSuite(PropertyChangeNotification.class);
 
