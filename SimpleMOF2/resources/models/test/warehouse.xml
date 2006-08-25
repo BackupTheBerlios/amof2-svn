@@ -1,6 +1,6 @@
 <?xml version="1.0"  encoding="windows-1252"?>
 <XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.omg.org/XMI" xmlns:cmof="http://schema.omg.org/spec/mof/2.0/cmof.xmi">
-    <cmof:Package name="warehouse">
+    <cmof:Package name="warehouse" xmi:id="warehouse">
         <packageImport importedPackage="primitivetypes"/>
         <ownedType xmi:id="Element" xsi:type="Class" name="Element" isAbstract="true">
             <ownedAttribute name="identifier" type="String"/>
@@ -28,11 +28,14 @@
         <ownedType xmi:id="Item" xsi:type="Class" name="Item" superClass="Element">
             <ownedAttribute name="weight" type="Integer" default="0"/>
             <ownedAttribute name="visibility" type="VisibilityKind" default="public"/>
+            <ownedAttribute name="javaTypeTest" type="TestClass"/>
+            <ownedAttribute name="javaTypeTestList" type="TestClass" upper="-1"/>
         </ownedType>
         <ownedType xsi:type="Enumeration" xmi:id="VisibilityKind" name="VisibilityKind">
           <ownedLiteral name="public"/>
           <ownedLiteral name="private"/>
         </ownedType>
+        <ownedType xsi:type="PrimitiveType" xmi:id="TestClass" name="hub.sam.mof.test.TestClass"/>
     </cmof:Package>
     <cmof:Package name="core">
       <nestedPackage xmi:id="primitivetypes" name="primitivetypes">
@@ -42,4 +45,5 @@
         <ownedType xsi:type="PrimitiveType" xmi:id="UnlimitedNatural" name="UnlimitedNatural"/>
       </nestedPackage>
     </cmof:Package>
+    <cmof:Tag xmi:id="nsPrefix" name="org.omg.xmi.nsPrefix" value="warehouse" element="warehouse"/>
 </XMI>

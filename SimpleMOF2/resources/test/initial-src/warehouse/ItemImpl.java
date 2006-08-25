@@ -36,6 +36,28 @@ public class ItemImpl extends hub.sam.mof.reflection.ObjectImpl implements Item
         set("visibility", value);
     }
 
+    public hub.sam.mof.test.TestClass getJavaTypeTest() {
+        java.lang.Object value = get("javaTypeTest");
+        if (value == null) {
+           return null;
+        } else {
+            return (hub.sam.mof.test.TestClass)value;
+        }
+    }
+
+    public void setJavaTypeTest(hub.sam.mof.test.TestClass value) {
+        set("javaTypeTest", value);
+    }
+
+    public cmof.common.ReflectiveCollection<hub.sam.mof.test.TestClass> getJavaTypeTestList() {
+        java.lang.Object value = get("javaTypeTestList");
+        if (value == null) {
+           return null;
+        } else {
+            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value, this, "javaTypeTestList");
+        }
+    }
+
     public java.lang.String getIdentifier() {
         java.lang.Object value = get("identifier");
         if (value == null) {

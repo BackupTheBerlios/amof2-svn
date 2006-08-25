@@ -15,7 +15,7 @@ public class RackImpl extends hub.sam.mof.reflection.ObjectImpl implements Rack
         if (value == null) {
            return null;
         } else {
-            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value);
+            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value, this, "box");
         }
     }
 
@@ -24,7 +24,7 @@ public class RackImpl extends hub.sam.mof.reflection.ObjectImpl implements Rack
         if (value == null) {
            return null;
         } else {
-            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value);
+            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value, this, "content");
         }
     }
 

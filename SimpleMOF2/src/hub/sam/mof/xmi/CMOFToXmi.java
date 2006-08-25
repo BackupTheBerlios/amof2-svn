@@ -39,6 +39,8 @@ public class CMOFToXmi implements Conversion<UmlClass, Property, java.lang.Objec
 
     private final Map<cmof.Package, String> packageNsPrefixes = new HashMap<cmof.Package, String>();
     private final String defaultNsPrefix;
+    private final PrimitiveValueSerializeConfiguration valueSerializeConfiguration =
+            new StandardPrimitiveValueSerializeConfiguration();
 
     public CMOFToXmi(cmof.Package metaModel, String defaulNsPrefix) {
         this.defaultNsPrefix = defaulNsPrefix;
@@ -92,13 +94,18 @@ public class CMOFToXmi implements Conversion<UmlClass, Property, java.lang.Objec
     }
 
     public String createFromString(String type, Object stringRepresentation) throws MetaModelException {
-    	if (stringRepresentation.getClass().isEnum()) {
+        if (stringRepresentation.getClass().isEnum()) {
     		// this is awkward. The java representation of a literal is toUpperCase, to reproduce the original
     		// literal this has to be reverted. Unfortunatly the datatype is not really known at this point and
     		// thus this creepy implementation is the only thing possible.
     		return stringRepresentation.toString().toLowerCase();
-    	}
-        return stringRepresentation.toString();
+    	} else {
+            if (valueSerializeConfiguration.needsSerialization(stringRepresentation)) {
+                return valueSerializeConfiguration.serialize(type, stringRepresentation);
+            } else {
+                return stringRepresentation.toString();
+            }
+        }
     }
 
     public String asDataType(String type) {

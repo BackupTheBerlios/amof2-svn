@@ -24,6 +24,7 @@ import cmof.Parameter;
 import cmof.ParameterDirectionKind;
 import cmof.Property;
 import cmof.UmlClass;
+import cmof.PrimitiveType;
 import cmof.common.ReflectiveCollection;
 import cmof.common.ReflectiveSequence;
 import cmof.exception.IllegalArgumentException;
@@ -42,6 +43,7 @@ import hub.sam.mof.ocl.MofEvaluationAdaptor;
 import hub.sam.mof.util.AssertionException;
 import hub.sam.mof.util.SetImpl;
 import hub.sam.mof.xmi.CMOFToXmi;
+import hub.sam.mof.javamapping.JavaMapping;
 import hub.sam.util.AbstractFluxBox;
 import hub.sam.util.Identity;
 
@@ -196,7 +198,8 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
             } else if (type.getName().equals(core.primitivetypes.UnlimitedNatural.class.getSimpleName())) {
                 return value instanceof Long;
             } else {
-                throw new RuntimeException("assert");
+                return value.getClass().getCanonicalName().equals(
+                        JavaMapping.mapping.getJavaTypeNameForPrimitiveType((PrimitiveType)type));
             }
         } else if (type instanceof cmof.Enumeration) {
             return value.getClass().isEnum() && value.getClass().getName()
@@ -228,14 +231,14 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
                     throw new IllegalArgumentException(value);
                 }
                 ReflectiveSequence<? extends ValueSpecification<UmlClass, Property, java.lang.Object>> values =
-                        instance.get(property).getValuesAsList();                
+                        instance.get(property).getValuesAsList();
 
                 if (propertyChangeListeners.hasListeners(null)) {
                 	propertyChangeListeners.firePropertyChange(property.getName(), get(property), value);
                 }
 
                 if (values.size() == 0) {
-                    values.add(0, extent.specificationForValue(value));                    
+                    values.add(0, extent.specificationForValue(value));
                 } else {
                     values.set(0, extent.specificationForValue(value));
                 }
@@ -787,9 +790,9 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
             }
         }
     }
-    
+
     protected PropertyChangeSupport propertyChangeListeners = new PropertyChangeSupport(this);
-    
+
     public void addListener(PropertyChangeListener listener) {
     	propertyChangeListeners.addPropertyChangeListener(listener);
     }
@@ -797,11 +800,11 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
     public void removeListener(PropertyChangeListener listener) {
     	propertyChangeListeners.removePropertyChangeListener(listener);
     }
-    
+
     public boolean hasListeners() {
     	return propertyChangeListeners.hasListeners(null);
     }
-    
+
     public void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
     	propertyChangeListeners.firePropertyChange(propertyName, oldValue, newValue);
     }

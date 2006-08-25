@@ -18,6 +18,10 @@ public class BoxDlg extends hub.sam.mof.reflection.ObjectDlg implements Box
         return self.getWeight();
     }
 
+    public void setWeight(int value) {
+        self.setWeight(value);
+    }
+
     public cmof.common.ReflectiveCollection<? extends warehouse.Element> getContent() {
         return (cmof.common.ReflectiveCollection<? extends warehouse.Element>)(java.lang.Object)self.getContent();
     }
@@ -32,6 +36,10 @@ public class BoxDlg extends hub.sam.mof.reflection.ObjectDlg implements Box
 
     public java.lang.String getPosition() {
         return self.getPosition();
+    }
+
+    public void setPosition(java.lang.String value) {
+        self.setPosition(value);
     }
 
     public warehouse.Container getContainer() {

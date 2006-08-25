@@ -26,6 +26,18 @@ public class ItemDlg extends hub.sam.mof.reflection.ObjectDlg implements Item
         self.setVisibility(value);
     }
 
+    public hub.sam.mof.test.TestClass getJavaTypeTest() {
+        return self.getJavaTypeTest();
+    }
+
+    public void setJavaTypeTest(hub.sam.mof.test.TestClass value) {
+        self.setJavaTypeTest(value);
+    }
+
+    public cmof.common.ReflectiveCollection<hub.sam.mof.test.TestClass> getJavaTypeTestList() {
+        return self.getJavaTypeTestList();
+    }
+
     public java.lang.String getIdentifier() {
         return self.getIdentifier();
     }
@@ -36,6 +48,10 @@ public class ItemDlg extends hub.sam.mof.reflection.ObjectDlg implements Item
 
     public java.lang.String getPosition() {
         return self.getPosition();
+    }
+
+    public void setPosition(java.lang.String value) {
+        self.setPosition(value);
     }
 
     public warehouse.Container getContainer() {

@@ -10,14 +10,16 @@ public interface Element
     /**
      * <b>identifier</b>, multiplicity=(1,1)
      */
-    public String getIdentifier();
+    public java.lang.String getIdentifier();
 
-    public void setIdentifier(String value);
+    public void setIdentifier(java.lang.String value);
 
     /**
      * <b>position</b>, multiplicity=(1,1), isDerived
      */
-    public String getPosition();
+    public java.lang.String getPosition();
+
+    public void setPosition(java.lang.String value);
 
     /**
      * <b>container</b>, multiplicity=(0,1)

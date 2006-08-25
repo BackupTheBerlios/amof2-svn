@@ -21,5 +21,17 @@ public interface Item extends warehouse.Element
 
     public void setVisibility(warehouse.VisibilityKind value);
 
+    /**
+     * <b>javaTypeTest</b>, multiplicity=(1,1)
+     */
+    public hub.sam.mof.test.TestClass getJavaTypeTest();
+
+    public void setJavaTypeTest(hub.sam.mof.test.TestClass value);
+
+    /**
+     * <b>javaTypeTestList</b>, multiplicity=(1,*), isUnique
+     */
+    public cmof.common.ReflectiveCollection<hub.sam.mof.test.TestClass> getJavaTypeTestList();
+
 }
 

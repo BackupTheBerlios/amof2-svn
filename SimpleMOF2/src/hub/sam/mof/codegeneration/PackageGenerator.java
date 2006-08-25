@@ -86,8 +86,14 @@ public class PackageGenerator extends AbstractGenerator {
 	                } else if (ownedType instanceof cmof.Enumeration) {
 	                    new EnumerationGenerator(streamFactory).generate(myPackageName, (cmof.Enumeration)ownedType);
 	                } else if (ownedType instanceof PrimitiveType) {
-	                    new PrimitiveTypeGenerator(streamFactory).generate(myPackageName, (cmof.PrimitiveType)ownedType);
-	                } else if (ownedType instanceof cmof.Association) {
+                        if (ownedType.getName().equals(core.primitivetypes.Integer.class.getSimpleName()) ||
+                                ownedType.getName().equals(core.primitivetypes.Boolean.class.getSimpleName()) ||
+                                ownedType.getName().equals(core.primitivetypes.String.class.getSimpleName()) ||
+                                ownedType.getName().equals(core.primitivetypes.Object.class.getSimpleName()) ||
+                                ownedType.getName().equals(core.primitivetypes.UnlimitedNatural.class.getSimpleName())) {
+                           new PrimitiveTypeGenerator(streamFactory).generate(myPackageName, (cmof.PrimitiveType)ownedType);
+                        }
+                    } else if (ownedType instanceof cmof.Association) {
 	                    // TODO
 	                } else if (ownedType instanceof cmof.Type) {
 	                    throw new RuntimeException("Code generation for meta-type " +

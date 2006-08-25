@@ -199,4 +199,8 @@ public class JavaMapping {
     public String getJavaEnumConstantForLiteral(EnumerationLiteral literal) {
         return literal.getName().toUpperCase();
     }
+
+    public String getJavaTypeNameForPrimitiveType(PrimitiveType type) {
+        return type.getName();
+    }
 }

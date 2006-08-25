@@ -47,13 +47,14 @@ public abstract class TypedElementWrapper extends AbstractWrapper {
               } else if (type.getName().equals(core.primitivetypes.UnlimitedNatural.class.getSimpleName())) {
                   typeName = "long";
               } else {
-                  throw new RuntimeException("assert");
+                  return javaMapping.getJavaTypeNameForPrimitiveType((PrimitiveType)type);
               }
           } else {
               typeName = getFullQualifiedJavaIdentifier(type);
           }
           return typeName;
       }
+
       public String getJavaObjectType() {
           String typeName = null;
           Type type = getUmlType();
@@ -69,7 +70,7 @@ public abstract class TypedElementWrapper extends AbstractWrapper {
               } else if (type.getName().equals(core.primitivetypes.UnlimitedNatural.class.getSimpleName())) {
                   typeName = Long.class.getCanonicalName();
               } else {
-                  throw new RuntimeException("assert");
+                  return javaMapping.getJavaTypeNameForPrimitiveType((PrimitiveType)type);
               }
           } else {
               typeName = getFullQualifiedJavaIdentifier(type);

@@ -17,5 +17,7 @@ public interface Box extends warehouse.Container
      */
     public int getWeight();
 
+    public void setWeight(int value);
+
 }
 

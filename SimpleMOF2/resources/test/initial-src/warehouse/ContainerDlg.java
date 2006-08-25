@@ -26,6 +26,10 @@ public class ContainerDlg extends hub.sam.mof.reflection.ObjectDlg implements Co
         return self.getPosition();
     }
 
+    public void setPosition(java.lang.String value) {
+        self.setPosition(value);
+    }
+
     public warehouse.Container getContainer() {
         return (warehouse.Container)(java.lang.Object)self.getContainer();
     }

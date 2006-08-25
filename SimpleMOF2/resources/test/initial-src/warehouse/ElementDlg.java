@@ -22,6 +22,10 @@ public class ElementDlg extends hub.sam.mof.reflection.ObjectDlg implements Elem
         return self.getPosition();
     }
 
+    public void setPosition(java.lang.String value) {
+        self.setPosition(value);
+    }
+
     public warehouse.Container getContainer() {
         return (warehouse.Container)(java.lang.Object)self.getContainer();
     }

@@ -15,7 +15,7 @@ public class BoxImpl extends hub.sam.mof.reflection.ObjectImpl implements Box
         if (value == null) {
            return null;
         } else {
-            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value);
+            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value, this, "item");
         }
     }
 
@@ -37,7 +37,7 @@ public class BoxImpl extends hub.sam.mof.reflection.ObjectImpl implements Box
         if (value == null) {
            return null;
         } else {
-            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value);
+            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value, this, "content");
         }
     }
 

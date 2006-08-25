@@ -14,7 +14,7 @@ details.
 
     You should have received a copy of the GNU Lesser General Public License
 along with this library; if not, write to the Free Software Foundation, Inc.,
-59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
+59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
 package hub.sam.mof.util;
@@ -25,37 +25,38 @@ import cmof.common.ReflectiveCollection;
 import cmof.common.ReflectiveSequence;
 
 public class TypeWrapperListImpl<E> extends TypeWrapperSetImpl<E> implements ReflectiveSequence<E> {
-    
+
     private final ReflectiveSequence untypedList;
-    
+
     public ReflectiveCollection getUnypedSet() {
     	return untypedList;
     }
-    
+
     public TypeWrapperListImpl(ReflectiveSequence untypedList) {
         super(untypedList);
         this.untypedList = untypedList;
-    }    
-    
+    }
+
     public TypeWrapperListImpl(ReflectiveSequence untypedList, ObjectImpl objectImpl, String propertyName) {
         super(untypedList,objectImpl,propertyName);
         this.untypedList = untypedList;
-    }    
-    
+    }
+
     public TypeWrapperListImpl(ReflectiveSequence untypedList, ClientObjectImpl clientObjectImpl, String propertyName) {
         super(untypedList);
         this.untypedList = untypedList;
-    }    
-    
+    }
+
     @SuppressWarnings("unchecked")
 	public E get(int index) {
         return (E)untypedList.get(index);
     }
 
     public void set(int index, Object element) {
-   		if ( !((Object) get(index)).equals(element) && objectImpl != null && objectImpl.hasListeners()) {
-   			objectImpl.firePropertyChange(propertyName, null, null);
-   		}
+        if (objectImpl != null && objectImpl.hasListeners() && (index >= size() ||
+               !get(index).equals(element))) {
+            objectImpl.firePropertyChange(propertyName, null, null);
+        }
         untypedList.set(index, element);
     }
 
@@ -85,7 +86,7 @@ public class TypeWrapperListImpl<E> extends TypeWrapperSetImpl<E> implements Ref
 	public ReflectiveSequence<E> subList(int from, int to) {
         return (ReflectiveSequence<E>)untypedList.subList(from, to);
     }
-    
+
     @Override
 	public String toString() {
         return untypedList.toString();

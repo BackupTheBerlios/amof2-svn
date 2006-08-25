@@ -52,6 +52,8 @@ public class XmiToCMOF
     private Map<Element, Namespace> xmiNamespaces = new HashMap<Element, Namespace>();
     private cmof.common.ReflectiveCollection<? extends cmof.reflection.Object> allElements =
             new SetImpl<cmof.reflection.Object>();
+    private final PrimitiveValueSerializeConfiguration valueSerializeConfiguration =
+            new StandardPrimitiveValueSerializeConfiguration();
 
     /**
      * The parameter extent is only used to retrieve a factory, which is only used to create primitive data from strings.
@@ -225,7 +227,11 @@ public class XmiToCMOF
     }
 
     public java.lang.Object createFromString(DataType type, String stringRepresentation) throws MetaModelException {
-        return factory.createFromString(type, stringRepresentation);
+        if (valueSerializeConfiguration.needsSerialization(type)) {
+            return valueSerializeConfiguration.deSerialize(type, stringRepresentation);
+        } else {
+            return factory.createFromString(type, stringRepresentation);
+        }
     }
 
     public DataType asDataType(Type type) {
