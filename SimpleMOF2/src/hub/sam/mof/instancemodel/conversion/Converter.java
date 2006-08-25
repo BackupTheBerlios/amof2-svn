@@ -25,6 +25,7 @@ import hub.sam.mof.instancemodel.MetaModelException;
 import hub.sam.mof.instancemodel.StructureSlot;
 import hub.sam.mof.instancemodel.ValueSpecification;
 import hub.sam.mof.instancemodel.ValueSpecificationImpl;
+import hub.sam.mof.Repository;
 import hub.sam.util.AbstractFluxBox;
 
 import java.util.Collection;
@@ -56,7 +57,15 @@ public class Converter <Co,Po,DataValueo,Ci,Pi,T,D,DataValuei> {
         this.sourceModel = model;
 
         for(ValueSpecification<Co,Po,DataValueo> instance: model.getOutermostComposites()) {
-            convertInstance(instance.asInstanceValue().getInstance());
+            try {
+                convertInstance(instance.asInstanceValue().getInstance());
+            } catch (MetaModelException e) {
+                if (Repository.generous) {
+                    System.out.println("Warning: " + e.getMessage());                
+                } else {
+                    throw e;
+                }
+            }
         }
     }
 
@@ -96,12 +105,28 @@ public class Converter <Co,Po,DataValueo,Ci,Pi,T,D,DataValuei> {
 
         for(StructureSlot<Co,Po,DataValueo> slot: instance.getSlots()) {
             for(ValueSpecificationImpl<Co,Po,DataValueo> value: slot.getValues()) {
-               convertValue(value, slot, instance, targetInstance);
+                try {
+                    convertValue(value, slot, instance, targetInstance);
+                } catch (MetaModelException e) {
+                    if (Repository.generous) {
+                        System.out.println("Warning: " + e.getMessage());
+                    } else {
+                        throw e;
+                    }
+                }
             }
         }
 
         if (instance.getComposite() != null) {
-            targetInstance.setComposite(convertInstance(instance.getComposite()));
+            try {
+                targetInstance.setComposite(convertInstance(instance.getComposite()));
+            } catch (MetaModelException e) {
+                if (Repository.generous) {
+                    System.out.println("Warning: " + e.getMessage());
+                } else {
+                    throw e;
+                }
+            }
         }
         return targetInstance;
     }

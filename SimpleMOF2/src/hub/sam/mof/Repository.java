@@ -67,6 +67,8 @@ public class Repository extends hub.sam.util.Identity {
      */
     public static PrimitiveType booleanType = null;
 
+    public static boolean generous = true;
+
     /**
      * In order to be thread safe some caches have to be disabled.
      */

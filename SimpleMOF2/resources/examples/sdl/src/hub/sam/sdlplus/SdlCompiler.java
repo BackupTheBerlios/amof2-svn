@@ -21,12 +21,17 @@ import java.io.InputStream;
  */
 public class SdlCompiler {
     private static SdlCompiler theCompiler = new SdlCompiler();
+    private static final Trace theTrace = new Trace();
 
     /**
      * Returns a default compiler instance.
      */
     public static SdlCompiler getCompiler() {
         return theCompiler;
+    }
+
+    public static Trace getTrace() {
+        return theTrace;
     }
 
     public SdlDataType getPidType() {
@@ -83,7 +88,7 @@ public class SdlCompiler {
      * The main function. It analyses the command line arguments, initializes the input stream, initializes the repository,
      * calls the parser and semantic analysis, finally it writes the analysed model.
      */
-    public void compile(String[] args) {
+    public synchronized void compile(String[] args) {
         InputStream in;
         // analyse the given arguments
         if (args.length == 0) {
@@ -135,6 +140,9 @@ public class SdlCompiler {
             SdlAgentInstanceSet systemInstanceSet = (SdlAgentInstanceSet)system.instanciate();
             SdlAgentInstance systemInstance = systemInstanceSet.getValue().iterator().next();
             systemInstance.run();
+            wait(5*1000);
+            theTrace.generateDot("out.dot");
+            System.exit(0);
             /*
             SdlGate envGate = (SdlGate)sdlModelExtent.query("SdlPackage:daemonGame_pkg/SdlAgentType:daemonGameSystem_type/SdlGate:envGate");
             SdlSignal newGameType = (SdlSignal)sdlModelExtent.query("SdlPackage:daemonGame_pkg/SdlAgentType:daemonGameSystem_type/SdlSignal:newGame");

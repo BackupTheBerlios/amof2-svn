@@ -149,7 +149,6 @@ public class Xmi2Writer {
                 convert(((ExtentImpl)extent).getModel(), xmiModel);
 
         if (xmiKind == XmiKind.md) {
-        	 // transform UnisysUml to MOF 2
             XmiTransformator transformator = new MOF2ToMagicDrawXmi2(xmiModel);
 
             Collection<ClassInstance> outermostComposites = new Vector<ClassInstance>();

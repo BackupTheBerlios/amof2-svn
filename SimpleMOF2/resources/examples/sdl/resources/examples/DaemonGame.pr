@@ -78,7 +78,7 @@ PACKAGE daemonGame_pkg;
 
             STATE three;
                 INPUT score;
-                STOP;
+                NEXTSTATE -;
             ENDSTATE;
         ENDSUBSTRUCTURE STATE TYPE;
         STATE AGGREGATION userState:userStateType;

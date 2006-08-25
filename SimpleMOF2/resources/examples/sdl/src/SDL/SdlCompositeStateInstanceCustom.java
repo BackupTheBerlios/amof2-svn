@@ -7,6 +7,7 @@ import Pattern.Evaluation.Expression;
 import cmof.common.ReflectiveSequence;
 import hub.sam.mof.util.ListImpl;
 import hub.sam.sdlplus.GlobalLock;
+import hub.sam.sdlplus.SdlCompiler;
 
 import java.util.Collection;
 import java.util.Vector;
@@ -112,6 +113,7 @@ public class SdlCompositeStateInstanceCustom extends SdlCompositeStateInstanceDl
         if (self.getTriggered() == null) {
             SdlSignalInstance signal = (SdlSignalInstance)event;
             SdlInputInstance input = (SdlInputInstance)listener;
+            SdlCompiler.getTrace().addCommunication(signal.getSender().getBehavior(), self, signal);
 
             int i = 0;
             for(SdlVariable variable: input.getMetaClassifierSdlInput().getParameter()) {
