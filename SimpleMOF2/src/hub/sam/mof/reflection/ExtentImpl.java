@@ -149,8 +149,9 @@ public class ExtentImpl extends hub.sam.util.Identity implements cmof.reflection
             return valueForSpecification(valueSpecs.get(index));
         }
 
-        public void set(int index, java.lang.Object element) {
-            valueSpecs.set(index, specificationForValue(element));
+        public java.lang.Object set(int index, java.lang.Object element) {
+            return valueForSpecification(valueSpecs.set(index, specificationForValue(element)));
+            //return valueSpecs.set(index, specificationForValue(element));
         }
 
         public void add(int index, java.lang.Object element) {
@@ -158,8 +159,8 @@ public class ExtentImpl extends hub.sam.util.Identity implements cmof.reflection
         }
 
 
-        public void remove(int index) {
-            valueSpecs.remove(index);
+        public java.lang.Object remove(int index) {
+            return valueForSpecification(valueSpecs.get(index));
         }
 
 
@@ -237,8 +238,8 @@ public class ExtentImpl extends hub.sam.util.Identity implements cmof.reflection
             return new ValueIterator();
         }
 
-        public void addAll(int index, Iterable<? extends java.lang.Object> elements) {
-            valueSpecs.addAll(index, new SpecificationIterable(elements));
+        public boolean addAll(int index, Iterable<? extends java.lang.Object> elements) {
+            return valueSpecs.addAll(index, new SpecificationIterable(elements));
         }
 
         public int size() {

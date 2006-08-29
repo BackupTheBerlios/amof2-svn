@@ -26,12 +26,12 @@ public interface ServerReflectiveSequence extends ServerReflectiveCollection {
 	
     public java.lang.Object get(int index) throws java.rmi.RemoteException;
     
-    public void set(int index, Object element) throws java.rmi.RemoteException;
+    public Object set(int index, Object element) throws java.rmi.RemoteException;
     
     public void add(int index, Object element) throws java.rmi.RemoteException;
     
-    public void addAll(int index, Iterable<? extends Object> elements) throws java.rmi.RemoteException;
+    public boolean addAll(int index, Iterable<? extends Object> elements) throws java.rmi.RemoteException;
     
-    public void remove(int index) throws java.rmi.RemoteException;
+    public Object remove(int index) throws java.rmi.RemoteException;
       
 }

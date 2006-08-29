@@ -47,8 +47,8 @@ public class ServerReflectiveSequenceImpl<E> extends
 	/**
 	 * @ejb.interface-method  view-type = "remote"
 	 */	
-	public void set(int index, Object element) {
-		local().set(index, serverizeLocalValue(element));		
+	public Object set(int index, Object element) {
+		return deserverizeRemoteValue(local().set(index, serverizeLocalValue(element)));		
 	}
 
 	/**
@@ -61,17 +61,19 @@ public class ServerReflectiveSequenceImpl<E> extends
 	/**
 	 * @ejb.interface-method  view-type = "remote"
 	 */	
-	public void addAll(int index, Iterable elements) {
+	public boolean addAll(int index, Iterable elements) {
+        boolean result = false;
 		for (Object element: elements) {
-			local().add(serverizeLocalValue(element));
-		}		
+            result = local().add(serverizeLocalValue(element)) || result;
+		}
+        return result;
 	}
 
 	/**
 	 * @ejb.interface-method  view-type = "remote"
 	 */	
-	public void remove(int index) {
-		local().remove(index);
+	public Object remove(int index) {
+		return deserverizeRemoteValue(local().remove(index));
 	}
 
 	/**

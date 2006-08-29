@@ -49,9 +49,11 @@ public class ClientRelfectiveSequenceImpl<E> extends ClientReflectiveCollectionI
 		} 
 	}
 
-	public void set(int index, Object element) {
+    // TODO: dummy
+	public E set(int index, Object element) {
 		try {
 			remoteSequence().set(index, serverizeLocalValue(element));
+            return null;
 		} catch (RemoteException e) {
 			throw new RuntimeException(e);
 		}		
@@ -65,18 +67,22 @@ public class ClientRelfectiveSequenceImpl<E> extends ClientReflectiveCollectionI
 		}
 	}
 
+    // TODO: dummy
 	@SuppressWarnings("unchecked")
-	public void addAll(int index, Iterable<? extends Object> elements) {
+	public boolean addAll(int index, Iterable<? extends Object> elements) {
 		try {
 			remoteSequence().addAll(index, (Iterable)serverizeLocalValue(elements));
+            return true;
 		} catch (RemoteException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
-	public void remove(int index) {
+    // TODO: dummy
+	public E remove(int index) {
 		try {
 			remoteSequence().remove(index);
+            return null;
 		} catch (RemoteException e) {
 			throw new RuntimeException(e);
 		}

@@ -224,19 +224,21 @@ public class MofValueSpecificationList extends ListImpl<ValueSpecification<UmlCl
 
     @SuppressWarnings("unchecked")
 	@Override
-	public synchronized void set(int index, Object o) {
+	public synchronized ValueSpecification<UmlClass,Property,java.lang.Object> set(int index, Object o) {
         checkReadOnly();
         checkDerived();
         performingSet = true;
+        ValueSpecification<UmlClass,Property,java.lang.Object> removedObject = null;
         if (o == null || index >= values.size() || !o.equals(values.get(index))) {
             if (index < values.size()) {
-                remove(index);
+                removedObject = remove(index);
             }
             if (o != null) {
         		add(index, o);
         	}
         }
         performingSet = false;
+        return removedObject;
     }
 
     @SuppressWarnings({"unchecked","synthetic-access"})
@@ -249,12 +251,19 @@ public class MofValueSpecificationList extends ListImpl<ValueSpecification<UmlCl
     }
 
     @Override
-	public void remove(int index) {
+	public ValueSpecification<UmlClass,Property,java.lang.Object> remove(int index) {
         checkReadOnly();
         checkDerived();
+        ValueSpecification<UmlClass,Property,java.lang.Object> removedObject = get(index);
+        boolean removed = false;
         for (UpdateGraphNode node: new Vector<UpdateGraphNode>(nodes.get(index))) {
             node.primaryRemove();
+            removed = true;
         }
+        if (removed) {
+            return removedObject;
+        }
+        return null;
     }
 
 	/** Adds a value to the list, but does this without updating the values of

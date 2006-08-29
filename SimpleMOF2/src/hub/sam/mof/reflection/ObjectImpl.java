@@ -636,7 +636,7 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
             return valueForStaticValue(values.get(index));
         }
 
-        public void set(int index, java.lang.Object element) {
+        public java.lang.Object set(int index, java.lang.Object element) {
             throw new IllegalArgumentException("This object is static.");
         }
 
@@ -644,11 +644,11 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
             throw new IllegalArgumentException("This object is static.");
         }
 
-        public void addAll(int index, Iterable elements) {
+        public boolean addAll(int index, Iterable elements) {
             throw new IllegalArgumentException("This object is static.");
         }
 
-        public void remove(int index) {
+        public java.lang.Object remove(int index) {
             throw new IllegalArgumentException("This object is static.");
         }
 

@@ -52,12 +52,12 @@ public class TypeWrapperListImpl<E> extends TypeWrapperSetImpl<E> implements Ref
         return (E)untypedList.get(index);
     }
 
-    public void set(int index, Object element) {
+    public E set(int index, Object element) {
         if (objectImpl != null && objectImpl.hasListeners() && (index >= size() ||
                !get(index).equals(element))) {
             objectImpl.firePropertyChange(propertyName, null, null);
         }
-        untypedList.set(index, element);
+        return (E) untypedList.set(index, element);
     }
 
     public void add(int index, Object element) {
@@ -68,18 +68,18 @@ public class TypeWrapperListImpl<E> extends TypeWrapperSetImpl<E> implements Ref
     }
 
     @SuppressWarnings("unchecked")
-	public void addAll(int index, Iterable<? extends Object> elements) {
+	public boolean addAll(int index, Iterable<? extends Object> elements) {
    		if (objectImpl != null && objectImpl.hasListeners()) {
    			objectImpl.firePropertyChange(propertyName, null, null);
    		}
-        untypedList.addAll(index, elements);
+        return untypedList.addAll(index, elements);
     }
 
-    public void remove(int index) {
+    public E remove(int index) {
    		if (untypedList.size() > 0 && objectImpl != null && objectImpl.hasListeners()) {
    			objectImpl.firePropertyChange(propertyName, null, null);
    		}
-        untypedList.remove(index);
+        return (E) untypedList.remove(index);
     }
 
     @SuppressWarnings("unchecked")

@@ -107,8 +107,8 @@ public class ListImpl<E> implements cmof.common.ReflectiveSequence<E> {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public void set(int index, Object element) {
-		values.set(index, (E)element);
+	public E set(int index, Object element) {
+		return values.set(index, (E)element);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -116,14 +116,17 @@ public class ListImpl<E> implements cmof.common.ReflectiveSequence<E> {
 		values.add(index, (E)element);
 	}
 	
-	public void addAll(int index, Iterable<? extends Object> elements) {
+	public boolean addAll(int index, Iterable<? extends Object> elements) {
+        boolean modified = false;
 		for (Object object: elements) {
 			add(index++, object);
+            modified = true;
 		}
+        return modified;
 	}
 	
-	public void remove(int index) {
-		values.remove(index);
+	public E remove(int index) {
+		return values.remove(index);
 	}
 	
 	public int size() {

@@ -209,9 +209,10 @@ public class PropertyChangeNotification extends AbstractRepository
         // clean up
         notified = false;
 
-        // setting the same element at the same position
-        container.getOrderedContent().set(0,elem);
-        assertTrue(!notified); // do not notify!
+        // setting an element at a position
+        Element elem2 = factory.createElement();
+        container.getOrderedContent().set(0,elem2);
+        assertTrue(notified);
         // clean up
         notified = false;
         
@@ -221,13 +222,6 @@ public class PropertyChangeNotification extends AbstractRepository
         // remove the element
         container.getOrderedContent().remove(0);
         assertTrue(notified);
-        // clean up
-        notified = false;
-
-        // remove an element on an empty list
-        container.getOrderedContent().clear();
-        container.getOrderedContent().remove(0);
-        assertTrue(!notified); // do not notify!
         // clean up
         notified = false;
 

@@ -41,16 +41,16 @@ public class ReadOnlyListWrapper<E,O> implements ReflectiveSequence<E> {
     public void add(int index, Object element) {
         throw new IllegalAccessException();
     }
-    public void addAll(int index, Iterable<? extends Object> elements) {
+    public boolean addAll(int index, Iterable<? extends Object> elements) {
         throw new IllegalAccessException();
     }
     public E get(int index) {
         return wrapper.getE(wrapped.get(index));
     }
-    public void remove(int index) {
+    public E remove(int index) {
         throw new IllegalAccessException();
     }
-    public void set(int index, Object element) {
+    public E set(int index, Object element) {
         throw new IllegalAccessException();
     }
     public ReflectiveSequence<E> subList(int from, int to) {

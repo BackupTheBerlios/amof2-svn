@@ -60,12 +60,15 @@ class ProxyValueSpecificationList extends MofValueSpecificationList {
     }
 
     @Override
-    public synchronized void set(int index, Object o) {
+    public synchronized ValueSpecification<UmlClass,Property,java.lang.Object> set(int index, Object o) {
+        ValueSpecification<UmlClass,Property,java.lang.Object> result;
         if (isSetProperty) {
+            result = context.mantle(slot.getProxyValues());
             slot.setProxyValue(context.disMantle(o));
         } else {
-            listValues.set(index, context.disMantle(o));
+            result = context.mantle(listValues.set(index, context.disMantle(o)));
         }
+        return result;
     }
 
     @Override
@@ -74,8 +77,8 @@ class ProxyValueSpecificationList extends MofValueSpecificationList {
     }
 
     @Override
-    public void remove(int index) {
-        listValues.remove(index);
+    public ValueSpecification<UmlClass,Property,java.lang.Object> remove(int index) {
+        return context.mantle(listValues.remove(index));
     }
 
     @Override

@@ -63,6 +63,7 @@ public class Main extends TestCase {
         suite.addTestSuite(TestClassifier.class);
         
         suite.addTestSuite(PropertyChangeNotification.class);
+        suite.addTestSuite(ReflectiveSequenceExtension.class);
 
         return suite;
     }
