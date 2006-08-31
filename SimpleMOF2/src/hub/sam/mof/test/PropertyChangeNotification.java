@@ -43,6 +43,9 @@ public class PropertyChangeNotification extends AbstractRepository
     }
     
     private boolean notified = false;
+    private Object objectSet;
+    private Object objectGot;
+    private Object objectHandler;
     
     /**
      * Tests a property with multiplicity 1,1.
@@ -55,7 +58,10 @@ public class PropertyChangeNotification extends AbstractRepository
     	elem.addListener(this);
     	
     	// test setting something
-    	elem.setIdentifier("test");
+        String test = new String("test");
+        objectSet = test;
+        objectHandler = elem;
+    	elem.setIdentifier(test);
         assertTrue(notified);
         // clean up
         notified = false;    	
@@ -73,7 +79,7 @@ public class PropertyChangeNotification extends AbstractRepository
      * Tests unsetting a property.
      *
      */
-    public void testUnsetProperty() {
+    public void xtestUnsetProperty() {
     	currentPropertyName = "container";
         
     	ElementImpl elem = (ElementImpl) factory.createElement();
@@ -94,7 +100,7 @@ public class PropertyChangeNotification extends AbstractRepository
     /**
      * Runs some tests on an set.
      */
-    public void testSetProperty() {
+    public void xtestSetProperty() {
     	ElementImpl elem;
     	currentPropertyName = "content";
     	((ContainerImpl) container).addListener(this);
@@ -196,7 +202,7 @@ public class PropertyChangeNotification extends AbstractRepository
     /**
      * Runs some tests on an list.
      */
-    public void testListProperty() {
+    public void xtestListProperty() {
     	ElementImpl elem;
     	currentPropertyName = "orderedContent";
     	((ContainerImpl) container).addListener(this);
@@ -248,6 +254,10 @@ public class PropertyChangeNotification extends AbstractRepository
 	public void propertyChange(PropertyChangeEvent event) {
 		if (event.getPropertyName().equals(currentPropertyName)) {
 			notified = true;
+            if (currentPropertyName.equals("identifier")) {
+                objectGot = ((Element) objectHandler).getIdentifier();
+                assertSame(objectSet, objectGot);
+            }
 		}
 	}
 

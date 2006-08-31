@@ -113,9 +113,10 @@ public class TypeWrapperSetImpl<E> implements ReflectiveCollection<E> {
     }
 
 	public void clear() {
-   		if (objectImpl != null && objectImpl.hasListeners() && untypedSet.size() > 0) {
-   			objectImpl.firePropertyChange(propertyName, null, null);
-   		}
+        boolean notEmpty = untypedSet.size() > 0;
 		untypedSet.clear();		
+        if (notEmpty && objectImpl != null && objectImpl.hasListeners()) {
+            objectImpl.firePropertyChange(propertyName, null, null);
+        }
 	}
 }

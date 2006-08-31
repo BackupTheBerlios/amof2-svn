@@ -262,6 +262,8 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
                 ReflectiveSequence<? extends ValueSpecification<UmlClass, Property, java.lang.Object>> values =
                         instance.get(property).getValuesAsList(extent.specificationForValue(qualifier));
 
+                Object oldValue = get(property);
+                
                 if (values.size() == 0) {
                     values.add(0, extent.specificationForValue(value));
                 } else {
@@ -269,7 +271,7 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
                 }
 
                 if (propertyChangeListeners.hasListeners(null)) {
-                    propertyChangeListeners.firePropertyChange(property.getName(), get(property), value);
+                    propertyChangeListeners.firePropertyChange(property.getName(), oldValue, value);
                 }
             } else {
                 throw new IllegalArgumentException(property);
@@ -301,12 +303,13 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
         if (instance == null) {
             throw new MetaModelException("Static modelelements cant be changed");
         }
+        boolean wasSetProperty = isSet(property);
         checkQualifierType(qualifier, property);
         instance.get(property).getValuesAsList(null).removeAll(
                 new hub.sam.mof.util.SetImpl<ValueSpecification<UmlClass, Property, java.lang.Object>>(
                         instance.get(property).getValuesAsList(null)));
 
-        if (isSet(property) && propertyChangeListeners.hasListeners(null)) {
+        if (wasSetProperty && propertyChangeListeners.hasListeners(null)) {
             propertyChangeListeners.firePropertyChange(property.getName(), null, null);
         }
     }

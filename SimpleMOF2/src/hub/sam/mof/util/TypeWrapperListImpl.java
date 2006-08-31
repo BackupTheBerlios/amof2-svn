@@ -54,8 +54,8 @@ public class TypeWrapperListImpl<E> extends TypeWrapperSetImpl<E> implements Ref
 
     public E set(int index, Object element) {
         Object replacedElement = untypedList.set(index, element); 
-        if (objectImpl != null && objectImpl.hasListeners() && (index >= size() ||
-               !get(index).equals(element))) {
+        if (objectImpl != null && objectImpl.hasListeners()
+                && (index >= size() || !get(index).equals(element))) {
             objectImpl.firePropertyChange(propertyName, null, null);
         }
         return (E) replacedElement;
@@ -71,7 +71,7 @@ public class TypeWrapperListImpl<E> extends TypeWrapperSetImpl<E> implements Ref
     @SuppressWarnings("unchecked")
 	public boolean addAll(int index, Iterable<? extends Object> elements) {
         boolean result = untypedList.addAll(index, elements);
-   		if (objectImpl != null && objectImpl.hasListeners()) {
+   		if (result && objectImpl != null && objectImpl.hasListeners()) {
    			objectImpl.firePropertyChange(propertyName, null, null);
    		}
         return result;
@@ -79,7 +79,7 @@ public class TypeWrapperListImpl<E> extends TypeWrapperSetImpl<E> implements Ref
 
     public E remove(int index) {
         Object removedElement = untypedList.remove(index);
-   		if (untypedList.size() > 0 && objectImpl != null && objectImpl.hasListeners()) {
+   		if (objectImpl != null && objectImpl.hasListeners()) {
    			objectImpl.firePropertyChange(propertyName, null, null);
    		}
         return (E) removedElement;
