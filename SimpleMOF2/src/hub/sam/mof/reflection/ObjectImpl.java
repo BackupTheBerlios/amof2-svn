@@ -25,6 +25,7 @@ import cmof.ParameterDirectionKind;
 import cmof.Property;
 import cmof.UmlClass;
 import cmof.PrimitiveType;
+import cmof.Type;
 import cmof.common.ReflectiveCollection;
 import cmof.common.ReflectiveSequence;
 import cmof.exception.IllegalArgumentException;
@@ -125,8 +126,15 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
 
     private Map<String, Identity> staticCollectionValueIds = new HashMap<String, Identity>();
 
-    public synchronized java.lang.Object get(String propertyName) {
+    public java.lang.Object get(String propertyName) {
+        return get(propertyName, null);
+    }
+
+    public synchronized java.lang.Object get(String propertyName, java.lang.Object qualifier) {
         if (attributes != null) {
+            if (qualifier != null) {
+                throw new IllegalArgumentException("qualifiers not allows for static models");
+            }
             java.lang.Object result = staticCollectionValueIds.get(propertyName);
             if (result == null) {
                 result = valueForStaticValue(attributes.get(propertyName));
@@ -147,20 +155,30 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
                 throw new cmof.exception.IllegalArgumentException(propertyName);
             }
         } else {
-            return get(property);
+            return get(property, qualifier);
         }
     }
 
-    //private final Map<Property, Boolean> hasCustomImpl = new HashMap<Property, Boolean>();
+    public java.lang.Object get(Property property) {
+        return get(property,  null);
+    }
 
-    public synchronized java.lang.Object get(Property property) throws IllegalArgumentException {
+    public synchronized java.lang.Object get(Property property, java.lang.Object qualifier) {
         if (attributes != null) {
+            if (qualifier != null) {
+                throw new IllegalArgumentException("qualifiers not allows for static models");
+            }
             return get(property.getName());
         }
         if (implementation.hasImplementationFor(semantics.getFinalProperty(property), semantics)) {
+            if (qualifier != null) {
+                throw new IllegalArgumentException("qualifiers not allowed for derived properties");
+            }
             return implementation.invokeImplementationFor(semantics.getFinalProperty(property), this, semantics);
         }
-        ValueSpecificationList<UmlClass, Property, java.lang.Object> values = instance.get(property).getValuesAsList(null);
+        checkQualifierType(qualifier, property);
+        ValueSpecificationList<UmlClass, Property, java.lang.Object> values = instance.get(property).
+                getValuesAsList(extent.specificationForValue(qualifier));
         if (!semantics.isCollectionProperty(property)) {
             if (values.size() == 0) {
                 return null;
@@ -173,7 +191,10 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
     }
 
     public synchronized void set(String propertyName, java.lang.Object value) {
+        set(propertyName, null, value);
+    }
 
+    public synchronized void set(String propertyName, java.lang.Object qualifier, java.lang.Object value) {
         Property property = semantics.getProperty(propertyName);
         if (property == null) {
             throw new IllegalArgumentException(propertyName);
@@ -182,6 +203,9 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
         }
     }
 
+    /**
+     * @return True if type check is successful.
+     */
     private boolean typeCheckValue(java.lang.Object value, cmof.Type type) {
         if (value == null) {
             return true;
@@ -216,9 +240,13 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
         }
     }
 
-    public synchronized void set(Property property, java.lang.Object value) {
+    public void set(Property property, java.lang.Object value) {
+        set(property, null, value);
+    }
+
+    public synchronized void set(Property property, java.lang.Object qualifier, java.lang.Object value) {
         if (value == null) {
-            unset(property);
+            unset(property, qualifier);
         } else {
             if (instance == null) {
                 throw new MetaModelException("Static modelelements cant be changed");
@@ -230,8 +258,9 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
                 if (!typeCheckValue(value, (cmof.Type)property.getType())) {
                     throw new IllegalArgumentException(value);
                 }
+                checkQualifierType(qualifier, property);
                 ReflectiveSequence<? extends ValueSpecification<UmlClass, Property, java.lang.Object>> values =
-                        instance.get(property).getValuesAsList(null);
+                        instance.get(property).getValuesAsList(extent.specificationForValue(qualifier));
 
                 if (propertyChangeListeners.hasListeners(null)) {
                 	propertyChangeListeners.firePropertyChange(property.getName(), get(property), value);
@@ -248,24 +277,46 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
         }
     }
 
-    public synchronized boolean isSet(Property property) {
+    public boolean isSet(Property property) {
+        return isSet(property, null);
+    }
+
+    public synchronized boolean isSet(Property property, java.lang.Object qualifier) {
         if (instance == null) {
+            if (qualifier != null) {
+                throw new IllegalArgumentException("qualifiers are not allowed in static models");
+            }
             return attributes.get(property.getName()) != null;
         } else {
-            return instance.get(property).getValuesAsList(null).size() != 0;
+            checkQualifierType(qualifier, property);
+            return instance.get(property).getValuesAsList(extent.specificationForValue(qualifier)).size() != 0;
         }
     }
 
-    public synchronized void unset(Property property) {
+    public void unset(Property property) {
+        unset(property, null);
+    }
+
+    public synchronized void unset(Property property, java.lang.Object qualifier) {
         if (instance == null) {
             throw new MetaModelException("Static modelelements cant be changed");
         }
+        checkQualifierType(qualifier, property);
         if (isSet(property) && propertyChangeListeners.hasListeners(null)) {
-        	propertyChangeListeners.firePropertyChange(property.getName(), null, null);
+            propertyChangeListeners.firePropertyChange(property.getName(), null, null);
         }
         instance.get(property).getValuesAsList(null).removeAll(
                 new hub.sam.mof.util.SetImpl<ValueSpecification<UmlClass, Property, java.lang.Object>>(
                         instance.get(property).getValuesAsList(null)));
+    }
+
+    private void checkQualifierType(Object qualifier, Property property) {
+        if (qualifier != null) {
+            Property qualifierProperty = property.getQualifier();
+            if (!typeCheckValue(qualifier, (Type)qualifierProperty.getType())) {
+                throw new IllegalArgumentException(qualifier);
+            }
+        }
     }
 
     @Override

@@ -45,20 +45,36 @@ public class ObjectDlg implements Object {
         return reflectionself.container();
     }
 
-    public java.lang.Object get(Property property) throws IllegalArgumentException {
+    public java.lang.Object get(Property property) {
         return reflectionself.get(property);
     }
 
-    public void set(Property property, java.lang.Object value) throws ClassCastException, IllegalArgumentException {
+    public java.lang.Object get(Property property, java.lang.Object qualifier) {
+        return reflectionself.get(property, qualifier);
+    }
+
+    public void set(Property property, java.lang.Object value) {
         reflectionself.set(property, value);
     }
 
-    public boolean isSet(Property property) throws IllegalArgumentException {
+    public void set(Property property, java.lang.Object qualifier, java.lang.Object value)  {
+        reflectionself.set(property, qualifier, value);
+    }
+
+    public boolean isSet(Property property) {
         return reflectionself.isSet(property);
     }
 
-    public void unset(Property property) throws IllegalArgumentException {
+    public boolean isSet(Property property, java.lang.Object qualifier) {
+        return reflectionself.isSet(property, qualifier);
+    }
+
+    public void unset(Property property) {
         reflectionself.unset(property);
+    }
+
+    public void unset(Property property, java.lang.Object qualifier) {
+        reflectionself.unset(property, qualifier);
     }
 
     public void delete() {
@@ -89,8 +105,16 @@ public class ObjectDlg implements Object {
         return reflectionself.get(property);
     }
 
+    public java.lang.Object get(String property, java.lang.Object qualifier) {
+        return reflectionself.get(property, qualifier);
+    }
+
     public void set(String property, java.lang.Object value) {
         reflectionself.set(property, value);
+    }
+
+    public void set(String property, java.lang.Object qualifier, java.lang.Object value) {
+        reflectionself.set(property, qualifier, value);
     }
 
     public java.lang.Object invokeOperation(String opName, java.lang.Object[] args) {

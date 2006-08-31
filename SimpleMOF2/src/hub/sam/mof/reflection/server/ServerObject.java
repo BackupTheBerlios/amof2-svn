@@ -14,16 +14,15 @@ details.
 
     You should have received a copy of the GNU Lesser General Public License
 along with this library; if not, write to the Free Software Foundation, Inc.,
-59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
+59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
 package hub.sam.mof.reflection.server;
 
-import java.rmi.RemoteException;
-
-import hub.sam.mof.reflection.server.impl.ServerObjectImpl;
-import cmof.common.*;
+import cmof.common.ReflectiveSequence;
 import cmof.reflection.Argument;
+
+import java.rmi.RemoteException;
 
 public interface ServerObject {
 
@@ -34,14 +33,25 @@ public interface ServerObject {
 	public java.lang.Object get(ServerObject property)
 			throws cmof.exception.IllegalArgumentException, java.rmi.RemoteException;
 
-	public void set(ServerObject property, java.lang.Object value) 
+    public java.lang.Object get(ServerObject property, java.lang.Object qualifier)
+                throws cmof.exception.IllegalArgumentException, java.rmi.RemoteException;
+
+
+    public void set(ServerObject property, java.lang.Object value)
             throws ClassCastException, cmof.exception.IllegalArgumentException, java.rmi.RemoteException;
 
-	public boolean isSet(ServerObject property) throws IllegalArgumentException, java.rmi.RemoteException;
+    public void set(ServerObject property, java.lang.Object qualifier, java.lang.Object value)
+                throws ClassCastException, cmof.exception.IllegalArgumentException, java.rmi.RemoteException;
 
-	public void unset(ServerObject property) throws IllegalArgumentException, java.rmi.RemoteException;
+    public boolean isSet(ServerObject property) throws IllegalArgumentException, java.rmi.RemoteException;
 
-	public boolean ejbEquals(java.lang.Object element) throws java.rmi.RemoteException;
+    public boolean isSet(ServerObject property, java.lang.Object qualifier) throws IllegalArgumentException, java.rmi.RemoteException;
+
+    public void unset(ServerObject property) throws IllegalArgumentException, java.rmi.RemoteException;
+
+    public void unset(ServerObject property, java.lang.Object qualifier) throws IllegalArgumentException, java.rmi.RemoteException;
+
+    public boolean ejbEquals(java.lang.Object element) throws java.rmi.RemoteException;
 
 	public void delete() throws java.rmi.RemoteException;
 
@@ -52,16 +62,20 @@ public interface ServerObject {
 	public ServerObject getOutermostContainer() throws java.rmi.RemoteException;
 
 	public java.util.Collection getComponents() throws java.rmi.RemoteException;
-    
+
     public java.lang.Object get(String propertyName) throws java.rmi.RemoteException;
-    
+
+    public java.lang.Object get(String propertyName, java.lang.Object qualifier) throws java.rmi.RemoteException;
+
     public java.lang.Object invokeOperation(String opName, java.lang.Object[] args) throws java.rmi.RemoteException;
-    
+
     public void set(String propertyName, java.lang.Object value) throws java.rmi.RemoteException;
 
-    public String getImplClassName() throws java.rmi.RemoteException;    
-    
+    public void set(String propertyName, java.lang.Object qualifier, java.lang.Object value) throws java.rmi.RemoteException;
+
+    public String getImplClassName() throws java.rmi.RemoteException;
+
 	public boolean remoteEquals(java.lang.Object obj) throws RemoteException;
-		
+
 	public int remoteHashCode() throws RemoteException;
 }

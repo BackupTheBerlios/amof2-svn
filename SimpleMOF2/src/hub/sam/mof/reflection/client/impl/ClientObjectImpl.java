@@ -72,6 +72,14 @@ public class ClientObjectImpl extends AbstractBridge implements ClientObject {
         }
     }
 
+    public Object get(String propertyName, Object qualifier) {
+        try {
+            return deserverizeRemoteValue(remoteObject.get(propertyName, serverizeLocalValue(qualifier)));
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public Object invokeOperation(String opName, Object[] args) {
         Object[] remoteArgs = new Object[args.length];
         for(int i = 0; i < args.length; i++) {
@@ -91,6 +99,14 @@ public class ClientObjectImpl extends AbstractBridge implements ClientObject {
     public void set(String propertyName, Object value) {
         try {
             remoteObject.set(propertyName, serverizeLocalValue(value));
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void set(String propertyName, Object qualifier, Object value) {
+        try {
+            remoteObject.set(propertyName, serverizeLocalValue(qualifier), serverizeLocalValue(value));
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
@@ -136,10 +152,28 @@ public class ClientObjectImpl extends AbstractBridge implements ClientObject {
         }
     }
 
+    public Object get(Property property, Object qualifier) {
+        try {
+            return deserverizeRemoteValue(remoteObject.get(
+                    getServerObjectFromLocalValue((ClientObject)property), serverizeLocalValue(qualifier)));
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void set(Property property, Object value) throws ClassCastException,
             IllegalArgumentException {
         try {
             remoteObject.set(getServerObjectFromLocalValue((ClientObject)property), serverizeLocalValue(value));
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void set(Property property, Object qualifier, Object value) {
+        try {
+            remoteObject.set(getServerObjectFromLocalValue((ClientObject)property),
+                    serverizeLocalValue(qualifier), serverizeLocalValue(value));
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
@@ -153,9 +187,27 @@ public class ClientObjectImpl extends AbstractBridge implements ClientObject {
         }
     }
 
+    public boolean isSet(Property property, Object qualifier) throws IllegalArgumentException {
+        try {
+            return remoteObject.isSet(getServerObjectFromLocalValue((ClientObject)property),
+                    serverizeLocalValue(qualifier));
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void unset(Property property) throws IllegalArgumentException {
         try {
             remoteObject.unset(getServerObjectFromLocalValue((ClientObject)property));
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void unset(Property property, Object qualifier) {
+        try {
+            remoteObject.unset(getServerObjectFromLocalValue((ClientObject)property),
+                    serverizeLocalValue(qualifier));
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }

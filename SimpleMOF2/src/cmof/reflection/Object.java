@@ -102,10 +102,11 @@ public interface Object {
 	 * @throws IllegalArgumentException
 	 *             if Property is not a member of the Class from class().
 	 */
-	public java.lang.Object get(Property property)
-			throws cmof.exception.IllegalArgumentException;
+	public java.lang.Object get(Property property);
 
-	/**
+    public java.lang.Object get(Property property, java.lang.Object qualifier);
+
+    /**
 	 * If the Property has multiplicity upper bound = 1, set() atomically
 	 * updates the value of the Property to the Element parameter. If Property
 	 * has multiplicity upper bound >1, the Element may be either a
@@ -131,10 +132,11 @@ public interface Object {
 	 *             if element is null, Property is of type Class, and the
 	 *             multi-plicity upper bound > 1.
 	 */
-	public void set(Property property, java.lang.Object value)
-			throws ClassCastException, cmof.exception.IllegalArgumentException;
+	public void set(Property property, java.lang.Object value);
 
-	/**
+    public void set(Property property, java.lang.Object qualifier, java.lang.Object value);
+
+    /**
 	 * If the Property has multiplicity upper bound of 1, isSet() returns true
 	 * if the value of the Property is different than the default value of that
 	 * property. If Property has multiplicity upper bound >1, isSet() returns
@@ -145,7 +147,9 @@ public interface Object {
 	 */
 	public boolean isSet(Property property) throws IllegalArgumentException;
 
-	/**
+    public boolean isSet(Property property, java.lang.Object qualifier) throws IllegalArgumentException;
+
+    /**
 	 * If the Property has multiplicity upper bound of 1, unset() atomically
 	 * sets the value of the Property to its default value for DataType type
 	 * properties and null for Class type properties. If Property has
@@ -167,16 +171,18 @@ public interface Object {
 	 * @throws IllegalArgumentException
 	 *             if Property is not a member of the Class from getMetaClass().
 	 */
-	public void unset(Property property) throws IllegalArgumentException;
+	public void unset(Property property);
 
-	/**
+    public void unset(Property property, java.lang.Object qualifier);
+
+    /**
 	 * Determines if the element equals this Object instance. For instances of
 	 * Class, returns true if the element and this Object instance are
 	 * references to the same Element. For instances of DataType, returns true
 	 * if the element has the same value as this Object instance. Returns false
 	 * for all other cases.
 	 */
-	public boolean equals(java.lang.Object element);
+    public boolean equals(java.lang.Object element);
 
 	/**
 	 * Deletes the instance, all its contained objects and all references to
@@ -223,7 +229,11 @@ public interface Object {
 
     public java.lang.Object get(String property);
 
+    public java.lang.Object get(String property, java.lang.Object qualifier);
+
     public void set(String property, java.lang.Object value);
+
+    public void set(String property, java.lang.Object qualifier, java.lang.Object value);
 
     public java.lang.Object invokeOperation(String opName, java.lang.Object[] args);
 
