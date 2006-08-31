@@ -74,7 +74,7 @@ public class BootstrapExtent extends ExtentImpl {
 
     private String getName(ClassInstance<ClassInstance,ClassInstance,Object> instance) {
         ClassifierSemanticsWrapper semantics = model.getSemanticsWrapper(instance.getClassifier());
-        return instance.get(semantics.getSemantics().getProperty("name")).getValues().get(0).asDataValue().getValue().toString();
+        return instance.get(semantics.getSemantics().getProperty("name")).getValues(null).get(0).asDataValue().getValue().toString();
     }
 
     @SuppressWarnings("unchecked")

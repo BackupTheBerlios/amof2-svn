@@ -123,7 +123,7 @@ public class MofClassInstance extends ClassInstance<UmlClass,Property,java.lang.
         if (theSlot == null) {
             throw new IllegalArgumentException(definingFeature);
         } else {
-            return theSlot.getValuesAsList();
+            return theSlot.getValuesAsList(null);
         }
     }
 

@@ -61,7 +61,7 @@ public class Converter <Co,Po,DataValueo,Ci,Pi,T,D,DataValuei> {
                 convertInstance(instance.asInstanceValue().getInstance());
             } catch (MetaModelException e) {
                 if (Repository.generous) {
-                    System.out.println("Warning: " + e.getMessage());                
+                    System.out.println("Warning: " + e.getMessage());
                 } else {
                     throw e;
                 }
@@ -104,7 +104,7 @@ public class Converter <Co,Po,DataValueo,Ci,Pi,T,D,DataValuei> {
         }
 
         for(StructureSlot<Co,Po,DataValueo> slot: instance.getSlots()) {
-            for(ValueSpecificationImpl<Co,Po,DataValueo> value: slot.getValues()) {
+            for(ValueSpecificationImpl<Co,Po,DataValueo> value: slot.getValues(null)) {
                 try {
                     convertValue(value, slot, instance, targetInstance);
                 } catch (MetaModelException e) {

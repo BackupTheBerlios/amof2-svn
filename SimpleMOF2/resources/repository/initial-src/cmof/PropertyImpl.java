@@ -10,6 +10,42 @@ public class PropertyImpl extends hub.sam.mof.reflection.ObjectImpl implements P
         super(id, extent, metaId, implementationClassName, delegateClassNames);
     }
 
+    public cmof.Property oppositeOperation()  {
+        java.lang.Object value = invokeOperation("opposite", new java.lang.Object[] {  });
+        if (value == null) {
+           return null;
+        } else {
+            return (cmof.Property)value;
+        }
+    }
+
+    public boolean isConsistentWith(cmof.RedefinableElement redefinee)  {
+        java.lang.Object value = invokeOperation("isConsistentWith_cmof.RedefinableElement", new java.lang.Object[] { redefinee });
+        if (value == null) {
+           throw new RuntimeException("assert");
+        } else {
+            return (java.lang.Boolean)value;
+        }
+    }
+
+    public boolean isConsistentWith(core.abstractions.redefinitions.RedefinableElement redefinee)  {
+        java.lang.Object value = invokeOperation("isConsistentWith_core.abstractions.redefinitions.RedefinableElement", new java.lang.Object[] { redefinee });
+        if (value == null) {
+           throw new RuntimeException("assert");
+        } else {
+            return (java.lang.Boolean)value;
+        }
+    }
+
+    public cmof.common.ReflectiveCollection<? extends cmof.Classifier> subsettingContext()  {
+        java.lang.Object value = invokeOperation("subsettingContext", new java.lang.Object[] {  });
+        if (value == null) {
+           return null;
+        } else {
+            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value);
+        }
+    }
+
     public cmof.Element getOwnedBehavior() {
         java.lang.Object value = get("ownedBehavior");
         if (value == null) {
@@ -21,6 +57,19 @@ public class PropertyImpl extends hub.sam.mof.reflection.ObjectImpl implements P
 
     public void setOwnedBehavior(cmof.Element value) {
         set("ownedBehavior", value);
+    }
+
+    public cmof.Property getQualifier() {
+        java.lang.Object value = get("qualifier");
+        if (value == null) {
+           return null;
+        } else {
+            return (cmof.Property)value;
+        }
+    }
+
+    public void setQualifier(cmof.Property value) {
+        set("qualifier", value);
     }
 
     public boolean isID() {
@@ -123,7 +172,7 @@ public class PropertyImpl extends hub.sam.mof.reflection.ObjectImpl implements P
         if (value == null) {
            return null;
         } else {
-            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value);
+            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value, this, "redefinedProperty");
         }
     }
 
@@ -132,7 +181,7 @@ public class PropertyImpl extends hub.sam.mof.reflection.ObjectImpl implements P
         if (value == null) {
            return null;
         } else {
-            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value);
+            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value, this, "subsettedProperty");
         }
     }
 
@@ -166,48 +215,48 @@ public class PropertyImpl extends hub.sam.mof.reflection.ObjectImpl implements P
         set("datatype", value);
     }
 
-    public cmof.Property oppositeOperation()  {
-        java.lang.Object value = invokeOperation("opposite", new java.lang.Object[] {  });
-        if (value == null) {
-           return null;
-        } else {
-            return (cmof.Property)value;
-        }
-    }
-
-    public boolean isConsistentWith(cmof.RedefinableElement redefinee)  {
-        java.lang.Object value = invokeOperation("isConsistentWith_cmof.RedefinableElement", new java.lang.Object[] { redefinee });
-        if (value == null) {
-           throw new RuntimeException("assert");
-        } else {
-            return (java.lang.Boolean)value;
-        }
-    }
-
-    public boolean isConsistentWith(core.abstractions.redefinitions.RedefinableElement redefinee)  {
-        java.lang.Object value = invokeOperation("isConsistentWith_core.abstractions.redefinitions.RedefinableElement", new java.lang.Object[] { redefinee });
-        if (value == null) {
-           throw new RuntimeException("assert");
-        } else {
-            return (java.lang.Boolean)value;
-        }
-    }
-
-    public cmof.common.ReflectiveCollection<? extends cmof.Classifier> subsettingContext()  {
-        java.lang.Object value = invokeOperation("subsettingContext", new java.lang.Object[] {  });
-        if (value == null) {
-           return null;
-        } else {
-            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value);
-        }
-    }
-
     public cmof.common.ReflectiveCollection<? extends cmof.Classifier> getFeaturingClassifier() {
         java.lang.Object value = get("featuringClassifier");
         if (value == null) {
            return null;
         } else {
-            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value);
+            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value, this, "featuringClassifier");
+        }
+    }
+
+    public cmof.common.ReflectiveSequence<? extends core.abstractions.namespaces.Namespace> allNamespaces()  {
+        java.lang.Object value = invokeOperation("allNamespaces", new java.lang.Object[] {  });
+        if (value == null) {
+           return null;
+        } else {
+            return new hub.sam.mof.util.TypeWrapperListImpl((cmof.common.ReflectiveSequence)value);
+        }
+    }
+
+    public boolean isDistinguishableFrom(core.abstractions.namespaces.NamedElement n, core.abstractions.namespaces.Namespace ns)  {
+        java.lang.Object value = invokeOperation("isDistinguishableFrom_core.abstractions.namespaces.NamedElement_core.abstractions.namespaces.Namespace", new java.lang.Object[] { n, ns });
+        if (value == null) {
+           throw new RuntimeException("assert");
+        } else {
+            return (java.lang.Boolean)value;
+        }
+    }
+
+    public java.lang.String separator()  {
+        java.lang.Object value = invokeOperation("separator", new java.lang.Object[] {  });
+        if (value == null) {
+           return null;
+        } else {
+            return (java.lang.String)value;
+        }
+    }
+
+    public java.lang.String qualifiedNameOperation()  {
+        java.lang.Object value = invokeOperation("qualifiedName", new java.lang.Object[] {  });
+        if (value == null) {
+           return null;
+        } else {
+            return (java.lang.String)value;
         }
     }
 
@@ -254,39 +303,21 @@ public class PropertyImpl extends hub.sam.mof.reflection.ObjectImpl implements P
         set("namespace", value);
     }
 
-    public cmof.common.ReflectiveSequence<? extends core.abstractions.namespaces.Namespace> allNamespaces()  {
-        java.lang.Object value = invokeOperation("allNamespaces", new java.lang.Object[] {  });
+    public cmof.common.ReflectiveCollection<? extends core.abstractions.ownerships.Element> allOwnedElements()  {
+        java.lang.Object value = invokeOperation("allOwnedElements", new java.lang.Object[] {  });
         if (value == null) {
            return null;
         } else {
-            return new hub.sam.mof.util.TypeWrapperListImpl((cmof.common.ReflectiveSequence)value);
+            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value);
         }
     }
 
-    public boolean isDistinguishableFrom(core.abstractions.namespaces.NamedElement n, core.abstractions.namespaces.Namespace ns)  {
-        java.lang.Object value = invokeOperation("isDistinguishableFrom_core.abstractions.namespaces.NamedElement_core.abstractions.namespaces.Namespace", new java.lang.Object[] { n, ns });
+    public boolean mustBeOwned()  {
+        java.lang.Object value = invokeOperation("mustBeOwned", new java.lang.Object[] {  });
         if (value == null) {
            throw new RuntimeException("assert");
         } else {
             return (java.lang.Boolean)value;
-        }
-    }
-
-    public java.lang.String separator()  {
-        java.lang.Object value = invokeOperation("separator", new java.lang.Object[] {  });
-        if (value == null) {
-           return null;
-        } else {
-            return (java.lang.String)value;
-        }
-    }
-
-    public java.lang.String qualifiedNameOperation()  {
-        java.lang.Object value = invokeOperation("qualifiedName", new java.lang.Object[] {  });
-        if (value == null) {
-           return null;
-        } else {
-            return (java.lang.String)value;
         }
     }
 
@@ -295,7 +326,7 @@ public class PropertyImpl extends hub.sam.mof.reflection.ObjectImpl implements P
         if (value == null) {
            return null;
         } else {
-            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value);
+            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value, this, "ownedElement");
         }
     }
 
@@ -316,30 +347,12 @@ public class PropertyImpl extends hub.sam.mof.reflection.ObjectImpl implements P
         set("owner", value);
     }
 
-    public cmof.common.ReflectiveCollection<? extends core.abstractions.ownerships.Element> allOwnedElements()  {
-        java.lang.Object value = invokeOperation("allOwnedElements", new java.lang.Object[] {  });
-        if (value == null) {
-           return null;
-        } else {
-            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value);
-        }
-    }
-
-    public boolean mustBeOwned()  {
-        java.lang.Object value = invokeOperation("mustBeOwned", new java.lang.Object[] {  });
-        if (value == null) {
-           throw new RuntimeException("assert");
-        } else {
-            return (java.lang.Boolean)value;
-        }
-    }
-
     public cmof.common.ReflectiveCollection<? extends cmof.Classifier> getRedefinitionContext() {
         java.lang.Object value = get("redefinitionContext");
         if (value == null) {
            return null;
         } else {
-            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value);
+            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value, this, "redefinitionContext");
         }
     }
 
@@ -348,7 +361,7 @@ public class PropertyImpl extends hub.sam.mof.reflection.ObjectImpl implements P
         if (value == null) {
            return null;
         } else {
-            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value);
+            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value, this, "redefinedElement");
         }
     }
 
@@ -366,7 +379,7 @@ public class PropertyImpl extends hub.sam.mof.reflection.ObjectImpl implements P
         if (value == null) {
            return null;
         } else {
-            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value);
+            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value, this, "tag");
         }
     }
 
@@ -388,7 +401,7 @@ public class PropertyImpl extends hub.sam.mof.reflection.ObjectImpl implements P
         if (value == null) {
            return null;
         } else {
-            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value);
+            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value, this, "ownedComment");
         }
     }
 
@@ -420,6 +433,51 @@ public class PropertyImpl extends hub.sam.mof.reflection.ObjectImpl implements P
 
     public void setType(core.abstractions.typedelements.Type value) {
         set("type", value);
+    }
+
+    public int lowerBound()  {
+        java.lang.Object value = invokeOperation("lowerBound", new java.lang.Object[] {  });
+        if (value == null) {
+           throw new RuntimeException("assert");
+        } else {
+            return (java.lang.Integer)value;
+        }
+    }
+
+    public long upperBound()  {
+        java.lang.Object value = invokeOperation("upperBound", new java.lang.Object[] {  });
+        if (value == null) {
+           throw new RuntimeException("assert");
+        } else {
+            return (java.lang.Long)value;
+        }
+    }
+
+    public boolean isMultivalued()  {
+        java.lang.Object value = invokeOperation("isMultivalued", new java.lang.Object[] {  });
+        if (value == null) {
+           throw new RuntimeException("assert");
+        } else {
+            return (java.lang.Boolean)value;
+        }
+    }
+
+    public boolean includesCardinality(int C)  {
+        java.lang.Object value = invokeOperation("includesCardinality_core.primitivetypes.Integer", new java.lang.Object[] { C });
+        if (value == null) {
+           throw new RuntimeException("assert");
+        } else {
+            return (java.lang.Boolean)value;
+        }
+    }
+
+    public boolean includesMultiplicity(core.abstractions.multiplicities.MultiplicityElement M)  {
+        java.lang.Object value = invokeOperation("includesMultiplicity_core.abstractions.multiplicities.MultiplicityElement", new java.lang.Object[] { M });
+        if (value == null) {
+           throw new RuntimeException("assert");
+        } else {
+            return (java.lang.Boolean)value;
+        }
     }
 
     public boolean isOrdered() {
@@ -472,51 +530,6 @@ public class PropertyImpl extends hub.sam.mof.reflection.ObjectImpl implements P
 
     public void setUpper(long value) {
         set("upper", value);
-    }
-
-    public int lowerBound()  {
-        java.lang.Object value = invokeOperation("lowerBound", new java.lang.Object[] {  });
-        if (value == null) {
-           throw new RuntimeException("assert");
-        } else {
-            return (java.lang.Integer)value;
-        }
-    }
-
-    public long upperBound()  {
-        java.lang.Object value = invokeOperation("upperBound", new java.lang.Object[] {  });
-        if (value == null) {
-           throw new RuntimeException("assert");
-        } else {
-            return (java.lang.Long)value;
-        }
-    }
-
-    public boolean isMultivalued()  {
-        java.lang.Object value = invokeOperation("isMultivalued", new java.lang.Object[] {  });
-        if (value == null) {
-           throw new RuntimeException("assert");
-        } else {
-            return (java.lang.Boolean)value;
-        }
-    }
-
-    public boolean includesCardinality(int C)  {
-        java.lang.Object value = invokeOperation("includesCardinality_core.primitivetypes.Integer", new java.lang.Object[] { C });
-        if (value == null) {
-           throw new RuntimeException("assert");
-        } else {
-            return (java.lang.Boolean)value;
-        }
-    }
-
-    public boolean includesMultiplicity(core.abstractions.multiplicities.MultiplicityElement M)  {
-        java.lang.Object value = invokeOperation("includesMultiplicity_core.abstractions.multiplicities.MultiplicityElement", new java.lang.Object[] { M });
-        if (value == null) {
-           throw new RuntimeException("assert");
-        } else {
-            return (java.lang.Boolean)value;
-        }
     }
 
     public java.lang.String getDefault() {

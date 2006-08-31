@@ -14,36 +14,41 @@ details.
 
     You should have received a copy of the GNU Lesser General Public License
 along with this library; if not, write to the Free Software Foundation, Inc.,
-59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
+59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
 package hub.sam.mof.mofinstancemodel;
 
-import java.util.*;
-import cmof.*;
+import cmof.Property;
+import cmof.UmlClass;
+import hub.sam.mof.instancemodel.InstanceValue;
 import hub.sam.mof.instancemodel.ValueSpecification;
-import hub.sam.mof.instancemodel.*;
+
+import java.util.List;
+import java.util.Vector;
 
 public class MofLinkSlot {
 
 	private final MofLink owner;
     private final Property property;
     private final List<ValueSpecification<UmlClass,Property,java.lang.Object>> values = new Vector<ValueSpecification<UmlClass,Property,java.lang.Object>>();
-	
+
 	public MofLinkSlot(MofLink owner, Property feature, InstanceValue<UmlClass,Property,java.lang.Object> value) {
+        super();
         this.property = feature;
-		this.owner = owner;		
+        this.owner = owner;
         values.add(value);
-	}
-	
-    public List<? extends ValueSpecification<UmlClass,Property,java.lang.Object>> getValue() {
+    }
+
+    public List<? extends ValueSpecification<UmlClass,Property,java.lang.Object>> getValue(
+            ValueSpecification<UmlClass,Property,Object> qualifier) {
         return values;
     }
-	
+
     public MofLink getOwningInstance() {
         return owner;
     }
-    
+
     public Property getDefiningFeature() {
         return property;
     }

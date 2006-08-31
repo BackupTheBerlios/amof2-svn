@@ -36,11 +36,13 @@ import java.util.Vector;
 public class MOF2ToMagicDrawXmi2 extends PatternClass implements XmiTransformator {
 
     private String getDataValue(ClassInstance<XmiClassifier,String,String> from, String key, int index) {
-        if (from == null || from.get(key) == null || from.get(key).getValues().size() <= index || from.get(key).getValues().get(index) == null || from.get(key).getValues().get(index).asDataValue() == null) {
+        if (from == null || from.get(key) == null || from.get(key).getValues(null).size() <= index || 
+                from.get(key).getValues(null).get(index) == null ||
+                from.get(key).getValues(null).get(index).asDataValue() == null) {
             return null;
         }
         try {
-            return from.get(key).getValues().get(index).asDataValue().getValue();
+            return from.get(key).getValues(null).get(index).asDataValue().getValue();
         } catch (NullPointerException e) {
             return null;
         }
@@ -48,13 +50,13 @@ public class MOF2ToMagicDrawXmi2 extends PatternClass implements XmiTransformato
 
     private void removeAttribute(ClassInstance<XmiClassifier,String,String> from, String attr) {
         if (from.get(attr) != null) {
-            if (from.get(attr).getValues().size() > 0) {
-                for(ValueSpecification<XmiClassifier,String,String> value: from.get(attr).getValues()) {
+            if (from.get(attr).getValues(null).size() > 0) {
+                for(ValueSpecification<XmiClassifier,String,String> value: from.get(attr).getValues(null)) {
                     if (value.asInstanceValue() != null) {
                         value.asInstanceValue().getInstance().setComposite(null);
                     }
                 }
-                from.get(attr).getValues().clear();
+                from.get(attr).getValues(null).clear();
             }
         }
     }
@@ -106,7 +108,7 @@ public class MOF2ToMagicDrawXmi2 extends PatternClass implements XmiTransformato
     @Pattern ( order = 100, atype = "Package.Class.Association.DataType.Enumeration.PrimitiveType.Operation.Property",
             variable = "e")
     public void visibility(@Name("e")ClassInstance<XmiClassifier,String,String> e) throws Throwable {
-        if ((e.get("visibility") == null) || (e.get("visibility").getValues().size() == 0)) {
+        if ((e.get("visibility") == null) || (e.get("visibility").getValues(null).size() == 0)) {
             e.addValue("visibility", model.createPrimitiveValue("public"));
         }
     }
@@ -127,7 +129,7 @@ public class MOF2ToMagicDrawXmi2 extends PatternClass implements XmiTransformato
     public void ownedType(
             @Name("p")  ClassInstance<XmiClassifier,String,String> p,
             @Name("ot") ClassInstance<XmiClassifier,String,String> ot) {
-        p.get("ownedType").getValues().remove(model.createInstanceValue(ot));
+        p.get("ownedType").getValues(null).remove(model.createInstanceValue(ot));
         p.addValue("ownedMember", model.createInstanceValue(ot));
     }
 
@@ -135,7 +137,7 @@ public class MOF2ToMagicDrawXmi2 extends PatternClass implements XmiTransformato
     @Pattern ( order = 97, atype = "Class", variable = "c")
     public void classifier(@Name("c") ClassInstance<XmiClassifier,String,String> c) {
         if (c.get("superClass") != null) {
-            for (ValueSpecificationImpl<XmiClassifier, String, String> value: c.get("superClass").getValues()) {
+            for (ValueSpecificationImpl<XmiClassifier, String, String> value: c.get("superClass").getValues(null)) {
                 ClassInstance<XmiClassifier,String,String> generalization =
                         model.createInstance(null, new XmiClassifier("Generalization", "uml"), c);
                 c.addValue("generalization", model.createInstanceValue(generalization));

@@ -160,7 +160,7 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
         if (implementation.hasImplementationFor(semantics.getFinalProperty(property), semantics)) {
             return implementation.invokeImplementationFor(semantics.getFinalProperty(property), this, semantics);
         }
-        ValueSpecificationList<UmlClass, Property, java.lang.Object> values = instance.get(property).getValuesAsList();
+        ValueSpecificationList<UmlClass, Property, java.lang.Object> values = instance.get(property).getValuesAsList(null);
         if (!semantics.isCollectionProperty(property)) {
             if (values.size() == 0) {
                 return null;
@@ -231,7 +231,7 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
                     throw new IllegalArgumentException(value);
                 }
                 ReflectiveSequence<? extends ValueSpecification<UmlClass, Property, java.lang.Object>> values =
-                        instance.get(property).getValuesAsList();
+                        instance.get(property).getValuesAsList(null);
 
                 if (propertyChangeListeners.hasListeners(null)) {
                 	propertyChangeListeners.firePropertyChange(property.getName(), get(property), value);
@@ -252,7 +252,7 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
         if (instance == null) {
             return attributes.get(property.getName()) != null;
         } else {
-            return instance.get(property).getValuesAsList().size() != 0;
+            return instance.get(property).getValuesAsList(null).size() != 0;
         }
     }
 
@@ -263,9 +263,9 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
         if (isSet(property) && propertyChangeListeners.hasListeners(null)) {
         	propertyChangeListeners.firePropertyChange(property.getName(), null, null);
         }
-        instance.get(property).getValuesAsList().removeAll(
+        instance.get(property).getValuesAsList(null).removeAll(
                 new hub.sam.mof.util.SetImpl<ValueSpecification<UmlClass, Property, java.lang.Object>>(
-                        instance.get(property).getValuesAsList()));
+                        instance.get(property).getValuesAsList(null)));
     }
 
     @Override
@@ -772,7 +772,7 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
         for (StructureSlot<UmlClass, Property, Object> slot : instance.getSlots()) {
             Property property = slot.getProperty();
             if (!property.isDerived() && !property.isDerivedUnion()) {
-                for (ValueSpecification<UmlClass, Property, Object> value : slot.getValuesAsList()) {
+                for (ValueSpecification<UmlClass, Property, Object> value : slot.getValuesAsList(null)) {
                     if (CMOFToXmi.staticDoConvert((ValueSpecificationImpl)value, slot, instance)) {
                         ValueSpecification<UmlClass, Property, Object> targetValue;
                         if (value.asDataValue() != null) {
@@ -784,7 +784,7 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
                         } else {
                             throw new RuntimeException("assert");
                         }
-                        target.instance.get(property).getValuesAsList().add(targetValue);
+                        target.instance.get(property).getValuesAsList(null).add(targetValue);
                     }
                 }
             }

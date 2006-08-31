@@ -10,12 +10,36 @@ public class PropertyDlg extends hub.sam.mof.reflection.ObjectDlg implements Pro
         this.self = (Property)self;
     }
 
+    public cmof.Property oppositeOperation()  {
+        return (cmof.Property)(java.lang.Object)self.oppositeOperation();
+    }
+
+    public boolean isConsistentWith(cmof.RedefinableElement redefinee)  {
+        return self.isConsistentWith(redefinee);
+    }
+
+    public boolean isConsistentWith(core.abstractions.redefinitions.RedefinableElement redefinee)  {
+        return self.isConsistentWith(redefinee);
+    }
+
+    public cmof.common.ReflectiveCollection<? extends cmof.Classifier> subsettingContext()  {
+        return (cmof.common.ReflectiveCollection<? extends cmof.Classifier>)(java.lang.Object)self.subsettingContext();
+    }
+
     public cmof.Element getOwnedBehavior() {
         return (cmof.Element)(java.lang.Object)self.getOwnedBehavior();
     }
 
     public void setOwnedBehavior(cmof.Element value) {
         self.setOwnedBehavior(value);
+    }
+
+    public cmof.Property getQualifier() {
+        return (cmof.Property)(java.lang.Object)self.getQualifier();
+    }
+
+    public void setQualifier(cmof.Property value) {
+        self.setQualifier(value);
     }
 
     public boolean isID() {
@@ -106,24 +130,24 @@ public class PropertyDlg extends hub.sam.mof.reflection.ObjectDlg implements Pro
         self.setDatatype(value);
     }
 
-    public cmof.Property oppositeOperation()  {
-        return (cmof.Property)(java.lang.Object)self.oppositeOperation();
-    }
-
-    public boolean isConsistentWith(cmof.RedefinableElement redefinee)  {
-        return self.isConsistentWith(redefinee);
-    }
-
-    public boolean isConsistentWith(core.abstractions.redefinitions.RedefinableElement redefinee)  {
-        return self.isConsistentWith(redefinee);
-    }
-
-    public cmof.common.ReflectiveCollection<? extends cmof.Classifier> subsettingContext()  {
-        return (cmof.common.ReflectiveCollection<? extends cmof.Classifier>)(java.lang.Object)self.subsettingContext();
-    }
-
     public cmof.common.ReflectiveCollection<? extends cmof.Classifier> getFeaturingClassifier() {
         return (cmof.common.ReflectiveCollection<? extends cmof.Classifier>)(java.lang.Object)self.getFeaturingClassifier();
+    }
+
+    public cmof.common.ReflectiveSequence<? extends core.abstractions.namespaces.Namespace> allNamespaces()  {
+        return (cmof.common.ReflectiveSequence<? extends core.abstractions.namespaces.Namespace>)(java.lang.Object)self.allNamespaces();
+    }
+
+    public boolean isDistinguishableFrom(core.abstractions.namespaces.NamedElement n, core.abstractions.namespaces.Namespace ns)  {
+        return self.isDistinguishableFrom(n, ns);
+    }
+
+    public java.lang.String separator()  {
+        return self.separator();
+    }
+
+    public java.lang.String qualifiedNameOperation()  {
+        return self.qualifiedNameOperation();
     }
 
     public java.lang.String getName() {
@@ -154,20 +178,12 @@ public class PropertyDlg extends hub.sam.mof.reflection.ObjectDlg implements Pro
         self.setNamespace(value);
     }
 
-    public cmof.common.ReflectiveSequence<? extends core.abstractions.namespaces.Namespace> allNamespaces()  {
-        return (cmof.common.ReflectiveSequence<? extends core.abstractions.namespaces.Namespace>)(java.lang.Object)self.allNamespaces();
+    public cmof.common.ReflectiveCollection<? extends core.abstractions.ownerships.Element> allOwnedElements()  {
+        return (cmof.common.ReflectiveCollection<? extends core.abstractions.ownerships.Element>)(java.lang.Object)self.allOwnedElements();
     }
 
-    public boolean isDistinguishableFrom(core.abstractions.namespaces.NamedElement n, core.abstractions.namespaces.Namespace ns)  {
-        return self.isDistinguishableFrom(n, ns);
-    }
-
-    public java.lang.String separator()  {
-        return self.separator();
-    }
-
-    public java.lang.String qualifiedNameOperation()  {
-        return self.qualifiedNameOperation();
+    public boolean mustBeOwned()  {
+        return self.mustBeOwned();
     }
 
     public cmof.common.ReflectiveCollection<? extends cmof.Element> getOwnedElement() {
@@ -184,14 +200,6 @@ public class PropertyDlg extends hub.sam.mof.reflection.ObjectDlg implements Pro
 
     public void setOwner(core.abstractions.ownerships.Element value) {
         self.setOwner(value);
-    }
-
-    public cmof.common.ReflectiveCollection<? extends core.abstractions.ownerships.Element> allOwnedElements()  {
-        return (cmof.common.ReflectiveCollection<? extends core.abstractions.ownerships.Element>)(java.lang.Object)self.allOwnedElements();
-    }
-
-    public boolean mustBeOwned()  {
-        return self.mustBeOwned();
     }
 
     public cmof.common.ReflectiveCollection<? extends cmof.Classifier> getRedefinitionContext() {
@@ -242,6 +250,26 @@ public class PropertyDlg extends hub.sam.mof.reflection.ObjectDlg implements Pro
         self.setType(value);
     }
 
+    public int lowerBound()  {
+        return self.lowerBound();
+    }
+
+    public long upperBound()  {
+        return self.upperBound();
+    }
+
+    public boolean isMultivalued()  {
+        return self.isMultivalued();
+    }
+
+    public boolean includesCardinality(int C)  {
+        return self.includesCardinality(C);
+    }
+
+    public boolean includesMultiplicity(core.abstractions.multiplicities.MultiplicityElement M)  {
+        return self.includesMultiplicity(M);
+    }
+
     public boolean isOrdered() {
         return self.isOrdered();
     }
@@ -272,26 +300,6 @@ public class PropertyDlg extends hub.sam.mof.reflection.ObjectDlg implements Pro
 
     public void setUpper(long value) {
         self.setUpper(value);
-    }
-
-    public int lowerBound()  {
-        return self.lowerBound();
-    }
-
-    public long upperBound()  {
-        return self.upperBound();
-    }
-
-    public boolean isMultivalued()  {
-        return self.isMultivalued();
-    }
-
-    public boolean includesCardinality(int C)  {
-        return self.includesCardinality(C);
-    }
-
-    public boolean includesMultiplicity(core.abstractions.multiplicities.MultiplicityElement M)  {
-        return self.includesMultiplicity(M);
     }
 
     public java.lang.String getDefault() {

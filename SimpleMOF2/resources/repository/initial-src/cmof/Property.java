@@ -22,11 +22,38 @@ public interface Property extends cmof.StructuralFeature, core.basic.Property
 {
 
     /**
+     * <b>opposite</b>, multiplicity=(0,1)
+     */
+    public cmof.Property oppositeOperation() ;
+
+    /**
+     * <b>isConsistentWith</b>, multiplicity=(1,1)
+     */
+    public boolean isConsistentWith(cmof.RedefinableElement redefinee) ;
+
+    /**
+     * <b>isConsistentWith</b>, multiplicity=(1,1)
+     */
+    public boolean isConsistentWith(core.abstractions.redefinitions.RedefinableElement redefinee) ;
+
+    /**
+     * <b>subsettingContext</b>, multiplicity=(0,*)
+     */
+    public cmof.common.ReflectiveCollection<? extends cmof.Classifier> subsettingContext() ;
+
+    /**
      * <b>ownedBehavior</b>, multiplicity=(0,1), subsettedProperty = {cmof.Element.ownedElement}
      */
     public cmof.Element getOwnedBehavior();
 
     public void setOwnedBehavior(cmof.Element value);
+
+    /**
+     * <b>qualifier</b>, multiplicity=(0,1), subsettedProperty = {cmof.Element.ownedElement}
+     */
+    public cmof.Property getQualifier();
+
+    public void setQualifier(cmof.Property value);
 
     /**
      * <b>isID</b>, multiplicity=(0,1)
@@ -104,26 +131,6 @@ public interface Property extends cmof.StructuralFeature, core.basic.Property
     public cmof.DataType getDatatype();
 
     public void setDatatype(cmof.DataType value);
-
-    /**
-     * <b>opposite</b>, multiplicity=(0,1)
-     */
-    public cmof.Property oppositeOperation() ;
-
-    /**
-     * <b>isConsistentWith</b>, multiplicity=(1,1)
-     */
-    public boolean isConsistentWith(cmof.RedefinableElement redefinee) ;
-
-    /**
-     * <b>isConsistentWith</b>, multiplicity=(1,1)
-     */
-    public boolean isConsistentWith(core.abstractions.redefinitions.RedefinableElement redefinee) ;
-
-    /**
-     * <b>subsettingContext</b>, multiplicity=(0,*)
-     */
-    public cmof.common.ReflectiveCollection<? extends cmof.Classifier> subsettingContext() ;
 
 }
 

@@ -62,7 +62,7 @@ public class Instantiation extends AbstractXmiConversion<ClassInstance<XmiClassi
     }
 
     private void collectClassifiersFromPackage(ClassInstance<XmiClassifier,String,String> aPackage) {
-        for (ValueSpecification<XmiClassifier,String,String> value: aPackage.get("ownedType").getValues()) {
+        for (ValueSpecification<XmiClassifier,String,String> value: aPackage.get("ownedType").getValues(null)) {
             ClassInstance<XmiClassifier,String,String> instance = value.asInstanceValue().getInstance();
             if (!instance.getClassifier().isDefinedByContext()) {
                 if (Arrays.binarySearch(M3_CLASSIFIERS, instance.getClassifier().getName()) != -1) {
@@ -73,7 +73,7 @@ public class Instantiation extends AbstractXmiConversion<ClassInstance<XmiClassi
         }
         StructureSlot<XmiClassifier,String,String> nestedPackageSlot = aPackage.get("nestedPackage");
         if (nestedPackageSlot != null) {
-            for (ValueSpecification<XmiClassifier,String,String> value: nestedPackageSlot.getValues()) {
+            for (ValueSpecification<XmiClassifier,String,String> value: nestedPackageSlot.getValues(null)) {
                 collectClassifiersFromPackage(value.asInstanceValue().getInstance());
             }
         }

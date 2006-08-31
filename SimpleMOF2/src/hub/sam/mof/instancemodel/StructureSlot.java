@@ -14,7 +14,7 @@ details.
 
     You should have received a copy of the GNU Lesser General Public License
 along with this library; if not, write to the Free Software Foundation, Inc.,
-59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
+59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
 package hub.sam.mof.instancemodel;
@@ -24,40 +24,43 @@ import java.util.*;
 public class StructureSlot<C,P,DataValue> extends hub.sam.util.Identity {
     private List<ValueSpecificationImpl<C,P,DataValue>> values = createValues();
     private P property;
-            
+
     protected StructureSlot(P feature, ClassInstance owner) {
     	super(feature);
     	setParentIdentity(owner);
         this.property = feature;
     }
-    
+
     protected List<ValueSpecificationImpl<C,P,DataValue>> createValues() {
     	return new Vector<ValueSpecificationImpl<C,P,DataValue>>();
     }
-    
-    public void addValue(ValueSpecificationImpl<C,P,DataValue> value) {
-    	// This conditional add is actually very bad. The problem is that during an early bootstrap 
-    	// phase, it is not clear whether a property shall has unique values or not. However, in 
+
+    public void addValue(ValueSpecificationImpl<C,P,DataValue> value,
+                         ValueSpecification<C,P,DataValue> qualifier) {
+    	// This conditional add is actually very bad. The problem is that during an early bootstrap
+    	// phase, it is not clear whether a property shall has unique values or not. However, in
     	// reality the lack of this condition would cause double entries due to multiple adds caused
     	// by subsets. This is evident in memberEnds, which are always set as memberEnds and sometimes
     	// in the memberEnd subset ownedEnd.
-    	if (!values.contains(value)) {    		
+    	if (!values.contains(value)) {
     		values.add(value);
     	}
     }
-    
-    public List<ValueSpecificationImpl<C,P,DataValue>> getValues() {
+
+    public List<ValueSpecificationImpl<C,P,DataValue>> getValues(
+            ValueSpecification<C,P,DataValue> qualifier) {
         return values;
     }
-    
-    public ValueSpecificationList<C,P,DataValue> getValuesAsList() {
+
+    public ValueSpecificationList<C,P,DataValue> getValuesAsList(
+            ValueSpecification<C,P,DataValue> qualifier) {
         return null;
     }
-    
+
     public P getProperty() {
         return this.property;
     }
-     
+
 	protected void myFinalize() {
         if (values != null) {
         	values.clear();

@@ -63,7 +63,7 @@ public class ClassInstance<C,P,DataValue> extends hub.sam.util.Identity {
             slot = new StructureSlot<C,P,DataValue>(feature, this);
             slots.put(feature, slot);
         }
-        slot.addValue(value);
+        slot.addValue(value, null);
     }
 
     public C getClassifier() {

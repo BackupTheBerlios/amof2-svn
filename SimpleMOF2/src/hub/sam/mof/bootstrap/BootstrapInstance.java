@@ -44,7 +44,7 @@ public class BootstrapInstance extends ClassInstance<ClassInstance<ClassInstance
 	private ClassInstance<ClassInstance,ClassInstance,Object> getType(ClassInstance<ClassInstance,ClassInstance,Object> property) {
         BootstrapSemantics semantics = model.createBootstrapSemantics(property.getClassifier());
         try {
-            return property.get(semantics.getProperty("type")).getValues().get(0).asInstanceValue().getInstance();
+            return property.get(semantics.getProperty("type")).getValues(null).get(0).asInstanceValue().getInstance();
         } catch (NullPointerException e) {
             return null;
         }
@@ -126,7 +126,7 @@ public class BootstrapInstance extends ClassInstance<ClassInstance<ClassInstance
             ClassInstance<ClassInstance,ClassInstance,Object> forProperty = slot.getProperty();
             ClassInstance<ClassInstance,ClassInstance,Object> opposite = (ClassInstance<ClassInstance,ClassInstance,Object>)model.get(forProperty,"opposite");
             if (opposite != null && model.get(opposite.getComposite().getClassifier(),"name").equals("Class")) {
-                for (ValueSpecificationImpl value: get(forProperty).getValues()) {
+                for (ValueSpecificationImpl value: get(forProperty).getValues(null)) {
                     if (value.asInstanceValue() != null) {
                         BootstrapInstance oppositeValue = (BootstrapInstance)value.asInstanceValue().getInstance();
                         Collection<ClassInstance> alreadyUpdatedValues = oppositeValue.updatedOpposites.get(opposite);
@@ -176,7 +176,7 @@ public class BootstrapInstance extends ClassInstance<ClassInstance<ClassInstance
         }
         // add the values to them
         for (ClassInstance<ClassInstance,ClassInstance,Object> finalSupersetProperty: finalSupersets) {
-            for (ValueSpecificationImpl value: get(forProperty).getValues()) {
+            for (ValueSpecificationImpl value: get(forProperty).getValues(null)) {
                 addValue(finalSupersetProperty, value);
             }
         }

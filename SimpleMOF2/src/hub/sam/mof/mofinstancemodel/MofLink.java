@@ -19,11 +19,17 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 
 package hub.sam.mof.mofinstancemodel;
 
-import java.util.*;
-import cmof.*;
-import cmof.exception.*;
+import cmof.Association;
+import cmof.Property;
+import cmof.StructuralFeature;
+import cmof.UmlClass;
 import cmof.exception.IllegalArgumentException;
 import hub.sam.mof.instancemodel.InstanceValue;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 
 /**
  * Links are not stored in the model explicitly. All links are derived from properties
@@ -36,7 +42,8 @@ import hub.sam.mof.instancemodel.InstanceValue;
 public class MofLink {
 	private final Association association;
 	private final Collection<MofLinkSlot> slots = new HashSet<MofLinkSlot>();
-    private final MofLinkSlot slotOne, slotTwo;
+    private final MofLinkSlot slotOne;
+    private final MofLinkSlot slotTwo;
 
     /** For all owned association ends (properties) a preuso structure slot is created
      * and bound to the instance value. Thus a navigable end is faked, and all those
@@ -58,8 +65,8 @@ public class MofLink {
         if ((slotOne == null) || (slotTwo == null)) {
             throw new IllegalArgumentException("instances are not compatible with association");
         }
-        slotOne.getValuesAsList().addPlain(two);
-        slotTwo.getValuesAsList().addPlain(one);
+        slotOne.getValuesAsList(null).addPlain(two);
+        slotTwo.getValuesAsList(null).addPlain(one);
     }
 
     public static MofLink getLink(Association association, InstanceValue<UmlClass,Property,java.lang.Object> one, InstanceValue<UmlClass,Property,java.lang.Object> two) {
@@ -68,7 +75,7 @@ public class MofLink {
         if ((slotOne == null) || (slotTwo == null)) {
             throw new IllegalArgumentException("instances are not compatible with association");
         }
-        if (slotOne.getValuesAsList().contains(two) && slotTwo.getValuesAsList().contains(one)) {
+        if (slotOne.getValuesAsList(null).contains(two) && slotTwo.getValuesAsList(null).contains(one)) {
             return new MofLink(association,one, two);
         } else {
             return null;
@@ -77,8 +84,8 @@ public class MofLink {
 
     public static void removeLink(Association association, InstanceValue<UmlClass,Property,java.lang.Object> one, InstanceValue<UmlClass,Property,java.lang.Object> two) {
         if (getLink(association, one, two) != null) {
-            findStructureSlotForEnd(association.getMemberEnd().get(1), one).getValuesAsList().removePlain(two);
-            findStructureSlotForEnd(association.getMemberEnd().get(0), two).getValuesAsList().removePlain(one);
+            findStructureSlotForEnd(association.getMemberEnd().get(1), one).getValuesAsList(null).removePlain(two);
+            findStructureSlotForEnd(association.getMemberEnd().get(0), two).getValuesAsList(null).removePlain(one);
         }
     }
 
@@ -132,8 +139,8 @@ public class MofLink {
         if (other instanceof MofLink) {
             MofLink otherLink = (MofLink)other;
             boolean equals = true;
-            equals = equals && otherLink.slotTwo.getValue().get(0).equals(this.slotTwo.getValue().get(0));
-            equals = equals && otherLink.slotOne.getValue().get(0).equals(this.slotOne.getValue().get(0));
+            equals = equals && otherLink.slotTwo.getValue(null).get(0).equals(this.slotTwo.getValue(null).get(0));
+            equals = equals && otherLink.slotOne.getValue(null).get(0).equals(this.slotOne.getValue(null).get(0));
             equals = equals && otherLink.association.equals(this.association);
             return equals;
         } else {

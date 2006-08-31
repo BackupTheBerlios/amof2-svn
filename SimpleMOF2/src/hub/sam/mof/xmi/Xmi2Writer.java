@@ -99,7 +99,7 @@ public class Xmi2Writer {
         parent.setAttribute("id", instance.getId(), xmi);
         for(StructureSlot<XmiClassifier,String,String> slot: instance.getSlots()) {
             StringBuffer values = new StringBuffer();
-            for (ValueSpecificationImpl<XmiClassifier,String,String> value: slot.getValues()) {
+            for (ValueSpecificationImpl<XmiClassifier,String,String> value: slot.getValues(null)) {
                 if (value.asInstanceValue() != null) {
                     ClassInstance<XmiClassifier,String,String> valueInstance = value.asInstanceValue().getInstance();
                     if (valueInstance.getComposite() != instance) {

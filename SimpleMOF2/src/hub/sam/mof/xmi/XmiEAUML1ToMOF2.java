@@ -37,15 +37,15 @@ import java.util.Vector;
 public class XmiEAUML1ToMOF2 extends PatternClass implements XmiTransformator {
 
     private ClassInstance<XmiClassifier,String,String> getInstanceValue(ClassInstance<XmiClassifier,String,String> from, String key, int index) {
-        return from.get(key).getValues().get(index).asInstanceValue().getInstance();
+        return from.get(key).getValues(null).get(index).asInstanceValue().getInstance();
     }
 
     private String getUnspecifiedValue(ClassInstance<XmiClassifier,String,String> from, String key, int index) {
-        if (from == null || from.get(key) == null || from.get(key).getValues().get(index) == null || from.get(key).getValues().get(index).asUnspecifiedValue() == null) {
+        if (from == null || from.get(key) == null || from.get(key).getValues(null).get(index) == null || from.get(key).getValues(null).get(index).asUnspecifiedValue() == null) {
             return null;
         }
         try {
-            return (String)from.get(key).getValues().get(index).asUnspecifiedValue().getUnspecifiedData();
+            return (String)from.get(key).getValues(null).get(index).asUnspecifiedValue().getUnspecifiedData();
         } catch (NullPointerException e) {
             return null;
         }
@@ -53,13 +53,13 @@ public class XmiEAUML1ToMOF2 extends PatternClass implements XmiTransformator {
 
     private void removeAttribute(ClassInstance<XmiClassifier,String,String> from, String attr) {
         if (from.get(attr) != null) {
-            if (from.get(attr).getValues().size() > 0) {
-                for(ValueSpecification<XmiClassifier,String,String> value: from.get(attr).getValues()) {
+            if (from.get(attr).getValues(null).size() > 0) {
+                for(ValueSpecification<XmiClassifier,String,String> value: from.get(attr).getValues(null)) {
                     if (value.asInstanceValue() != null) {
                         value.asInstanceValue().getInstance().setComposite(null);
                     }
                 }
-                from.get(attr).getValues().clear();
+                from.get(attr).getValues(null).clear();
             }
         }
     }
@@ -99,7 +99,7 @@ public class XmiEAUML1ToMOF2 extends PatternClass implements XmiTransformator {
     public void removeDataTypesFromModel(
             @Name("m")  ClassInstance<XmiClassifier,String,String> m,
             @Name("dt") ClassInstance<XmiClassifier,String,String> dt) {
-        m.get("ownedElement").getValues().remove(dt);
+        m.get("ownedElement").getValues(null).remove(dt);
         dt.setComposite(null);
         //tlElements.add(dt);
     }
@@ -126,7 +126,7 @@ public class XmiEAUML1ToMOF2 extends PatternClass implements XmiTransformator {
     public void ownedType(
             @Name("p") ClassInstance<XmiClassifier,String,String> p,
             @Name("e") ClassInstance<XmiClassifier,String,String> e) {
-        p.get("ownedElement").getValues().remove(model.createInstanceValue(e));
+        p.get("ownedElement").getValues(null).remove(model.createInstanceValue(e));
         p.addValue("ownedType", model.createInstanceValue(e));
     }
 
@@ -139,7 +139,7 @@ public class XmiEAUML1ToMOF2 extends PatternClass implements XmiTransformator {
             @Name("p") ClassInstance<XmiClassifier,String,String> p,
             @Name("e") ClassInstance<XmiClassifier,String,String> e) {
 
-        p.get("ownedElement").getValues().remove(model.createInstanceValue(e));
+        p.get("ownedElement").getValues(null).remove(model.createInstanceValue(e));
         p.addValue("ownedComment", model.createInstanceValue(e));
     }
 
@@ -151,7 +151,7 @@ public class XmiEAUML1ToMOF2 extends PatternClass implements XmiTransformator {
     public void nestedPackage(
             @Name("p") ClassInstance<XmiClassifier,String,String> p,
             @Name("np") ClassInstance<XmiClassifier,String,String> np) {
-        p.get("ownedElement").getValues().remove(model.createInstanceValue(np));
+        p.get("ownedElement").getValues(null).remove(model.createInstanceValue(np));
         p.addValue("nestedPackage", model.createInstanceValue(np));
     }
 
@@ -172,7 +172,7 @@ public class XmiEAUML1ToMOF2 extends PatternClass implements XmiTransformator {
             } else {
                 theClass.addValue("superClass", model.createInstanceValue(model.getInstance(ids)));
             }
-            p.get("ownedElement").getValues().remove(model.createInstanceValue(generalisation));
+            p.get("ownedElement").getValues(null).remove(model.createInstanceValue(generalisation));
         }
 
     //p=Package(element=Constraint.Dependency.Collaboration)
@@ -183,7 +183,7 @@ public class XmiEAUML1ToMOF2 extends PatternClass implements XmiTransformator {
     public void unwantedOwnedElement(
             @Name("p") ClassInstance<XmiClassifier,String,String> p,
             @Name("element") ClassInstance<XmiClassifier,String,String> element) {
-        p.get("ownedElement").getValues().remove(model.createInstanceValue(element));
+        p.get("ownedElement").getValues(null).remove(model.createInstanceValue(element));
         element.setComposite(null);
     }
 
@@ -212,7 +212,7 @@ public class XmiEAUML1ToMOF2 extends PatternClass implements XmiTransformator {
             @Name("ref") ClassInstance<XmiClassifier,String,String> ref) throws XmiException, Throwable {
         ClassInstance<XmiClassifier,String,String> s = model.getInstance(getUnspecifiedValue(ref,"xmi.idref",0));
         String name = getUnspecifiedValue(s,"name",0);
-           p.get("stereotype").getValues().remove(model.createInstanceValue(ref));
+           p.get("stereotype").getValues(null).remove(model.createInstanceValue(ref));
 
         if (name.equals("metamodel")) {
             p.setComposite(null);
@@ -232,7 +232,7 @@ public class XmiEAUML1ToMOF2 extends PatternClass implements XmiTransformator {
         provided(getUnspecifiedValue(s, "name", 0).equals("enumeration"));
 
         c.getClassifier().setName("Enumeration");
-        c.get("taggedValue").getValues().clear();
+        c.get("taggedValue").getValues(null).clear();
         removeAttribute(c, "taggedValue");
         dive();
     }
@@ -245,7 +245,7 @@ public class XmiEAUML1ToMOF2 extends PatternClass implements XmiTransformator {
             @Name("end") ClassInstance<XmiClassifier,String,String> end,
             @Name("tv") ClassInstance<XmiClassifier,String,String> tv) {
         provided(getUnspecifiedValue(tv, "tag", 0).equals("constraint"));
-        end.addValue("details", tv.get("value").getValues().get(0));
+        end.addValue("details", tv.get("value").getValues(null).get(0));
     }
 
     //a=Association (end1=connection:AssociationEnd, end2=connection:AssociationEnd) provided (end1 != end2)
@@ -267,8 +267,8 @@ public class XmiEAUML1ToMOF2 extends PatternClass implements XmiTransformator {
         a.addValue("memberEnd", end1Value);
            a.addValue("memberEnd", end2Value);
         dive();
-        a.get("connection").getValues().remove(end1Value);
-        a.get("connection").getValues().remove(end2Value);
+        a.get("connection").getValues(null).remove(end1Value);
+        a.get("connection").getValues(null).remove(end2Value);
 
         removeAttribute(a, "isLeaf");
         removeAttribute(a, "isRoot");
@@ -308,25 +308,25 @@ public class XmiEAUML1ToMOF2 extends PatternClass implements XmiTransformator {
     //property=Attribute
     @Pattern(order = 86, atype = "Attribute", variable = "property")
     public void property(@Name("property") ClassInstance<XmiClassifier,String,String> property) {
-        for(ValueSpecification<XmiClassifier,String,String> value: property.get("taggedValue").getValues()) {
+        for(ValueSpecification<XmiClassifier,String,String> value: property.get("taggedValue").getValues(null)) {
             String tag = getUnspecifiedValue(value.asInstanceValue().getInstance(), "tag",0);
             if (tag.equals("upperBound")) {
-                property.addValue("upper", value.asInstanceValue().getInstance().get("value").getValues().get(0));
+                property.addValue("upper", value.asInstanceValue().getInstance().get("value").getValues(null).get(0));
             }
             if (tag.equals("lowerBound")) {
-                property.addValue("lower", value.asInstanceValue().getInstance().get("value").getValues().get(0));
+                property.addValue("lower", value.asInstanceValue().getInstance().get("value").getValues(null).get(0));
             }
             if (tag.equals("ordered")) {
                 property.addValue("isOrdered",
-                    (value.asInstanceValue().getInstance().get("value").getValues().get(0).asUnspecifiedValue().getUnspecifiedData()).equals("1")? model.createPrimitiveValue("true") : model.createPrimitiveValue("false"));
+                    (value.asInstanceValue().getInstance().get("value").getValues(null).get(0).asUnspecifiedValue().getUnspecifiedData()).equals("1")? model.createPrimitiveValue("true") : model.createPrimitiveValue("false"));
             }
             if (tag.equals("derived")) {
                 property.addValue("isDerived",
-                    (value.asInstanceValue().getInstance().get("value").getValues().get(0).asUnspecifiedValue().getUnspecifiedData()).equals("1")? model.createPrimitiveValue("true") : model.createPrimitiveValue("false"));
+                    (value.asInstanceValue().getInstance().get("value").getValues(null).get(0).asUnspecifiedValue().getUnspecifiedData()).equals("1")? model.createPrimitiveValue("true") : model.createPrimitiveValue("false"));
             }
             if (tag.equals("duplicates")) {
                 property.addValue("isUnique",
-                    (value.asInstanceValue().getInstance().get("value").getValues().get(0).asUnspecifiedValue().getUnspecifiedData()).equals("0")? model.createPrimitiveValue("true") : model.createPrimitiveValue("false"));
+                    (value.asInstanceValue().getInstance().get("value").getValues(null).get(0).asUnspecifiedValue().getUnspecifiedData()).equals("0")? model.createPrimitiveValue("true") : model.createPrimitiveValue("false"));
             }
         }
     }
@@ -339,8 +339,8 @@ public class XmiEAUML1ToMOF2 extends PatternClass implements XmiTransformator {
     public void mulitplicity(
             @Name("property") ClassInstance<XmiClassifier,String,String> property,
             @Name("range") ClassInstance<XmiClassifier,String,String> range) {
-        property.addValue("upper", range.get("upper").getValues().get(0));
-        property.addValue("lower", range.get("lower").getValues().get(0));
+        property.addValue("upper", range.get("upper").getValues(null).get(0));
+        property.addValue("lower", range.get("lower").getValues(null).get(0));
         removeAttribute(property, "multiplicity");
     }
 
@@ -411,13 +411,13 @@ public class XmiEAUML1ToMOF2 extends PatternClass implements XmiTransformator {
     //feature=Property.Operation.Parameter provided (feature.get("type") != null && feature.get("type").getValues().size() > 0 && feature.get("type").getValues().get(0).asInstanceValue() != null)
     @Pattern(order = 83, atype = "Property.Operation.Parameter", variable = "feature")
     public void featureType(@Name("feature") ClassInstance<XmiClassifier,String,String> feature) throws Throwable {
-        provided (feature.get("type") != null && feature.get("type").getValues().size() > 0 &&
-                feature.get("type").getValues().get(0).asInstanceValue() != null);
+        provided (feature.get("type") != null && feature.get("type").getValues(null).size() > 0 &&
+                feature.get("type").getValues(null).get(0).asInstanceValue() != null);
 
-        String id = getUnspecifiedValue(feature.get("type").getValues().get(0).asInstanceValue().getInstance(), "xmi.idref", 0);
+        String id = getUnspecifiedValue(feature.get("type").getValues(null).get(0).asInstanceValue().getInstance(), "xmi.idref", 0);
         ClassInstance<XmiClassifier,String,String> type = model.getInstance(id);
         if (type != null) {
-            feature.get("type").getValues().set(0, model.createInstanceValue(type));
+            feature.get("type").getValues(null).set(0, model.createInstanceValue(type));
         }
     }
 
@@ -453,10 +453,10 @@ public class XmiEAUML1ToMOF2 extends PatternClass implements XmiTransformator {
             @Name("param") ClassInstance<XmiClassifier,String,String> param) throws Throwable {
         param.getClassifier().setNamespacePrefix("cmof");
         dive(); // for parameters
-        op.get("parameter").getValues().remove(model.createInstanceValue(param));
+        op.get("parameter").getValues(null).remove(model.createInstanceValue(param));
         if ("return".equals(getUnspecifiedValue(param, "kind", 0))) {
             op.addValue("returnResult", model.createInstanceValue(param));
-            ClassInstance<XmiClassifier,String,String> type = param.get("type").getValues().get(0).asInstanceValue().getInstance();
+            ClassInstance<XmiClassifier,String,String> type = param.get("type").getValues(null).get(0).asInstanceValue().getInstance();
             op.addValue("type", model.createInstanceValue(type));
         } else {
             op.addValue("formalParameter", model.createInstanceValue(param));
@@ -482,7 +482,7 @@ public class XmiEAUML1ToMOF2 extends PatternClass implements XmiTransformator {
     public void element2(
             @Name("element") ClassInstance<XmiClassifier,String,String> element,
             @Name("s") ClassInstance<XmiClassifier,String,String> s) {
-        element.get("ownedElement").getValues().remove(s);
+        element.get("ownedElement").getValues(null).remove(s);
     }
 
     //theClass=Class.DataType(attribute=Attribute)
@@ -492,7 +492,7 @@ public class XmiEAUML1ToMOF2 extends PatternClass implements XmiTransformator {
     public void renameFeature(
             @Name("theClass") ClassInstance<XmiClassifier,String,String> theClass,
             @Name("attribute") ClassInstance<XmiClassifier,String,String> attribute) {
-        theClass.get("feature").getValues().remove(model.createInstanceValue(attribute));
+        theClass.get("feature").getValues(null).remove(model.createInstanceValue(attribute));
         theClass.addValue("ownedAttribute", model.createInstanceValue(attribute));
     }
 
@@ -503,7 +503,7 @@ public class XmiEAUML1ToMOF2 extends PatternClass implements XmiTransformator {
     public void enumLiteral(
             @Name("enumeration") ClassInstance<XmiClassifier,String,String> enumeration,
             @Name("attr") ClassInstance<XmiClassifier,String,String> attr) {
-        enumeration.get("feature").getValues().remove(model.createInstanceValue(attr));
+        enumeration.get("feature").getValues(null).remove(model.createInstanceValue(attr));
         ClassInstance<XmiClassifier,String,String> literal = model.createInstance(null,
                 new XmiClassifier("EnumerationLiteral", "cmof"), enumeration);
         enumeration.addValue("ownedLiteral", model.createInstanceValue(literal));
@@ -537,7 +537,7 @@ public class XmiEAUML1ToMOF2 extends PatternClass implements XmiTransformator {
             @Name("theClass") ClassInstance<XmiClassifier,String,String> theClass,
             @Name("op") ClassInstance<XmiClassifier,String,String> op) {
         op.getClassifier().setNamespacePrefix("cmof");
-        theClass.get("feature").getValues().remove(model.createInstanceValue(op));
+        theClass.get("feature").getValues(null).remove(model.createInstanceValue(op));
         theClass.addValue("ownedOperation", model.createInstanceValue(op));
 
     }
@@ -562,7 +562,7 @@ public class XmiEAUML1ToMOF2 extends PatternClass implements XmiTransformator {
 
         provided(getUnspecifiedValue(tv, "tag", 0).equals("documentation"));
 
-        c.addValue("body", tv.get("value").getValues().get(0));
+        c.addValue("body", tv.get("value").getValues(null).get(0));
     }
 
     //c=Comment -> {

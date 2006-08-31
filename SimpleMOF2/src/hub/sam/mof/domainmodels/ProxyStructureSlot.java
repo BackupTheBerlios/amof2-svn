@@ -1,8 +1,10 @@
 package hub.sam.mof.domainmodels;
 
 import cmof.Property;
+import cmof.UmlClass;
 import hub.sam.mof.mofinstancemodel.MofStructureSlot;
 import hub.sam.mof.mofinstancemodel.MofValueSpecificationList;
+import hub.sam.mof.instancemodel.ValueSpecification;
 
 import java.lang.reflect.Method;
 
@@ -71,7 +73,7 @@ public class ProxyStructureSlot extends MofStructureSlot {
     }
 
     @Override
-    public MofValueSpecificationList getValuesAsList() {
+    public MofValueSpecificationList getValuesAsList(ValueSpecification<UmlClass,Property,Object> qualifier) {
         return new ProxyValueSpecificationList(instance, this, instance.getContext(), getProxyValues());
     }
 }

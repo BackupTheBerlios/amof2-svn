@@ -14,21 +14,27 @@ details.
 
     You should have received a copy of the GNU Lesser General Public License
 along with this library; if not, write to the Free Software Foundation, Inc.,
-59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
+59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
 package hub.sam.mof.xmi.mopa;
 
-import java.util.*;
-import hub.sam.mopa.trees.*;
-import hub.sam.mof.instancemodel.*;
+import hub.sam.mof.instancemodel.ClassInstance;
+import hub.sam.mof.instancemodel.StructureSlot;
+import hub.sam.mof.instancemodel.ValueSpecificationImpl;
 import hub.sam.mof.xmi.XmiClassifier;
+import hub.sam.mopa.trees.TreeNode;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Vector;
 
 public class XmiMopaTreeNode implements TreeNode {
     private final ClassInstance<XmiClassifier,String,String> node;
-    private final static Map<ClassInstance<XmiClassifier,String,String>, XmiMopaTreeNode> nodes = new HashMap<ClassInstance<XmiClassifier,String,String>, XmiMopaTreeNode>();
+    private static final Map<ClassInstance<XmiClassifier,String,String>, XmiMopaTreeNode> nodes = new HashMap<ClassInstance<XmiClassifier,String,String>, XmiMopaTreeNode>();
     private final Collection<TreeNode> children = new Vector<TreeNode>();
-    
+
     public static XmiMopaTreeNode createNode(ClassInstance<XmiClassifier,String,String> node) {
         XmiMopaTreeNode result = nodes.get(node);
         if (result == null) {
@@ -38,14 +44,15 @@ public class XmiMopaTreeNode implements TreeNode {
         }
         return result;
     }
-    
+
     private XmiMopaTreeNode(ClassInstance<XmiClassifier,String,String> node) {
-        this.node = node;        
+        super();
+        this.node = node;
     }
 
     private void initialize() {
         for (StructureSlot<XmiClassifier,String,String> slot: node.getSlots()) {
-            for (ValueSpecificationImpl<XmiClassifier,String,String> value: slot.getValues()) {
+            for (ValueSpecificationImpl<XmiClassifier,String,String> value: slot.getValues(null)) {
                 if (value.asInstanceValue() != null) {
                     children.add(createNode(value.asInstanceValue().getInstance()));
                 }
@@ -66,8 +73,8 @@ public class XmiMopaTreeNode implements TreeNode {
         Collection<TreeNode> result = new Vector<TreeNode>();
         if (slot == null) {
             return result;
-        }        
-        for (ValueSpecificationImpl<XmiClassifier,String,String> value: slot.getValues()) {
+        }
+        for (ValueSpecificationImpl<XmiClassifier,String,String> value: slot.getValues(null)) {
             if (value.asInstanceValue() != null) {
                 result.add(createNode(value.asInstanceValue().getInstance()));
             }
@@ -97,5 +104,5 @@ public class XmiMopaTreeNode implements TreeNode {
                 return node.getClassifier().getName().equals(arg0);
             }
         }
-    }    
+    }
 }

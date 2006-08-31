@@ -61,9 +61,11 @@ public class Main extends TestCase {
         suite.addTestSuite(TestElement.class);
         suite.addTestSuite(TestRedfinableElement.class);
         suite.addTestSuite(TestClassifier.class);
-        
+
         suite.addTestSuite(PropertyChangeNotification.class);
         suite.addTestSuite(ReflectiveSequenceExtension.class);
+        suite.addTestSuite(JavaTypeTest.class);
+        suite.addTestSuite(QualifierTest.class);
 
         return suite;
     }

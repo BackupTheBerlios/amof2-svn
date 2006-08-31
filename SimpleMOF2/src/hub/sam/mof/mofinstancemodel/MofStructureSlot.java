@@ -23,6 +23,7 @@ import cmof.Property;
 import cmof.UmlClass;
 import hub.sam.mof.instancemodel.StructureSlot;
 import hub.sam.mof.instancemodel.ValueSpecificationImpl;
+import hub.sam.mof.instancemodel.ValueSpecification;
 
 import java.util.List;
 import java.util.Vector;
@@ -37,20 +38,21 @@ public class MofStructureSlot extends StructureSlot<UmlClass,Property,java.lang.
 	}
 
     @Override
-	public MofValueSpecificationList getValuesAsList() {
+	public MofValueSpecificationList getValuesAsList(ValueSpecification<UmlClass,Property,Object> qualifier) {
         return values;
     }
 
     @Override
-	protected List<ValueSpecificationImpl<UmlClass,Property,java.lang.Object>> createValues() {    	
+	protected List<ValueSpecificationImpl<UmlClass,Property,java.lang.Object>> createValues() {
     	return null;
     }
 
     @SuppressWarnings("unchecked")
 	@Override
-	public List<ValueSpecificationImpl<UmlClass,Property,java.lang.Object>> getValues() {
+	public List<ValueSpecificationImpl<UmlClass,Property,java.lang.Object>> getValues(
+            ValueSpecification<UmlClass,Property,Object> qualifier) {
         List result = new Vector();
-        for (Object o: getValuesAsList()) {
+        for (Object o: getValuesAsList(null)) {
             result.add(o);
         }
         return result;

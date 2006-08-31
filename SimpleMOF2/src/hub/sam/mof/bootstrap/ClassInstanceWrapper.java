@@ -86,11 +86,12 @@ public class ClassInstanceWrapper extends ClassInstance<UmlClass,Property,java.l
             this.slot = slot;
         }
         @Override
-		public ValueSpecificationList<UmlClass,Property,Object> getValuesAsList() {
+		public ValueSpecificationList<UmlClass,Property,Object> getValuesAsList(
+                ValueSpecification<UmlClass,Property,Object> qualifier) {
             if (slot == null) {
                 return new ValueList(new Vector<ValueSpecification<ClassInstance,ClassInstance,Object>>(), null);
             }
-            return new ValueList(slot.getValues(), new Wrapper<ValueSpecification<UmlClass,Property,Object>,ValueSpecification<ClassInstance,ClassInstance,Object>>() {
+            return new ValueList(slot.getValues(null), new Wrapper<ValueSpecification<UmlClass,Property,Object>,ValueSpecification<ClassInstance,ClassInstance,Object>>() {
                 public ValueSpecification<UmlClass, Property, Object> getE(ValueSpecification<ClassInstance, ClassInstance, Object> forO) {
                     if (forO.asDataValue() != null) {
                         return model.getMofModel().createPrimitiveValue(forO.asDataValue().getValue());

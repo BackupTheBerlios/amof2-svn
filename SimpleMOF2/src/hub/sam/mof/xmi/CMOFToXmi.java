@@ -130,7 +130,7 @@ public class CMOFToXmi implements Conversion<UmlClass, Property, java.lang.Objec
         for (Property subset: allSubsets) {
             StructureSlot<UmlClass,Property,Object> subsetValues = instance.get(subset);
             if (subsetValues != null) {
-                if (subsetValues.getValuesAsList().contains(value)) {
+                if (subsetValues.getValuesAsList(null).contains(value)) {
                     return false;
                 }
             }

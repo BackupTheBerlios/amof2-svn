@@ -304,6 +304,7 @@
     </ownedType>
     <ownedType xmi:id="5021" isAbstract="false" name="Property" package="4892" superClass="5130 4829" xsi:type="Class">
       <ownedAttribute xmi:id="external2" name="ownedBehavior" subsettedProperty="4894" type="4896" upper="1" lower="0"/>
+      <ownedAttribute xmi:id="external3" name="qualifier" subsettedProperty="4894" type="5021" upper="1" lower="0"/>
       <ownedRule xmi:id="5131" namespace="5021" name="opposite_is_other_end" constrainedElement="5021" xsi:type="Constraint">
         <specification xmi:id="5132" language="OCL" body="opposite = if owningAssociation-&gt;notEmpty() and association.memberEnd-&gt;size() = 2 then let otherEnd = (association.memberEnd - self)-&gt;any() in if otherEnd.owningAssociation-&gt;notEmpty then otherEnd else Set{} endif else Set {} endif" xsi:type="OpaqueExpression" />
       </ownedRule>

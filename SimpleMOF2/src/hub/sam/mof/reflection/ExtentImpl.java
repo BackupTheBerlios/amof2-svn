@@ -97,6 +97,9 @@ public class ExtentImpl extends hub.sam.util.Identity implements cmof.reflection
     }
 
     protected final java.lang.Object valueForSpecification(ValueSpecification<UmlClass,Property,java.lang.Object> spec) {
+        if (spec == null) {
+            return null;
+        }
         if (spec.asDataValue() != null) {
             return spec.asDataValue().getValue();
         } else if (spec.asInstanceValue() != null) {
@@ -122,7 +125,7 @@ public class ExtentImpl extends hub.sam.util.Identity implements cmof.reflection
         } else if (value instanceof Integer || value instanceof Long || value instanceof Boolean || value instanceof String || value instanceof Enum) {
             return model.createPrimitiveValue(value);
         } else {
-            return model.createPrimitiveValue(value);            
+            return model.createPrimitiveValue(value);
         }
     }
 

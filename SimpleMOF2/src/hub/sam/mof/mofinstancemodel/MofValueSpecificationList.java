@@ -574,7 +574,7 @@ public class MofValueSpecificationList extends ListImpl<ValueSpecification<UmlCl
                 if (dependedProperty.getOwner() instanceof cmof.Association) {
                     node.addAjacentReasoning(add(MofLink.findStructureSlotForEnd(
                             dependedProperty, new InstanceValue(forList.owner))
-                            .getValuesAsList(), value));
+                            .getValuesAsList(null), value));
                 } else {
                     node.addAjacentReasoning(add(forList.owner.getValuesOfFeature(dependedProperty), value));
                 }
@@ -588,7 +588,7 @@ public class MofValueSpecificationList extends ListImpl<ValueSpecification<UmlCl
                     redefiningProperty = ((MofClassInstance)((InstanceValue)value).getInstance()).getInstanceClassifier().getFinalProperty(oppositeProperty);
                 }
                 node.addAjacentReasoning(add(MofLink.findStructureSlotForEnd(
-                        redefiningProperty, (InstanceValue)value).getValuesAsList(), new InstanceValue(forList.owner)));
+                        redefiningProperty, (InstanceValue)value).getValuesAsList(null), new InstanceValue(forList.owner)));
             }
             return node;
         }

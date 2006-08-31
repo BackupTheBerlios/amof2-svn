@@ -14,7 +14,7 @@ details.
 
     You should have received a copy of the GNU Lesser General Public License
 along with this library; if not, write to the Free Software Foundation, Inc.,
-59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
+59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
 package hub.sam.mof.bootstrap;
@@ -24,15 +24,15 @@ import hub.sam.mof.instancemodel.*;
 import hub.sam.mof.xmi.*;
 
 public class InstantiatedXmiSemantics extends CommonClassifierSemantics<ClassInstance<XmiClassifier,String,String>, ClassInstance<XmiClassifier,String,String>,Object,String> {
-    
+
     private final InstanceModel<XmiClassifier,String,String> model;
-    
+
     protected InstantiatedXmiSemantics(ClassInstance<XmiClassifier,String,String> classifier, InstanceModel<XmiClassifier,String,String> model) {
         super(classifier);
         this.model = model;
-        initialize();        
+        initialize();
     }
-    
+
     public String getName(ClassInstance<XmiClassifier, String, String> forProperty) {
         return InstanciatedXmiModel.get(forProperty,"name");
     }
@@ -40,13 +40,13 @@ public class InstantiatedXmiSemantics extends CommonClassifierSemantics<ClassIns
     public boolean isCollectionProperty(ClassInstance<XmiClassifier,String,String> forProperty) {
         return false;
     }
-    
+
     private Collection<ClassInstance<XmiClassifier,String,String>> get(ClassInstance<XmiClassifier,String,String> instance, String property) {
         StructureSlot<XmiClassifier,String,String> slot = instance.get(property);
         if (slot == null) {
             return new Vector<ClassInstance<XmiClassifier,String,String>>(0);
         }
-        List<ValueSpecificationImpl<XmiClassifier,String,String>> values = instance.get(property).getValues();        
+        List<ValueSpecificationImpl<XmiClassifier,String,String>> values = instance.get(property).getValues(null);        
         Collection<ClassInstance<XmiClassifier,String,String>> result = new Vector<ClassInstance<XmiClassifier,String,String>>(values.size());
         for (ValueSpecification<XmiClassifier,String,String> value: values) {
             if (value.asInstanceValue() == null) {
@@ -60,14 +60,14 @@ public class InstantiatedXmiSemantics extends CommonClassifierSemantics<ClassIns
         }
         return result;
     }
-    
+
     @Override
 	protected Collection<? extends ClassInstance<XmiClassifier, String, String>> ownedProperties(ClassInstance<XmiClassifier, String, String> c) {
         return get(c,"ownedAttribute");
     }
 
     @Override
-	protected Collection<? extends ClassInstance<XmiClassifier, String, String>> redefinedProperties(ClassInstance<XmiClassifier, String, String> p) {        
+	protected Collection<? extends ClassInstance<XmiClassifier, String, String>> redefinedProperties(ClassInstance<XmiClassifier, String, String> p) {
         return get(p,"redefinedProperty");
     }
 
@@ -75,9 +75,9 @@ public class InstantiatedXmiSemantics extends CommonClassifierSemantics<ClassIns
 	protected Collection<? extends ClassInstance<XmiClassifier, String, String>> subsettedProperties(ClassInstance<XmiClassifier, String, String> p) {
         return new Vector<ClassInstance<XmiClassifier,String,String>>(0);
     }
-    
+
     @Override
 	protected Collection<? extends ClassInstance<XmiClassifier, String, String>> superClasses(ClassInstance<XmiClassifier, String, String> c) {
         return get(c,"superClass");
-    }  
+    }
 }
