@@ -14,7 +14,7 @@ details.
 
     You should have received a copy of the GNU Lesser General Public License
 along with this library; if not, write to the Free Software Foundation, Inc.,
-59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
+59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
 package hub.sam.mof.codegeneration;
@@ -22,7 +22,7 @@ package hub.sam.mof.codegeneration;
 import hub.sam.mof.codegeneration.wrapper.*;
 
 public class ObjectProxyInterfaceGenerator extends AbstractObjectProxyGenerator {
-      
+
     public ObjectProxyInterfaceGenerator(StreamFactory streamFactory) {
         super(streamFactory);
     }
@@ -38,20 +38,20 @@ public class ObjectProxyInterfaceGenerator extends AbstractObjectProxyGenerator 
         add(" */");
         add("public interface $name $extends");
     }
-    
+
     @Override
 	protected void addGetterCode(PropertyWrapper property) throws Throwable {
         add("/**");
         add(" * <b>$umlName</b>, multiplicity=($multiplicity)" + property.getAttributeDocString());
         add(" */");
-        add("public $type $getterName();");        
+        add("public $type $getterName($getterArgs);");        
     }
-    
+
     @Override
 	protected void addSetterCode(PropertyWrapper property) throws Throwable {
-        add("public void $setterName($type value);");
+        add("public void $setterName($setterArgs);");
     }
-    
+
     @Override
 	protected void addOperationCode(OperationWrapper operation) throws Throwable {
         add("/**");

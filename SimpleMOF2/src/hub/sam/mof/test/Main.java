@@ -30,6 +30,7 @@ import hub.sam.mof.test.lib.abstractions.namespaces.TestNamespace;
 import hub.sam.mof.test.lib.abstractions.ownerships.TestElement;
 import hub.sam.mof.test.lib.abstractions.redefinitions.TestRedfinableElement;
 import hub.sam.mof.test.lib.abstractions.umlsuper.TestClassifier;
+import hub.sam.mof.test.qualifier.QualifierTest;
 import junit.framework.TestCase;
 import junit.framework.Test;
 import junit.framework.TestSuite;

@@ -1,10 +1,11 @@
-package hub.sam.mof.test;
+package hub.sam.mof.test.qualifier;
 
 import cmof.reflection.Extent;
 import cmof.Property;
 import warehouse.WarehouseModel;
+import hub.sam.mof.test.AbstractRepository;
 
-public class QualifierTest extends AbstractRepository{
+public class QualifierTest extends AbstractRepository {
 
     public QualifierTest() {
         super("qualifier tests");
@@ -20,7 +21,7 @@ public class QualifierTest extends AbstractRepository{
     }
 
     public void testImport() throws Exception {
-        Property superAttr = (Property)m2Extent.query("Package:QualifierTest/Class:Source/Property:superAttr");
+        Property superAttr = (Property)m2Extent.query("Package:qualifier/Class:Source/Property:superAttr");
         assertNotNull(superAttr.getQualifier());
         assertEquals(superAttr.getQualifier().getName(), "access");
     }

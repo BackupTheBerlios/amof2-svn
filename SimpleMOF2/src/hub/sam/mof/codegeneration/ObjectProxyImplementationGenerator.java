@@ -14,7 +14,7 @@ details.
 
     You should have received a copy of the GNU Lesser General Public License
 along with this library; if not, write to the Free Software Foundation, Inc.,
-59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
+59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
 package hub.sam.mof.codegeneration;
@@ -25,34 +25,38 @@ import hub.sam.mof.codegeneration.wrapper.UmlClassWrapper;
 import hub.sam.mof.reflection.ExtentImpl;
 
 public class ObjectProxyImplementationGenerator extends AbstractObjectProxyGenerator {
-     
+
     private final String classNameExtension;
     public ObjectProxyImplementationGenerator(StreamFactory streamFactory, String classNameExtension) {
         super(streamFactory);
         this.classNameExtension = classNameExtension;
     }
-          
+
     @Override
 	protected final String getClassName(UmlClassWrapper umlClass) {
         return umlClass.getName() + classNameExtension;
     }
-    
+
     @Override
 	protected void addClassSignature(UmlClassWrapper umlClass) throws Throwable {
         add("public class " + getClassName(umlClass) + " extends " + hub.sam.mof.reflection.ObjectImpl.class.getName() + " $implements");
     }
-    
+
     @Override
 	protected void addGetterCode(PropertyWrapper property) throws Throwable {
-        add("public $type $getterName() {");
+        add("public $type $getterName($getterArgs) {");
+        if (property.hasQualifier()) {
+        add("    java.lang.Object value = get(\"$umlName\", qualifier);");
+        } else {
         add("    java.lang.Object value = get(\"$umlName\");");
+        }
         add("    if (value == null) {");
         if (property.isJavaPrimitive()) {
-        add("       throw new RuntimeException(\"assert\");");    
+        add("       throw new RuntimeException(\"assert\");");
         } else {
         add("       return null;");
         }
-        add("    } else {");               
+        add("    } else {");
         if (property.isJavaList()) {
             if (property.isList()) {
         add("        return new " + hub.sam.mof.util.TypeWrapperListImpl.class.getCanonicalName() + "((" + cmof.common.ReflectiveSequence.class.getName() + ")value, this, \"$umlName\");");
@@ -60,45 +64,53 @@ public class ObjectProxyImplementationGenerator extends AbstractObjectProxyGener
         add("        return new " + hub.sam.mof.util.TypeWrapperSetImpl.class.getCanonicalName() + "((" + cmof.common.ReflectiveCollection.class.getName() + ")value, this, \"$umlName\");");
             }
         } else {
-        add("        return ($javaObjectType)value;"); 
+        add("        return ($javaObjectType)value;");
         }
         add("    }");
         add("}");
         if (property.isJavaList() && !property.hasHigherMulitplicity()) {
-        	add("public $javaObjectType _$getterName() {");
+        	add("public $javaObjectType _$getterName($getterArgs) {");
+            if (property.hasQualifier()) {
+            add("    java.lang.Object value = get(\"$umlName\", qualifier);");
+            } else {
             add("    java.lang.Object value = get(\"$umlName\");");
+            }
             add("    if (value == null) {");
             if (property.isJavaPrimitive()) {
-            add("       throw new RuntimeException(\"assert\");");    
+            add("       throw new RuntimeException(\"assert\");");
             } else {
             add("       return null;");
             }
-            add("    } else {");               
+            add("    } else {");
             add("        return ($javaObjectType)((" + ExtentImpl.ValueList.class.getCanonicalName() + ")value).get(0);");
             add("    }");
             add("}");
         }
     }
-    
+
     @Override
 	protected void addSetterCode(PropertyWrapper property) throws Throwable {
-        add("public void $setterName($type value) {");    
+        add("public void $setterName($setterArgs) {");
+        if (property.hasQualifier()) {
+        add("    set(\"$umlName\", qualifier, value);");
+        } else {
         add("    set(\"$umlName\", value);");
-        add("}");        
+        }
+        add("}");
     }
-    
+
     @Override
-	protected void addOperationCode(OperationWrapper operation) throws Throwable {      
+	protected void addOperationCode(OperationWrapper operation) throws Throwable {
         add("public $type $name($parameters) $exceptions {");
-        if (operation.hasReturn()) {         
-            add("    java.lang.Object value = invokeOperation(\"$unambigousName\", new java.lang.Object[] { $parameterNames });");        
+        if (operation.hasReturn()) {
+            add("    java.lang.Object value = invokeOperation(\"$unambigousName\", new java.lang.Object[] { $parameterNames });");
             add("    if (value == null) {");
             if (operation.isJavaPrimitive()) {
-            add("       throw new RuntimeException(\"assert\");");    
+            add("       throw new RuntimeException(\"assert\");");
             } else {
             add("       return null;");
             }
-            add("    } else {");               
+            add("    } else {");
             if (operation.isJavaList()) {
                 if (operation.isList()) {
             add("        return new " + hub.sam.mof.util.TypeWrapperListImpl.class.getCanonicalName() + "((" + cmof.common.ReflectiveSequence.class.getName() + ")value);");
@@ -106,27 +118,27 @@ public class ObjectProxyImplementationGenerator extends AbstractObjectProxyGener
             add("        return new " + hub.sam.mof.util.TypeWrapperSetImpl.class.getCanonicalName() + "((" + cmof.common.ReflectiveCollection.class.getName() + ")value);");
                 }
             } else {
-            add("        return ($javaObjectType)value;"); 
+            add("        return ($javaObjectType)value;");
             }
-            add("    }");            
+            add("    }");
         } else {
             add("    invokeOperation(\"$unambigousName\", new java.lang.Object[] { $parameterNames });");
-        }        
+        }
         add("}");
     }
-    
+
     @Override
 	protected void addGeneralClassBodyCode(UmlClassWrapper umlClass) throws Throwable {
-        add("public " + getClassName(umlClass) + "(" + hub.sam.mof.instancemodel.ClassInstance.class.getName() +                 
+        add("public " + getClassName(umlClass) + "(" + hub.sam.mof.instancemodel.ClassInstance.class.getName() +
                 " instance, " + hub.sam.mof.reflection.ExtentImpl.class.getName() + " extent) {");
         add("    super(instance, extent);");
         add("}");
-        add("public " + getClassName(umlClass) + "(" + 
+        add("public " + getClassName(umlClass) + "(" +
                 hub.sam.mof.reflection.Identifier.class.getName() + " id, " +
                 hub.sam.mof.reflection.ExtentImpl.class.getCanonicalName() + " extent, " +
                 hub.sam.mof.reflection.Identifier.class.getName() + " metaId, " +
                 String.class.getCanonicalName() + " implementationClassName, " +
-                String.class.getCanonicalName() + "[] delegateClassNames) {");                
+                String.class.getCanonicalName() + "[] delegateClassNames) {");
         add("    super(id, extent, metaId, implementationClassName, delegateClassNames);");
         add("}");
     }

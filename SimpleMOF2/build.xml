@@ -135,7 +135,13 @@
     	<java classname="hub.sam.mof.test.warehouse.GenerateRepository" fork="false">
     		<classpath refid="classpath"/>
     	</java>
-    	<java classname="hub.sam.mof.test.lib.GenerateConcreteLibrary" fork="false">
+        <java classname="hub.sam.mof.test.propertynotification.GenerateRepository" fork="false">
+    		<classpath refid="classpath"/>
+    	</java>
+        <java classname="hub.sam.mof.test.qualifier.GenerateRepository" fork="false">
+    		<classpath refid="classpath"/>
+    	</java>
+        <java classname="hub.sam.mof.test.lib.GenerateConcreteLibrary" fork="false">
     		<classpath refid="classpath"/>
     	</java>
     	<!--<taskdef name="mof" classname="hub.sam.mof.ant.GenerateCode" classpathref="classpath"/>
