@@ -55,11 +55,11 @@ public class TypeWrapperSetImpl<E> implements ReflectiveCollection<E> {
     }
     
     public boolean add(Object element) {
-    	boolean successful = untypedSet.add(element);
-   		if (successful && objectImpl != null && objectImpl.hasListeners()) {
+    	boolean result = untypedSet.add(element);
+   		if (result && objectImpl != null && objectImpl.hasListeners()) {
    			objectImpl.firePropertyChange(propertyName, null, null);
    		}
-        return successful;
+        return result;
     }
 
     public boolean contains(Object element) {
@@ -67,20 +67,20 @@ public class TypeWrapperSetImpl<E> implements ReflectiveCollection<E> {
     }
 
     public boolean remove(Object element) {
-    	boolean successful = untypedSet.remove(element);
-   		if (successful && objectImpl != null && objectImpl.hasListeners()) {
+    	boolean result = untypedSet.remove(element);
+   		if (result && objectImpl != null && objectImpl.hasListeners()) {
    			objectImpl.firePropertyChange(propertyName, null, null);
    		}
-        return successful;
+        return result;
     }
 
     @SuppressWarnings("unchecked")
 	public boolean addAll(Iterable<? extends Object> elements) {
-    	boolean successful = untypedSet.addAll(elements);
-   		if (successful && objectImpl != null && objectImpl.hasListeners()) {
+    	boolean result = untypedSet.addAll(elements);
+   		if (result && objectImpl != null && objectImpl.hasListeners()) {
    			objectImpl.firePropertyChange(propertyName, null, null);
    		}
-        return successful;
+        return result;
     }
 
     @SuppressWarnings("unchecked")
@@ -90,11 +90,11 @@ public class TypeWrapperSetImpl<E> implements ReflectiveCollection<E> {
 
     @SuppressWarnings("unchecked")
 	public boolean removeAll(Iterable<? extends Object> elements) {
-    	boolean successful = untypedSet.removeAll(elements);
-   		if (successful && objectImpl != null && objectImpl.hasListeners()) {
+    	boolean result = untypedSet.removeAll(elements);
+   		if (result && objectImpl != null && objectImpl.hasListeners()) {
    			objectImpl.firePropertyChange(propertyName, null, null);
    		}
-        return successful;
+        return result;
     }
 
     @SuppressWarnings("unchecked")
