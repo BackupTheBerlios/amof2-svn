@@ -23,7 +23,7 @@ public class SdlCompositeStateInstanceCustom extends SdlCompositeStateInstanceDl
     public void initializeStates() {
         for(SdlState state: getMetaClassifierSdlStateType().getState()) {
             SdlStateInstance stateInstance = state.metaCreateSdlStateInstance();
-            self.getState().add(stateInstance);
+            self.setState(state, stateInstance);
         }
     }
 
@@ -117,8 +117,10 @@ public class SdlCompositeStateInstanceCustom extends SdlCompositeStateInstanceDl
 
             int i = 0;
             for(SdlVariable variable: input.getMetaClassifierSdlInput().getParameter()) {
-                SdlDataValue argumentValue = signal.getParameter().get(i).getValue().iterator().next();
-                signal.getParameter().get(i).getValue().remove(argumentValue);
+                SdlVariableSlot signalParameterSlot = signal.getParameter(
+                        signal.getMetaClassifierSdlSignal().getParameter().get(i));
+                SdlDataValue argumentValue = signalParameterSlot.getValue().iterator().next();
+                signalParameterSlot.getValue().remove(argumentValue);
                 resolveSlot(variable).updateValue(argumentValue);
                 i++;
             }
@@ -169,23 +171,21 @@ public class SdlCompositeStateInstanceCustom extends SdlCompositeStateInstanceDl
         } else if (action instanceof SdlCreate) {
             SdlCreate create = (SdlCreate)action;
             SdlAgent agent = create.getAgent();
-            boolean created = false;
-            for(SdlAgentInstanceSet instanceSet: self.getOwningInstance().getOwningInstanceSet().getAgentInstance().getAgentInstanceSet()) {
-                if (agent.equals(instanceSet.getMetaClassifierSdlAgent())) {
-                    SdlAgentInstance instance = (SdlAgentInstance)create.create(self);
-                    self.getOwningInstance().setOffspring(instance);
-                    instanceSet.getValue().add(instance); // TODO max instances check
-                    instance.run();
-                    created = true;
-                }
-            }
-            if (!created) {
-                System.err.println("create dropped");
-            }
+            SdlAgentInstance instance = (SdlAgentInstance)create.create(self);
+            self.getOwningInstance().setOffspring(instance);
+            self.getOwningInstance().getOwningInstanceSet().getAgentInstance().getAgentInstanceSet(agent).
+                    getValue().add(instance); // TODO max instances check
+            instance.run();
         } else if (action instanceof SdlAssignment) {
             SdlAssignment assignment = (SdlAssignment)action;
             SdlVariable variable = assignment.getVariable();
             ReflectiveSequence<SdlVariableSlot> slots = new ListImpl<SdlVariableSlot>();
+            SdlVariableSlot slot = self.resolveSlot(variable);
+            SdlEvaluation expr = (SdlEvaluation)assignment.getExpression().instantiate();
+            expr.updateContext(self);
+            SdlDataValue value = (SdlDataValue)expr.getValue();
+            slot.updateValue(value);
+            /*
             slots.addAll(self.getVariable());
             slots.addAll(self.getOwningInstance().getVariable()); // TODO recusive
             boolean set = false;
@@ -197,6 +197,7 @@ public class SdlCompositeStateInstanceCustom extends SdlCompositeStateInstanceDl
                     slot.updateValue(value);
                 }
             }
+            */
         }
     }
 
@@ -300,12 +301,7 @@ public class SdlCompositeStateInstanceCustom extends SdlCompositeStateInstanceDl
     }
 
     private static void nextstate(SdlCompositeStateInstance self, SdlAbstractState target) {
-        SdlStateInstance targetInstance = null;
-        for (SdlStateInstance stateInstance: self.getState()) {
-            if (stateInstance.getMetaClassifierSdlState().equals(target)) {
-                targetInstance = stateInstance;
-            }
-        }
+        SdlStateInstance targetInstance = self.getState((SdlState)target);
         if (targetInstance == null) {
             throw new RuntimeException("assert");
         }

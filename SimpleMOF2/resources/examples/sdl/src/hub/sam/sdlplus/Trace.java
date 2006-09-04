@@ -14,10 +14,10 @@ import trace.Edge;
 import hub.sam.mof.Repository;
 import SDL.SdlCompositeStateInstance;
 import SDL.SdlSignalInstance;
-import SDL.SdlVariableSlot;
 import SDL.SdlDataValue;
 import SDL.SdlGeneralValue;
 import SDL.PidValue;
+import SDL.SdlParameter;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -75,8 +75,8 @@ public class Trace {
         interaction.setSource(sourceNode);
         interaction.setTarget(targetNode);
         interaction.setInteractionTypeName(signal.getMetaClassifierSdlSignal().getName());
-        for(SdlVariableSlot slot: signal.getVariable()) {
-            SdlDataValue argument = slot.getValue().iterator().next();
+        for(SdlParameter parameter: signal.getMetaClassifierSdlSignal().getParameter()) {
+            SdlDataValue argument = signal.getVariable(parameter).getValue().iterator().next();
             if (argument instanceof SdlGeneralValue) {
                 interaction.getArguments().add(((SdlGeneralValue)argument).getValue().toString());
             } else if (argument instanceof PidValue) {

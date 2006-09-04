@@ -3,6 +3,7 @@ package Pattern.Instanciation;
 import InfrastructureLibrary.Core.Abstractions.Classifiers.Classifier;
 import InfrastructureLibrary.Core.Abstractions.BehavioralFeatures.BehavioralFeature;
 import InfrastructureLibrary.Core.Abstractions.BehavioralFeatures.Parameter;
+import InfrastructureLibrary.Core.Abstractions.StructuralFeatures.StructuralFeature;
 import cmof.common.ReflectiveSequence;
 import Pattern.Evaluation.Expression;
 import Pattern.Evaluation.Evaluation;
@@ -24,11 +25,7 @@ public class CreateCustom extends CreateDlg {
             Evaluation eval = argument.instantiate();
             eval.updateContext(context);
             Value value = eval.getValue();
-            for(Slot slot: result.getSlot()) {
-                if (slot.getMetaClassifierStructuralFeature().equals(parameter)) {
-                    slot.updateValue(value);
-                }
-            }
+            result.getSlot((StructuralFeature)parameter).updateValue(value);            
         }
 
         return result;

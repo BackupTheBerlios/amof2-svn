@@ -18,7 +18,7 @@ public class SdlAgentInstanceCustom extends SdlAgentInstanceDlg {
     public void createSlots() {
         ((SdlInstance)getSuper(SdlInstance.class)).createSlots();
         for(SdlAgent agent : self.getMetaClassifierSdlAgentType().getAgent()) {
-            self.getAgentInstanceSet().add(agent.instanciate());
+            self.setAgentInstanceSet(agent, (SdlAgentInstanceSet)agent.instanciate());
         }
     }
 
@@ -34,9 +34,9 @@ public class SdlAgentInstanceCustom extends SdlAgentInstanceDlg {
 
     @Override
     public void run() {
-        for(SdlAgentInstanceSet slot: getAgentInstanceSet()) {
-            for(SdlAgentInstance agent: slot.getValue()) {
-                agent.run();
+        for(SdlAgent agent: self.getMetaClassifierSdlAgentType().getAgent()) {
+            for (SdlAgentInstance agentInstance: self.getAgentInstanceSet(agent).getValue()) {
+                agentInstance.run();
             }
         }
         SdlCompositeStateInstance behavior = self.getBehavior();
@@ -143,16 +143,13 @@ public class SdlAgentInstanceCustom extends SdlAgentInstanceDlg {
                 result.addAll(collectAgentInstanceSets(s, path.getTarget().iterator().next().getGate(), to,
                         to.getOwningInstanceSet().getAgentInstance(), false));
             } else {
-                for (SdlAgentInstanceSet targetSet: to.getAgentInstanceSet()) {
-                    if (targetSet.getMetaClassifierSdlAgent().equals(targetAgent)) {
-                        if (targetAgent.getType().getKind() == SdlAgentKind.PROCESS) {
-                            result.add(targetSet);
-                        } else {
-                            for (SdlAgentInstance targetInstance: targetSet.getValue()) {
-                                result.addAll(collectAgentInstanceSets(s, path.getTarget().iterator().next().getGate(),
-                                        to, targetInstance, true));
-                            }
-                        }
+                SdlAgentInstanceSet targetSet = to.getAgentInstanceSet(targetAgent);
+                if (targetAgent.getType().getKind() == SdlAgentKind.PROCESS) {
+                    result.add(targetSet);
+                } else {
+                    for (SdlAgentInstance targetInstance: targetSet.getValue()) {
+                        result.addAll(collectAgentInstanceSets(s, path.getTarget().iterator().next().getGate(),
+                                to, targetInstance, true));
                     }
                 }
             }

@@ -13,7 +13,7 @@ public class SdlInstanceCustom extends SdlInstanceDlg {
     public void createSlots() {
         for(SdlVariable variable : self.getMetaClassifierSdlClassifier().getVariable()) {
             SdlVariableSlot slot = variable.metaCreateSdlVariableSlot();
-            self.getVariable().add(slot);
+            self.setVariable(variable, slot);
             Expression expr = variable.getInitExpression();
             if (expr != null) {
                 SdlEvaluation eval = (SdlEvaluation)expr.instantiate();
@@ -28,12 +28,12 @@ public class SdlInstanceCustom extends SdlInstanceDlg {
     public SdlVariableSlot resolveSlot(SdlVariable v) {
         SdlInstance instance = self;
         while (instance != null) {
-            for (SdlVariableSlot slot: instance.getVariable()) {
-                if (slot.getMetaClassifierSdlVariable().equals(v)) {
-                    return slot;
-                }
+            SdlVariableSlot result = instance.getVariable(v);
+            if (result != null) {
+                return result;
+            } else {
+                instance = getContainingInstance();
             }
-            instance = getContainingInstance();
         }
         return null;
     }
