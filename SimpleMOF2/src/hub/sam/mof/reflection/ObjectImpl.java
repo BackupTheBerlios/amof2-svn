@@ -199,7 +199,7 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
         if (property == null) {
             throw new IllegalArgumentException(propertyName);
         } else {
-            set(property, value);
+            set(property, qualifier, value);
         }
     }
 
@@ -263,7 +263,7 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
                         instance.get(property).getValuesAsList(extent.specificationForValue(qualifier));
 
                 Object oldValue = get(property);
-                
+
                 if (values.size() == 0) {
                     values.add(0, extent.specificationForValue(value));
                 } else {
@@ -638,7 +638,7 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
     }
 
     public String serialize() {
-        String delegateClassNamesString = "new String[]{";
+        String delegateClassNamesString = "new java.lang.String[]{";
         boolean first = true;
         for (String delegate : delegateClassNames) {
             delegateClassNamesString += (first ? "" : ", ") + "\"" + delegate + "\"";

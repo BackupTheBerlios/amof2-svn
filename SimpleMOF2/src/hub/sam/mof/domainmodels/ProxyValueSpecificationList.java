@@ -22,7 +22,7 @@ class ProxyValueSpecificationList extends MofValueSpecificationList {
 
     ProxyValueSpecificationList(MofClassInstance owner, ProxyStructureSlot slot,
                                 ProxyModelContext context, Object values) {
-        super(owner, slot);
+        super(owner, slot, null); // TODO: if qualified attributes are used for ProxyObjects too.
         this.context = context;
         this.slot = slot;
         if (slot.getProperty().getUpper() > 1) {

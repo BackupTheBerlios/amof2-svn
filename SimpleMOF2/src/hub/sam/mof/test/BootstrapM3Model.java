@@ -66,6 +66,6 @@ public class BootstrapM3Model extends AbstractRepository {
     public void testPrimitiveTypes() throws Exception {
         cmof.Package primitiveTypes = (cmof.Package)m3Extent.query("Package:core/Package:primitivetypes");
         assertNotNull(primitiveTypes);
-        assertEquals(4, primitiveTypes.getOwnedType().size());
+        assertEquals(5, primitiveTypes.getOwnedType().size());
     }
 }

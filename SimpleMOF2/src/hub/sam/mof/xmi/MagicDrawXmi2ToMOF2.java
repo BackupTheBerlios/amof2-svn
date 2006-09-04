@@ -114,7 +114,7 @@ public class MagicDrawXmi2ToMOF2 extends PatternClass implements XmiTransformato
         String realizingClassifier = getUnspecifiedValue(r, "client", 0);
         String realizedClassifier = getUnspecifiedValue(r, "supplier", 0);
         model.getInstance(realizingClassifier).addValue("metaClassifier", model.createInstanceValue(
-                model.getInstance(realizedClassifier)));
+                model.getInstance(realizedClassifier)), null);
         p.get("ownedMember").getValues(null).remove(model.createInstanceValue(r));
         r.setComposite(null);
         r.delete();
@@ -128,7 +128,7 @@ public class MagicDrawXmi2ToMOF2 extends PatternClass implements XmiTransformato
             @Name("c")  ClassInstance<XmiClassifier,String,String> c,
             @Name("g") ClassInstance<XmiClassifier,String,String> g) {
         String superClass = getUnspecifiedValue(g, "general",0);
-        c.addValue("superClass", model.createInstanceValue(model.getInstance(superClass)));
+        c.addValue("superClass", model.createInstanceValue(model.getInstance(superClass)), null);
         c.get("generalization").getValues(null).remove(model.createInstanceValue(g));
         g.setComposite(null);
         g.delete();
@@ -145,7 +145,7 @@ public class MagicDrawXmi2ToMOF2 extends PatternClass implements XmiTransformato
         if (defautValue == null) {
             defautValue = "0";
         }
-        p.addValue("default", model.createPrimitiveValue(defautValue));
+        p.addValue("default", model.createPrimitiveValue(defautValue), null);
         p.get("defaultValue").getValues(null).remove(model.createInstanceValue(d));
         d.setComposite(null);
         d.delete();
@@ -162,7 +162,7 @@ public class MagicDrawXmi2ToMOF2 extends PatternClass implements XmiTransformato
         if (lowerValue == null) {
             lowerValue = "0";
         }
-        p.addValue("lower", model.createPrimitiveValue(lowerValue));
+        p.addValue("lower", model.createPrimitiveValue(lowerValue), null);
         p.get("lowerValue").getValues(null).remove(model.createInstanceValue(l));
         l.setComposite(null);
         l.delete();
@@ -182,7 +182,7 @@ public class MagicDrawXmi2ToMOF2 extends PatternClass implements XmiTransformato
         if (upperValue.equals("*")) {
             upperValue = "-1";
         }
-        p.addValue("upper", model.createPrimitiveValue(upperValue));
+        p.addValue("upper", model.createPrimitiveValue(upperValue), null);
         p.get("upperValue").getValues(null).remove(model.createInstanceValue(u));
         u.setComposite(null);
         u.delete();
@@ -194,12 +194,12 @@ public class MagicDrawXmi2ToMOF2 extends PatternClass implements XmiTransformato
         String aggregation = getUnspecifiedValue(p, "aggregation", 0);
         if (aggregation != null) {
             if (aggregation.equals("composite")) {
-                p.addValue("isComposite", model.createPrimitiveValue("true"));
+                p.addValue("isComposite", model.createPrimitiveValue("true"), null);
             }
             removeAttribute(p, "aggregation");
         } else {
             if (p.get("association") == null) {
-                p.addValue("isComposite", model.createPrimitiveValue("true"));
+                p.addValue("isComposite", model.createPrimitiveValue("true"), null);
             }
         }
     }

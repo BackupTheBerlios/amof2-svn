@@ -50,43 +50,17 @@ import java.util.Vector;
  *  update methods. The update methods for mulitple or all elements (like addAll, removeAll, etc.)
  *  delegate all updating to the normal update methods for single elements.
  */
-public class MofValueSpecificationList extends ListImpl<ValueSpecification<UmlClass,Property,java.lang.Object>> implements ValueSpecificationList<UmlClass,Property,java.lang.Object> {
-
-	@Override
-	protected List<ValueSpecification<UmlClass,Property,java.lang.Object>> createList() {
-		return new Vector<ValueSpecification<UmlClass,Property,java.lang.Object>>();
-	}
+public class MofValueSpecificationList extends ListImpl<ValueSpecification<UmlClass,Property,java.lang.Object>>
+        implements ValueSpecificationList<UmlClass,Property,java.lang.Object> {
 
     private static boolean performingSet = false;
+    public static boolean checkLower = true;
 
-    private void checkReadOnly() {
-        if (property.isReadOnly()) {
-            throw new cmof.exception.IllegalArgumentException("A readonly property can not be changed: " + property.getQualifiedName());
-        }
+    private static final java.util.Map<MofClassInstance, ReflectiveCollection<MofValueSpecificationList>>
+            instanceOccurences;
+    static {
+        instanceOccurences = new HashMap<MofClassInstance, ReflectiveCollection<MofValueSpecificationList>>();
     }
-
-    private void checkDerived() {
-    	if (property.isDerived() || property.isDerivedUnion()) {
-    		System.out.println("WARNING: " + "A derived property can not be changed: " + property.getQualifiedName());
-        	//throw new cmof.exception.IllegalArgumentException("A derived property can not be changed: " + property.getQualifiedName());
-        }
-    }
-
-	private void checkUpperMultiplicity() {
-		long upper = property.getUpper();
-		if (upper > 0 && size() > upper) {
-			throw new MultiplicityViolation(slot);
-		}
-	}
-
-	public static boolean checkLower = true;
-
-	private void checkLowerMultiplicity() {
-		int lower = property.getLower();
-		if (lower > 0 && size() < lower && !performingSet && checkLower) {
-			throw new MultiplicityViolation(slot);
-		}
-	}
 
     // TODO checks for unique;
     // TODO derived, types, ordering
@@ -96,11 +70,8 @@ public class MofValueSpecificationList extends ListImpl<ValueSpecification<UmlCl
     protected MofClassInstance owner;
 	protected MofStructureSlot slot;
     private Nodes nodes;
-    private static final java.util.Map<MofClassInstance, ReflectiveCollection<MofValueSpecificationList>> instanceOccurences;
+    private final ValueSpecification<UmlClass,Property,Object> qualifier;
 
-    static {
-        instanceOccurences = new HashMap<MofClassInstance, ReflectiveCollection<MofValueSpecificationList>>();
-    }
 
     /**
      * Is only used by {@link MofStructureSlot}. Creates a new empty list of value
@@ -108,13 +79,15 @@ public class MofValueSpecificationList extends ListImpl<ValueSpecification<UmlCl
      * @param owner The {@link MofClassInstance} that owns the slot for this values.
      * @param slot The {@link MofStructureSlot} for this values.
      */
-    protected MofValueSpecificationList(MofClassInstance owner, MofStructureSlot slot) {
+    protected MofValueSpecificationList(MofClassInstance owner, MofStructureSlot slot,
+                                        ValueSpecification<UmlClass,Property,Object> qualifier) {
         super();
         this.property = slot.getDefiningFeature();
         this.slot = slot;
         this.owner = owner;
         this.subsettedPropertys = this.owner.getInstanceClassifier().getSubsettedProperties(property);
         this.nodes = new Nodes();
+        this.qualifier = qualifier;
     }
 
 	/**
@@ -133,7 +106,41 @@ public class MofValueSpecificationList extends ListImpl<ValueSpecification<UmlCl
         this.property = parent.property;
         this.subsettedPropertys = parent.subsettedPropertys;
         this.nodes = nodes;
+        this.qualifier = parent.qualifier;
     }
+
+        private void checkReadOnly() {
+        if (property.isReadOnly()) {
+            throw new cmof.exception.IllegalArgumentException("A readonly property can not be changed: " + property.getQualifiedName());
+        }
+    }
+
+
+	@Override
+	protected List<ValueSpecification<UmlClass,Property,java.lang.Object>> createList() {
+		return new Vector<ValueSpecification<UmlClass,Property,java.lang.Object>>();
+	}
+
+    private void checkDerived() {
+    	if (property.isDerived() || property.isDerivedUnion()) {
+    		System.out.println("WARNING: " + "A derived property can not be changed: " + property.getQualifiedName());
+        	//throw new cmof.exception.IllegalArgumentException("A derived property can not be changed: " + property.getQualifiedName());
+        }
+    }
+
+	private void checkUpperMultiplicity() {
+		long upper = property.getUpper();
+		if (upper > 0 && size() > upper) {
+			throw new MultiplicityViolation(slot);
+		}
+	}
+
+    private void checkLowerMultiplicity() {
+		int lower = property.getLower();
+		if (lower > 0 && size() < lower && !performingSet && checkLower) {
+			throw new MultiplicityViolation(slot);
+		}
+	}
 
     public Property getProperty() {
     	return property;
@@ -201,7 +208,7 @@ public class MofValueSpecificationList extends ListImpl<ValueSpecification<UmlCl
         checkReadOnly();
         checkDerived();
     	ValueSpecification<UmlClass,Property,java.lang.Object> value = (ValueSpecification<UmlClass,Property,java.lang.Object>)o;
-        return new UpdateGraphCreation().add(this, value).primaryAdd();
+        return new UpdateGraphCreation().add(this, qualifier, value).primaryAdd();
     }
 
     @SuppressWarnings("unchecked")
@@ -247,7 +254,7 @@ public class MofValueSpecificationList extends ListImpl<ValueSpecification<UmlCl
         checkReadOnly();
         checkDerived();
         ValueSpecification<UmlClass,Property,java.lang.Object> value = (ValueSpecification<UmlClass,Property,java.lang.Object>)o;
-        new UpdateGraphCreation().add(this, value).primaryAdd(index);
+        new UpdateGraphCreation().add(this, qualifier, value).primaryAdd(index);
     }
 
     @Override
@@ -564,7 +571,9 @@ public class MofValueSpecificationList extends ListImpl<ValueSpecification<UmlCl
         private Collection<MofValueSpecificationList> updatedLists = new HashSet<MofValueSpecificationList>();
 
         @SuppressWarnings({"synthetic-access","unchecked"})
-		private UpdateGraphNode add(MofValueSpecificationList forList, ValueSpecification<UmlClass,Property,java.lang.Object> value) {
+		private UpdateGraphNode add(MofValueSpecificationList forList,
+                              ValueSpecification<UmlClass,Property,Object> qualifier,
+                              ValueSpecification<UmlClass,Property,java.lang.Object> value) {
             if (updatedLists.contains(forList)) {
                 return null;
             }
@@ -574,9 +583,10 @@ public class MofValueSpecificationList extends ListImpl<ValueSpecification<UmlCl
                 if (dependedProperty.getOwner() instanceof cmof.Association) {
                     node.addAjacentReasoning(add(MofLink.findStructureSlotForEnd(
                             dependedProperty, new InstanceValue(forList.owner))
-                            .getValuesAsList(null), value));
+                            .getValuesAsList(qualifier), qualifier, value));
                 } else {
-                    node.addAjacentReasoning(add(forList.owner.getValuesOfFeature(dependedProperty), value));
+                    node.addAjacentReasoning(add(forList.owner.getValuesOfFeature(dependedProperty,
+                            qualifier), qualifier, value));
                 }
             }
             Property oppositeProperty = forList.property.getOpposite();
@@ -585,10 +595,12 @@ public class MofValueSpecificationList extends ListImpl<ValueSpecification<UmlCl
                 if (oppositeProperty.getOwner() instanceof cmof.Association) {
                     redefiningProperty = oppositeProperty;
                 } else {
-                    redefiningProperty = ((MofClassInstance)((InstanceValue)value).getInstance()).getInstanceClassifier().getFinalProperty(oppositeProperty);
+                    redefiningProperty = ((MofClassInstance)((InstanceValue)value).getInstance()).
+                            getInstanceClassifier().getFinalProperty(oppositeProperty);
                 }
                 node.addAjacentReasoning(add(MofLink.findStructureSlotForEnd(
-                        redefiningProperty, (InstanceValue)value).getValuesAsList(null), new InstanceValue(forList.owner)));
+                        redefiningProperty, (InstanceValue)value).getValuesAsList(qualifier), qualifier,
+                        new InstanceValue(forList.owner)));
             }
             return node;
         }

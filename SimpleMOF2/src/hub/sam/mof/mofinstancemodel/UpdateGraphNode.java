@@ -14,14 +14,17 @@ details.
 
     You should have received a copy of the GNU Lesser General Public License
 along with this library; if not, write to the Free Software Foundation, Inc.,
-59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
+59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
 package hub.sam.mof.mofinstancemodel;
 
-import java.util.*;
+import cmof.Property;
+import cmof.UmlClass;
 import hub.sam.mof.instancemodel.ValueSpecification;
-import cmof.*;
+
+import java.util.Collection;
+import java.util.HashSet;
 
 public class UpdateGraphNode {
 
@@ -30,22 +33,23 @@ public class UpdateGraphNode {
     private Collection<UpdateGraphNode> adjacentReasonings = new HashSet<UpdateGraphNode>();
     private final MofValueSpecificationList owner;
     private int position = -1;
-           
+
     public UpdateGraphNode(ValueSpecification<UmlClass,Property,java.lang.Object> value, MofValueSpecificationList owner) {
+        super();
         this.value = value;
         this.owner = owner;
     }
-    
+
     public void setPosition(int position) {
     	this.position = position;
     }
-    
+
     public int getPosition() {
     	return position;
     }
-    
+
     /**
-     * Sets the node that represents the reason for this node. Reasons are subsettings or associations between 
+     * Sets the node that represents the reason for this node. Reasons are subsettings or associations between
      * the slot of the given node and the slot of this node.
      * @param node
      */
@@ -55,14 +59,14 @@ public class UpdateGraphNode {
         }
         adjacentReason = node;
     }
-    
+
     /**
-     * Adds a reasoning. That are nodes that this node is a reason for. Reasons are subsettings or associations between 
+     * Adds a reasoning. That are nodes that this node is a reason for. Reasons are subsettings or associations between
      * the slot this node and the slot of the given node.
      * @param node
      */
     public void addAjacentReasoning(UpdateGraphNode node) {
-        if (node != null) {                    
+        if (node != null) {
             adjacentReasonings.add(node);
             node.setAdjacentReason(this);
         }
@@ -75,7 +79,7 @@ public class UpdateGraphNode {
     public Collection<UpdateGraphNode> getAdjacentReasonings() {
         return adjacentReasonings;
     }
-    
+
     @Override
 	public boolean equals(Object o) {
         if (o instanceof ValueSpecification) {
@@ -94,7 +98,7 @@ public class UpdateGraphNode {
     public void setAdjacentReasonings(Collection<UpdateGraphNode> adjacentReasonings) {
         this.adjacentReasonings = adjacentReasonings;
     }
-    
+
     public boolean primaryAdd() {
         boolean result = owner.primaryAdd(this);
         for (UpdateGraphNode adjacent: adjacentReasonings) {
@@ -102,14 +106,14 @@ public class UpdateGraphNode {
         }
         return result;
     }
-    
+
     public void primaryAdd(int index) {
         owner.primaryAdd(index, this);
         for (UpdateGraphNode adjacent: adjacentReasonings) {
             adjacent.secondaryAdd();
         }
     }
-    
+
     public void primaryRemove() {
         owner.primaryRemove(this);
         UpdateGraphNode root = this;
@@ -118,7 +122,7 @@ public class UpdateGraphNode {
         }
         root.secondaryRemove(this);
     }
-    
+
     public void primaryRemove(int index) {
         owner.primaryRemove(index, this);
         UpdateGraphNode root = this;
@@ -127,14 +131,14 @@ public class UpdateGraphNode {
         }
         root.secondaryRemove(this);
     }
-    
+
     public void secondaryAdd() {
         owner.secondaryAdd(this);
         for (UpdateGraphNode adjacent: adjacentReasonings) {
             adjacent.secondaryAdd();
         }
     }
-    
+
     public void secondaryRemove(UpdateGraphNode except) {
         if (except != this) {
             // was already removed with primary remove

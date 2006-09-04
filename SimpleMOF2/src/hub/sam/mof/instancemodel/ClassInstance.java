@@ -54,7 +54,8 @@ public class ClassInstance<C,P,DataValue> extends hub.sam.util.Identity {
         return components;
     }
 
-    public void addValue(P feature, ValueSpecificationImpl<C,P,DataValue> value) {
+    public void addValue(P feature, ValueSpecificationImpl<C,P,DataValue> value,
+                         ValueSpecification<C,P,DataValue> qualifier) {
         if (feature == null) {
             throw new NullPointerException();
         }
@@ -63,7 +64,7 @@ public class ClassInstance<C,P,DataValue> extends hub.sam.util.Identity {
             slot = new StructureSlot<C,P,DataValue>(feature, this);
             slots.put(feature, slot);
         }
-        slot.addValue(value, null);
+        slot.addValue(value, qualifier);
     }
 
     public C getClassifier() {

@@ -112,7 +112,7 @@ public class BootstrapInstance extends ClassInstance<ClassInstance<ClassInstance
                         } else {
                             throw new RuntimeException("assert");
                         }
-                        addValue(property, model.createPrimitiveValue(defaultValue));
+                        addValue(property, model.createPrimitiveValue(defaultValue), null);
                     }
                 }
             }
@@ -134,9 +134,9 @@ public class BootstrapInstance extends ClassInstance<ClassInstance<ClassInstance
                             BootstrapSemantics oppositeSemantics = model.createBootstrapSemantics(oppositeValue.getClassifier());
                             ClassInstance finalOpposite = oppositeSemantics.getFinalProperty(opposite);
                             if (finalOpposite != null) {
-                                oppositeValue.addValue(oppositeSemantics.getFinalProperty(opposite), model.createInstanceValue(this));
+                                oppositeValue.addValue(oppositeSemantics.getFinalProperty(opposite), model.createInstanceValue(this), null);
                             } else {
-                                oppositeValue.addValue(opposite, model.createInstanceValue(this));
+                                oppositeValue.addValue(opposite, model.createInstanceValue(this), null);
                             }
                             Collection<ClassInstance> updatedValues = this.updatedOpposites.get(forProperty);
                             if (updatedValues == null) {
@@ -177,7 +177,7 @@ public class BootstrapInstance extends ClassInstance<ClassInstance<ClassInstance
         // add the values to them
         for (ClassInstance<ClassInstance,ClassInstance,Object> finalSupersetProperty: finalSupersets) {
             for (ValueSpecificationImpl value: get(forProperty).getValues(null)) {
-                addValue(finalSupersetProperty, value);
+                addValue(finalSupersetProperty, value, null);
             }
         }
     }

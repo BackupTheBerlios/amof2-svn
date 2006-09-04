@@ -169,7 +169,7 @@ public class Xmi2Reader {
             if (namespace.equals("")) {
                 String name = attr.getName();
                 String value = attr.getValue();
-                instance.addValue(name, model.createUnspecifiedValue(value, actualIdPrefix));
+                instance.addValue(name, model.createUnspecifiedValue(value, actualIdPrefix), null);
             }
         }
         for (Object oChild : element.getChildren()) {
@@ -191,7 +191,7 @@ public class Xmi2Reader {
                 href = child.getAttributeValue("href");
             }
             if (child.getAttributes().size() + child.getChildren().size() == 0) {
-                instance.addValue(child.getName(), model.createUnspecifiedValue(child.getText(), actualIdPrefix));
+                instance.addValue(child.getName(), model.createUnspecifiedValue(child.getText(), actualIdPrefix), null);
             } else if (idref == null && href == null) {
                 XmiClassifier elementForChild;
                 String nsPrefix = null;
@@ -229,7 +229,7 @@ public class Xmi2Reader {
                     actualNamespacePrefix = oldNsPrefix;
 
                     if (propertyName != null) {
-                        instance.addValue(propertyName, instanceValue);
+                        instance.addValue(propertyName, instanceValue, null);
                     }
                     instanceValue.getInstance().setComposite(instance);
                 }
@@ -241,7 +241,7 @@ public class Xmi2Reader {
                     referedId = href;
                 }
                 for (ReferenceValue<XmiClassifier, String, String> ref : model.createReferences(referedId)) {
-                    instance.addValue(name, ref);
+                    instance.addValue(name, ref, null);
                 }
             }
         }

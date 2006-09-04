@@ -36,7 +36,7 @@ import java.util.Vector;
 public class MOF2ToMagicDrawXmi2 extends PatternClass implements XmiTransformator {
 
     private String getDataValue(ClassInstance<XmiClassifier,String,String> from, String key, int index) {
-        if (from == null || from.get(key) == null || from.get(key).getValues(null).size() <= index || 
+        if (from == null || from.get(key) == null || from.get(key).getValues(null).size() <= index ||
                 from.get(key).getValues(null).get(index) == null ||
                 from.get(key).getValues(null).get(index).asDataValue() == null) {
             return null;
@@ -109,7 +109,7 @@ public class MOF2ToMagicDrawXmi2 extends PatternClass implements XmiTransformato
             variable = "e")
     public void visibility(@Name("e")ClassInstance<XmiClassifier,String,String> e) throws Throwable {
         if ((e.get("visibility") == null) || (e.get("visibility").getValues(null).size() == 0)) {
-            e.addValue("visibility", model.createPrimitiveValue("public"));
+            e.addValue("visibility", model.createPrimitiveValue("public"), null);
         }
     }
 
@@ -118,7 +118,7 @@ public class MOF2ToMagicDrawXmi2 extends PatternClass implements XmiTransformato
     public void compositePackage(@Name("p") ClassInstance<XmiClassifier,String,String> p) {
         provided(p.getComposite() == null);
 
-        umlModelElement.addValue("ownedElement", model.createInstanceValue(p));
+        umlModelElement.addValue("ownedElement", model.createInstanceValue(p), null);
         p.setComposite(umlModelElement);
     }
 
@@ -130,7 +130,7 @@ public class MOF2ToMagicDrawXmi2 extends PatternClass implements XmiTransformato
             @Name("p")  ClassInstance<XmiClassifier,String,String> p,
             @Name("ot") ClassInstance<XmiClassifier,String,String> ot) {
         p.get("ownedType").getValues(null).remove(model.createInstanceValue(ot));
-        p.addValue("ownedMember", model.createInstanceValue(ot));
+        p.addValue("ownedMember", model.createInstanceValue(ot), null);
     }
 
     //c=Class
@@ -140,8 +140,8 @@ public class MOF2ToMagicDrawXmi2 extends PatternClass implements XmiTransformato
             for (ValueSpecificationImpl<XmiClassifier, String, String> value: c.get("superClass").getValues(null)) {
                 ClassInstance<XmiClassifier,String,String> generalization =
                         model.createInstance(null, new XmiClassifier("Generalization", "uml"), c);
-                c.addValue("generalization", model.createInstanceValue(generalization));
-                generalization.addValue("general", value);
+                c.addValue("generalization", model.createInstanceValue(generalization), null);
+                generalization.addValue("general", value, null);
             }
             //removeAttribute(c, "superClass");
         }
@@ -154,11 +154,11 @@ public class MOF2ToMagicDrawXmi2 extends PatternClass implements XmiTransformato
         if (upper != null) {
             ClassInstance<XmiClassifier,String,String> upperValue =
                     model.createInstance(null, new XmiClassifier("LiteralString", "uml"), p);
-            p.addValue("upperValue", model.createInstanceValue(upperValue));
+            p.addValue("upperValue", model.createInstanceValue(upperValue), null);
             if (upper.equals("-1")) {
-                upperValue.addValue("value", model.createPrimitiveValue("*"));
+                upperValue.addValue("value", model.createPrimitiveValue("*"), null);
             } else {
-                upperValue.addValue("value", model.createPrimitiveValue(upper));
+                upperValue.addValue("value", model.createPrimitiveValue(upper), null);
             }
             removeAttribute(p, "upper");
         }
@@ -167,15 +167,15 @@ public class MOF2ToMagicDrawXmi2 extends PatternClass implements XmiTransformato
         if (lower != null) {
             ClassInstance<XmiClassifier,String,String> lowerValue =
                     model.createInstance(null, new XmiClassifier("LiteralString", "uml"), p);
-            p.addValue("lowerValue", model.createInstanceValue(lowerValue));
-            lowerValue.addValue("value", model.createPrimitiveValue(lower));
+            p.addValue("lowerValue", model.createInstanceValue(lowerValue), null);
+            lowerValue.addValue("value", model.createPrimitiveValue(lower), null);
             removeAttribute(p, "lower");
         }
 
         String composite = getDataValue(p, "isComposite", 0);
         if (composite != null) {
             if (composite.equals("true")) {
-                p.addValue("aggregation", model.createPrimitiveValue("composite"));
+                p.addValue("aggregation", model.createPrimitiveValue("composite"), null);
             }
             removeAttribute(p, "isComposite");
         }

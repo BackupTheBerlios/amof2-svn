@@ -180,7 +180,7 @@ public class Converter <Co,Po,DataValueo,Ci,Pi,T,D,DataValuei> {
             throw new RuntimeException("unreachable");
         }
         try {
-            targetInstance.addValue(conversion.getProperty(slot.getProperty(), targetInstance.getClassifier(), targetValue), targetValue);
+            targetInstance.addValue(conversion.getProperty(slot.getProperty(), targetInstance.getClassifier(), targetValue), targetValue, null);
         } catch (cmof.exception.CompositeViolation ex) {
             throw ex;
         }

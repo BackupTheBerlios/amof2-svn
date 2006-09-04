@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xmi:XMI xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.omg.org/XSI" xmlns:cmof="http://www.foo.org/cmof">
-  <cmof:PrimitiveType xmi:id="4445" isAbstract="false" name="String" />
   <cmof:Package xmi:id="4892" name="cmof">
     <packageImport xmi:id="5159" importingNamespace="4892" importedPackage="4828" xsi:type="PackageImport" />
     <packageImport xmi:id="5160" importingNamespace="4892" importedPackage="4621" xsi:type="PackageImport" />
@@ -398,7 +397,7 @@
       <ownedEnd xmi:id="4885" owningAssociation="4886" isDerivedUnion="false" upper="1" opposite="4884" lower="1" isDerived="false" type="4882" isReadOnly="false" isOrdered="false" isUnique="true" isComposite="false" xsi:type="Property" />
     </ownedType>
     <ownedType xmi:id="4882" isAbstract="false" name="GuardSpecification" package="4871" superClass="4891" xsi:type="Class">
-      <ownedAttribute xmi:id="4883" isDerivedUnion="false" upper="1" lower="1" isDerived="false" type="4445" class="4882" isReadOnly="false" isOrdered="false" isUnique="true" name="body" isComposite="false" xsi:type="Property" />
+      <ownedAttribute xmi:id="4883" isDerivedUnion="false" upper="1" lower="1" isDerived="false" type="4459" class="4882" isReadOnly="false" isOrdered="false" isUnique="true" name="body" isComposite="false" xsi:type="Property" />
       <ownedAttribute xmi:id="4884" isDerived="false" type="4887" subsettedProperty="4894" class="4882" details="subsets ownedElement" association="4886" isComposite="true" isDerivedUnion="false" upper="1" opposite="4885" lower="0" isReadOnly="false" isUnique="true" isOrdered="false" name="input" xsi:type="Property" />
     </ownedType>
     <ownedType xmi:id="4881" memberEnd="4879" isDerived="false" isAbstract="false" package="4871" xsi:type="Association">
@@ -430,8 +429,8 @@
     </ownedType>
     <ownedType xmi:id="5190" isAbstract="false" name="MergeNode" package="4871" superClass="4873" xsi:type="Class" />
     <ownedType xmi:id="5191" isAbstract="false" name="OpaqueAction" package="4871" superClass="5194" xsi:type="Class">
-      <ownedAttribute xmi:id="5192" isDerivedUnion="false" upper="-1" lower="1" isDerived="false" type="4445" class="5191" isReadOnly="false" isOrdered="true" isUnique="true" name="body" isComposite="false" xsi:type="Property" />
-      <ownedAttribute xmi:id="5193" isDerivedUnion="false" upper="-1" lower="0" isDerived="false" type="4445" class="5191" isReadOnly="false" isOrdered="true" isUnique="true" name="language" isComposite="false" xsi:type="Property" />
+      <ownedAttribute xmi:id="5192" isDerivedUnion="false" upper="-1" lower="1" isDerived="false" type="4459" class="5191" isReadOnly="false" isOrdered="true" isUnique="true" name="body" isComposite="false" xsi:type="Property" />
+      <ownedAttribute xmi:id="5193" isDerivedUnion="false" upper="-1" lower="0" isDerived="false" type="4459" class="5191" isReadOnly="false" isOrdered="true" isUnique="true" name="language" isComposite="false" xsi:type="Property" />
     </ownedType>
     <ownedType xmi:id="5198" isAbstract="false" name="OutputPin" package="4871" superClass="4889" xsi:type="Class" />
     <ownedType xmi:id="5197" memberEnd="5195" isDerived="false" isAbstract="false" package="4871" xsi:type="Association">
@@ -455,10 +454,10 @@
     <ownedType xmi:id="5209" isAbstract="false" name="InitialNode" package="4871" superClass="4873" xsi:type="Class" />
     <ownedType xmi:id="5210" isAbstract="false" name="ObjectFlow" package="4871" superClass="4878" xsi:type="Class" />
     <ownedType xmi:id="5211" isAbstract="false" name="ContextExtensionPin" package="4871" superClass="4887" xsi:type="Class">
-      <ownedAttribute xmi:id="5212" isDerivedUnion="false" upper="1" lower="1" isDerived="false" type="4445" class="5211" isReadOnly="false" isOrdered="false" isUnique="true" name="extensionName" isComposite="false" xsi:type="Property" />
+      <ownedAttribute xmi:id="5212" isDerivedUnion="false" upper="1" lower="1" isDerived="false" type="4459" class="5211" isReadOnly="false" isOrdered="false" isUnique="true" name="extensionName" isComposite="false" xsi:type="Property" />
     </ownedType>
     <ownedType xmi:id="5213" isAbstract="false" name="TypeString" package="4871" superClass="4975" xsi:type="Class">
-      <ownedAttribute xmi:id="5214" isDerivedUnion="false" upper="-1" lower="1" isDerived="false" type="4445" class="5213" isReadOnly="false" isOrdered="true" isUnique="true" name="qualifiedTypeName" isComposite="false" xsi:type="Property" />
+      <ownedAttribute xmi:id="5214" isDerivedUnion="false" upper="-1" lower="1" isDerived="false" type="4459" class="5213" isReadOnly="false" isOrdered="true" isUnique="true" name="qualifiedTypeName" isComposite="false" xsi:type="Property" />
     </ownedType>
   </cmof:Package>
   <cmof:Package xmi:id="4446" name="core">
@@ -1025,6 +1024,7 @@
       <ownedType xmi:id="4458" isAbstract="false" name="Integer" package="4457" xsi:type="PrimitiveType" />
       <ownedType xmi:id="4456" isAbstract="false" name="Boolean" package="4457" xsi:type="PrimitiveType" />
       <ownedType xmi:id="4459" isAbstract="false" name="String" package="4457" xsi:type="PrimitiveType" />
+      <ownedType xmi:id="external4" isAbstract="false" name="Object" package="4457" xsi:type="PrimitiveType" />
       <ownedType xmi:id="4460" isAbstract="false" name="UnlimitedNatural" package="4457" xsi:type="PrimitiveType" />
     </nestedPackage>
     <nestedPackage xmi:id="4828" name="basic" nestingPackage="4446" xsi:type="Package">

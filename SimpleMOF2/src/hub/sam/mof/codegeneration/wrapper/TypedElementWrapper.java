@@ -37,7 +37,7 @@ public abstract class TypedElementWrapper extends AbstractWrapper {
           }
           if (type instanceof PrimitiveType) {
               if (type.getName().equals(core.primitivetypes.String.class.getSimpleName())) {
-                  typeName = String.class.getCanonicalName();
+                  typeName = java.lang.String.class.getCanonicalName();
               } else if (type.getName().equals(core.primitivetypes.Object.class.getSimpleName())) {
                   typeName = Object.class.getCanonicalName();
               } else if (type.getName().equals(core.primitivetypes.Integer.class.getSimpleName())) {

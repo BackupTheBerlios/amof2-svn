@@ -28,6 +28,7 @@ import cmof.exception.IllegalAccessException;
 import hub.sam.mof.instancemodel.ClassInstance;
 import hub.sam.mof.instancemodel.StructureSlot;
 import hub.sam.mof.instancemodel.ValueSpecificationImpl;
+import hub.sam.mof.instancemodel.ValueSpecification;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -63,6 +64,8 @@ public class MofClassInstance extends ClassInstance<UmlClass,Property,java.lang.
             MofStructureSlot newSlot = createSlot(property);
             slotForProperty.put(property, newSlot);
         }
+
+        // set default values
         for (core.abstractions.elements.Element member: getClassifier().getMember()) {
             if (member instanceof Property) {
                 Property property = (Property)member;
@@ -70,7 +73,9 @@ public class MofClassInstance extends ClassInstance<UmlClass,Property,java.lang.
                     Type type = (cmof.Type)property.getType();
                     String defaultValue = collectDefaultValue(property);
                     if (type instanceof cmof.DataType && defaultValue != null) {
-                        addValue(property, getModel().createPrimitiveValue(hub.sam.mof.reflection.FactoryImpl.staticCreateFromString((DataType)type, defaultValue)));
+                        addValue(property, getModel().createPrimitiveValue(
+                                hub.sam.mof.reflection.FactoryImpl.staticCreateFromString(
+                                        (DataType)type, defaultValue)), null);
                     }
                 }
             }
@@ -118,26 +123,28 @@ public class MofClassInstance extends ClassInstance<UmlClass,Property,java.lang.
     /** Returns the values for the feature that is the final redefining feature for the given feature and the metaclass of
      * this instance.
      */
-    public MofValueSpecificationList getValuesOfFeature(Property definingFeature) {
+    public MofValueSpecificationList getValuesOfFeature(Property definingFeature,
+            ValueSpecification<UmlClass,Property,java.lang.Object> qualifier) {
         MofStructureSlot theSlot = get(definingFeature);
         if (theSlot == null) {
             throw new IllegalArgumentException(definingFeature);
         } else {
-            return theSlot.getValuesAsList(null);
+            return theSlot.getValuesAsList(qualifier);
         }
     }
 
     @Override
-	public void addValue(Property feature, ValueSpecificationImpl<UmlClass,Property,java.lang.Object> value) {
+	public void addValue(Property feature, ValueSpecificationImpl<UmlClass,Property,java.lang.Object> value,
+                      ValueSpecification<UmlClass,Property, Object> qualifier) {
         if (feature.getUpper() == 1) {
-            MofValueSpecificationList values = getValuesOfFeature(feature);
+            MofValueSpecificationList values = getValuesOfFeature(feature, qualifier);
             if (values.size() == 0) {
                 values.add(value);
             } else {
                 values.set(0, value);
             }
         } else {
-            getValuesOfFeature(feature).add(value);
+            getValuesOfFeature(feature, qualifier).add(value);
         }
     }
 

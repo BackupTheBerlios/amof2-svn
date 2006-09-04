@@ -4,6 +4,7 @@ import cmof.Property;
 import cmof.UmlClass;
 import hub.sam.mof.instancemodel.ClassInstance;
 import hub.sam.mof.instancemodel.ValueSpecificationImpl;
+import hub.sam.mof.instancemodel.ValueSpecification;
 import hub.sam.mof.mofinstancemodel.MofClassInstance;
 import hub.sam.mof.mofinstancemodel.MofStructureSlot;
 
@@ -26,8 +27,9 @@ public class ProxyObjectInstance extends MofClassInstance {
     }
 
     @Override
-    public void addValue(Property feature, ValueSpecificationImpl<UmlClass, Property, Object> value) {
-        super.addValue(feature, value);
+    public void addValue(Property feature, ValueSpecificationImpl<UmlClass, Property, Object> value,
+                         ValueSpecification<UmlClass, Property, Object> qualifier) {
+        super.addValue(feature, value, qualifier);
     }
 
     @Override

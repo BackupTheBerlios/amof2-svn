@@ -109,7 +109,7 @@ public class Xmi1Reader {
             if (!attr.getName().equals("xmi.id")) {
                 String name = attr.getName();
                 String value = attr.getValue();
-                instance.addValue(name, model.createUnspecifiedValue(value));
+                instance.addValue(name, model.createUnspecifiedValue(value), null);
             }
         }
         for (Object attrChild: element.getChildren()) {
@@ -129,13 +129,13 @@ public class Xmi1Reader {
                         String[] fullType = typeElement.getName().split("\\.");
                         String type = fullType[fullType.length - 1];
                         if (typeElement.getAttributes().size() + typeElement.getChildren().size() == 0) {
-                            instance.addValue(attrName, model.createUnspecifiedValue(typeElement.getText()));
+                            instance.addValue(attrName, model.createUnspecifiedValue(typeElement.getText()), null);
                         } else {
                             XmiClassifier elementForChild = new XmiClassifier(type, actualNamespacePrefix);
                             InstanceValue<XmiClassifier,String,String> value =
                                     model.createInstanceValue(model.createInstance(id, elementForChild));
                             readContentForInstance(typeElement, value.getInstance());
-                            instance.addValue(attrName, value);
+                            instance.addValue(attrName, value, null);
                             value.getInstance().setComposite(instance);
                         }
                     }
