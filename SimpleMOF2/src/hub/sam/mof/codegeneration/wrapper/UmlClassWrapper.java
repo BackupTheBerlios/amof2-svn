@@ -14,7 +14,7 @@ details.
 
     You should have received a copy of the GNU Lesser General Public License
 along with this library; if not, write to the Free Software Foundation, Inc.,
-59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
+59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
 package hub.sam.mof.codegeneration.wrapper;
@@ -39,15 +39,9 @@ public class UmlClassWrapper extends AbstractWrapper {
         return "implements " + getName();
     }
     public String getExtends() {
-        String result = "";      
-        boolean first = true;
+        String result = "extends " + cmof.reflection.Object.class.getCanonicalName();
         for (UmlClass superClass: umlClass.getSuperClass()) {
-            if (first) {
-                first = false;
-                result += "extends ";
-            } else {
-                result += ", ";
-            }
+            result += ", ";
             result += getFullQualifiedJavaIdentifier(superClass);
         }
         return result;
@@ -59,9 +53,9 @@ public class UmlClassWrapper extends AbstractWrapper {
             result += ", isAbstract";
         }
         if (umlClass.getSuperClass().size() > 0) {
-            result += ", superClass = {" + docStringForElementList(umlClass.getSuperClass()) + "}";               
-        }            
-        return result; 
+            result += ", superClass = {" + docStringForElementList(umlClass.getSuperClass()) + "}";
+        }
+        return result;
     }
 	public cmof.UmlClass getUmlClass() {
 		return umlClass;

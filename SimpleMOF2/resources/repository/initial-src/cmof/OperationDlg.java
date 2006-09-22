@@ -174,6 +174,14 @@ public class OperationDlg extends hub.sam.mof.reflection.ObjectDlg implements Op
         return self.includesMultiplicity(M);
     }
 
+    public cmof.CallConcurrencyKind getConcurrency() {
+        return (cmof.CallConcurrencyKind)(java.lang.Object)self.getConcurrency();
+    }
+
+    public void setConcurrency(cmof.CallConcurrencyKind value) {
+        self.setConcurrency(value);
+    }
+
     public cmof.common.ReflectiveSequence<? extends cmof.Parameter> getParameter() {
         return (cmof.common.ReflectiveSequence<? extends cmof.Parameter>)(java.lang.Object)self.getParameter();
     }

@@ -123,7 +123,7 @@ public class OperationImpl extends hub.sam.mof.reflection.ObjectImpl implements 
         if (value == null) {
            return null;
         } else {
-            return new hub.sam.mof.util.TypeWrapperListImpl((cmof.common.ReflectiveSequence)value);
+            return new hub.sam.mof.util.TypeWrapperListImpl((cmof.common.ReflectiveSequence)value, this, "formalParameter");
         }
     }
 
@@ -132,7 +132,7 @@ public class OperationImpl extends hub.sam.mof.reflection.ObjectImpl implements 
         if (value == null) {
            return null;
         } else {
-            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value);
+            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value, this, "raisedException");
         }
     }
 
@@ -141,7 +141,7 @@ public class OperationImpl extends hub.sam.mof.reflection.ObjectImpl implements 
         if (value == null) {
            return null;
         } else {
-            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value);
+            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value, this, "precondition");
         }
     }
 
@@ -150,7 +150,7 @@ public class OperationImpl extends hub.sam.mof.reflection.ObjectImpl implements 
         if (value == null) {
            return null;
         } else {
-            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value);
+            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value, this, "postcondition");
         }
     }
 
@@ -159,7 +159,7 @@ public class OperationImpl extends hub.sam.mof.reflection.ObjectImpl implements 
         if (value == null) {
            return null;
         } else {
-            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value);
+            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value, this, "redefinedOperation");
         }
     }
 
@@ -257,7 +257,7 @@ public class OperationImpl extends hub.sam.mof.reflection.ObjectImpl implements 
         if (value == null) {
            return null;
         } else {
-            return new hub.sam.mof.util.TypeWrapperListImpl((cmof.common.ReflectiveSequence)value);
+            return new hub.sam.mof.util.TypeWrapperListImpl((cmof.common.ReflectiveSequence)value, this, "ownedParameter");
         }
     }
 
@@ -319,12 +319,25 @@ public class OperationImpl extends hub.sam.mof.reflection.ObjectImpl implements 
         }
     }
 
+    public cmof.CallConcurrencyKind getConcurrency() {
+        java.lang.Object value = get("concurrency");
+        if (value == null) {
+           return null;
+        } else {
+            return (cmof.CallConcurrencyKind)value;
+        }
+    }
+
+    public void setConcurrency(cmof.CallConcurrencyKind value) {
+        set("concurrency", value);
+    }
+
     public cmof.common.ReflectiveSequence<? extends cmof.Parameter> getParameter() {
         java.lang.Object value = get("parameter");
         if (value == null) {
            return null;
         } else {
-            return new hub.sam.mof.util.TypeWrapperListImpl((cmof.common.ReflectiveSequence)value);
+            return new hub.sam.mof.util.TypeWrapperListImpl((cmof.common.ReflectiveSequence)value, this, "parameter");
         }
     }
 
@@ -333,7 +346,7 @@ public class OperationImpl extends hub.sam.mof.reflection.ObjectImpl implements 
         if (value == null) {
            return null;
         } else {
-            return new hub.sam.mof.util.TypeWrapperListImpl((cmof.common.ReflectiveSequence)value);
+            return new hub.sam.mof.util.TypeWrapperListImpl((cmof.common.ReflectiveSequence)value, this, "returnResult");
         }
     }
 
@@ -360,7 +373,7 @@ public class OperationImpl extends hub.sam.mof.reflection.ObjectImpl implements 
         if (value == null) {
            return null;
         } else {
-            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value);
+            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value, this, "featuringClassifier");
         }
     }
 
@@ -426,7 +439,7 @@ public class OperationImpl extends hub.sam.mof.reflection.ObjectImpl implements 
         if (value == null) {
            return null;
         } else {
-            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value);
+            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value, this, "ownedElement");
         }
     }
 
@@ -470,7 +483,7 @@ public class OperationImpl extends hub.sam.mof.reflection.ObjectImpl implements 
         if (value == null) {
            return null;
         } else {
-            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value);
+            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value, this, "member");
         }
     }
 
@@ -479,7 +492,7 @@ public class OperationImpl extends hub.sam.mof.reflection.ObjectImpl implements 
         if (value == null) {
            return null;
         } else {
-            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value);
+            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value, this, "ownedMember");
         }
     }
 
@@ -515,7 +528,7 @@ public class OperationImpl extends hub.sam.mof.reflection.ObjectImpl implements 
         if (value == null) {
            return null;
         } else {
-            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value);
+            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value, this, "redefinitionContext");
         }
     }
 
@@ -524,7 +537,7 @@ public class OperationImpl extends hub.sam.mof.reflection.ObjectImpl implements 
         if (value == null) {
            return null;
         } else {
-            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value);
+            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value, this, "redefinedElement");
         }
     }
 
@@ -542,7 +555,7 @@ public class OperationImpl extends hub.sam.mof.reflection.ObjectImpl implements 
         if (value == null) {
            return null;
         } else {
-            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value);
+            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value, this, "tag");
         }
     }
 
@@ -564,7 +577,7 @@ public class OperationImpl extends hub.sam.mof.reflection.ObjectImpl implements 
         if (value == null) {
            return null;
         } else {
-            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value);
+            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value, this, "ownedComment");
         }
     }
 
@@ -586,7 +599,7 @@ public class OperationImpl extends hub.sam.mof.reflection.ObjectImpl implements 
         if (value == null) {
            return null;
         } else {
-            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value);
+            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value, this, "importedMember");
         }
     }
 
@@ -595,7 +608,7 @@ public class OperationImpl extends hub.sam.mof.reflection.ObjectImpl implements 
         if (value == null) {
            return null;
         } else {
-            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value);
+            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value, this, "elementImport");
         }
     }
 
@@ -604,7 +617,7 @@ public class OperationImpl extends hub.sam.mof.reflection.ObjectImpl implements 
         if (value == null) {
            return null;
         } else {
-            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value);
+            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value, this, "packageImport");
         }
     }
 
@@ -613,7 +626,7 @@ public class OperationImpl extends hub.sam.mof.reflection.ObjectImpl implements 
         if (value == null) {
            return null;
         } else {
-            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value);
+            return new hub.sam.mof.util.TypeWrapperSetImpl((cmof.common.ReflectiveCollection)value, this, "ownedRule");
         }
     }
 

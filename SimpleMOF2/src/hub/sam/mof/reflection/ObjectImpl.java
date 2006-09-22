@@ -26,13 +26,14 @@ import cmof.Property;
 import cmof.UmlClass;
 import cmof.PrimitiveType;
 import cmof.Type;
+import cmof.CallConcurrencyKind;
+import cmof.reflection.ObjectEventHandler;
+import cmof.reflection.Argument;
+import cmof.reflection.Extent;
 import cmof.common.ReflectiveCollection;
 import cmof.common.ReflectiveSequence;
 import cmof.exception.IllegalArgumentException;
 import cmof.exception.MetaModelException;
-import cmof.reflection.Argument;
-import cmof.reflection.Extent;
-import cmof.reflection.ObjectEventHandler;
 import hub.sam.mof.instancemodel.ClassInstance;
 import hub.sam.mof.instancemodel.ClassifierSemantics;
 import hub.sam.mof.instancemodel.StructureSlot;
@@ -262,7 +263,7 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
                 ReflectiveSequence<? extends ValueSpecification<UmlClass, Property, java.lang.Object>> values =
                         instance.get(property).getValuesAsList(extent.specificationForValue(qualifier));
 
-                Object oldValue = get(property);
+                java.lang.Object oldValue = get(property);
 
                 if (values.size() == 0) {
                     values.add(0, extent.specificationForValue(value));
@@ -360,6 +361,53 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
         extent.removeObject(this, getClassInstance());
     }
 
+    class ConcurrentOperationInvoker extends Thread {
+        private final ObjectImpl self;
+        private final Operation operation;
+        private final java.lang.Object[] arguments;
+
+        ConcurrentOperationInvoker(ObjectImpl self, Operation operation,
+                                          java.lang.Object[] arguments) {
+            super(self.toString());
+            this.self = self;
+            this.operation = operation;
+            this.arguments = arguments;
+        }
+
+        @Override
+        public void run() {
+            self.invokeCustomImplementation(operation, arguments);
+        }
+    }
+
+    private static final Map<cmof.reflection.Object, Integer> scheduledObjects =
+            new HashMap<cmof.reflection.Object, Integer>();
+    private static final Map<Integer, cmof.reflection.Object> oracle =
+            new HashMap<Integer, cmof.reflection.Object>();
+    private static int unique = 0;
+
+    public synchronized void hold() {
+        Integer nextSeed = oracle.keySet().iterator().next();
+        cmof.reflection.Object nextObject = oracle.get(nextSeed);
+        oracle.remove(nextSeed);
+        scheduledObjects.remove(nextObject);
+        nextObject.notify();
+        try {
+            wait();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public synchronized void schedule(cmof.reflection.Object object) {
+        if (scheduledObjects.get(object) == null) {
+            Integer seed = new Integer(unique);
+            unique++;
+            scheduledObjects.put(object, seed);
+            oracle.put(seed, object);
+        }
+    }
+
     public synchronized java.lang.Object invokeOperation(String opName, java.lang.Object[] args) {
         if (semantics == null) {
             // lazy semantics innitialisation is nessessary to avoid endless recusion in bootstrap and static models
@@ -376,14 +424,19 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
             throw new IllegalArgumentException("wrong op"); // TODO
         }
         if (implementation.hasImplementationFor(op, semantics)) {
-            return invokeCustomImplementation(op, args);
+            if (op.getConcurrency() == CallConcurrencyKind.CONCURRENT) {
+                new ConcurrentOperationInvoker(this, op, args).start();
+                return null;
+            } else {
+                return invokeCustomImplementation(op, args);
+            }
         } else {
             throw new MetaModelException("no implementation found for " + opName);
         }
     }
 
-    private Object invokeCustomImplementation(Operation op, Object[] args) {
-        Object result;
+    private java.lang.Object invokeCustomImplementation(Operation op, Object[] args) {
+        java.lang.Object result;
         try {
             result = implementation.invokeImplementationFor(op, this, args, semantics);
         } catch (RuntimeException ex) {

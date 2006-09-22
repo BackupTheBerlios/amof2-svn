@@ -218,7 +218,12 @@
     <ownedType xmi:id="5105" memberEnd="5103" isDerived="false" isAbstract="false" package="4892" xsi:type="Association">
       <ownedEnd xmi:id="5104" owningAssociation="5105" isDerivedUnion="false" upper="1" lower="0" isDerived="false" subsettedProperty="4912" type="5083" isReadOnly="false" isOrdered="false" isUnique="true" name="ownerReturnParam" isComposite="false" xsi:type="Property" />
     </ownedType>
+    <ownedType xsi:type="Enumeration" xmi:id="ext6" name="CallConcurrencyKind" package="4892">
+      <ownedLiteral xsi:type="EnumerationLiteral" enumeration="ext6" xmi:id="ext7" name="sequential"/>
+      <ownedLiteral xsi:type="EnumerationLiteral" enumeration="ext6" xmi:id="ext8" name="concurrent"/>
+    </ownedType>
     <ownedType xmi:id="5083" isAbstract="true" name="BehavioralFeature" package="4892" superClass="4623 5010 4915" xsi:type="Class">
+      <ownedAttribute xsi:type="Property" xmi:id="ext5" name="concurrency" type="ext6" default="sequential" isComposite="false" upper="1" lower="1" isReadOnly="false" class="5083"/>
       <ownedAttribute xmi:id="5089" isDerived="true" type="5092" subsettedProperty="4914" redefinedProperty="4629" class="5083" association="5091" isComposite="false" isDerivedUnion="true" upper="-1" opposite="5090" lower="0" isReadOnly="false" isUnique="true" isOrdered="true" name="parameter" xsi:type="Property" />
       <ownedAttribute xmi:id="5081" isDerived="false" type="5092" subsettedProperty="5089 4913" class="5083" association="5107" isComposite="true" isDerivedUnion="false" upper="-1" opposite="5082" lower="0" isReadOnly="false" isUnique="true" isOrdered="true" name="formalParameter" xsi:type="Property" />
       <ownedAttribute xmi:id="5103" isDerived="false" type="5092" subsettedProperty="5089 4913" class="5083" association="5105" isComposite="true" isDerivedUnion="false" upper="-1" opposite="5104" lower="0" isReadOnly="false" isUnique="true" isOrdered="true" name="returnResult" xsi:type="Property" />

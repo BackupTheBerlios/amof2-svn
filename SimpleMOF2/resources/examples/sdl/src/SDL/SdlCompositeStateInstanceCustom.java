@@ -6,8 +6,8 @@ import Pattern.Evaluation.Evaluation;
 import Pattern.Evaluation.Expression;
 import cmof.common.ReflectiveSequence;
 import hub.sam.mof.util.ListImpl;
-import hub.sam.sdlplus.GlobalLock;
 import hub.sam.sdlplus.SdlCompiler;
+import hub.sam.sdlplus.GlobalLock;
 
 import java.util.Collection;
 import java.util.Vector;

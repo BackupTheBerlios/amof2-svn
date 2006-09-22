@@ -20,6 +20,7 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 package hub.sam.mof.bootstrap;
 
 import cmof.ParameterDirectionKind;
+import cmof.CallConcurrencyKind;
 import core.abstractions.visibilities.VisibilityKind;
 import hub.sam.mof.instancemodel.ClassInstance;
 import hub.sam.mof.instancemodel.StructureSlot;
@@ -109,6 +110,8 @@ public class BootstrapInstance extends ClassInstance<ClassInstance<ClassInstance
                         	}
                         } else if ( name.equals(VisibilityKind.class.getSimpleName())) {
                         	defaultValue = VisibilityKind.PUBLIC;
+                        } else if ( name.equals(CallConcurrencyKind.class.getSimpleName())) {
+                            defaultValue = CallConcurrencyKind.SEQUENTIAL;
                         } else {
                             throw new RuntimeException("assert");
                         }

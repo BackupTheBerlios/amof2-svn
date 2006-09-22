@@ -8,6 +8,13 @@ public interface BehavioralFeature extends core.abstractions.behavioralfeatures.
 {
 
     /**
+     * <b>concurrency</b>, multiplicity=(1,1)
+     */
+    public cmof.CallConcurrencyKind getConcurrency();
+
+    public void setConcurrency(cmof.CallConcurrencyKind value);
+
+    /**
      * <b>parameter</b>, multiplicity=(0,*), isDerivedUnion, isDerived, isUnique, isOrdered, subsettedProperty = {cmof.Namespace.member}, redefinedProperty = {core.abstractions.behavioralfeatures.BehavioralFeature.parameter}
      */
     public cmof.common.ReflectiveSequence<? extends cmof.Parameter> getParameter();

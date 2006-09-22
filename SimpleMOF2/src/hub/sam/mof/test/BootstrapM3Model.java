@@ -34,7 +34,7 @@ public class BootstrapM3Model extends AbstractRepository {
         assertEquals("cmof", cmofPackage.getName());
         assertTrue(cmofPackage.getPackagedElement().containsAll(cmofPackage.getPackagedElement()));
         assertTrue(cmofPackage.getMember().containsAll(cmofPackage.getPackagedElement()));
-        assertEquals(64, cmofPackage.getOwnedType().size());
+        assertEquals(65, cmofPackage.getOwnedType().size());
     }
 
     public void testUmlClass() throws Exception {

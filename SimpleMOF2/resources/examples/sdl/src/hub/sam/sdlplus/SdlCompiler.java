@@ -140,7 +140,10 @@ public class SdlCompiler {
             SdlAgentInstanceSet systemInstanceSet = (SdlAgentInstanceSet)system.instanciate();
             SdlAgentInstance systemInstance = systemInstanceSet.getValue().iterator().next();
             systemInstance.run();
-            wait(5*1000);
+            int i = 1;
+            while(i == 1) {
+                wait(5*1000);
+            }
             theTrace.generateDot("out.dot");
             System.exit(0);
             /*

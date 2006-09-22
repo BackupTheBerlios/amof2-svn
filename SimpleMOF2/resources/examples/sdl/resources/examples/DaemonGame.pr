@@ -71,9 +71,12 @@ PACKAGE daemonGame_pkg;
 
             STATE two;
                 INPUT lose;
+                OUTPUT probe TO sender;
+                NEXTSTATE -;
+                /*
                 OUTPUT result TO sender;
                 OUTPUT endGame TO sender;
-                NEXTSTATE three;
+                NEXTSTATE three;*/
             ENDSTATE;
 
             STATE three;
