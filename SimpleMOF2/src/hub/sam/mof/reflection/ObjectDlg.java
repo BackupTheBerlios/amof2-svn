@@ -1,5 +1,7 @@
 package hub.sam.mof.reflection;
 
+import java.beans.PropertyChangeListener;
+
 import cmof.Operation;
 import cmof.Property;
 import cmof.UmlClass;
@@ -140,4 +142,13 @@ public class ObjectDlg implements Object {
             return false;
         }
     }
+
+    public void addListener(PropertyChangeListener listener) {
+        reflectionself.addListener(listener);
+    }
+
+    public void removeListener(PropertyChangeListener listener) {
+        reflectionself.removeListener(listener);
+    }
+
 }

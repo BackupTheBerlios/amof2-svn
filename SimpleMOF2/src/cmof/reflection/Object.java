@@ -19,6 +19,8 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 
 package cmof.reflection;
 
+import java.beans.PropertyChangeListener;
+
 import cmof.*;
 import cmof.common.*;
 import cmof.exception.*;
@@ -238,4 +240,9 @@ public interface Object {
     public java.lang.Object invokeOperation(String opName, java.lang.Object[] args);
 
     public void addObjectEventHandler(ObjectEventHandler handler);
+
+    public void addListener(PropertyChangeListener listener);
+
+    public void removeListener(PropertyChangeListener listener);
+
 }

@@ -31,6 +31,7 @@ import cmof.reflection.ObjectEventHandler;
 import hub.sam.mof.reflection.client.ClientObject;
 import hub.sam.mof.reflection.server.ServerObject;
 
+import java.beans.PropertyChangeListener;
 import java.rmi.RemoteException;
 
 public class ClientObjectImpl extends AbstractBridge implements ClientObject {
@@ -270,4 +271,13 @@ public class ClientObjectImpl extends AbstractBridge implements ClientObject {
         }
         return hashCode;
     }
+    
+    // TODO: add implementation
+    public void addListener(PropertyChangeListener listener) {
+    }
+
+    // TODO: add implementation
+    public void removeListener(PropertyChangeListener listener) {        
+    }
+    
 }
