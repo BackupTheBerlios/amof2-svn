@@ -48,15 +48,17 @@ public class MOF2ToMagicDrawXmi2 extends PatternClass implements XmiTransformato
         }
     }
 
-    private void removeAttribute(ClassInstance<XmiClassifier,String,String> from, String attr) {
+    private void removeAttribute(ClassInstance<XmiClassifier,String,String> from, String attr, boolean composite) {
         if (from.get(attr) != null) {
             if (from.get(attr).getValues(null).size() > 0) {
-                for(ValueSpecification<XmiClassifier,String,String> value: from.get(attr).getValues(null)) {
-                    if (value.asInstanceValue() != null) {
-                        value.asInstanceValue().getInstance().setComposite(null);
+                if (composite) {
+                    for(ValueSpecification<XmiClassifier,String,String> value: from.get(attr).getValues(null)) {
+                        if (value.asInstanceValue() != null) {
+                            value.asInstanceValue().getInstance().setComposite(null);
+                        }
                     }
-                }
-                from.get(attr).getValues(null).clear();
+                }    
+                from.get(attr).getValues(null).clear();                
             }
         }
     }
@@ -90,7 +92,7 @@ public class MOF2ToMagicDrawXmi2 extends PatternClass implements XmiTransformato
             throw new RuntimeException(e);
         }
     }
-
+   
     //Model.Package.Class.Association.DataType.Enumeration.PrimitiveType.Operation
     @SuppressWarnings({"unchecked"})
     @Pattern ( order = 100, atype = "Package.Class.Association.DataType.Enumeration.PrimitiveType.Operation")
@@ -131,6 +133,7 @@ public class MOF2ToMagicDrawXmi2 extends PatternClass implements XmiTransformato
             @Name("ot") ClassInstance<XmiClassifier,String,String> ot) {
         p.get("ownedType").getValues(null).remove(model.createInstanceValue(ot));
         p.addValue("ownedMember", model.createInstanceValue(ot), null);
+        
     }
 
     //c=Class
@@ -146,7 +149,7 @@ public class MOF2ToMagicDrawXmi2 extends PatternClass implements XmiTransformato
             //removeAttribute(c, "superClass");
         }
     }
-
+    
     //p=Property.Parameter
     @Pattern ( order = 96, atype = "Property.Parameter", variable = "p")
     public void property(@Name("p") ClassInstance<XmiClassifier,String,String> p) {
@@ -160,7 +163,7 @@ public class MOF2ToMagicDrawXmi2 extends PatternClass implements XmiTransformato
             } else {
                 upperValue.addValue("value", model.createPrimitiveValue(upper), null);
             }
-            removeAttribute(p, "upper");
+            removeAttribute(p, "upper", true);
         }
 
         String lower = getDataValue(p, "lower", 0);
@@ -169,7 +172,7 @@ public class MOF2ToMagicDrawXmi2 extends PatternClass implements XmiTransformato
                     model.createInstance(null, new XmiClassifier("LiteralString", "uml"), p);
             p.addValue("lowerValue", model.createInstanceValue(lowerValue), null);
             lowerValue.addValue("value", model.createPrimitiveValue(lower), null);
-            removeAttribute(p, "lower");
+            removeAttribute(p, "lower", true);
         }
 
         String composite = getDataValue(p, "isComposite", 0);
@@ -177,7 +180,54 @@ public class MOF2ToMagicDrawXmi2 extends PatternClass implements XmiTransformato
             if (composite.equals("true")) {
                 p.addValue("aggregation", model.createPrimitiveValue("composite"), null);
             }
-            removeAttribute(p, "isComposite");
+            removeAttribute(p, "isComposite", true);
+        }
+    }
+    
+    @Pattern ( order = 97, atype = "Operation", variable = "o")
+    public void operationReturn(@Name("o") ClassInstance<XmiClassifier,String,String> o) {
+        
+        if (o.get("type").getValues(null).size() > 0) {
+            ClassInstance<XmiClassifier, String, String> type = o.get("type").getValues(null).iterator().next().asInstanceValue().getInstance();
+            removeAttribute(o, "type", false);
+            ClassInstance<XmiClassifier, String, String> parameter = model.createInstance(null, new XmiClassifier("Parameter", "uml"), o);
+            parameter.addValue("type", model.createInstanceValue(type), null);
+            o.addValue("ownedParameter", model.createInstanceValue(parameter), null);            
+            parameter.addValue("direction", model.createPrimitiveValue("return"), null);            
+                       
+            String upper = getDataValue(o, "upper", 0);
+            if (upper != null) {
+                ClassInstance<XmiClassifier,String,String> upperValue =
+                        model.createInstance(null, new XmiClassifier("LiteralString", "uml"), parameter);
+                parameter.addValue("upperValue", model.createInstanceValue(upperValue), null);
+                if (upper.equals("-1")) {
+                    upperValue.addValue("value", model.createPrimitiveValue("*"), null);
+                } else {
+                    upperValue.addValue("value", model.createPrimitiveValue(upper), null);
+                }
+                removeAttribute(o, "upper", true);
+            }
+    
+            String lower = getDataValue(o, "lower", 0);
+            if (lower != null) {
+                ClassInstance<XmiClassifier,String,String> lowerValue =
+                        model.createInstance(null, new XmiClassifier("LiteralString", "uml"), parameter);
+                parameter.addValue("lowerValue", model.createInstanceValue(lowerValue), null);
+                lowerValue.addValue("value", model.createPrimitiveValue(lower), null);
+                removeAttribute(o, "lower", true);
+            }
+            
+            String unique = getDataValue(o, "isUnique", 0);
+            if (unique != null) {                
+                removeAttribute(o, "isUnique", true);
+                parameter.addValue("isUnique", model.createPrimitiveValue(unique), null);
+            }
+            
+            String ordered = getDataValue(o, "isOrdered", 0);
+            if (ordered != null) {                
+                removeAttribute(o, "isOrdered", true);
+                parameter.addValue("isOrdered", model.createPrimitiveValue(ordered), null);
+            }
         }
     }
 }

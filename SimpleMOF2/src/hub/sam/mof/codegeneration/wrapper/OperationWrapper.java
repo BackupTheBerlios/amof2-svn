@@ -95,7 +95,11 @@ public class OperationWrapper extends TypedElementWrapper {
     }
 
     public boolean isList() {
-        return operation.isOrdered();
+        if (getReturnParameter() != null) {
+            return getReturnParameter().isOrdered();
+        } else {
+            return operation.isOrdered();
+        }
     }
 
     private Parameter getReturnParameter() {
