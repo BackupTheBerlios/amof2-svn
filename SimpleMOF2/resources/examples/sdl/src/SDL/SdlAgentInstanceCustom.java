@@ -42,6 +42,7 @@ public class SdlAgentInstanceCustom extends SdlAgentInstanceDlg {
         SdlCompositeStateInstance behavior = self.getBehavior();
         if (behavior != null) {
             behavior.start();
+            behavior.run();
         }
     }
 

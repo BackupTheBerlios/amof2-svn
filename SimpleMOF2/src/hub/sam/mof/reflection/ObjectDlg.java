@@ -1,7 +1,5 @@
 package hub.sam.mof.reflection;
 
-import java.beans.PropertyChangeListener;
-
 import cmof.Operation;
 import cmof.Property;
 import cmof.UmlClass;
@@ -12,6 +10,9 @@ import cmof.reflection.Argument;
 import cmof.reflection.Extent;
 import cmof.reflection.Object;
 import cmof.reflection.ObjectEventHandler;
+import hub.sam.mof.jocl.standardlib.OclModelElement;
+
+import java.beans.PropertyChangeListener;
 
 public class ObjectDlg implements Object {
 
@@ -151,4 +152,7 @@ public class ObjectDlg implements Object {
         reflectionself.removeListener(listener);
     }
 
+    public OclModelElement ocl() {
+        return reflectionself.ocl();
+    }
 }

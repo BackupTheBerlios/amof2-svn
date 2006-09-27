@@ -46,6 +46,7 @@ import hub.sam.mof.util.AssertionException;
 import hub.sam.mof.util.SetImpl;
 import hub.sam.mof.xmi.CMOFToXmi;
 import hub.sam.mof.javamapping.JavaMapping;
+import hub.sam.mof.jocl.standardlib.OclModelElement;
 import hub.sam.util.AbstractFluxBox;
 import hub.sam.util.Identity;
 
@@ -368,7 +369,7 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
 
         ConcurrentOperationInvoker(ObjectImpl self, Operation operation,
                                           java.lang.Object[] arguments) {
-            super(self.toString());
+            super();
             this.self = self;
             this.operation = operation;
             this.arguments = arguments;
@@ -376,6 +377,7 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
 
         @Override
         public void run() {
+            self.firstHold();
             self.invokeCustomImplementation(operation, arguments);
         }
     }
@@ -386,16 +388,39 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
             new HashMap<Integer, cmof.reflection.Object>();
     private static int unique = 0;
 
+    private static boolean firstSpawn = true;
+
     public synchronized void hold() {
-        Integer nextSeed = oracle.keySet().iterator().next();
-        cmof.reflection.Object nextObject = oracle.get(nextSeed);
-        oracle.remove(nextSeed);
-        scheduledObjects.remove(nextObject);
-        nextObject.notify();
+        if (!oracle.isEmpty()) {
+            Integer nextSeed = oracle.keySet().iterator().next();
+            cmof.reflection.Object nextObject = oracle.get(nextSeed);
+            oracle.remove(nextSeed);
+            scheduledObjects.remove(nextObject);
+            ((ObjectImpl)nextObject).synchronizedNotify();
+        }
         try {
             wait();
         } catch (InterruptedException e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
+        }
+    }
+
+    private synchronized void synchronizedNotify() {
+        this.notify();
+    }
+
+    private synchronized void firstHold() {
+        if (firstSpawn) {
+            firstSpawn = false;
+        } else {
+            try {
+                schedule(this);
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -858,9 +883,9 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
         extent = null;
     }
 
-    /* This is super dirty, I am really sorry. Ocl allows additional property,value-pairs added temorarely to
+    /* This is super dirty, I am really sorry. Ocl allows additional property,value-pairs added temporarely to
       * a value. Because oslo only uses a getter method identified by name to access properties and Java simply
-      * cannot have temporarely methods, this solution has to work for it. For additional values the ocl interpreter
+      * cannot have temporary methods, this solution has to work for it. For additional values the ocl interpreter
       * will use this getter method; the actual property to access and its values are stores staticly.
       */
     public Object getOclAdditionalValue() {
@@ -917,5 +942,8 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
     	propertyChangeListeners.firePropertyChange(propertyName, oldValue, newValue);
     }
 
+    public OclModelElement ocl() {
+        return null; // TODO
+    }
 }
 

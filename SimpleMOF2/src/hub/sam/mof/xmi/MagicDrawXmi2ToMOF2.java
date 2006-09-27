@@ -203,13 +203,7 @@ public class MagicDrawXmi2ToMOF2 extends PatternClass implements XmiTransformato
             }
         }
     }
-
-    //o=Operation
-    @Pattern( order = 92, atype = "Operation", variable = "o")
-    public void operation(@Name("o") ClassInstance<XmiClassifier,String,String> o) {
-        removeAttribute(o, "concurrency");
-    }
-
+    
     //d=Dependency
     @Pattern( order = 92, atype = "Dependency", variable = "d")
     public void dependency(@Name("d") ClassInstance<XmiClassifier,String,String> d) {

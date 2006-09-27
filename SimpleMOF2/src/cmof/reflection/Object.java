@@ -25,6 +25,7 @@ import cmof.*;
 import cmof.common.*;
 import cmof.exception.*;
 import cmof.exception.IllegalArgumentException;
+import hub.sam.mof.jocl.standardlib.OclModelElement;
 
 /**
  * Every Object has a Class which describes its properties and operations. The
@@ -82,150 +83,150 @@ import cmof.exception.IllegalArgumentException;
  */
 public interface Object {
 
-	/**
-	 * Returns the Class that describes this object.
-	 */
-	public UmlClass getMetaClass();
+    /**
+     * Returns the Class that describes this object.
+     */
+    public UmlClass getMetaClass();
 
-	/**
-	 * Returns the parent container of this object if any. Return Null if there
-	 * is no containing object.
-	 */
-	public Object container();
+    /**
+     * Returns the parent container of this object if any. Return Null if there
+     * is no containing object.
+     */
+    public Object container();
 
-	/**
-	 * Gets the value of the given property. If the Property has multiplicity
-	 * upper bound of 1, get() returns the value of the Property. If Property
-	 * has multiplicity upper bound >1, get() returns a
-	 * {@link cmof.common.ReflectiveSequence} containing the values of the
-	 * Property. If there are no values, the ReflectiveSequence returned is
-	 * empty.
-	 *
-	 * @throws IllegalArgumentException
-	 *             if Property is not a member of the Class from class().
-	 */
-	public java.lang.Object get(Property property);
+    /**
+     * Gets the value of the given property. If the Property has multiplicity
+     * upper bound of 1, get() returns the value of the Property. If Property
+     * has multiplicity upper bound >1, get() returns a
+     * {@link cmof.common.ReflectiveSequence} containing the values of the
+     * Property. If there are no values, the ReflectiveSequence returned is
+     * empty.
+     *
+     * @throws IllegalArgumentException
+     *             if Property is not a member of the Class from class().
+     */
+    public java.lang.Object get(Property property);
 
     public java.lang.Object get(Property property, java.lang.Object qualifier);
 
     /**
-	 * If the Property has multiplicity upper bound = 1, set() atomically
-	 * updates the value of the Property to the Element parameter. If Property
-	 * has multiplicity upper bound >1, the Element may be either a
-	 * ReflectiveCollection or a ReflectiveSequence. The behavior is identical
-	 * to the following operations performed atomically:<p/>
-	 *
-	 * <pre>
-	 * ReflectiveSequence list = object.get(property);
-	 * list.clear();
-	 * list.addAll((ReflectiveSequence) element);
-	 * </pre>
-	 *
-	 * @throws IllegalArgumentException
-	 *             if Property is not a member of the Class from
-	 *             getMeta-Class().
-	 * @throws ClassCastException
-	 *             if the Property’s type isInstance(element) returns false and
-	 *             Property has multiplicity upper bound = 1
-	 * @throws ClassCastException
-	 *             if Element is not a ReflectiveSequence and Property has
-	 *             multiplicity upper bound > 1
-	 * @throws IllegalArgumentException
-	 *             if element is null, Property is of type Class, and the
-	 *             multi-plicity upper bound > 1.
-	 */
-	public void set(Property property, java.lang.Object value);
+     * If the Property has multiplicity upper bound = 1, set() atomically
+     * updates the value of the Property to the Element parameter. If Property
+     * has multiplicity upper bound >1, the Element may be either a
+     * ReflectiveCollection or a ReflectiveSequence. The behavior is identical
+     * to the following operations performed atomically:<p/>
+     *
+     * <pre>
+     * ReflectiveSequence list = object.get(property);
+     * list.clear();
+     * list.addAll((ReflectiveSequence) element);
+     * </pre>
+     *
+     * @throws IllegalArgumentException
+     *             if Property is not a member of the Class from
+     *             getMeta-Class().
+     * @throws ClassCastException
+     *             if the Property’s type isInstance(element) returns false and
+     *             Property has multiplicity upper bound = 1
+     * @throws ClassCastException
+     *             if Element is not a ReflectiveSequence and Property has
+     *             multiplicity upper bound > 1
+     * @throws IllegalArgumentException
+     *             if element is null, Property is of type Class, and the
+     *             multi-plicity upper bound > 1.
+     */
+    public void set(Property property, java.lang.Object value);
 
     public void set(Property property, java.lang.Object qualifier, java.lang.Object value);
 
     /**
-	 * If the Property has multiplicity upper bound of 1, isSet() returns true
-	 * if the value of the Property is different than the default value of that
-	 * property. If Property has multiplicity upper bound >1, isSet() returns
-	 * true if the number of elements in the list is > 0.
-	 *
-	 * @throws IllegalArgumentException
-	 *             if Property is not a member of the Class from class().
-	 */
-	public boolean isSet(Property property) throws IllegalArgumentException;
+     * If the Property has multiplicity upper bound of 1, isSet() returns true
+     * if the value of the Property is different than the default value of that
+     * property. If Property has multiplicity upper bound >1, isSet() returns
+     * true if the number of elements in the list is > 0.
+     *
+     * @throws IllegalArgumentException
+     *             if Property is not a member of the Class from class().
+     */
+    public boolean isSet(Property property) throws IllegalArgumentException;
 
     public boolean isSet(Property property, java.lang.Object qualifier) throws IllegalArgumentException;
 
     /**
-	 * If the Property has multiplicity upper bound of 1, unset() atomically
-	 * sets the value of the Property to its default value for DataType type
-	 * properties and null for Class type properties. If Property has
-	 * multiplicity upper bound >1, unset() clears the ReflectiveSequence of
-	 * values of the Property. The behavior is identical to the following
-	 * operations performed atomically:
-	 *
-	 * <pre>
-	 * ReflectiveSequence list = object.get(property);
-	 * list.clear();
-	 * </pre>
-	 *
-	 * After unset() is called:
-	 *
-	 * <pre>
-	 * object.isSet(property) == false
-	 * </pre>.
-	 *
-	 * @throws IllegalArgumentException
-	 *             if Property is not a member of the Class from getMetaClass().
-	 */
-	public void unset(Property property);
+     * If the Property has multiplicity upper bound of 1, unset() atomically
+     * sets the value of the Property to its default value for DataType type
+     * properties and null for Class type properties. If Property has
+     * multiplicity upper bound >1, unset() clears the ReflectiveSequence of
+     * values of the Property. The behavior is identical to the following
+     * operations performed atomically:
+     *
+     * <pre>
+     * ReflectiveSequence list = object.get(property);
+     * list.clear();
+     * </pre>
+     *
+     * After unset() is called:
+     *
+     * <pre>
+     * object.isSet(property) == false
+     * </pre>.
+     *
+     * @throws IllegalArgumentException
+     *             if Property is not a member of the Class from getMetaClass().
+     */
+    public void unset(Property property);
 
     public void unset(Property property, java.lang.Object qualifier);
 
     /**
-	 * Determines if the element equals this Object instance. For instances of
-	 * Class, returns true if the element and this Object instance are
-	 * references to the same Element. For instances of DataType, returns true
-	 * if the element has the same value as this Object instance. Returns false
-	 * for all other cases.
-	 */
+     * Determines if the element equals this Object instance. For instances of
+     * Class, returns true if the element and this Object instance are
+     * references to the same Element. For instances of DataType, returns true
+     * if the element has the same value as this Object instance. Returns false
+     * for all other cases.
+     */
     public boolean equals(java.lang.Object element);
 
-	/**
-	 * Deletes the instance, all its contained objects and all references to
-	 * this instance.
-	 */
-	public void delete();
+    /**
+     * Deletes the instance, all its contained objects and all references to
+     * this instance.
+     */
+    public void delete();
 
-	/**
-	 * Invokes a given operation. TODO
-	 */
-	public java.lang.Object invokeOperation(Operation op,
-			ReflectiveSequence<Argument> arguments);
+    /**
+     * Invokes a given operation. TODO
+     */
+    public java.lang.Object invokeOperation(Operation op,
+                                            ReflectiveSequence<Argument> arguments);
 
-	/**
-	 * Checks whether the instance's type conforms to another type. Returns
-	 * true:
-	 * <ul>
-	 * <li>if type equals the instance's type</li>
-	 * <li>if includeSubTypes==true and type is a supertype of the instance's
-	 * type</li>
-	 * </ul>
-	 * Returns false in all other cases.
-	 */
-	public boolean isInstanceOfType(UmlClass type, boolean includeSubTypes);
+    /**
+     * Checks whether the instance's type conforms to another type. Returns
+     * true:
+     * <ul>
+     * <li>if type equals the instance's type</li>
+     * <li>if includeSubTypes==true and type is a supertype of the instance's
+     * type</li>
+     * </ul>
+     * Returns false in all other cases.
+     */
+    public boolean isInstanceOfType(UmlClass type, boolean includeSubTypes);
 
-	/**
-	 * Returns the outermost container of the instance. The outermost container
-	 * is a object that is not contained in another object and that directly or
-	 * inderectly contains this instance.
-	 *
-	 * <i>This is not part of the MOF 2.0</i>
-	 */
-	public Object getOutermostContainer();
+    /**
+     * Returns the outermost container of the instance. The outermost container
+     * is a object that is not contained in another object and that directly or
+     * inderectly contains this instance.
+     *
+     * <i>This is not part of the MOF 2.0</i>
+     */
+    public Object getOutermostContainer();
 
-	/**
-	 * Returns a collection of objects that are contained in this instance. The
-	 * returned collection contains all contained objects.
-	 *
-	 * <i>This is not part of the MOF 2.0</i>
-	 */
-	public ReflectiveCollection<? extends cmof.reflection.Object> getComponents();
+    /**
+     * Returns a collection of objects that are contained in this instance. The
+     * returned collection contains all contained objects.
+     *
+     * <i>This is not part of the MOF 2.0</i>
+     */
+    public ReflectiveCollection<? extends cmof.reflection.Object> getComponents();
 
     public Extent getExtent();
 
@@ -239,10 +240,12 @@ public interface Object {
 
     public java.lang.Object invokeOperation(String opName, java.lang.Object[] args);
 
+    // TODO align with PropertyChangeListener stuff
     public void addObjectEventHandler(ObjectEventHandler handler);
+
+    public OclModelElement ocl();
 
     public void addListener(PropertyChangeListener listener);
 
     public void removeListener(PropertyChangeListener listener);
-
 }

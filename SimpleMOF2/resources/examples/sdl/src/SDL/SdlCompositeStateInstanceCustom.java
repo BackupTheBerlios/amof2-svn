@@ -5,9 +5,9 @@ import Pattern.Communication.Listener;
 import Pattern.Evaluation.Evaluation;
 import Pattern.Evaluation.Expression;
 import cmof.common.ReflectiveSequence;
+import hub.sam.mof.reflection.ObjectImpl;
 import hub.sam.mof.util.ListImpl;
 import hub.sam.sdlplus.SdlCompiler;
-import hub.sam.sdlplus.GlobalLock;
 
 import java.util.Collection;
 import java.util.Vector;
@@ -29,27 +29,28 @@ public class SdlCompositeStateInstanceCustom extends SdlCompositeStateInstanceDl
 
     @Override
     public void start() {
-        new Thread(new Runner(self)).start();
-    }
-
-    @Override
-    public synchronized void run() {
+        if (self.getStatus() != null) {
+            return; // is already started
+        }
+        // do the start transition
         System.out.println("Run composite state type " + self.getMetaClassifierSdlStateType().getName());
         self.setStatus(SdlStateStatus.STARTED);
         SdlStateAutomaton automaton = self.getMetaClassifierSdlStateType().getStateAutomaton();
         Start start = automaton.getStart();
-
-        GlobalLock.getGlobalLock().waitForLock(self);
         executeImmidiateTransition(start, self);
+        while(executeImmidiateTransition(self.getActualState().iterator().next().getMetaClassifierSdlState(), self)) {
+                // nothing
+        }
+        self.setStatus(SdlStateStatus.RUNNING);
+    }
 
+    @Override
+    public synchronized void run() {
         //noinspection InfiniteLoopStatement
         while(self.getStatus() != SdlStateStatus.STOPED) {
             // execute any possibly imidiate transition
             while(executeImmidiateTransition(self.getActualState().iterator().next().getMetaClassifierSdlState(), self)) {
                 // nothing
-            }
-            if (self.getStatus() == SdlStateStatus.STARTED) {
-                self.setStatus(SdlStateStatus.RUNNING);
             }
 
             // check for other signals
@@ -76,14 +77,8 @@ public class SdlCompositeStateInstanceCustom extends SdlCompositeStateInstanceDl
 
             // wait for arriving signal
             if (self.getTriggered() == null) {
-                try {
-                    GlobalLock.getGlobalLock().releaseLock(self);
-                    self.wait();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                ((ObjectImpl)self).hold();
             }
-            GlobalLock.getGlobalLock().waitForLock(self);
 
             // consume input
             SdlTransition transition = self.getTriggered().getMetaClassifierSdlInput().getTransition();
@@ -104,7 +99,6 @@ public class SdlCompositeStateInstanceCustom extends SdlCompositeStateInstanceDl
             System.out.println("drop trigger at line " + self.getTriggered().getMetaClassifierSdlInput().getLine());
         }
         System.out.println("composite state of type " + self.getMetaClassifierSdlStateType() + " stopped.");
-        GlobalLock.getGlobalLock().releaseLock(self);
         self.getOwningInstance().getOwningInstanceSet().terminate(self.getOwningInstance());
     }
 
@@ -128,7 +122,7 @@ public class SdlCompositeStateInstanceCustom extends SdlCompositeStateInstanceDl
             self.setSender(signal.getSender());
             signal.metaDelete();
             self.setTriggered((SdlInputInstance)listener);
-            self.notify();
+            ((ObjectImpl)self).schedule(self);
             return true;
         } else {
             return false;
