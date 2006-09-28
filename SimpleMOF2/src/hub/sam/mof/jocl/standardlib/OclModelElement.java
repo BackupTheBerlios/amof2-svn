@@ -5,52 +5,57 @@ import cmof.common.ReflectiveSequence;
 
 public class OclModelElement<T> extends OclAny<T> {
 
-    private final String name;
+    public OclModelElement() {
+        super(null);
+    }
 
     protected OclModelElement(Object value) {
         super(value);
-        name = null;
     }
 
     protected OclModelElement(int symbolCode, String name,
                               OclAny self, OclAny[] children) {
-        super(symbolCode, self, children);
-        this.name = name;
+        super(symbolCode, name, self, children);
     }
 
     private static final int GET = 1;
 
-    protected OclAny get(String property) {
-        return new OclModelElement(GET, property, this, new OclAny[] {});
+    protected OclAny get(String property, Class type) {
+        try {
+            return (OclAny)type.getConstructor(new Class[] {int.class, String.class, OclAny.class, OclAny[].class}).
+                    newInstance(new Object[] {GET, property, this, new OclAny[] {}});
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    private OclAny getEval() {
-        return getReturnForResult(((cmof.reflection.Object)self.getValue()).get(name));
+    private OclAny getEval(String name) {
+        return getReturnForResult(((cmof.reflection.Object)this.oclValue()).get(name));
     }
 
     public static final int QUALIFIED_GET = 2;
 
-    protected OclAny get(OclAny qualifier, String property) {
+    protected OclAny get(String property, OclAny qualifier, Class type) {
         return new OclModelElement(QUALIFIED_GET, property, this, new OclAny[] {qualifier});
     }
 
     protected OclAny qualifiedGetEval() {
-        return getReturnForResult(((cmof.reflection.Object)self.getValue()).get(
-                name, children[1].getValue()));
+        return getReturnForResult(((cmof.reflection.Object)self.oclValue()).get(
+                name, children[1].oclValue()));
     }
 
     private static final int INVOKE = 3;
 
-    protected OclAny invoke(String operation, OclAny[] args) {
+    protected OclAny invoke(String operation, OclAny[] args, Class type) {
         return new OclModelElement(INVOKE, operation, this, args);
     }
 
     private OclAny invokeEval() {
         Object[] args = new Object[children.length];
         for (int i = 0; i < children.length; i++) {
-            args[i] = children[i].getValue();
+            args[i] = children[i].oclValue();
         }
-        return getReturnForResult(((cmof.reflection.Object)self.getValue()).invokeOperation(name, args));
+        return getReturnForResult(((cmof.reflection.Object)self.oclValue()).invokeOperation(name, args));
     }
 
     private OclAny getReturnForResult(java.lang.Object result) {
@@ -76,10 +81,10 @@ public class OclModelElement<T> extends OclAny<T> {
     }
 
     @Override
-    protected OclAny eval(int symbolCode, OclAny[] children) {
+    protected OclAny eval(int symbolCode, String name, OclAny[] children) {
         switch(symbolCode) {
             case GET:
-                return getEval();
+                return getEval(name);
             case QUALIFIED_GET:
                 return qualifiedGetEval();
             case INVOKE:

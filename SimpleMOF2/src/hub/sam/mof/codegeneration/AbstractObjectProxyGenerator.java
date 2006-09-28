@@ -61,6 +61,16 @@ public abstract class AbstractObjectProxyGenerator extends AbstractGenerator {
             indent = 1;
             addGeneralClassBodyCode(umlClassWrapper);
             print(umlClassWrapper);
+            if (CodeGenerationConfiguration.getActualConfig().isGenerateOcl()) {
+                for(Object classifier: umlClass.allParents()) {
+                    if (classifier instanceof UmlClass) {
+                        UmlClassWrapper parentWrapper = new UmlClassWrapper((UmlClass)classifier);
+                        addGeneralClassBodyCodeForParent(parentWrapper);
+                        print(parentWrapper);
+                    }
+                }
+            }
+
             ReflectiveCollection<? extends NamedElement> members;
 
             if (generateOnlyForOwnedMember()) {
@@ -275,6 +285,10 @@ public abstract class AbstractObjectProxyGenerator extends AbstractGenerator {
     }
 
     protected void addGeneralClassBodyCode(UmlClassWrapper umlClass) throws Throwable {
+        //empty
+    }
+
+    protected void addGeneralClassBodyCodeForParent(UmlClassWrapper umlClass) throws Throwable {
         //empty
     }
 

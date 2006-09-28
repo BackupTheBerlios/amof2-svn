@@ -359,7 +359,7 @@ public class Repository extends hub.sam.util.Identity {
                 if (((cmof.Package)element).getOwner() == null) {
                     if (generateCore || !"core".equals(((NamedElement)element).getName())) {
                         try {
-                            new PackageGenerator(streamFactory, false)
+                            new PackageGenerator(streamFactory)
                                     .generate(new java.util.Vector<String>(), (cmof.Package)element);
                         } catch (GenerationException ex) {
                             if (ex.getExceptions().size() > 0) {
@@ -371,7 +371,6 @@ public class Repository extends hub.sam.util.Identity {
                 }
             }
         }
-
     }
 
     public void generateStaticModel(Extent extent, String className, String path)

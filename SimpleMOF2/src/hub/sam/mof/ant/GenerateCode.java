@@ -6,6 +6,7 @@ import cmof.Package;
 import hub.sam.mof.Repository;
 import hub.sam.mof.as.layers.M1SemanticModel;
 import hub.sam.mof.codegeneration.GenerationException;
+import hub.sam.mof.codegeneration.CodeGenerationConfiguration;
 import hub.sam.mof.xmi.XmiException;
 import hub.sam.util.AbstractClusterableException;
 import org.apache.tools.ant.BuildException;
@@ -27,6 +28,8 @@ public class GenerateCode extends Task {
     private String staticModel = null;
     private File src = null;
     private File destdir = null;
+    private boolean remote = true;
+    private boolean ocl = false;
 
     @SuppressWarnings({"OverlyLongMethod"})
     @Override
@@ -50,6 +53,8 @@ public class GenerateCode extends Task {
         if (!destdir.isDirectory()) {
             throw new BuildException(destdir.toString() + " is not a directory");
         }
+
+        CodeGenerationConfiguration.setActualConfig(new CodeGenerationConfiguration(isOcl(), false, isRemote()));
 
         // check if nessesary
         if ((src.lastModified() <= destdir.lastModified()) && (destdir.listFiles().length > 0)) {
@@ -155,6 +160,22 @@ public class GenerateCode extends Task {
 
     public void setInstances(boolean instances) {
         this.instances = instances;
+    }
+
+    public boolean isRemote() {
+        return remote;
+    }
+
+    public void setRemote(boolean remote) {
+        this.remote = remote;
+    }
+
+    public boolean isOcl() {
+        return ocl;
+    }
+
+    public void setOcl(boolean ocl) {
+        this.ocl = ocl;
     }
 
     public static void main(String[] args) {

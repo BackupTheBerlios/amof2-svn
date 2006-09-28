@@ -33,17 +33,17 @@ public class ObjectProxyImplementationGenerator extends AbstractObjectProxyGener
     }
 
     @Override
-	protected final String getClassName(UmlClassWrapper umlClass) {
+    protected final String getClassName(UmlClassWrapper umlClass) {
         return umlClass.getName() + classNameExtension;
     }
 
     @Override
-	protected void addClassSignature(UmlClassWrapper umlClass) throws Throwable {
+    protected void addClassSignature(UmlClassWrapper umlClass) throws Throwable {
         add("public class " + getClassName(umlClass) + " extends " + hub.sam.mof.reflection.ObjectImpl.class.getName() + " $implements");
     }
 
     @Override
-	protected void addGetterCode(PropertyWrapper property) throws Throwable {
+    protected void addGetterCode(PropertyWrapper property) throws Throwable {
         add("public $type $getterName($getterArgs) {");
         if (property.hasQualifier()) {
         add("    java.lang.Object value = get(\"$umlName\", qualifier);");
@@ -69,7 +69,7 @@ public class ObjectProxyImplementationGenerator extends AbstractObjectProxyGener
         add("    }");
         add("}");
         if (property.isJavaList() && !property.hasHigherMulitplicity()) {
-        	add("public $javaObjectType _$getterName($getterArgs) {");
+            add("public $javaObjectType _$getterName($getterArgs) {");
             if (property.hasQualifier()) {
             add("    java.lang.Object value = get(\"$umlName\", qualifier);");
             } else {
@@ -89,7 +89,7 @@ public class ObjectProxyImplementationGenerator extends AbstractObjectProxyGener
     }
 
     @Override
-	protected void addSetterCode(PropertyWrapper property) throws Throwable {
+    protected void addSetterCode(PropertyWrapper property) throws Throwable {
         add("public void $setterName($setterArgs) {");
         if (property.hasQualifier()) {
         add("    set(\"$umlName\", qualifier, value);");
@@ -100,7 +100,7 @@ public class ObjectProxyImplementationGenerator extends AbstractObjectProxyGener
     }
 
     @Override
-	protected void addOperationCode(OperationWrapper operation) throws Throwable {
+    protected void addOperationCode(OperationWrapper operation) throws Throwable {
         add("public $type $name($parameters) $exceptions {");
         if (operation.hasReturn()) {
             add("    java.lang.Object value = invokeOperation(\"$unambigousName\", new java.lang.Object[] { $parameterNames });");
@@ -111,7 +111,7 @@ public class ObjectProxyImplementationGenerator extends AbstractObjectProxyGener
             add("       return null;");
             }
             add("    } else {");
-            if (operation.isJavaList()) {
+            if (operation.isCollection()) {
                 if (operation.isList()) {
             add("        return new " + hub.sam.mof.util.TypeWrapperListImpl.class.getCanonicalName() + "((" + cmof.common.ReflectiveSequence.class.getName() + ")value);");
                 } else {
@@ -128,7 +128,7 @@ public class ObjectProxyImplementationGenerator extends AbstractObjectProxyGener
     }
 
     @Override
-	protected void addGeneralClassBodyCode(UmlClassWrapper umlClass) throws Throwable {
+    protected void addGeneralClassBodyCode(UmlClassWrapper umlClass) throws Throwable {
         add("public " + getClassName(umlClass) + "(" + hub.sam.mof.instancemodel.ClassInstance.class.getName() +
                 " instance, " + hub.sam.mof.reflection.ExtentImpl.class.getName() + " extent) {");
         add("    super(instance, extent);");
@@ -141,8 +141,22 @@ public class ObjectProxyImplementationGenerator extends AbstractObjectProxyGener
                 String.class.getCanonicalName() + "[] delegateClassNames) {");
         add("    super(id, extent, metaId, implementationClassName, delegateClassNames);");
         add("}");
+        //if (CodeGenerationConfiguration.getActualConfig().isGenerateOcl()) {
+        //    add("public $oclModelElement ocl$name() {");
+        //    add("    return  new $oclModelElement(this);");
+        //    add("}");
+        //}
     }
 
     @Override
-	protected boolean generateOnlyForOwnedMember() { return false; }
+    protected void addGeneralClassBodyCodeForParent(UmlClassWrapper umlClass) throws Throwable {
+        //if (CodeGenerationConfiguration.getActualConfig().isGenerateOcl()) {
+        //    add("public $oclModelElement ocl$name() {");
+        //    add("    return  new $oclModelElement(this);");
+        //    add("}");
+        //}
+    }
+
+    @Override
+    protected boolean generateOnlyForOwnedMember() { return false; }
 }

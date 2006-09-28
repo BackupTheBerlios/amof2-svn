@@ -2,12 +2,20 @@ package hub.sam.mof.jocl.standardlib;
 
 public class OclInteger extends OclAny<Integer> {
 
-    protected OclInteger(Integer value) {
+    public OclInteger(int value) {
         super(value);
     }
 
-    protected OclInteger(Long value) {
+    public OclInteger(Integer value) {
+        super(value);
+    }
+
+    public OclInteger(Long value) {
         super(value.intValue());
+    }
+
+    public OclInteger(int symbolCode, String name, OclAny self, OclAny[] children) {
+        super(symbolCode, name, self, children);
     }
 
     public OclInteger neg() {

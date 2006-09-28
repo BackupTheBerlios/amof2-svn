@@ -30,12 +30,10 @@ import java.util.Vector;
 
 public class PackageGenerator extends AbstractGenerator {
     private final StreamFactory streamFactory;
-    private final boolean interfacesOnly;
 
-    public PackageGenerator(StreamFactory streamFactory, boolean interfacesOnly) {
+    public PackageGenerator(StreamFactory streamFactory) {
         super(streamFactory);
         this.streamFactory = streamFactory;
-        this.interfacesOnly = interfacesOnly;
     }
 
     public void generate(final List<String> packageName, cmof.Package thePackage) throws GenerationException {
@@ -55,11 +53,14 @@ public class PackageGenerator extends AbstractGenerator {
 
             FactoryImplGenerator factoryImplGenerator = null;
             FactoryImplGenerator factoryClientImplGenerator = null;
-            if (!interfacesOnly) {
+            if (!CodeGenerationConfiguration.actualConfig.isInterfacesOnly()) {
             	factoryImplGenerator = new FactoryImplGenerator(streamFactory);
-            	factoryClientImplGenerator = new FactoryClientImplGenerator(streamFactory);
-                factoryImplGenerator.init(myPackageName, wrapper);
-                factoryClientImplGenerator.init(myPackageName, wrapper);
+            	factoryImplGenerator.init(myPackageName, wrapper);
+
+                if (CodeGenerationConfiguration.getActualConfig().isGenerateRemote()) {
+                    factoryClientImplGenerator = new FactoryClientImplGenerator(streamFactory);
+                    factoryClientImplGenerator.init(myPackageName, wrapper);
+                }
             }
 
             GenerationException exceptions = new GenerationException("Errors during code generation: ");
@@ -70,19 +71,26 @@ public class PackageGenerator extends AbstractGenerator {
 	                    if (!umlClass.isAbstract()) {
 	                        add("    public " + getFullQualifiedJavaIdentifier(umlClass) + " create" + getJavaIdentifier(umlClass) + "();");
 	                        print(null);
-	                        if (!interfacesOnly) {
+	                        if (!CodeGenerationConfiguration.actualConfig.isInterfacesOnly()) {
 	                        	factoryImplGenerator.addType(umlClass);
-	                        	factoryClientImplGenerator.addType(umlClass);
-	                        }
+                                if (CodeGenerationConfiguration.getActualConfig().isGenerateRemote()) {
+                                    factoryClientImplGenerator.addType(umlClass);
+                                }
+                            }
 	                    }
-	                    new ObjectProxyInterfaceGenerator(streamFactory).generate(myPackageName, umlClass);
-	                    if (!interfacesOnly) {
-	                        new ObjectProxyDelegatorGenerator(streamFactory).generate(myPackageName, umlClass);
-	                    }
-	                    if (!umlClass.isAbstract() && !interfacesOnly) {
+	                    new ObjectProxyInterfaceGenerator(streamFactory, CodeGenerationConfiguration.actualConfig.isInterfacesOnly()).generate(myPackageName, umlClass);
+	                    if (!CodeGenerationConfiguration.actualConfig.isInterfacesOnly()) {
+                            new ObjectProxyDelegatorGenerator(streamFactory).generate(myPackageName, umlClass);
+                            if (CodeGenerationConfiguration.actualConfig.isGenerateOcl()) {
+                                new OclObjectProxyGenerator(streamFactory).generate(myPackageName, umlClass);
+                            }
+                        }
+	                    if (!umlClass.isAbstract() && !CodeGenerationConfiguration.actualConfig.isInterfacesOnly()) {
 	                        new ObjectProxyImplementationGenerator(streamFactory, "Impl").generate(myPackageName, umlClass);
-	                        new ClientObjectProxyImplementationGenerator(streamFactory, "ClientImpl").generate(myPackageName, umlClass);
-	                    }
+                            if (CodeGenerationConfiguration.getActualConfig().isGenerateRemote()) {
+                                new ClientObjectProxyImplementationGenerator(streamFactory, "ClientImpl").generate(myPackageName, umlClass);
+                            }
+                        }
 	                } else if (ownedType instanceof cmof.Enumeration) {
 	                    new EnumerationGenerator(streamFactory).generate(myPackageName, (cmof.Enumeration)ownedType);
 	                } else if (ownedType instanceof PrimitiveType) {
@@ -105,14 +113,16 @@ public class PackageGenerator extends AbstractGenerator {
             }
             for (cmof.Package nestedPackage: thePackage.getNestedPackage()) {
             	try {
-            		new PackageGenerator(streamFactory, interfacesOnly).generate(myPackageName, nestedPackage);
+            		new PackageGenerator(streamFactory).generate(myPackageName, nestedPackage);
             	} catch (GenerationException ex) {
             		exceptions.add(ex);
             	}
             }
-            if (!interfacesOnly) {
+            if (!CodeGenerationConfiguration.actualConfig.isInterfacesOnly()) {
              	factoryImplGenerator.end(wrapper);
-            	factoryClientImplGenerator.end(wrapper);
+                if (CodeGenerationConfiguration.actualConfig.isGenerateRemote()) {
+                    factoryClientImplGenerator.end(wrapper);
+                }
             }
             add("}");
             print(wrapper);

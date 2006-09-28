@@ -14,7 +14,7 @@ details.
 
     You should have received a copy of the GNU Lesser General Public License
 along with this library; if not, write to the Free Software Foundation, Inc.,
-59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
+59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
 package hub.sam.mof.test;
@@ -22,21 +22,21 @@ package hub.sam.mof.test;
 import cmof.reflection.*;
 import warehouse.*;
 
-public class CustomCode extends AbstractRepository{
+public class CustomCode extends AbstractRepository {
 
     public CustomCode() {
         super("custom code tests");
     }
-        
+
     warehouse.warehouseFactory factory = null;
-    
+
     @Override
 	public void setUp() throws Exception {
         super.setUp();
         Extent m2Extent = WarehouseModel.createModel();
         factory = (warehouseFactory)repository.createFactory(m2Extent, (cmof.Package)m2Extent.query("Package:warehouse"));
     }
-    
+
     public void testDerivedAttribute() {
         Item i = factory.createItem();
         Item ii = factory.createItem();
@@ -50,12 +50,12 @@ public class CustomCode extends AbstractRepository{
         assertEquals(3, b.getWeight());
         assertEquals(i.getWeight() + ii.getWeight(), b.getWeight());
     }
-    
+
     public void testOpeation() {
         Item i = factory.createItem();
         i.test();
     }
-    
+
     /* TODO not yet possible
     public void testHierarchy() {
     	assertTrue(((cmof.reflection.Object)factory.createItem()).getMetaClass().allParents().size() > 0);

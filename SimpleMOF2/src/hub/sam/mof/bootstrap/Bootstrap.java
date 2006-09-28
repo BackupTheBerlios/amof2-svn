@@ -14,21 +14,22 @@ details.
 
     You should have received a copy of the GNU Lesser General Public License
 along with this library; if not, write to the Free Software Foundation, Inc.,
-59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
+59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
 package hub.sam.mof.bootstrap;
 
-import cmof.reflection.*;
-import java.lang.Object;
+import cmof.reflection.Extent;
 import hub.sam.mof.codegeneration.Analyser;
 import hub.sam.mof.codegeneration.PackageGenerator;
 import hub.sam.mof.codegeneration.StreamFactory;
-import hub.sam.mof.instancemodel.*;
+import hub.sam.mof.instancemodel.ClassInstance;
+import hub.sam.mof.instancemodel.InstanceModel;
 import hub.sam.mof.instancemodel.conversion.Converter;
-import hub.sam.mof.xmi.*;
+import hub.sam.mof.xmi.Xmi2Reader;
+import hub.sam.mof.xmi.XmiClassifier;
 
-public class Bootstrap {        
+public class Bootstrap {
     public static Extent bootstrapMofExtent() throws Exception {
         InstanceModel<XmiClassifier,String,String> xmiModel = new InstanceModel<XmiClassifier,String,String>();
         Xmi2Reader xmiReader = new Xmi2Reader(xmiModel);
@@ -38,18 +39,18 @@ public class Bootstrap {
         Instantiation conversion = new Instantiation(xmiModel, instantiatedXmiModel);
         Converter<XmiClassifier,String,String,
                 ClassInstance<XmiClassifier,String,String>,ClassInstance<XmiClassifier,String,String>,
-                ClassInstance<XmiClassifier,String,String>,ClassInstance<XmiClassifier,String,String>,java.lang.Object> 
+                ClassInstance<XmiClassifier,String,String>,ClassInstance<XmiClassifier,String,String>,java.lang.Object>
                 converterForInstantiation = new Converter<XmiClassifier,String,String,
                         ClassInstance<XmiClassifier,String,String>,ClassInstance<XmiClassifier,String,String>,
                         ClassInstance<XmiClassifier,String,String>,ClassInstance<XmiClassifier,String,String>,java.lang.Object>(
                         conversion);
         System.out.println("instantiating xmi based model");
-        converterForInstantiation.convert(xmiModel, instantiatedXmiModel);     
-        
+        converterForInstantiation.convert(xmiModel, instantiatedXmiModel);
+
         SelfClassification selfClassification = new SelfClassification();
         Converter<ClassInstance<XmiClassifier,String,String>,ClassInstance<XmiClassifier,String,String>,Object,
                 ClassInstance<ClassInstance,ClassInstance,Object>,ClassInstance<ClassInstance,ClassInstance,Object>,
-                ClassInstance<ClassInstance,ClassInstance,Object>,ClassInstance<ClassInstance,ClassInstance,Object>,java.lang.Object> 
+                ClassInstance<ClassInstance,ClassInstance,Object>,ClassInstance<ClassInstance,ClassInstance,Object>,java.lang.Object>
                 converterForSelfClassification = new Converter<ClassInstance<XmiClassifier,String,String>,ClassInstance<XmiClassifier,String,String>,Object,
                         ClassInstance<ClassInstance,ClassInstance,Object>,ClassInstance<ClassInstance,ClassInstance,Object>,
                         ClassInstance<ClassInstance,ClassInstance,Object>,ClassInstance<ClassInstance,ClassInstance,Object>,java.lang.Object>(selfClassification);
@@ -57,29 +58,29 @@ public class Bootstrap {
         BootstrapModel bootstrapModel = new BootstrapModel();
         System.out.println("create self classification");
         converterForSelfClassification.convert(instantiatedXmiModel, bootstrapModel);
-        
+
         bootstrapModel.setPropertyNames(selfClassification.getPropertyNames());
         bootstrapModel.setDependendProperties();
         System.out.println("create mof instance of mof");
         BootstrapExtent extent = new BootstrapExtent(bootstrapModel);
         return extent;
     }
-    
+
     public static void main(String[] args) throws Exception {
-        Extent mof = bootstrapMofExtent();        
+        Extent mof = bootstrapMofExtent();
         System.out.println("analyse mof m3");
         new Analyser().analyse(mof);
         System.out.println("generate mof repository");
         StreamFactory streamFactory = new StreamFactory("resources/repository/generated-src/");
-        for (cmof.reflection.Object element: mof.objectsOfType(null, true)) {                      
+        for (cmof.reflection.Object element: mof.objectsOfType(null, true)) {
             if (element instanceof cmof.Package) {
-                if (((cmof.Package)element).getOwner() == null) {                    
-                    new PackageGenerator(streamFactory, false).generate(new java.util.Vector<String>(), (cmof.Package)element);    
-                }                
+                if (((cmof.Package)element).getOwner() == null) {
+                    new PackageGenerator(streamFactory).generate(new java.util.Vector<String>(), (cmof.Package)element);    
+                }
             }
-        }            
-        
-        System.out.println("generate static mof model");            
+        }
+
+        System.out.println("generate static mof model");
         hub.sam.mof.reflection.ExtentImpl.writeStaticModel("resources/repository/generated-src/cmof/" + BootstrapExtent.CMOF_EXTENT_NAME + ".java", "cmof", "CMOF", mof);
     }
 }

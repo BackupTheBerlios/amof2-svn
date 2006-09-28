@@ -25,9 +25,23 @@ public class ObjectProxyDelegatorGenerator extends
         add("    super.setSelf(self);");
         add("    this.self = ($name)self;");
         add("}");
-	}
+        //if (CodeGenerationConfiguration.getActualConfig().isGenerateOcl()) {
+        //    add("public $oclModelElement ocl$name() {");
+        //    add("    return self.ocl$name();");
+        //    add("}");
+        //}
+    }
 
-	@Override
+    @Override
+    protected void addGeneralClassBodyCodeForParent(UmlClassWrapper umlClass) throws Throwable {
+        //if (CodeGenerationConfiguration.getActualConfig().isGenerateOcl()) {
+        //    add("public $oclModelElement ocl$name() {");
+        //    add("    return self.ocl$name();");
+        //    add("}");
+        //}
+    }
+
+    @Override
 	protected void addGetterCode(PropertyWrapper property) throws Throwable {
 		add("public $type $getterName($getterArgs) {");
 		if (property.getUmlType() instanceof PrimitiveType) {

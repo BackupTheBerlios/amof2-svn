@@ -60,4 +60,8 @@ public class UmlClassWrapper extends AbstractWrapper {
 	public cmof.UmlClass getUmlClass() {
 		return umlClass;
 	}
+    public String getOclModelElement() {
+        return getFullQualifiedJavaIdentifier(umlClass) + "Value";
+    }
+
 }

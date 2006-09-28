@@ -22,7 +22,10 @@ package hub.sam.mof.codegeneration.wrapper;
 import cmof.DataType;
 import cmof.Property;
 import cmof.Type;
+import cmof.PrimitiveType;
 import cmof.common.ReflectiveCollection;
+import hub.sam.mof.jocl.standardlib.OclSequence;
+import hub.sam.mof.jocl.standardlib.OclSet;
 
 public class PropertyWrapper extends TypedElementWrapper {
     final Property property;
@@ -74,26 +77,14 @@ public class PropertyWrapper extends TypedElementWrapper {
         return true;
     }
 
+    @Override
     public boolean isList() {
         return property.isOrdered() || isSequence;
     }
 
-    public String getType() {
-        String typeName = getPlainJavaType();
-        if (!isCollection) {
-            return typeName;
-        } else {
-            if (!(property.getType() instanceof DataType)) {
-                typeName = "? extends " + getJavaObjectType();
-            } else {
-                typeName = getJavaObjectType();
-            }
-            if (isList()) {
-                return cmof.common.ReflectiveSequence.class.getCanonicalName() + "<" + typeName + ">";
-            } else {
-                return cmof.common.ReflectiveCollection.class.getCanonicalName() + "<" + typeName + ">";
-            }
-        }
+    @Override
+    protected boolean isCollection() {
+        return isCollection;
     }
 
     public boolean isJavaPrimitive() {
@@ -168,6 +159,14 @@ public class PropertyWrapper extends TypedElementWrapper {
         return qualifierWrapper.getType() + " qualifier";
     }
 
+    public String getOclGetterArgs() {
+        Property qualifier = property.getQualifier();
+        if (qualifier == null) {
+            return "";
+        }
+        PropertyWrapper qualifierWrapper = new PropertyWrapper(qualifier, false, false);
+        return qualifierWrapper.getOclType() + " qualifier";
+    }
 
     public String getSetterArgs() {
         Property qualifier = property.getQualifier();
@@ -178,5 +177,13 @@ public class PropertyWrapper extends TypedElementWrapper {
         }
         result.append(getType()).append(" value");
         return result.toString();
+    }
+
+    public boolean useInOcl() {
+        if (property.getType().getName().contains(".")) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }

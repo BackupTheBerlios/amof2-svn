@@ -14,7 +14,7 @@ details.
 
     You should have received a copy of the GNU Lesser General Public License
 along with this library; if not, write to the Free Software Foundation, Inc.,
-59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
+59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
 package hub.sam.mof.codegeneration;
@@ -24,21 +24,35 @@ import hub.sam.mof.reflection.client.impl.ClientObjectImpl;
 import hub.sam.mof.reflection.server.ServerObject;
 
 public class ClientObjectProxyImplementationGenerator extends
-		ObjectProxyImplementationGenerator {
+        ObjectProxyImplementationGenerator {
 
-	public ClientObjectProxyImplementationGenerator(StreamFactory streamFactory, String classNameExtension) {
-		super(streamFactory, classNameExtension);
-	}
+    public ClientObjectProxyImplementationGenerator(StreamFactory streamFactory, String classNameExtension) {
+        super(streamFactory, classNameExtension);
+    }
 
-	@Override
-	protected void addClassSignature(UmlClassWrapper umlClass) throws Throwable {
-		add("public class " + getClassName(umlClass) + " extends " + ClientObjectImpl.class.getName() + " $implements");
-	}	
-	
     @Override
-	protected void addGeneralClassBodyCode(UmlClassWrapper umlClass) throws Throwable {
+    protected void addClassSignature(UmlClassWrapper umlClass) throws Throwable {
+        add("public class " + getClassName(umlClass) + " extends " + ClientObjectImpl.class.getName() + " $implements");
+    }
+
+    @Override
+    protected void addGeneralClassBodyCode(UmlClassWrapper umlClass) throws Throwable {
         add("public " + getClassName(umlClass) + "(" + ServerObject.class.getName() + " remote) {");
         add("    super(remote);");
-        add("}");        
+        add("}");
+        //if (CodeGenerationConfiguration.getActualConfig().isGenerateOcl()) {
+        //   add("public $oclModelElement ocl$name() {");
+        //    add("    return null; // no ocl support for remote access");
+        //    add("}");
+        //}
+    }
+
+    @Override
+    protected void addGeneralClassBodyCodeForParent(UmlClassWrapper umlClass) throws Throwable {
+        //if (CodeGenerationConfiguration.getActualConfig().isGenerateOcl()) {
+        //    add("public $oclModelElement ocl$name() {");
+        //    add("    return null; // no ocl support for remote access");
+        //    add("}");
+        //}
     }
 }

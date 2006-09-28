@@ -19,8 +19,6 @@ along with this library; if not, write to the Free Software Foundation, Inc.,
 
 package hub.sam.mof.codegeneration.wrapper;
 
-import hub.sam.mof.codegeneration.GenerationException;
-import cmof.DataType;
 import cmof.Element;
 import cmof.Operation;
 import cmof.Parameter;
@@ -29,6 +27,8 @@ import cmof.Property;
 import cmof.Type;
 import cmof.UmlClass;
 import cmof.common.ReflectiveSequence;
+import hub.sam.mof.codegeneration.GenerationException;
+import hub.sam.mof.jocl.standardlib.OclAny;
 
 public class OperationWrapper extends TypedElementWrapper {
     private final Operation operation;
@@ -61,25 +61,6 @@ public class OperationWrapper extends TypedElementWrapper {
         return operation.getName();
     }
 
-    public String getType() {
-        String typeName = getPlainJavaType();
-        if (typeName.equals("void")) {
-            return typeName;
-        }
-        if (!isJavaList()) {
-            return typeName;
-        } else {
-            if (!(getUmlType() instanceof DataType)) {
-                typeName = "? extends " + typeName;
-            }
-            if (isList()) {
-                return cmof.common.ReflectiveSequence.class.getCanonicalName() + "<" + typeName + ">";
-            } else {
-                return cmof.common.ReflectiveCollection.class.getCanonicalName() + "<" + typeName + ">";
-            }
-        }
-    }
-
     public boolean isJavaPrimitive() {
         return ((operation.getUpper() == 1) && (
                 getUmlType().getName().equals("Integer") ||
@@ -88,18 +69,20 @@ public class OperationWrapper extends TypedElementWrapper {
         );
     }
 
-    public boolean isJavaList() {
-        Parameter returnParameter = getReturnParameter();
-        return !((returnParameter != null && returnParameter.getUpper() == 1) ||
-                (returnParameter == null && operation.getUpper() ==1));
-    }
-
+    @Override
     public boolean isList() {
         if (getReturnParameter() != null) {
             return getReturnParameter().isOrdered();
         } else {
             return operation.isOrdered();
         }
+    }
+
+    @Override
+    public boolean isCollection() {
+        Parameter returnParameter = getReturnParameter();
+        return !((returnParameter != null && returnParameter.getUpper() == 1) ||
+                (returnParameter == null && operation.getUpper() ==1));
     }
 
     private Parameter getReturnParameter() {
@@ -154,6 +137,27 @@ public class OperationWrapper extends TypedElementWrapper {
     }
 
     @SuppressWarnings("unchecked")
+    public String getOclParameters() throws GenerationException {
+        StringBuffer result = new StringBuffer();
+        boolean first = true;
+        cmof.common.ReflectiveSequence<? extends Parameter> parameters = (ReflectiveSequence<? extends Parameter>)operation.getOwnedParameter();
+        for (Parameter parameter : parameters) {
+            if (parameter.getDirection() != ParameterDirectionKind.RETURN) {
+                if (first) {
+                    first = false;
+                } else {
+                    result.append(", ");
+                }
+                ParameterWrapper parameterWrapper = new ParameterWrapper(parameter);
+                result.append(parameterWrapper.getOclType());
+                result.append(" ");
+                result.append(parameterWrapper.getName());
+            }
+        }
+        return result.toString();
+    }
+
+    @SuppressWarnings("unchecked")
     public String getParameterNames() throws GenerationException {
         StringBuffer result = new StringBuffer();
         boolean first = true;
@@ -169,6 +173,27 @@ public class OperationWrapper extends TypedElementWrapper {
                 result.append(parameterWrapper.getName());
             }
         }
+        return result.toString();
+    }
+
+    @SuppressWarnings("unchecked")
+    public String getOclParameterArray() throws GenerationException {
+        StringBuffer result = new StringBuffer();
+        result.append("new ").append(OclAny.class.getCanonicalName()).append("[] {");
+        boolean first = true;
+        cmof.common.ReflectiveSequence<? extends Parameter> parameters = (ReflectiveSequence<? extends Parameter>)operation.getOwnedParameter();
+        for (Parameter parameter : parameters) {
+            if (parameter.getDirection() != ParameterDirectionKind.RETURN) {
+                if (first) {
+                    first = false;
+                } else {
+                    result.append(", ");
+                }
+                ParameterWrapper parameterWrapper = new ParameterWrapper(parameter);
+                result.append(parameterWrapper.getName());
+            }
+        }
+        result.append("}");
         return result.toString();
     }
 
@@ -216,5 +241,9 @@ public class OperationWrapper extends TypedElementWrapper {
 
     public String getMultiplicity() {
         return operation.getLower() + "," + ((operation.getUpper() == -1) ? "*" : Long.toString(operation.getUpper()));
+    }
+
+    public boolean isQuery() {
+        return operation.isQuery();
     }
 }

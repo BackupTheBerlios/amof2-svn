@@ -14,7 +14,7 @@ details.
 
     You should have received a copy of the GNU Lesser General Public License
 along with this library; if not, write to the Free Software Foundation, Inc.,
-59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
+59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
 package hub.sam.mof.codegeneration.wrapper;
@@ -24,11 +24,12 @@ import cmof.Parameter;
 import cmof.Type;
 
 public class ParameterWrapper extends TypedElementWrapper {
-	final private Parameter parameter;
+	private final Parameter parameter;
     ParameterWrapper(Parameter parameter) {
+        super();
         this.parameter = parameter;
     }
-  
+
     @Override
 	public String getName() {
         return javaMapping.getJavaIdentifier(parameter);
@@ -37,22 +38,13 @@ public class ParameterWrapper extends TypedElementWrapper {
 	public Type getUmlType() {
         return parameter.getType();
     } 
+    @Override
     public boolean isList() {
         return parameter.isOrdered();
     }
-    public String getType() {
-        String typeName = getPlainJavaType();            
-        if (parameter.getUpper() == 1) {
-            return typeName;
-        } else {
-            if (!(parameter.getType() instanceof DataType)) {
-                typeName = "? extends " + typeName;
-            }
-            if (isList()) {
-                return cmof.common.ReflectiveSequence.class.getCanonicalName() + "<" + typeName + ">";
-            } else {
-                return cmof.common.ReflectiveCollection.class.getCanonicalName() + "<" + typeName + ">";
-            }
-        }
+
+    @Override
+    public boolean isCollection() {
+        return parameter.getUpper() != 1;
     }
 }

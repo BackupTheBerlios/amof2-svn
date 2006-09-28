@@ -69,6 +69,7 @@ public class Main extends TestCase {
         suite.addTestSuite(ReflectiveColSeqToJavaWrapper.class);
         suite.addTestSuite(JavaTypeTest.class);
         suite.addTestSuite(QualifierTest.class);
+        suite.addTestSuite(OclTest.class);
 
         return suite;
     }

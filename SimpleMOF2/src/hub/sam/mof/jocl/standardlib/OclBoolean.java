@@ -6,8 +6,8 @@ public class OclBoolean extends OclAny<Boolean> {
         super(value);
     }
 
-    public OclBoolean(int symbolCode, OclAny self, OclAny[] children) {
-        super(symbolCode, self, children);
+    public OclBoolean(int symbolCode, String name, OclAny self, OclAny[] children) {
+        super(symbolCode, name, self, children);
     }
 
     public OclBoolean or(OclBoolean b) {

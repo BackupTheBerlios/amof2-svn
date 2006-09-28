@@ -23,8 +23,11 @@ import hub.sam.mof.codegeneration.wrapper.*;
 
 public class ObjectProxyInterfaceGenerator extends AbstractObjectProxyGenerator {
 
-    public ObjectProxyInterfaceGenerator(StreamFactory streamFactory) {
+    private final boolean interfacesOnly;
+
+    public ObjectProxyInterfaceGenerator(StreamFactory streamFactory, boolean interfacesOnly) {
         super(streamFactory);
+        this.interfacesOnly = interfacesOnly;
     }
 
     @Override
@@ -44,7 +47,7 @@ public class ObjectProxyInterfaceGenerator extends AbstractObjectProxyGenerator 
         add("/**");
         add(" * <b>$umlName</b>, multiplicity=($multiplicity)" + property.getAttributeDocString());
         add(" */");
-        add("public $type $getterName($getterArgs);");        
+        add("public $type $getterName($getterArgs);");
     }
 
     @Override
@@ -58,5 +61,14 @@ public class ObjectProxyInterfaceGenerator extends AbstractObjectProxyGenerator 
         add(" * <b>$umlName</b>, multiplicity=($multiplicity)" + operation.getAttributeDocString());
         add(" */");
         add("public $type $name($parameters) $exceptions;");
+    }
+
+    @Override
+    protected void addGeneralClassBodyCode(UmlClassWrapper umlClass) throws Throwable {
+        //if (!interfacesOnly) {
+        //    if (CodeGenerationConfiguration.getActualConfig().isGenerateOcl()) {
+        //        add("public $oclModelElement ocl$name();");
+        //    }
+        //}
     }
 }
