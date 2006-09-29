@@ -18,7 +18,7 @@ public class Test {
         self.ownedElement().forAll(n, self.ownedElement().forAll(m, n.name().oclEquals(m.name()).not()));
 
         // self.ownedElement->forAll(n,m| not n.name = m.name)
-        self.ownedElement().forAll(new NamedElementValue[] {n, m}, n.name().oclEquals(m.name()).not());
+        //self.ownedElement().forAll(new NamedElementValue[] {n, m}, n.name().oclEquals(m.name()).not());
 
         OclCollection<String> names = self.ownedElement().collect(n, n.name());
 

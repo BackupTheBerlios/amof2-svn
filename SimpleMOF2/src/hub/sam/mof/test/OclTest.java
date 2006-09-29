@@ -6,6 +6,7 @@ import warehouse.Item;
 import warehouse.WarehouseModel;
 import warehouse.warehouseFactory;
 import warehouse.ItemValue;
+import warehouse.BoxValue;
 import hub.sam.mof.jocl.standardlib.OclInteger;
 
 public class OclTest extends AbstractRepository {
@@ -32,11 +33,11 @@ public class OclTest extends AbstractRepository {
         b.getItem().add(i);
         b.getItem().add(ii);
 
-        //BoxValue self = new BoxValue(b);
-        //ItemValue n = new ItemValue(null);
+        BoxValue self = new BoxValue(b);
+        ItemValue n = new ItemValue(null);
         assertEquals(Boolean.TRUE, new ItemValue(i).getWeight().oclEquals(new OclInteger(1)).oclValue());
         assertEquals(Boolean.FALSE, new ItemValue(ii).getWeight().oclEquals(new OclInteger(1)).oclValue());
-        //self.getItem().forAll(n, n.getWeight().oclEquals(new OclInteger(1))).oclValue();
-        //self.getItem().exists(n, n.getWeight().oclEquals(new OclInteger(1))).oclValue();
+        assertFalse(self.getItem().forAll(n, n.getWeight().oclEquals(new OclInteger(1))).oclValue());
+        assertTrue(self.getItem().exists(n, n.getWeight().oclEquals(new OclInteger(1))).oclValue());
     }
 }

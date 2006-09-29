@@ -5,15 +5,11 @@ import cmof.common.ReflectiveSequence;
 
 public class OclModelElement<T> extends OclAny<T> {
 
-    public OclModelElement() {
-        super(null);
-    }
-
     protected OclModelElement(Object value) {
         super(value);
     }
 
-    protected OclModelElement(int symbolCode, String name,
+    public OclModelElement(int symbolCode, String name,
                               OclAny self, OclAny[] children) {
         super(symbolCode, name, self, children);
     }
@@ -90,7 +86,7 @@ public class OclModelElement<T> extends OclAny<T> {
             case INVOKE:
                 return invokeEval();
             default:
-                throw new RuntimeException("This part of the OCL library is not implemented");
+                return super.eval(symbolCode, name, children);
         }
     }
 }
