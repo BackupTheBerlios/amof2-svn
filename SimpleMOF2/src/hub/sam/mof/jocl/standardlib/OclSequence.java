@@ -2,7 +2,7 @@ package hub.sam.mof.jocl.standardlib;
 
 import cmof.common.ReflectiveSequence;
 
-public class OclSequence<T> extends OclCollection<T> {
+public class OclSequence<OT,ET> extends OclCollection<OT,ET> {
 
     protected OclSequence(ReflectiveSequence value) {
         super(value);
@@ -15,32 +15,32 @@ public class OclSequence<T> extends OclCollection<T> {
     private static final int COUNT = 1;
 
     @Override
-    public OclInteger count(OclAny<T> object) {
+    public OclInteger count(OT object) {
         return null;
     }
 
     @Override
-    public OclInteger countEval(OclAny<T> object) {
+    public OclInteger countEval(OT object) {
         return null;
     }
 
     private static final int OCL_EQUALS = 2;
 
-    public OclBoolean oclEquals(OclSequence<T> s) {
+    public OclBoolean oclEquals(OclSequence<OT,ET> s) {
         return null;
     }
 
-    public OclBoolean oclEqualsEval(OclSequence<T> s) {
+    public OclBoolean oclEqualsEval(OclSequence<OT,ET> s) {
         return null;
     }
 
     private static final int UNION = 3;
 
-    public OclSequence<T> union(OclSequence<T> s) {
+    public OclSequence<OT,ET> union(OclSequence<OT,ET> s) {
         return null;
     }
 
-    public OclSequence<T> unionEval(OclSequence<T> s) {
+    public OclSequence<OT,ET> unionEval(OclSequence<OT,ET> s) {
         return null;
     }
 
@@ -56,161 +56,161 @@ public class OclSequence<T> extends OclCollection<T> {
 
     private static final int APPEND = 5;
 
-    public OclSequence<T> append(OclAny<T> o) {
+    public OclSequence<OT,ET> append(OT o) {
         return null;
     }
 
-    public OclSequence<T> appendEval(OclAny<T> o) {
+    public OclSequence<OT,ET> appendEval(OT o) {
         return null;
     }
 
     private static final int PREPEND = 6;
 
-    public OclSequence<T> prepend(OclAny<T> o) {
+    public OclSequence<OT,ET> prepend(OT o) {
         return null;
     }
 
-    public OclSequence<T> prependEval(OclAny<T> o) {
+    public OclSequence<OT,ET> prependEval(OT o) {
         return null;
     }
 
     private static final int INSERT_AT = 7;
 
-    public OclSequence<T> insertAt(OclInteger i, OclAny<T> o) {
+    public OclSequence<OT,ET> insertAt(OclInteger i, OT o) {
         return null;
     }
 
-    public OclSequence<T> insertAtEval(OclInteger i, OclAny<T> o) {
+    public OclSequence<OT,ET> insertAtEval(OclInteger i, OT o) {
         return null;
     }
 
     private static final int SUBSEQUENCE = 8;
 
-    public OclSequence<T> subsequence(OclInteger lower, OclInteger upper) {
+    public OclSequence<OT,ET> subsequence(OclInteger lower, OclInteger upper) {
         return null;
     }
 
-    public OclSequence<T> subsequenceEval(OclInteger lower, OclInteger upper) {
+    public OclSequence<OT,ET> subsequenceEval(OclInteger lower, OclInteger upper) {
         return null;
     }
 
     private static final int AT = 9;
 
-    public OclAny<T> at(OclInteger i) {
+    public OT at(OclInteger i) {
         return null;
     }
 
-    public OclAny<T> atEval(OclInteger i) {
+    public OT atEval(OclInteger i) {
         return null;
     }
 
     private static final int INDEX_OF = 10;
 
-    public OclInteger indexOf(OclAny<T> o) {
+    public OclInteger indexOf(OT o) {
         return null;
     }
 
-    public OclInteger indexOfEval(OclAny<T> o) {
+    public OclInteger indexOfEval(OT o) {
         return null;
     }
 
     private static final int FIRST = 11;
 
-    public OclAny<T> first() {
+    public OT first() {
         return null;
     }
 
-    public OclAny<T> firstEval() {
+    public OT firstEval() {
         return null;
     }
 
     private static final int LAST = 12;
 
-    public OclAny<T> last() {
+    public OT last() {
         return null;
     }
 
-    public OclAny<T> lastEval() {
+    public OT lastEval() {
         return null;
     }
 
     private static final int INCLUDING = 13;
 
-    public OclSequence<T> including(OclAny<T> o) {
+    public OclSequence<OT,ET> including(OT o) {
         return null;
     }
 
-    public OclSequence<T> includingEval(OclAny<T> o) {
+    public OclSequence<OT,ET> includingEval(OT o) {
         return null;
     }
 
     private static final int EXCLUDING = 14;
 
-    public OclSequence<T> excluding(OclAny<T> o) {
+    public OclSequence<OT,ET> excluding(OT o) {
         return null;
     }
 
-    public OclSequence<T> excludingEval(OclAny<T> o) {
+    public OclSequence<OT,ET> excludingEval(OT o) {
         return null;
     }
 
     private static final int AS_BAG = 15;
 
-    public OclBag<T> asBag() {
+    public OclBag<OT,ET> asBag() {
         return null;
     }
 
-    public OclBag<T> asBagEval() {
+    public OclBag<OT,ET> asBagEval() {
         return null;
     }
 
     private static final int AS_SET = 16;
 
-    public OclSet<T> asSet() {
+    public OclSet<OT,ET> asSet() {
         return null;
     }
 
-    public OclSet<T> asSetEval() {
+    public OclSet<OT,ET> asSetEval() {
         return null;
     }
 
     private static final int AS_SEQUENCE = 17;
 
-    public OclSequence<T> asSequence() {
+    public OclSequence<OT,ET> asSequence() {
         return null;
     }
 
-    public OclSequence<T> asSequenceEval() {
+    public OclSequence<OT,ET> asSequenceEval() {
         return null;
     }
 
     private static final int SELECT = 18;
 
-    public OclSequence<T> select(OclAny<T> iterator, OclBoolean body) {
+    public OclSequence<OT,ET> select(OT iterator, OclBoolean body) {
         return null;
     }
 
-    public OclSequence<T> selectEval(OclAny<T> iterator, OclBoolean body) {
+    public OclSequence<OT,ET> selectEval(OT iterator, OclBoolean body) {
         return null;
     }
 
     private static final int REJECT = 19;
 
-    public OclSequence<T> reject(OclAny<T> iterator, OclBoolean body) {
+    public OclSequence<OT,ET> reject(OT iterator, OclBoolean body) {
         return null;
     }
 
-    public OclSequence<T> rejectEval(OclAny<T> iterator, OclBoolean body) {
+    public OclSequence<OT,ET> rejectEval(OT iterator, OclBoolean body) {
         return null;
     }
 
     private static final int SORTED_BY = 20;
 
-    public OclSequence<T> sortedBy(OclAny<T> iterator, OclInteger body) {
+    public OclSequence<OT,ET> sortedBy(OT iterator, OclInteger body) {
         return null;
     }
 
-    public OclSequence<T> sortedByEval(OclAny<T> iterator, OclInteger body) {
+    public OclSequence<OT,ET> sortedByEval(OT iterator, OclInteger body) {
         return null;
     }
 

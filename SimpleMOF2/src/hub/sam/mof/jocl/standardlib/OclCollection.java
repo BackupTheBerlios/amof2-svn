@@ -2,7 +2,7 @@ package hub.sam.mof.jocl.standardlib;
 
 import cmof.common.ReflectiveCollection;
 
-public class OclCollection<T> extends OclAny<ReflectiveCollection<T>> {
+public class OclCollection<OT,ET> extends OclAny<ReflectiveCollection<OT>,ReflectiveCollection<ET>> {
 
     public OclCollection(int symbolCode, String name, OclAny self, OclAny[] children) {
         super(symbolCode, name, self, children);
@@ -24,51 +24,51 @@ public class OclCollection<T> extends OclAny<ReflectiveCollection<T>> {
 
     private static final int INCLUDES = 2 + (100 * 1);
 
-    public OclBoolean includes(OclAny<T> object) {
+    public OclBoolean includes(OT object) {
         return null;
     }
 
-    public OclBoolean includesEval(OclAny<T> object) {
+    public OclBoolean includesEval(OT object) {
         return null;
     }
 
     private static final int EXCLUDES = 3 + (100 * 1);
 
-    public OclBoolean excludes(OclAny<T> object) {
+    public OclBoolean excludes(OT object) {
         return null;
     }
 
-    public OclBoolean excludesEval(OclAny<T> object) {
+    public OclBoolean excludesEval(OT object) {
         return null;
     }
 
     private static final int COUNT = 4 + (100 * 1);
 
-    public OclInteger count(OclAny<T> object) {
+    public OclInteger count(OT object) {
         return null;
     }
 
-    public OclInteger countEval(OclAny<T> object) {
+    public OclInteger countEval(OT object) {
         return null;
     }
 
     private static final int INCLUDES_ALL = 5 + (100 * 1);
 
-    public OclBoolean includesAll(OclCollection<T> c2) {
+    public OclBoolean includesAll(OclCollection<OT,ET> c2) {
         return null;
     }
 
-    public OclBoolean includesAllEval(OclCollection<T> c2) {
+    public OclBoolean includesAllEval(OclCollection<OT,ET> c2) {
         return null;
     }
 
     private static final int EXCLUDES_ALL = 6 + (100 * 1);
 
-    public OclBoolean excludesAll(OclCollection<T> c2) {
+    public OclBoolean excludesAll(OclCollection<OT,ET> c2) {
         return null;
     }
 
-    public OclBoolean excludesAllEval(OclCollection<T> c2) {
+    public OclBoolean excludesAllEval(OclCollection<OT,ET> c2) {
         return null;
     }
 
@@ -94,13 +94,13 @@ public class OclCollection<T> extends OclAny<ReflectiveCollection<T>> {
 
     private static final int EXISTS = 9 + (100 * 1);
 
-    public OclBoolean exists(OclAny<T> iterator, OclBoolean body) {
-        return new OclBoolean(EXISTS, null, this, new OclAny[] {iterator, body});
+    public OclBoolean exists(OT iterator, OclBoolean body) {
+        return new OclBoolean(EXISTS, null, this, new OclAny[] {(OclAny)iterator, body});
     }
 
-    public OclBoolean existsEval(OclAny<T> iterator, OclBoolean body) {
-        for(T element: oclValue()) {
-            iterator.setOclValue(element);
+    public OclBoolean existsEval(OT iterator, OclBoolean body) {
+        for(ET element: oclValue()) {
+            ((OclAny)iterator).setOclValue(element);
             if (body.oclValue()) {
                 return new OclBoolean(true);
             }
@@ -110,13 +110,13 @@ public class OclCollection<T> extends OclAny<ReflectiveCollection<T>> {
 
     private static final int FOR_ALL = 10 + (100 * 1);
 
-    public OclBoolean forAll(OclAny<T> iterator, OclBoolean body) {
-        return new OclBoolean(FOR_ALL, null, this, new OclAny[] {iterator, body});
+    public OclBoolean forAll(OT iterator, OclBoolean body) {
+        return new OclBoolean(FOR_ALL, null, this, new OclAny[] {(OclAny)iterator, body});
     }
 
-    public OclBoolean forAllEval(OclAny<T> iterator, OclBoolean body) {
-        for(T element: oclValue()) {
-            iterator.setOclValue(element);
+    public OclBoolean forAllEval(OT iterator, OclBoolean body) {
+        for(ET element: oclValue()) {
+            ((OclAny)iterator).setOclValue(element);
             if (!body.oclValue()) {
                 return new OclBoolean(false);
             }
@@ -126,41 +126,41 @@ public class OclCollection<T> extends OclAny<ReflectiveCollection<T>> {
 
     private static final int IS_UNIQUE = 11 + (100 * 1);
 
-    public OclBoolean isUnique(OclAny<T> iterator, OclBoolean body) {
+    public OclBoolean isUnique(OT iterator, OclBoolean body) {
         return null;
     }
 
-    public OclBoolean isUniqueEval(OclAny<T> iterator, OclBoolean body) {
+    public OclBoolean isUniqueEval(OT iterator, OclBoolean body) {
         return null;
     }
 
     private static final int ANY = 12 + (100 * 1);
 
-    public OclAny<T> any(OclAny<T> iterator, OclBoolean body) {
+    public OT any(OT iterator, OclBoolean body) {
         return null;
     }
 
-    public OclAny<T> anyEval(OclAny<T> iterator, OclBoolean body) {
+    public OT anyEval(OT iterator, OclBoolean body) {
         return null;
     }
 
     private static final int ONE = 13 + (100 * 1);
 
-    public OclBoolean one(OclAny<T> iterator, OclBoolean body) {
+    public OclBoolean one(OT iterator, OclBoolean body) {
         return null;
     }
 
-    public OclBoolean oneEval(OclAny<T> iterator, OclBoolean body) {
+    public OclBoolean oneEval(OT iterator, OclBoolean body) {
         return null;
     }
 
     private static final int COLLECT = 14 + (100 * 1);
 
-    public <E> OclCollection<E> collect(OclAny<T> iterator, OclAny<E> body) {
+    public <OT1,ET1> OclCollection<OT1,ET1> collect(OT iterator, OclAny<OT1,ET1> body) {
         return null;
     }
 
-    public <E> OclCollection<E> collectEval(OclAny<T> iterator, OclAny<E> body) {
+    public <OT1,ET1> OclCollection<OT1,ET1> collectEval(OT iterator, OclAny<OT1,ET1> body) {
         return null;
     }
 
@@ -184,9 +184,9 @@ public class OclCollection<T> extends OclAny<ReflectiveCollection<T>> {
             case NOT_EMPTY:
                 throw new RuntimeException("This part of the OCL library is not implemented");
             case EXISTS:
-                return existsEval(children[0], (OclBoolean)children[1]);
+                return existsEval((OT)children[0], (OclBoolean)children[1]);
             case FOR_ALL:
-                return forAllEval(children[0], (OclBoolean)children[1]);
+                return forAllEval((OT)children[0], (OclBoolean)children[1]);
             case IS_UNIQUE:
                 throw new RuntimeException("This part of the OCL library is not implemented");
             case ANY:

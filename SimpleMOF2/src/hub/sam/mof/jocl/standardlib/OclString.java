@@ -1,6 +1,6 @@
 package hub.sam.mof.jocl.standardlib;
 
-public class OclString extends OclAny<String> {
+public class OclString extends OclAny<OclString,String> {
 
     protected OclString(String value) {
         super(value);

@@ -1,6 +1,6 @@
 package hub.sam.mof.jocl.standardlib;
 
-public class OclInteger extends OclAny<Integer> {
+public class OclInteger extends OclAny<OclInteger,Integer> {
 
     public OclInteger(int value) {
         super(value);

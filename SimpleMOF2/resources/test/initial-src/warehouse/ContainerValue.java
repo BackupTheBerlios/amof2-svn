@@ -8,8 +8,8 @@ public class ContainerValue extends hub.sam.mof.jocl.standardlib.OclModelElement
     }
 
 
-    public hub.sam.mof.jocl.standardlib.OclSet<warehouse.Element> getContent() {
-        return (hub.sam.mof.jocl.standardlib.OclSet<warehouse.Element>)get("content", hub.sam.mof.jocl.standardlib.OclSet.class);
+    public hub.sam.mof.jocl.standardlib.OclSet<warehouse.ElementValue,warehouse.Element> getContent() {
+        return (hub.sam.mof.jocl.standardlib.OclSet<warehouse.ElementValue,warehouse.Element>)get("content", hub.sam.mof.jocl.standardlib.OclSet.class);
     }
 
     public hub.sam.mof.jocl.standardlib.OclString getIdentifier() {

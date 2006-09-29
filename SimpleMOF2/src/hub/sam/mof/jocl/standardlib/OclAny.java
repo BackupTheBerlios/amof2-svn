@@ -1,6 +1,6 @@
 package hub.sam.mof.jocl.standardlib;
 
-public class OclAny<T> {
+public class OclAny<OT,T> {
 
     protected final int symbolCode;
     protected final String name;
@@ -58,11 +58,11 @@ public class OclAny<T> {
 
     private static final int OCL_AS_TYPE = 4 + (100 * 2);
 
-    public <E> OclAny<E> oclAsType(OclType<E> type) {
-        return new OclAny<E>(OCL_AS_TYPE, null, self, new OclAny[] {type});
+    public <OT1,ET1> OclAny<OT1,ET1> oclAsType(OclType<OT1,ET1> type) {
+        return new OclAny<OT1,ET1>(OCL_AS_TYPE, null, self, new OclAny[] {type});
     }
 
-    public <E> OclAny<E> oclAsTypeEval(OclType<E> type) {
+    public <OT1,ET1> OclAny<OT1,ET1> oclAsTypeEval(OclType<OT1,ET1> type) {
         return null;
     }
 
@@ -72,17 +72,17 @@ public class OclAny<T> {
         return new OclBoolean(OCL_IS_TYPE_OF, null, self, new OclAny[] {type});
     }
 
-    public OclBoolean oclIsTypeOfEval(OclType<? extends T> type) {
+    public OclBoolean oclIsTypeOfEval(OclType type) {
         return null;
     }
 
     private static final int OCL_IS_KIND_OF = 6 + (100 * 2);
 
-    public OclBoolean oclIsKindOf(OclType<? extends T> type) {
+    public OclBoolean oclIsKindOf(OclType type) {
         return new OclBoolean(OCL_IS_KIND_OF, null, self, new OclAny[] {type});
     }
 
-    public OclBoolean oclIsKindOfEval(OclType<? extends T> type) {
+    public OclBoolean oclIsKindOfEval(OclType type) {
         return null;
     }
 

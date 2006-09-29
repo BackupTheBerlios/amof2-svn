@@ -14,7 +14,7 @@ public class ContextCustom extends ContextDlg {
             loop:
             for (Process process: self.getProcess()) {
                 if (((SdlCompositeStateInstance)process).getStatus() == null) {
-                    process.start();                    
+                    process.start();
                 }
                 if (((SdlCompositeStateInstance)process).getStatus() == SdlStateStatus.STARTED) {
                     save = true;

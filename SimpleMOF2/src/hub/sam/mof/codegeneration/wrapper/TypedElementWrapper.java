@@ -150,14 +150,14 @@ public abstract class TypedElementWrapper extends AbstractWrapper {
         } else {
             String typeName;
             if (!(getUmlType() instanceof DataType)) {
-                typeName = getJavaObjectType();
+                typeName = getPlainJavaType();
             } else {
                 typeName = getJavaObjectType();
             }
             if (isList()) {
-                return OclSequence.class.getCanonicalName() + "<" + typeName + ">";
+                return OclSequence.class.getCanonicalName() + "<" + getPlainOclType() + "," + typeName + ">";
             } else {
-                return OclSet.class.getCanonicalName() + "<" + typeName + ">";
+                return OclSet.class.getCanonicalName() + "<" + getPlainOclType() + "," + typeName + ">";
             }
         }
     }

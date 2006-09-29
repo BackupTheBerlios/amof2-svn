@@ -76,6 +76,12 @@ public class SdlAgentInstanceCustom extends SdlAgentInstanceDlg {
             return result;
         }
 
+        // context.channel->collect(c|gate = c.source->first().gate)
+        // SdlChannelValue n = new SdlChannelValue(null);
+        // SdlChannelPathValue m = new SdlChannelPathValue(null);
+        // new SdlAgentTypeValue(context).getChannel().collect(n,
+        //        n.getPath().collect(m,
+        //                new SdlGateValue(gate).oclEquals(m.getSource().asSequence().first().getGate())));                
         for (SdlChannel channel: context.getChannel()) {
             for (SdlChannelPath continuingPath: channel.getPath()) {
                 SdlGate continueingGate = continuingPath.getSource().iterator().next().getGate();

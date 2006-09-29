@@ -9,8 +9,8 @@ public class BoxValue extends hub.sam.mof.jocl.standardlib.OclModelElement<Box>
 
 
 
-    public hub.sam.mof.jocl.standardlib.OclSet<warehouse.Item> getItem() {
-        return (hub.sam.mof.jocl.standardlib.OclSet<warehouse.Item>)get("item", hub.sam.mof.jocl.standardlib.OclSet.class);
+    public hub.sam.mof.jocl.standardlib.OclSet<warehouse.ItemValue,warehouse.Item> getItem() {
+        return (hub.sam.mof.jocl.standardlib.OclSet<warehouse.ItemValue,warehouse.Item>)get("item", hub.sam.mof.jocl.standardlib.OclSet.class);
     }
 
     public hub.sam.mof.jocl.standardlib.OclInteger getWeight() {
@@ -18,8 +18,8 @@ public class BoxValue extends hub.sam.mof.jocl.standardlib.OclModelElement<Box>
     }
 
 
-    public hub.sam.mof.jocl.standardlib.OclSet<warehouse.Element> getContent() {
-        return (hub.sam.mof.jocl.standardlib.OclSet<warehouse.Element>)get("content", hub.sam.mof.jocl.standardlib.OclSet.class);
+    public hub.sam.mof.jocl.standardlib.OclSet<warehouse.ElementValue,warehouse.Element> getContent() {
+        return (hub.sam.mof.jocl.standardlib.OclSet<warehouse.ElementValue,warehouse.Element>)get("content", hub.sam.mof.jocl.standardlib.OclSet.class);
     }
 
     public hub.sam.mof.jocl.standardlib.OclString getIdentifier() {

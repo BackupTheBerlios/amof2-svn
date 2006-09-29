@@ -20,7 +20,7 @@ public class Test {
         // self.ownedElement->forAll(n,m| not n.name = m.name)
         //self.ownedElement().forAll(new NamedElementValue[] {n, m}, n.name().oclEquals(m.name()).not());
 
-        OclCollection<String> names = self.ownedElement().collect(n, n.name());
+        OclCollection<OclString,String> names = self.ownedElement().collect(n, n.name());
 
         // self.ownedElement->collect(n | n.name)
         self.ownedElement().collect(n, n.name());

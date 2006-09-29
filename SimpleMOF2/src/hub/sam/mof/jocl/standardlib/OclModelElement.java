@@ -3,7 +3,7 @@ package hub.sam.mof.jocl.standardlib;
 import cmof.common.ReflectiveCollection;
 import cmof.common.ReflectiveSequence;
 
-public class OclModelElement<T> extends OclAny<T> {
+public class OclModelElement<T> extends OclAny<OclModelElement<T>,T> {
 
     protected OclModelElement(Object value) {
         super(value);

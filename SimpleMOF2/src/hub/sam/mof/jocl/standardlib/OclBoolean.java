@@ -1,6 +1,6 @@
 package hub.sam.mof.jocl.standardlib;
 
-public class OclBoolean extends OclAny<Boolean> {
+public class OclBoolean extends OclAny<OclBoolean,Boolean> {
 
     public OclBoolean(Boolean value) {
         super(value);

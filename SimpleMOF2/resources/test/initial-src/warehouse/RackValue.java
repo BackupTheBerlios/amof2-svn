@@ -9,12 +9,12 @@ public class RackValue extends hub.sam.mof.jocl.standardlib.OclModelElement<Rack
 
 
 
-    public hub.sam.mof.jocl.standardlib.OclSet<warehouse.Box> getBox() {
-        return (hub.sam.mof.jocl.standardlib.OclSet<warehouse.Box>)get("box", hub.sam.mof.jocl.standardlib.OclSet.class);
+    public hub.sam.mof.jocl.standardlib.OclSet<warehouse.BoxValue,warehouse.Box> getBox() {
+        return (hub.sam.mof.jocl.standardlib.OclSet<warehouse.BoxValue,warehouse.Box>)get("box", hub.sam.mof.jocl.standardlib.OclSet.class);
     }
 
-    public hub.sam.mof.jocl.standardlib.OclSet<warehouse.Element> getContent() {
-        return (hub.sam.mof.jocl.standardlib.OclSet<warehouse.Element>)get("content", hub.sam.mof.jocl.standardlib.OclSet.class);
+    public hub.sam.mof.jocl.standardlib.OclSet<warehouse.ElementValue,warehouse.Element> getContent() {
+        return (hub.sam.mof.jocl.standardlib.OclSet<warehouse.ElementValue,warehouse.Element>)get("content", hub.sam.mof.jocl.standardlib.OclSet.class);
     }
 
     public hub.sam.mof.jocl.standardlib.OclString getIdentifier() {
