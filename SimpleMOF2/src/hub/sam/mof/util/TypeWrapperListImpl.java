@@ -54,8 +54,7 @@ public class TypeWrapperListImpl<E> extends TypeWrapperSetImpl<E> implements Ref
 
     public E set(int index, Object element) {
         Object replacedElement = untypedList.set(index, element); 
-        if (objectImpl != null && objectImpl.hasListeners()
-                && (index >= size() || !get(index).equals(element))) {
+        if (objectImpl != null && objectImpl.hasListeners()) {
             objectImpl.firePropertyChange(propertyName, null, null);
         }
         return (E) replacedElement;
