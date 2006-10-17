@@ -1,6 +1,6 @@
 package hub.sam.mof.jocl.standardlib;
 
-public class OclAny<OT,T> {
+public class OclAny<OclTypeP,JavaTypeP> {
 
     protected final int symbolCode;
     protected final String name;
@@ -32,8 +32,8 @@ public class OclAny<OT,T> {
         return new OclBoolean(OCL_EQUALS, null, this, new OclAny[] {object2});
     }
 
-    public OclBoolean oclEqualsEval(OclAny object2) {
-        return new OclBoolean(this.oclValue().equals(object2.oclValue()));
+    protected OclBoolean oclEqualsEval(OclAny object2) {
+        return new OclBoolean(this.javaValue().equals(object2.javaValue()));
     }
 
     private static final int NOT_EQUALS = 2 + (100 * 2);
@@ -42,7 +42,7 @@ public class OclAny<OT,T> {
         return new OclBoolean(NOT_EQUALS, null, self, new OclAny[] {object2});
     }
 
-    public OclBoolean notEqualsEval(OclAny object2) {
+    protected OclBoolean notEqualsEval(OclAny object2) {
         return new OclBoolean(!this.value.equals(object2.value));
     }
 
@@ -52,17 +52,18 @@ public class OclAny<OT,T> {
         return new OclBoolean(OCL_IS_UNDEFINED, null, self, new OclAny[] {});
     }
 
-    public OclBoolean oclIsUndefinedEval() {
+    protected OclBoolean oclIsUndefinedEval() {
         return null;
     }
 
     private static final int OCL_AS_TYPE = 4 + (100 * 2);
 
-    public <OT1,ET1> OclAny<OT1,ET1> oclAsType(OclType<OT1,ET1> type) {
-        return new OclAny<OT1,ET1>(OCL_AS_TYPE, null, self, new OclAny[] {type});
+    public <OclTypePofType,JavaTypePofType> OclAny<OclTypePofType,JavaTypePofType>
+            oclAsType(OclType<OclTypePofType,JavaTypePofType> type) {
+        return new OclAny<OclTypePofType,JavaTypePofType>(OCL_AS_TYPE, null, self, new OclAny[] {type});
     }
 
-    public <OT1,ET1> OclAny<OT1,ET1> oclAsTypeEval(OclType<OT1,ET1> type) {
+    protected <OclTypePofType,JavaTypeofType> OclAny<OclTypePofType,JavaTypeofType> oclAsTypeEval(OclType<OclTypePofType,JavaTypeofType> type) {
         return null;
     }
 
@@ -72,7 +73,7 @@ public class OclAny<OT,T> {
         return new OclBoolean(OCL_IS_TYPE_OF, null, self, new OclAny[] {type});
     }
 
-    public OclBoolean oclIsTypeOfEval(OclType type) {
+    protected OclBoolean oclIsTypeOfEval(OclType type) {
         return null;
     }
 
@@ -82,19 +83,19 @@ public class OclAny<OT,T> {
         return new OclBoolean(OCL_IS_KIND_OF, null, self, new OclAny[] {type});
     }
 
-    public OclBoolean oclIsKindOfEval(OclType type) {
+    protected OclBoolean oclIsKindOfEval(OclType type) {
         return null;
     }
 
-    public T oclValue() {
+    public JavaTypeP javaValue() {
         if (value != null) {
-            return (T)value;
+            return (JavaTypeP)value;
         } else {
-            return (T)self.eval(symbolCode, name, children).oclValue();
+            return (JavaTypeP)self.eval(symbolCode, name, children).javaValue();
         }
     }
 
-    protected void setOclValue(T value) {
+    protected void setJavaValue(JavaTypeP value) {
         this.value = value;
     }
 

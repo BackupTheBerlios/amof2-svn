@@ -35,9 +35,9 @@ public class OclTest extends AbstractRepository {
 
         BoxValue self = new BoxValue(b);
         ItemValue n = new ItemValue(null);
-        assertEquals(Boolean.TRUE, new ItemValue(i).getWeight().oclEquals(new OclInteger(1)).oclValue());
-        assertEquals(Boolean.FALSE, new ItemValue(ii).getWeight().oclEquals(new OclInteger(1)).oclValue());
-        assertFalse(self.getItem().forAll(n, n.getWeight().oclEquals(new OclInteger(1))).oclValue());
-        assertTrue(self.getItem().exists(n, n.getWeight().oclEquals(new OclInteger(1))).oclValue());
+        assertEquals(Boolean.TRUE, new ItemValue(i).getWeight().oclEquals(new OclInteger(1)).javaValue());
+        assertEquals(Boolean.FALSE, new ItemValue(ii).getWeight().oclEquals(new OclInteger(1)).javaValue());
+        assertFalse(self.getItem().forAll(n, n.getWeight().oclEquals(new OclInteger(1))).javaValue());
+        assertTrue(self.getItem().exists(n, n.getWeight().oclEquals(new OclInteger(1))).javaValue());
     }
 }

@@ -16,7 +16,7 @@ public class OclBoolean extends OclAny<OclBoolean,Boolean> {
         return null;
     }
 
-    public OclBoolean orEval(OclBoolean b) {
+    protected OclBoolean orEval(OclBoolean b) {
         return null;
     }
 
@@ -26,7 +26,7 @@ public class OclBoolean extends OclAny<OclBoolean,Boolean> {
         return null;
     }
 
-    public OclBoolean andEval(OclBoolean b) {
+    protected OclBoolean andEval(OclBoolean b) {
         return null;
     }
 
@@ -36,7 +36,7 @@ public class OclBoolean extends OclAny<OclBoolean,Boolean> {
         return null;
     }
 
-    public OclBoolean xorEval(OclBoolean b) {
+    protected OclBoolean xorEval(OclBoolean b) {
         return null;
     }
 
@@ -46,7 +46,7 @@ public class OclBoolean extends OclAny<OclBoolean,Boolean> {
         return null;
     }
 
-    public OclBoolean impliesEval(OclBoolean b) {
+    protected OclBoolean impliesEval(OclBoolean b) {
         return null;
     }
 
@@ -56,7 +56,7 @@ public class OclBoolean extends OclAny<OclBoolean,Boolean> {
         return null;
     }
 
-    public OclBoolean notEval() {
+    protected OclBoolean notEval() {
         return null;
     }
 

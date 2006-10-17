@@ -16,7 +16,7 @@ public class OclString extends OclAny<OclString,String> {
         return null;
     }
 
-    public OclInteger sizeEval() {
+    protected OclInteger sizeEval() {
         return null;
     }
 
@@ -26,7 +26,7 @@ public class OclString extends OclAny<OclString,String> {
         return null;
     }
 
-    public OclString concatEval(OclString s) {
+    protected OclString concatEval(OclString s) {
         return null;
     }
 
@@ -36,7 +36,7 @@ public class OclString extends OclAny<OclString,String> {
         return null;
     }
 
-    public OclString substringEval(OclInteger lower, OclInteger upper) {
+    protected OclString substringEval(OclInteger lower, OclInteger upper) {
         return null;
     }
 
@@ -46,7 +46,7 @@ public class OclString extends OclAny<OclString,String> {
         return null;
     }
 
-    public OclInteger toIntegerEval() {
+    protected OclInteger toIntegerEval() {
         return null;
     }
 

@@ -2,7 +2,7 @@ package hub.sam.mof.jocl.standardlib;
 
 import cmof.common.ReflectiveCollection;
 
-public class OclBag<OT,ET> extends OclCollection<OT,ET> {
+public class OclBag<OclTypeP,JavaTypeP> extends OclCollection<OclTypeP,JavaTypeP> {
 
     protected OclBag(ReflectiveCollection value) {
         super(value);
@@ -14,73 +14,73 @@ public class OclBag<OT,ET> extends OclCollection<OT,ET> {
 
     private static final int OCL_EQUALS = 1;
 
-    public OclBoolean oclEquals(OclBag<OT,ET> bag) {
+    public OclBoolean oclEquals(OclBag<OclTypeP,JavaTypeP> bag) {
         return null;
     }
 
-    public OclBoolean oclEqualsEval(OclBag<OT,ET> bag) {
+    protected OclBoolean oclEqualsEval(OclBag<OclTypeP,JavaTypeP> bag) {
         return null;
     }
 
     private static final int UNION_SET = 2;
 
-    public OclBag<OT,ET> union(OclSet<OT,ET> s) {
+    public OclBag<OclTypeP,JavaTypeP> union(OclSet<OclTypeP,JavaTypeP> s) {
         return null;
     }
 
-    public OclBag<OT,ET> unionEval(OclSet<OT,ET> s) {
+    protected OclBag<OclTypeP,JavaTypeP> unionEval(OclSet<OclTypeP,JavaTypeP> s) {
         return null;
     }
 
     private static final int UNION_BAG = 3;
 
-    public OclBag<OT,ET> union(OclBag<OT,ET> b) {
+    public OclBag<OclTypeP,JavaTypeP> union(OclBag<OclTypeP,JavaTypeP> b) {
         return null;
     }
 
-    public OclBag<OT,ET> unionEval(OclBag<OT,ET> b) {
+    protected OclBag<OclTypeP,JavaTypeP> unionEval(OclBag<OclTypeP,JavaTypeP> b) {
         return null;
     }
 
     private static final int INTERSECTION_BAG = 4;
 
-    public OclBag<OT,ET> intersection(OclBag<OT,ET> b) {
+    public OclBag<OclTypeP,JavaTypeP> intersection(OclBag<OclTypeP,JavaTypeP> b) {
         return null;
     }
 
-    public OclBag<OT,ET> intersectionEval(OclBag<OT,ET> b) {
+    protected OclBag<OclTypeP,JavaTypeP> intersectionEval(OclBag<OclTypeP,JavaTypeP> b) {
         return null;
     }
 
     private static final int INTERSECTION_SET = 5;
 
-    public OclSet<OT,ET> intersection(OclSet<OT,ET> s) {
+    public OclSet<OclTypeP,JavaTypeP> intersection(OclSet<OclTypeP,JavaTypeP> s) {
         return null;
     }
 
-    public OclSet<OT,ET> intersectionEval(OclSet<OT,ET> s) {
+    protected OclSet<OclTypeP,JavaTypeP> intersectionEval(OclSet<OclTypeP,JavaTypeP> s) {
         return null;
     }
 
     private static final int INCLUDING = 6;
 
-    public OclBag<OT,ET> including(OT object) {
+    public OclBag<OclTypeP,JavaTypeP> including(OclTypeP object) {
         return null;
     }
 
-    public OclBag<OT,ET> includingEval(OT object) {
+    protected OclBag<OclTypeP,JavaTypeP> includingEval(OclTypeP object) {
         return null;
     }
 
     private static final int COUNT = 7;
 
     @Override
-    public OclInteger count(OT object) {
+    public OclInteger count(OclTypeP object) {
         return null;
     }
 
     @Override
-    public OclInteger countEval(OT object) {
+    protected OclInteger countEval(OclTypeP object) {
         return null;
     }
 
@@ -90,57 +90,57 @@ public class OclBag<OT,ET> extends OclCollection<OT,ET> {
         return null;
     }
 
-    public OclBag flattenEval() {
+    protected OclBag flattenEval() {
         return null;
     }
 
     private static final int AS_SEQUENCE = 9;
 
-    public OclSequence<OT,ET> asSequence() {
+    public OclSequence<OclTypeP,JavaTypeP> asSequence() {
         return null;
     }
 
-    public OclSequence<OT,ET> asSequenceEval() {
+    protected OclSequence<OclTypeP,JavaTypeP> asSequenceEval() {
         return null;
     }
 
     private static final int AS_SET = 10;
 
-    public OclSet<OT,ET> asSet() {
+    public OclSet<OclTypeP,JavaTypeP> asSet() {
         return null;
     }
 
-    public OclSet<OT,ET> asSetEval() {
+    protected OclSet<OclTypeP,JavaTypeP> asSetEval() {
         return null;
     }
 
     private static final int SELECT = 11;
 
-    public OclBag<OT,ET> select(OT iterator, OclBoolean body) {
+    public OclBag<OclTypeP,JavaTypeP> select(OclTypeP iterator, OclBoolean body) {
         return null;
     }
 
-    public OclBag<OT,ET> selectEval(OT iterator, OclBoolean body) {
+    protected OclBag<OclTypeP,JavaTypeP> selectEval(OclTypeP iterator, OclBoolean body) {
         return null;
     }
 
     private static final int REJECT = 13;
 
-    public OclBag<OT,ET> reject(OT iterator, OclBoolean body) {
+    public OclBag<OclTypeP,JavaTypeP> reject(OclTypeP iterator, OclBoolean body) {
         return null;
     }
 
-    public OclBag<OT,ET> rejectEval(OT iterator, OclBoolean body) {
+    protected OclBag<OclTypeP,JavaTypeP> rejectEval(OclTypeP iterator, OclBoolean body) {
         return null;
     }
 
     private static final int SORTED_BY = 14;
 
-    public OclSequence<OT,ET> sortedBy(OT iterator, OclInteger body) {
+    public OclSequence<OclTypeP,JavaTypeP> sortedBy(OclTypeP iterator, OclInteger body) {
         return null;
     }
 
-    public OclSequence<OT,ET> sortedByEval(OT iterator, OclInteger body) {
+    protected OclSequence<OclTypeP,JavaTypeP> sortedByEval(OclTypeP iterator, OclInteger body) {
         return null;
     }
 

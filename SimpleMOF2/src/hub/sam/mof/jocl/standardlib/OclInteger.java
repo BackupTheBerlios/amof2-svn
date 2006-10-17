@@ -24,7 +24,7 @@ public class OclInteger extends OclAny<OclInteger,Integer> {
         return null;
     }
 
-    public OclInteger negEval() {
+    protected OclInteger negEval() {
         return null;
     }
 
@@ -34,7 +34,7 @@ public class OclInteger extends OclAny<OclInteger,Integer> {
         return null;
     }
 
-    public OclInteger absEval() {
+    protected OclInteger absEval() {
         return null;
     }
 
@@ -44,7 +44,7 @@ public class OclInteger extends OclAny<OclInteger,Integer> {
         return null;
     }
 
-    public OclInteger subEval(OclInteger i) {
+    protected OclInteger subEval(OclInteger i) {
         return null;
     }
 
@@ -54,7 +54,7 @@ public class OclInteger extends OclAny<OclInteger,Integer> {
         return null;
     }
 
-    public OclInteger addEval(OclInteger i) {
+    protected OclInteger addEval(OclInteger i) {
         return null;
     }
 
@@ -64,7 +64,7 @@ public class OclInteger extends OclAny<OclInteger,Integer> {
         return null;
     }
 
-    public OclInteger mulEval(OclInteger i) {
+    protected OclInteger mulEval(OclInteger i) {
         return null;
     }
 
@@ -74,7 +74,7 @@ public class OclInteger extends OclAny<OclInteger,Integer> {
         return null;
     }
 
-    public OclInteger divEval(OclInteger i) {
+    protected OclInteger divEval(OclInteger i) {
         return null;
     }
 
@@ -84,7 +84,7 @@ public class OclInteger extends OclAny<OclInteger,Integer> {
         return null;
     }
 
-    public OclInteger modEval(OclInteger i) {
+    protected OclInteger modEval(OclInteger i) {
         return null;
     }
 
@@ -94,7 +94,7 @@ public class OclInteger extends OclAny<OclInteger,Integer> {
         return null;
     }
 
-    public OclInteger maxEval(OclInteger i) {
+    protected OclInteger maxEval(OclInteger i) {
         return null;
     }
 
@@ -104,7 +104,7 @@ public class OclInteger extends OclAny<OclInteger,Integer> {
         return null;
     }
 
-    public OclInteger minEval(OclInteger i) {
+    protected OclInteger minEval(OclInteger i) {
         return null;
     }
 

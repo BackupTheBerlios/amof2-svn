@@ -1,6 +1,6 @@
 package hub.sam.mof.jocl.standardlib;
 
-public class OclType<OT,ET> extends OclAny<OT,ET> {
+public class OclType<OclTypeP,JavaTypeP> extends OclAny<OclTypeP,JavaTypeP> {
 
     public OclType(Object value) {
         super(value);
@@ -12,11 +12,11 @@ public class OclType<OT,ET> extends OclAny<OT,ET> {
 
     private static final int allInstance = 1;
 
-    public OclSet<OT,ET> allInstance() {
+    public OclSet<OclTypeP,JavaTypeP> allInstance() {
         return null;
     }
 
-    public OclSet<OT,ET> allInstanceEval() {
+    protected OclSet<OclTypeP,JavaTypeP> allInstanceEval() {
         return null;
     }
 

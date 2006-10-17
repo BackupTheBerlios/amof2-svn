@@ -5,6 +5,9 @@ import SDL.SdlAgentInstance;
 import SDL.SdlAgentInstanceSet;
 import SDL.SdlAgentKind;
 import SDL.SdlDataType;
+import cmof.NamedElement;
+import cmof.Property;
+import cmof.UmlClass;
 import cmof.reflection.Extent;
 import hub.sam.mof.Repository;
 import hub.sam.mof.as.layers.MultiLevelImplementationsManager;
@@ -14,6 +17,9 @@ import hub.sam.sdlplus.parser.SdlplusParser;
 import hub.sam.sdlplus.semantics.SemanticAnalysis;
 
 import java.io.InputStream;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Vector;
 
 /**
  * The main compiler class. It is responsible for the repository, command line arguments, calls parser and semantic analysis,
@@ -111,6 +117,9 @@ public class SdlCompiler {
             System.out.println("Initialiasing repository.");
             initializeRepository();
 
+            System.out.println("Analysing the meta-model.");
+            metaMetrics();
+
             SdlplusParser parser = new SdlplusParser(in);
             System.out.println("Start parsing.");
             parser.parse(repository, sdlMetaExtent, sdlModelExtent);
@@ -158,6 +167,81 @@ public class SdlCompiler {
         } catch (Exception e) {
             e.printStackTrace(System.out);
         }
+    }
+
+    public synchronized void metaMetrics() {
+        // SDL class number / methods
+
+        Collection<UmlClass> sdlClasses = new Vector<UmlClass>();
+        Collection<Property> sdlProperties = new Vector<Property>();
+        for (Object element: sdlMetaExtent.getObject()) {
+            if (element instanceof UmlClass) {
+                if ("SDL".equals(((NamedElement)element).getNamespace().getName())) {
+                    sdlClasses.add((UmlClass)element);
+                }
+            } else if (element instanceof Property) {
+                if (((NamedElement)element).getNamespace() != null) {
+                    if ("SDL".equals(((NamedElement)element).getNamespace().getNamespace().getName())) {
+                         sdlProperties.add((Property)element);
+                    }
+                }
+            }
+        }
+
+        // Used Abstract classes / methods
+        // inheritences of abstract classes
+        int sdlAbstractSpecialisations = 0;
+        int specialisation = 0;
+        Collection<UmlClass> abstractClasses = new HashSet<UmlClass>();
+        for (UmlClass sdlClass: sdlClasses) {
+            for (UmlClass superClass: sdlClass.getSuperClass()) {
+                specialisation++;
+                if (!"SDL".equals(superClass.getNamespace().getName())) {
+                    sdlAbstractSpecialisations++;
+                    abstractClasses.add(superClass);
+                }
+            }
+        }
+
+        // Used Abstract classes / methods
+        int sdlAbstractRefinements = 0;
+        int refinements = 0;
+        Collection<Property> abstractProperties = new HashSet<Property>();
+        for (Property sdlProperty: sdlProperties) {
+            for (Property redefinedProperty: sdlProperty.getRedefinedProperty()) {
+                refinements++;
+                if (!"SDL".equals(redefinedProperty.getNamespace().getNamespace().getName())) {
+                    sdlAbstractRefinements++;
+                    abstractProperties.add(redefinedProperty);
+                }
+            }
+            for (Property subsettedProperty: sdlProperty.getSubsettedProperty()) {
+                refinements++;
+                if (!"SDL".equals(subsettedProperty.getNamespace().getNamespace().getName())) {
+                    sdlAbstractRefinements++;
+                    abstractProperties.add(subsettedProperty);
+                }
+            }
+        }
+
+        int operations = 0;
+        for (UmlClass aClass: abstractClasses) {
+            operations += aClass.getOwnedOperation().size();
+        }
+        for (UmlClass aClass: sdlClasses) {
+            operations += aClass.getOwnedOperation().size();
+        }
+
+        System.out.println("Number of used abstract classes:               " + abstractClasses.size());
+        System.out.println("Number of SDL classes:                         " + sdlClasses.size());
+        System.out.println("Number of specialisations of abstract classes: " + sdlAbstractSpecialisations);
+        System.out.println("Number of specialisations of classes in SDL:   " + specialisation);
+        System.out.println("--------------------------------------------------");
+        System.out.println("Number of abstract properties:                 " + abstractProperties.size());
+        System.out.println("Number of SDL properties:                      " + sdlProperties.size());
+        System.out.println("Number of refinement of abstract properties:   " + sdlAbstractRefinements);
+        System.out.println("Number of specialisation of properties in SDL: " + refinements);
+        System.out.println("Number of declared operations:                 " + operations);
     }
 
     /**
