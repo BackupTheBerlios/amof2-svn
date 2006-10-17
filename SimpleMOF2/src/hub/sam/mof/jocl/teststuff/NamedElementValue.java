@@ -6,8 +6,12 @@ import hub.sam.mof.jocl.standardlib.OclString;
 
 public class NamedElementValue extends OclModelElement<NamedElement> /* implements NamedElement */ {
 
-    protected NamedElementValue(NamedElement value) {
+    public NamedElementValue(NamedElement value) {
         super(value);
+    }
+
+    public NamedElementValue() {
+        super(null);
     }
 
     public OclString name() {

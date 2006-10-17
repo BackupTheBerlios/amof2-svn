@@ -1,3 +1,4 @@
+<body>
 This library provides OCL expressions to Java; it implements the OCL standard
 library. 
 
@@ -57,13 +58,40 @@ result.javaValue()
 will actually evaluate the expression. During this evaluation, the
 sub-expressions used as closures (arguments for the forAll operations) are
 evaluates several times for different values represented by the variables n and
-m.
+m.<br/>
+
+How does that work? Take OclCollection.forAll as example:
+
+<pre>
+public OclBoolean forAll(OclTypeP iterator, OclBoolean body) {
+    return new OclBoolean(FOR_ALL, null, this, new OclAny[] {(OclAny)iterator, body});
+}
+</pre>
+
+This method does only create an operator node representing <i>forAll</i>. When
+this node is evaluated by calling javaValue(), the constant <i>FOR_ALL</i>says
+which operator is to be called, on with value (<i>this</i>) and for which
+parameters (<i>iterator</i>and <i>body</i>). This leads to invokation of the
+following method at <i>this</i>and with <i>iterator</i>and <i>body</i> as
+arguments:
+
+<pre>
+protected OclBoolean forAllEval(OclTypeP iterator, OclBoolean body) {
+    for(JavaTypeP element: javaValue()) {
+        ((OclAny)iterator).setJavaValue(element);
+        if (!body.javaValue()) {
+            return new OclBoolean(false);
+        }
+    }
+    return new OclBoolean(true);
+}
+</pre>
 
 <h2>Using OCL for models</h2> 
 
 A MOF 2 generates OCL value classes for all model elements. These classes are
-named like the model element classifier + "Value".  Compare to the example
-above. These classes extend the abstact OclModelElement class:
+named like the model element's classifier + "Value" (compare to the example
+above). These classes extend the abstact OclModelElement class:
 
 <pre>
 class OclModelElement<ElementType> extends 
@@ -82,3 +110,4 @@ class NamespaceValue extends OclModelElement<Namespace> {
 
 All properties of the respective model element are navigable via access methods
 with the name of the property. The same holds for operations.
+</body>

@@ -1,31 +1,50 @@
 package hub.sam.mof.jocl.teststuff;
 
-import hub.sam.mof.jocl.standardlib.OclCollection;
+import cmof.common.ReflectiveCollection;
+import cmof.Namespace;
+import cmof.NamedElement;
 import hub.sam.mof.jocl.standardlib.OclBoolean;
-import hub.sam.mof.jocl.standardlib.OclString;
 
 public class Test {
 
-    public static void main(String[] args) {
-        NamespaceValue self = null;
-        NamedElementValue n = null;
-        NamedElementValue m = null;
+    /**
+     * Some examples. Namespace is a class from the UML 2.0 constructs package. A namespace contains
+     * NamedElements as ownedMember.
+     */
+    public void test(Namespace myNamespace) {
 
-        OclBoolean correct = self.ownedElement().forAll(n, self.ownedElement().forAll(m,
-                n.name().oclEquals(m.name()).not()));
+        // For invariants
+        // No names in a namespace are the same.
+        // OCL: self.ownedElement->forAll(n|self.ownedElement->forAll(m|not n.name = m.name))
+        {
+            NamespaceValue self = new NamespaceValue(myNamespace);
+            NamedElementValue n = new NamedElementValue();
+            NamedElementValue m = new NamedElementValue();
+            OclBoolean expr = self.ownedMember().forAll(n,
+                    self.ownedMember().forAll(m, n.name().oclEquals(m.name()).not()));
+            boolean result = expr.javaValue();
+        }
 
-        // self.ownedElement->forAll(n|self.ownedElement->forAll(m|not n.name = m.name))
-        self.ownedElement().forAll(n, self.ownedElement().forAll(m, n.name().oclEquals(m.name()).not()));
+        // the same in plain Java:
+        {
+            boolean result = true;
+            Loop: for(NamedElement ownedElement1: myNamespace.getOwnedMember()) {
+                String name1 = ownedElement1.getName();
+                for(NamedElement ownedElement2: myNamespace.getOwnedMember()) {
+                    if (!name1.equals(ownedElement2.getName())) {
+                        result = false;
+                        break Loop;
+                    }
+                }
+            }
+        }
 
-        // self.ownedElement->forAll(n,m| not n.name = m.name)
-        //self.ownedElement().forAll(new NamedElementValue[] {n, m}, n.name().oclEquals(m.name()).not());
-
-        OclCollection<OclString,String> names = self.ownedElement().collect(n, n.name());
-
-        // self.ownedElement->collect(n | n.name)
-        self.ownedElement().collect(n, n.name());
-
-        OclString stringVar = null;
-        names.forAll(stringVar, stringVar.oclEquals(stringVar));
+        // As genral queries
+        // OCL: self.ownedElement->collect(n|n.name)
+        {
+            NamespaceValue self = new NamespaceValue(myNamespace);
+            NamedElementValue n = new NamedElementValue();
+            ReflectiveCollection<String> names = self.ownedMember().collect(n, n.name()).javaValue();
+        }
     }
 }

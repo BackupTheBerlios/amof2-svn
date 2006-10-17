@@ -7,11 +7,15 @@ import hub.sam.mof.jocl.standardlib.OclModelElement;
 
 
 public class NamespaceValue extends OclModelElement<Namespace> /* implements Namespace*/ {
-    protected NamespaceValue(Namespace value) {
+    public NamespaceValue(Namespace value) {
         super(value);
     }
 
-    public OclCollection<NamedElementValue,NamedElement> ownedElement() {
+    public NamespaceValue() {
+        super(null);
+    }
+
+    public OclCollection<NamedElementValue,NamedElement> ownedMember() {
         return null;
     }
 }
