@@ -65,8 +65,9 @@ public class Main extends TestCase {
 
         // TODO: update tests
         //suite.addTestSuite(PropertyChangeNotification.class);
+        //suite.addTestSuite(ReflectiveColSeqToJavaWrapper.class);
+        suite.addTestSuite(ReflectiveSequenceTest.class);
         suite.addTestSuite(ReflectiveSequenceExtension.class);
-        suite.addTestSuite(ReflectiveColSeqToJavaWrapper.class);
         suite.addTestSuite(JavaTypeTest.class);
         suite.addTestSuite(QualifierTest.class);
         suite.addTestSuite(OclTest.class);
