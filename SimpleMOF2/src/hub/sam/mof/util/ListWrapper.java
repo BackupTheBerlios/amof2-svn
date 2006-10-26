@@ -2,44 +2,42 @@ package hub.sam.mof.util;
 
 import cmof.common.ReflectiveSequence;
 
-import java.util.ConcurrentModificationException;
 import java.util.List;
 import java.util.Iterator;
 import java.util.ListIterator;
 import java.util.Collection;
-import java.util.NoSuchElementException;
 
-public class ListWrapper extends CollectionWrapper implements List {
+public class ListWrapper<E> extends CollectionWrapper<E> implements List<E> {
     
-    private final ReflectiveSequence reflectiveSequence;
+    private final ReflectiveSequence<? extends E> reflectiveSequence;
 
-    public ListWrapper(ReflectiveSequence reflectiveSequence) {
+    public ListWrapper(ReflectiveSequence<? extends E> reflectiveSequence) {
         super(reflectiveSequence);
         this.reflectiveSequence = reflectiveSequence;
     }
     
-    public void add(int index, Object element) {
+    public void add(int index, E element) {
         reflectiveSequence.add(index, element);
     }
     
-    public boolean addAll(int index, Collection elements) {
+    public boolean addAll(int index, Collection<? extends E> elements) {
         return reflectiveSequence.addAll(index, elements);
     }
     
-    public Object get(int index) {
+    public E get(int index) {
         return reflectiveSequence.get(index);
     }
     
-    public Object set(int index, Object element) {
+    public E set(int index, E element) {
         return reflectiveSequence.set(index, element);
     }
     
-    public Object remove(int index) {
+    public E remove(int index) {
         return reflectiveSequence.remove(index);
     }
     
-    public List subList(int fromIndex, int toIndex) {
-        return new ListWrapper(reflectiveSequence.subList(fromIndex, toIndex));
+    public List<E> subList(int fromIndex, int toIndex) {
+        return new ListWrapper<E>(reflectiveSequence.subList(fromIndex, toIndex));
     }
     
     public int indexOf(Object specificObject) {
@@ -61,7 +59,7 @@ public class ListWrapper extends CollectionWrapper implements List {
         return last;
     }
     
-    private class Itr implements Iterator {
+    private class Itr implements Iterator<E> {
         protected int cursor = 0;
         protected int lastRet = -1;
         
@@ -69,8 +67,8 @@ public class ListWrapper extends CollectionWrapper implements List {
             return cursor != size();
         }
         
-        public Object next() {
-            Object next = get(cursor);
+        public E next() {
+            E next = get(cursor);
             lastRet = cursor++;
             return next;
         }
@@ -86,7 +84,7 @@ public class ListWrapper extends CollectionWrapper implements List {
         }
     }
     
-    private class ListItr extends Itr implements ListIterator {
+    private class ListItr extends Itr implements ListIterator<E> {
         
         public ListItr(int index) {
             cursor = index;
@@ -96,9 +94,9 @@ public class ListWrapper extends CollectionWrapper implements List {
             return cursor != 0;
         }        
         
-        public Object previous() {
+        public E previous() {
             int i = cursor - 1;
-            Object previous = get(i);
+            E previous = get(i);
             lastRet = cursor = i;
             return previous;
         }
@@ -111,25 +109,25 @@ public class ListWrapper extends CollectionWrapper implements List {
             return cursor-1;
         }
 
-        public void set(Object o) {
+        public void set(E o) {
             if (lastRet == -1)
             throw new IllegalStateException();
 
             ListWrapper.this.set(lastRet, o);
         }
         
-        public void add(Object o) {
+        public void add(E o) {
             ListWrapper.this.add(cursor++, o);
             lastRet = -1;
         }
         
     }
     
-    public ListIterator listIterator() {
+    public ListIterator<E> listIterator() {
         return listIterator(0);
     }
     
-    public ListIterator listIterator(int index) {
+    public ListIterator<E> listIterator(int index) {
         if (index<0 || index>size()) {
             throw new IndexOutOfBoundsException("Index: "+index);
         }

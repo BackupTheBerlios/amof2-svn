@@ -5,11 +5,11 @@ import java.util.Iterator;
 
 import cmof.common.ReflectiveCollection;
 
-public class CollectionWrapper implements Collection {
+public class CollectionWrapper<E> implements Collection<E> {
     
-    private final ReflectiveCollection reflectiveCollection;
+    private final ReflectiveCollection<? extends E> reflectiveCollection;
     
-    public CollectionWrapper(ReflectiveCollection reflectiveCollection) {
+    public CollectionWrapper(ReflectiveCollection<? extends E> reflectiveCollection) {
         this.reflectiveCollection = reflectiveCollection;
     }
     
@@ -17,8 +17,7 @@ public class CollectionWrapper implements Collection {
         return reflectiveCollection.contains(obj);
     }
     
-    @SuppressWarnings("unchecked")
-    public boolean containsAll(Collection c) {
+    public boolean containsAll(Collection<?> c) {
         return reflectiveCollection.containsAll(c);
     }
     
@@ -26,22 +25,20 @@ public class CollectionWrapper implements Collection {
         return reflectiveCollection.remove(obj);
     }
     
-    @SuppressWarnings("unchecked")
-    public boolean removeAll(Collection c) {
+    public boolean removeAll(Collection<?> c) {
         return reflectiveCollection.removeAll(c);
     }
     
-    public boolean add(Object obj) {
+    public boolean add(E obj) {
         return reflectiveCollection.add(obj);
     }
     
-    @SuppressWarnings("unchecked")
-    public boolean addAll(Collection c) {
+    public boolean addAll(Collection<? extends E> c) {
         return reflectiveCollection.addAll(c);
     }
     
-    public Iterator iterator() {
-        return reflectiveCollection.iterator();
+    public Iterator<E> iterator() {
+        return (Iterator<E>) reflectiveCollection.iterator();
     }
     
     public int size() {
@@ -56,7 +53,7 @@ public class CollectionWrapper implements Collection {
         reflectiveCollection.clear();
     }
 
-    public boolean retainAll(Collection collection) {
+    public boolean retainAll(Collection<?> collection) {
         // empty sets
         if (collection.isEmpty() || isEmpty()) return false;
         // equal sets
@@ -68,8 +65,6 @@ public class CollectionWrapper implements Collection {
                 remove(obj);
             }
         }
-        clear();
-        addAll(collection);
         return true;
     }
     
@@ -84,9 +79,21 @@ public class CollectionWrapper implements Collection {
         return objectArray;
     }
     
-    @SuppressWarnings("unchecked")
-    public Object[] toArray(Object[] a) {
-        return toArray();
+    public <T> T[] toArray(T[] a) {
+        int size = size();
+        if (a.length < size) {
+            a = (T[])java.lang.reflect.Array.newInstance(a.getClass().getComponentType(), size);
+        }
+
+        Iterator<E> it = iterator();
+        Object[] result = a;
+        for (int i=0; i < size; i++) {
+            result[i] = it.next();
+        }
+        if (a.length > size) {
+            a[size] = null;
+        }
+        return a;
     }
     
 }
