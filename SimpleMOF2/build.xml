@@ -6,6 +6,7 @@
 	<property name="build-dir" value="${basedir}/build"/>
 	<property name="doc-dir" value="${basedir}/resources/doc/javadoc/"/>
 	<property name="jar-file" value="${basedir}/aMOF2.0forJava.jar"/>
+	<property name="tmp-dir" value="${basedir}/resources/tmp"/>
 
 	<property name="repository-generated-src" value="${basedir}/resources/repository/generated-src/"/>
 	<property name="test-generated-src" value="${basedir}/resources/test/generated-src/"/>
@@ -54,6 +55,7 @@
 		<mkdir dir="${basedir}/resources/models/work"/>
 		<mkdir dir="${build-dir}"/>
 		<mkdir dir="${doc-dir}"/>
+		<mkdir dir="${tmp-dir}"/>
 	</target>
 
 	<target name="mopa" depends="init">

@@ -272,7 +272,7 @@ public class ExtentImpl extends hub.sam.util.Identity implements cmof.reflection
         if (type == null) {
             return objects;
         } else {
-            result = new SetImpl<cmof.reflection.Object>((includeSubtypes) ? objectsForTypes.get(type) : objectsForTypesWithSubtypes.get(type));
+            result = new SetImpl<cmof.reflection.Object>((!includeSubtypes) ? objectsForTypes.get(type) : objectsForTypesWithSubtypes.get(type));
         }
         return result;
     }
@@ -308,14 +308,14 @@ public class ExtentImpl extends hub.sam.util.Identity implements cmof.reflection
         if (metaClass != null) {
             objectsForTypes.put(metaClass, object);
             objectsForTypesWithSubtypes.put(metaClass, object);
-            if (!((ObjectImpl)metaClass).isStatic) {
+            //if (!((ObjectImpl)metaClass).isStatic) {
                 ReflectiveCollection<? extends core.abstractions.umlsuper.Classifier> superClasses = metaClass.allParents();
                 for (core.abstractions.umlsuper.Classifier superClass: superClasses) {
                     if (superClass instanceof UmlClass) {
                         objectsForTypesWithSubtypes.put((UmlClass)superClass, object);
                     }
                 }
-            }
+            //}
         }
 
         this.objects.add(object);

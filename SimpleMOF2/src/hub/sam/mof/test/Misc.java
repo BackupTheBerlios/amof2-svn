@@ -2,6 +2,8 @@ package hub.sam.mof.test;
 
 import cmof.Operation;
 import cmof.Parameter;
+import cmof.Property;
+import cmof.UmlClass;
 import cmof.cmofFactory;
 import cmof.reflection.Extent;
 
@@ -47,5 +49,32 @@ public class Misc extends AbstractRepository {
             p = it.next();
             assertTrue(p.getName().equals("p" + i));
         }
+    }
+    
+    public void testOneToTwoMulitplicityCG() throws Exception {
+    	cmof.Package aPackage = factory.createPackage();    	
+    	UmlClass aClass = factory.createUmlClass();
+    	aPackage.setName("testpackage");
+    	aClass.setName("TestClass");
+    	aPackage.getOwnedType().add(aClass);
+    	Property aProperty = factory.createProperty();
+    	aProperty.setType(aClass);
+    	aProperty.setName("testProperty");
+    	aProperty.setUpper(2);
+    	aProperty.setLower(1);
+    	aClass.getOwnedAttribute().add(aProperty);
+    	
+    	try {
+    		repository.generateCode(extent, "resources/tmp");
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    		assertTrue(false);
+    	}        
+    }
+    
+    public void testObjectsOfExtent() throws Exception {
+    	repository.loadXmiIntoExtent(extent, m3, "resources/models/test/warehouse.xml");
+    	UmlClass type = (UmlClass)m3Extent.query("Package:cmof/Class:Type");
+    	extent.objectsOfType(type, true).size();
     }
 }
