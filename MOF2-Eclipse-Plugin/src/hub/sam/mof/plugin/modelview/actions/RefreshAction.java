@@ -4,8 +4,6 @@ import hub.sam.mof.plugin.modelview.ModelView;
 import hub.sam.mof.plugin.modelview.ModelViewContentProvider;
 
 import org.eclipse.jface.action.Action;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 

@@ -2,11 +2,11 @@ package hub.sam.mof.plugin.modelview;
 
 import java.util.*;
 
+import hub.sam.mof.Repository;
 import hub.sam.mof.plugin.modelview.tree.InvisibleTreeRoot;
 import hub.sam.mof.plugin.modelview.tree.RepositoryTreeObject;
 import hub.sam.mof.plugin.modelview.tree.TreeObject;
 import hub.sam.mof.plugin.modelview.tree.TreeParent;
-import hub.sam.mof.reflection.client.ClientRepository;
 
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
@@ -33,18 +33,20 @@ public class ModelViewContentProvider implements IStructuredContentProvider, ITr
 	}
 	
 	public Object[] getElements(Object parent) {
-		if (parent.equals(this.view.getViewSite())) {
-			if (invisibleRoot==null) initialize();
+		if (parent.equals(view.getViewSite())) {
+			if (invisibleRoot == null) initialize();
 			return getChildren(invisibleRoot);
 		}
 		return getChildren(parent);
 	}
+    
 	public Object getParent(Object child) {
 		if (child instanceof TreeObject) {
 			return ((TreeObject)child).getParent();
 		}
 		return null;
 	}
+    
 	public Object [] getChildren(Object parent) {
 		if (parent instanceof TreeParent) {
 			Collection children = ((TreeParent)parent).getChildren();
@@ -58,6 +60,7 @@ public class ModelViewContentProvider implements IStructuredContentProvider, ITr
 		}
 		return new Object[0];
 	}
+    
 	public boolean hasChildren(Object parent) {
 		if (parent instanceof TreeParent)
 			return ((TreeParent)parent).hasChildren();
@@ -72,7 +75,7 @@ public class ModelViewContentProvider implements IStructuredContentProvider, ITr
 		return invisibleRoot;
 	}
 		
-	public void addRepository(ClientRepository repository) {
+	public void addRepository(Repository repository) {
 		invisibleRoot.addChild(new RepositoryTreeObject(repository, invisibleRoot));
 		view.getViewer().refresh();
 	}

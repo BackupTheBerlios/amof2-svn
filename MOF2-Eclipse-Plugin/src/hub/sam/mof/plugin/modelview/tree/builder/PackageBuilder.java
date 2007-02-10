@@ -11,7 +11,6 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 
-import cmof.Package;
 import cmof.PackageMerge;
 
 public class PackageBuilder extends NamespaceBuilder {

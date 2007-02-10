@@ -145,7 +145,7 @@ public class ClassBuilder extends ClassifierBuilder implements IShowOtherFeature
 			}
 			
 			if (to.optionIsSet(SHOW_INHERITED_FEATURES)) {
-				loop: for(NamedElement member: theClass.getInheritedMember()) {
+				for(NamedElement member: theClass.getInheritedMember()) {
 					boolean isRedefined = false;
 					boolean isSubsetted = false;
 					if (member instanceof RedefinableElement) {

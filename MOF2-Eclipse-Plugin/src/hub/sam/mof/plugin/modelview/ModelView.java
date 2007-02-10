@@ -1,11 +1,11 @@
 package hub.sam.mof.plugin.modelview;
 
+import hub.sam.mof.Repository;
 import hub.sam.mof.plugin.modelview.actions.*;
 import hub.sam.mof.plugin.modelview.tree.builder.Categories;
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.*;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.viewers.*;
 import org.eclipse.jface.action.*;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -35,9 +35,7 @@ import org.eclipse.swt.SWT;
 public class ModelView extends ViewPart {
 	TreeViewer viewer;
 	private DrillDownAdapter drillDownAdapter;
-	private AddRepositoryAction addRepository;
 	private RefreshAction refreshAction;
-	private RemoveRepositoryAction removeRepository;
 	private AddModelAction addModel;
 	private AddToFilteredClassesAction addToFilteredClasses;
 	private ShowDetailsAction showDetails;
@@ -69,7 +67,7 @@ public class ModelView extends ViewPart {
 		viewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 		drillDownAdapter = new DrillDownAdapter(viewer);
 		viewer.setContentProvider(new ModelViewContentProvider(this));		
-		viewer.setLabelProvider(ViewLabelProvider.getDefault());			
+		viewer.setLabelProvider(ModelViewLabelProvider.getDefault());			
 		viewer.setInput(getViewSite());
 		viewer.setSorter(new Categories());
 		getSite().setSelectionProvider(viewer);
@@ -103,15 +101,12 @@ public class ModelView extends ViewPart {
 	}
 
 	private void fillLocalPullDown(IMenuManager manager) {
-		manager.add(addRepository);
 		manager.add(refreshAction);
 		manager.add(new Separator());
 		manager.add(setFilter);
 	}
 
 	void fillContextMenu(IMenuManager manager) {
-		removeRepository.setEnabled(removeRepository.shouldEnable((IStructuredSelection)viewer.getSelection()));
-		manager.add(removeRepository);	
 		addModel.setEnabled(addModel.shouldEnable((IStructuredSelection)viewer.getSelection()));
 		manager.add(addModel);
 		addToFilteredClasses.setEnabled(addToFilteredClasses.shouldEnable((IStructuredSelection)viewer.getSelection()));
@@ -134,16 +129,14 @@ public class ModelView extends ViewPart {
 	}
 	
 	private void fillLocalToolBar(IToolBarManager manager) {
-		manager.add(addRepository);
 		manager.add(refreshAction);
 		manager.add(new Separator());
 		drillDownAdapter.addNavigationActions(manager);
 	}
 
 	private void makeActions() {
-		addRepository = new AddRepositoryAction(this);	
+        ((ModelViewContentProvider) viewer.getContentProvider()).addRepository(Repository.getLocalRepository());
 		refreshAction = new RefreshAction(this);
-		removeRepository = new RemoveRepositoryAction(this);
 		addModel = new AddModelAction(this);
 		addToFilteredClasses = new AddToFilteredClassesAction(this);
 		showDetails = new ShowDetailsAction(this);

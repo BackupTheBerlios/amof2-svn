@@ -1,16 +1,16 @@
 package hub.sam.mof.plugin.modelview.tree;
 
+import hub.sam.mof.Repository;
 import hub.sam.mof.plugin.modelview.Images;
-import hub.sam.mof.reflection.client.ClientRepository;
 import java.util.*;
 
 import org.eclipse.swt.graphics.Image;
 
 public class RepositoryTreeObject extends TreeParent {
 
-	private final ClientRepository repository;	
+	private final Repository repository;	
 	
-	public RepositoryTreeObject(ClientRepository repository, TreeParent parent) {
+	public RepositoryTreeObject(Repository repository, TreeParent parent) {
 		super(repository, parent);
 		this.repository = repository;
 	}
@@ -29,11 +29,11 @@ public class RepositoryTreeObject extends TreeParent {
 
 	@Override
 	public String getText() {
-		return "Repository";
+		return "LocalRepository";
 	}	
 	
 	@Override
-	public ClientRepository getElement() {		
+	public Repository getElement() {		
 		return repository;
 	}
 

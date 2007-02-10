@@ -4,7 +4,7 @@ import org.eclipse.swt.graphics.Image;
 
 import cmof.reflection.Object;
 import hub.sam.mof.plugin.modelview.Images;
-import hub.sam.mof.plugin.modelview.ViewLabelProvider;
+import hub.sam.mof.plugin.modelview.ModelViewLabelProvider;
 import hub.sam.mof.plugin.modelview.actions.IShowDetailsContext;
 import hub.sam.mof.plugin.modelview.tree.AutomatedBuilder;
 import hub.sam.mof.plugin.modelview.tree.IChildManager;
@@ -25,7 +25,7 @@ public abstract class ElementBuilder extends AutomatedBuilder implements IShowDe
 
 	@Override
 	public Image getImage(java.lang.Object element) {
-		return ViewLabelProvider.getDefault().getImage(element);		
+		return ModelViewLabelProvider.getDefault().getImage(element);		
 	}
 
 	@Override

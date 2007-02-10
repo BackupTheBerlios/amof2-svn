@@ -1,5 +1,8 @@
 package hub.sam.mof.plugin.modelview.actions;
 
+import java.io.FileInputStream;
+
+import hub.sam.mof.Repository;
 import hub.sam.mof.plugin.modelview.ModelView;
 import hub.sam.mof.plugin.modelview.tree.RepositoryTreeObject;
 
@@ -120,7 +123,7 @@ public class AddModelDialog extends Dialog {
 
 			public void widgetSelected(SelectionEvent e) {				
 				FileDialog dialog = new FileDialog(getShell(), SWT.SINGLE);
-				dialog.setFilterExtensions(new String[] { "*.xml" }); //$NON-NLS-1$;				
+				dialog.setFilterExtensions(new String[] { "*.xml;*.mdxml" }); //$NON-NLS-1$;				
 
 				String result = dialog.open();
 				if (result == null) {
@@ -173,7 +176,7 @@ public class AddModelDialog extends Dialog {
 			RepositoryTreeObject repositoryTreeObject = (RepositoryTreeObject)((IStructuredSelection)view.getViewer().
 					getSelection()).getFirstElement();
 			try {
-				repositoryTreeObject.getElement().addStaticModel(className);
+				repositoryTreeObject.getElement().addStaticModel( Thread.currentThread().getContextClassLoader().loadClass(className) );
 			} catch (Exception e) {
 				MessageDialog.openError(
 						view.getViewer().getControl().getShell(),
@@ -194,7 +197,12 @@ public class AddModelDialog extends Dialog {
 			RepositoryTreeObject repositoryTreeObject = (RepositoryTreeObject)((IStructuredSelection)view.getViewer().
 					getSelection()).getFirstElement();
 			try {
-				repositoryTreeObject.getElement().addXmiModel(xmiFileName);
+                if (xmiFileName.endsWith(".xml")) {
+                    repositoryTreeObject.getElement().addXmiModel(new FileInputStream(xmiFileName), xmiFileName, Repository.XMI2);
+                }
+                else if (xmiFileName.endsWith(".mdxml")) {
+                    repositoryTreeObject.getElement().addXmiModel(new FileInputStream(xmiFileName), xmiFileName, Repository.MD);
+                }
 			} catch (Exception e) {
 				MessageDialog.openError(
 						view.getViewer().getControl().getShell(),

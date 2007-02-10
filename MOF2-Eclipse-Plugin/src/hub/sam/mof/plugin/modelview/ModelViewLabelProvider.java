@@ -9,14 +9,15 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 
-public class ViewLabelProvider extends LabelProvider {
+public class ModelViewLabelProvider extends LabelProvider {
 
-	private static final ViewLabelProvider defaultInstance = new ViewLabelProvider();
-	public static ViewLabelProvider getDefault() {
+	private static final ModelViewLabelProvider defaultInstance = new ModelViewLabelProvider();
+    
+	public static ModelViewLabelProvider getDefault() {
 		return defaultInstance;
 	}
 	
-	private ViewLabelProvider() {
+	private ModelViewLabelProvider() {
 		// empty
 	}
 	

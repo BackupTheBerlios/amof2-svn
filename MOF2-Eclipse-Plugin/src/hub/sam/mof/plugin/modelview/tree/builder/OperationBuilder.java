@@ -7,7 +7,6 @@ import hub.sam.mof.plugin.modelview.tree.IChildManager;
 import hub.sam.mof.plugin.modelview.tree.TreeObject;
 import cmof.Operation;
 import cmof.Parameter;
-import cmof.Property;
 
 public class OperationBuilder extends NamespaceBuilder {
 	@Override
