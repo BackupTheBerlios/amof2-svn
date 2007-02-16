@@ -82,16 +82,16 @@ public class ModelView extends ViewPart {
 	}
 	
 	private void hookContextMenu() {
-		MenuManager menuMgr = new MenuManager("#PopupMenu");
+		MenuManager menuMgr = new MenuManager("#MOF2PluginPopupMenu");
 		menuMgr.setRemoveAllWhenShown(true);
 		menuMgr.addMenuListener(new IMenuListener() {
 			public void menuAboutToShow(IMenuManager manager) {
-				ModelView.this.fillContextMenu(manager);				
+				fillContextMenu(manager);
 			}
 		});
 		Menu menu = menuMgr.createContextMenu(viewer.getControl());
 		viewer.getControl().setMenu(menu);
-		getSite().registerContextMenu(menuMgr, viewer);
+		getSite().registerContextMenu("hub.sam.mof.plugin.popupMenu", menuMgr, viewer);
 	}
 
 	private void contributeToActionBars() {
@@ -107,6 +107,9 @@ public class ModelView extends ViewPart {
 	}
 
 	void fillContextMenu(IMenuManager manager) {
+        manager.add(new GroupMarker("topAdditions"));
+        manager.add(new Separator());
+        
 		addModel.setEnabled(addModel.shouldEnable((IStructuredSelection)viewer.getSelection()));
 		manager.add(addModel);
 		addToFilteredClasses.setEnabled(addToFilteredClasses.shouldEnable((IStructuredSelection)viewer.getSelection()));
@@ -125,7 +128,8 @@ public class ModelView extends ViewPart {
 		
 		drillDownAdapter.addNavigationActions(manager);
 		// Other plug-ins can contribute there actions here
-		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
+
+        manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
 	}
 	
 	private void fillLocalToolBar(IToolBarManager manager) {
@@ -153,7 +157,6 @@ public class ModelView extends ViewPart {
 		};
 		setFilter.setText("Filter ...");
 		setFilter.setToolTipText("Configure the filter to constrain the kind model objects show in the tree.");
-					
 	}
 
 	private void hookDoubleClickAction() {

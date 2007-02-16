@@ -13,7 +13,8 @@ public class ExtentTreeObject extends ManTreeObject {
 	private final Extent extent;
 	
 	private static final ExtendableFactory factory = new ExtendableFactory();
-	static {		
+	
+    static {
 		factory.addFactory(new StdBuilderFactory());
 		factory.addFactory(new CMOFBuilderFactory());
 	}

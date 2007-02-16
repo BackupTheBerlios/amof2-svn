@@ -10,9 +10,10 @@ import java.util.*;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.PlatformObject;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.IActionFilter;
 import org.eclipse.ui.views.properties.IPropertySource;
 
-public class TreeObject extends PlatformObject implements IAdaptable {
+public class TreeObject extends PlatformObject implements IAdaptable, IActionFilter {
 
 	private final TreeParent parent;
 	private final java.lang.Object element;
@@ -102,4 +103,16 @@ public class TreeObject extends PlatformObject implements IAdaptable {
 			return super.getAdapter(key);
 		}
 	}
+
+    public boolean testAttribute(Object target, String name, String value) {
+        if (name.equals("element_instance_of")) {
+            try {
+                return Class.forName(value).isInstance(element);
+            }
+            catch (ClassNotFoundException e) {
+                return false;
+            }
+        }
+        return false;
+    }
 }
