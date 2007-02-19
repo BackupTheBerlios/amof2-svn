@@ -68,7 +68,7 @@ public class ModelViewContentProvider implements IStructuredContentProvider, ITr
 	}
 
 	private void initialize() {			
-		invisibleRoot = new InvisibleTreeRoot();
+		invisibleRoot = new InvisibleTreeRoot(view);
 	}
 	
 	public TreeParent getRoot() {
@@ -76,7 +76,7 @@ public class ModelViewContentProvider implements IStructuredContentProvider, ITr
 	}
 		
 	public void addRepository(Repository repository) {
-		invisibleRoot.addChild(new RepositoryTreeObject(repository, invisibleRoot));
+		invisibleRoot.addChild(new RepositoryTreeObject(repository, invisibleRoot, view));
 		view.getViewer().refresh();
 	}
 	

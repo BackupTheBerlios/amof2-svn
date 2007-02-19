@@ -1,6 +1,7 @@
 package hub.sam.mof.plugin.modelview.tree.builder;
 
 import hub.sam.mof.plugin.modelview.Images;
+import hub.sam.mof.plugin.modelview.ModelView;
 import hub.sam.mof.plugin.modelview.tree.IChildManager;
 
 import org.eclipse.swt.graphics.Image;
@@ -10,8 +11,8 @@ import cmof.PrimitiveType;
 public class PrimitiveTypeBuilder extends ClassifierBuilder {
 
 	@Override
-	public void addChildren(Object obj, IChildManager mgr) {
-		super.addChildren(obj, mgr);
+	public void addChildren(Object obj, IChildManager mgr, ModelView view) {
+		super.addChildren(obj, mgr, view);
 	}
 
 	@Override

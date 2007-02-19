@@ -1,5 +1,6 @@
 package hub.sam.mof.plugin.modelview.tree;
 
+
 public class StdBuilderFactory implements IBuilderFactory {
 
 	public IBuilder getBuilder(Object obj) {

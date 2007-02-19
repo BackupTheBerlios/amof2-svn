@@ -1,6 +1,7 @@
 package hub.sam.mof.plugin.modelview.tree.builder;
 
 import hub.sam.mof.plugin.modelview.Images;
+import hub.sam.mof.plugin.modelview.ModelView;
 import hub.sam.mof.plugin.modelview.tree.IChildManager;
 import hub.sam.mof.plugin.modelview.tree.TreeObject;
 
@@ -12,15 +13,15 @@ import cmof.EnumerationLiteral;
 public class EnumerationBuilder extends ClassifierBuilder {
 
 	@Override
-	public void addChildren(Object obj, IChildManager mgr) {
+	public void addChildren(Object obj, IChildManager mgr, ModelView view) {
 		Enumeration enumeration = (Enumeration)obj;
 		for (EnumerationLiteral element: enumeration.getOwnedLiteral()) {
-			TreeObject to = new TreeObject(element, mgr.getParent());
+			TreeObject to = new TreeObject(element, mgr.getParent(), view);
 			to.setText(element.getName());
 			to.setImage(Images.getDefault().getEnumvalue());
 			mgr.addChild(to);
 		}
-		super.addChildren(obj, mgr);
+		super.addChildren(obj, mgr, view);
 	}
 
 	@Override

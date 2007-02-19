@@ -1,6 +1,7 @@
 package hub.sam.mof.plugin.modelview.tree.builder;
 
 import hub.sam.mof.plugin.modelview.Images;
+import hub.sam.mof.plugin.modelview.ModelView;
 import hub.sam.mof.plugin.modelview.tree.IChildManager;
 import hub.sam.mof.plugin.modelview.tree.TreeObject;
 import cmof.MultiplicityElement;
@@ -9,7 +10,7 @@ import cmof.TypedElement;
 
 public class TypedElementBuilder extends ElementBuilder {
 	@Override
-	public void addChildren(Object obj, IChildManager mgr) {
+	public void addChildren(Object obj, IChildManager mgr, ModelView view) {
 		TypedElement typedElement = (TypedElement)obj;
 		
 		TreeObject to = mgr.addChild(typedElement.getType());
@@ -17,7 +18,7 @@ public class TypedElementBuilder extends ElementBuilder {
 		to.setCategory(Categories.TYPE);
 		to.setText(typedElement.getType().getQualifiedName());
 		
-		super.addChildren(obj, mgr);
+		super.addChildren(obj, mgr, view);
 	}
 	
 	@Override

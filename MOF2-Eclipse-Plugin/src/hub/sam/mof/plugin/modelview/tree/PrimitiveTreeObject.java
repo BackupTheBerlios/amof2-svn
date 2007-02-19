@@ -1,13 +1,15 @@
 package hub.sam.mof.plugin.modelview.tree;
 
+import hub.sam.mof.plugin.modelview.ModelView;
+
 import org.eclipse.swt.graphics.Image;
 
 public class PrimitiveTreeObject extends TreeObject {
 
 	private final Object element;
 	
-	protected PrimitiveTreeObject(Object element, TreeParent parent) {
-		super(element, parent);
+	protected PrimitiveTreeObject(Object element, TreeParent parent, ModelView view) {
+		super(element, parent, view);
 		this.element = element;
 	}
 	

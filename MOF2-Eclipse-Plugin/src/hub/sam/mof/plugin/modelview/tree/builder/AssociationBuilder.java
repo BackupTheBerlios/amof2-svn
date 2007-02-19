@@ -1,6 +1,7 @@
 package hub.sam.mof.plugin.modelview.tree.builder;
 
 import hub.sam.mof.plugin.modelview.Images;
+import hub.sam.mof.plugin.modelview.ModelView;
 import hub.sam.mof.plugin.modelview.tree.IChildManager;
 import hub.sam.mof.plugin.modelview.tree.TreeObject;
 
@@ -11,7 +12,7 @@ import cmof.Property;
 
 public class AssociationBuilder extends ClassifierBuilder {
 	@Override
-	public void addChildren(Object obj, IChildManager mgr) {
+	public void addChildren(Object obj, IChildManager mgr, ModelView view) {
 		for(Property property: ((Association)obj).getMemberEnd()) {
 			TreeObject to = mgr.addChild(property);
 			if (property.getOwningAssociation() != null) {
@@ -19,7 +20,7 @@ public class AssociationBuilder extends ClassifierBuilder {
 			}
 		}
 		
-		super.addChildren(obj, mgr);
+		super.addChildren(obj, mgr, view);
 	}
 
 	

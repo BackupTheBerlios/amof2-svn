@@ -3,6 +3,7 @@
  */
 package hub.sam.mof.plugin.modelview.tree;
 
+import hub.sam.mof.plugin.modelview.ModelView;
 import hub.sam.mof.plugin.properties.MOF2PropertySource;
 
 import java.util.*;
@@ -15,17 +16,19 @@ import org.eclipse.ui.views.properties.IPropertySource;
 
 public class TreeObject extends PlatformObject implements IAdaptable, IActionFilter {
 
-	private final TreeParent parent;
+	private TreeParent fParent;
 	private final java.lang.Object element;
 	private Image image = null;
 	private String text = "unknown";
 	private int category = 0;
 	private final IPropertySource propertySource;
+	private final ModelView fView;
 	
-	public TreeObject(java.lang.Object element, TreeParent parent) {
+	public TreeObject(java.lang.Object element, TreeParent parent, ModelView view) {
 		this.element = element;
-		this.parent = parent;
+		this.fParent = parent;
 		this.propertySource = new MOF2PropertySource(element);
+		this.fView = view;
 	}
 	
 	public Object getElement() {
@@ -33,7 +36,7 @@ public class TreeObject extends PlatformObject implements IAdaptable, IActionFil
 	}
 	
 	public TreeParent getParent() {
-		return parent;
+		return fParent;
 	}
 	
 	@Override
@@ -54,7 +57,7 @@ public class TreeObject extends PlatformObject implements IAdaptable, IActionFil
 			return "";
 		} else {
 			return text;
-		}
+		}		
 	}
 
 	public void setText(String from, String text) {
@@ -114,5 +117,13 @@ public class TreeObject extends PlatformObject implements IAdaptable, IActionFil
             }
         }
         return false;
+    }
+    
+    protected ModelView getView() {
+    	return fView;
+    }
+    
+    protected void delete() {
+    	fParent = null;
     }
 }

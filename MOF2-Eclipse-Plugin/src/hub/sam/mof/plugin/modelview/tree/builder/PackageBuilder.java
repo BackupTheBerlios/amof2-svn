@@ -2,6 +2,7 @@ package hub.sam.mof.plugin.modelview.tree.builder;
 
 import hub.sam.mof.plugin.modelview.ImageImageDescriptor;
 import hub.sam.mof.plugin.modelview.Images;
+import hub.sam.mof.plugin.modelview.ModelView;
 import hub.sam.mof.plugin.modelview.OverlayIcon;
 import hub.sam.mof.plugin.modelview.tree.IChildManager;
 import hub.sam.mof.plugin.modelview.tree.TreeObject;
@@ -16,7 +17,7 @@ import cmof.PackageMerge;
 public class PackageBuilder extends NamespaceBuilder {
 
 	@Override
-	public void addChildren(Object obj, IChildManager mgr) {
+	public void addChildren(Object obj, IChildManager mgr, ModelView view) {
 		cmof.Package pkg = (cmof.Package)obj;		
 		for (Object ownedMember: pkg.getOwnedMember()) {			
 			if (ownedMember instanceof PackageMerge) {
@@ -50,7 +51,7 @@ public class PackageBuilder extends NamespaceBuilder {
 			to.setCategory(Categories.MERGED);
 		}*/
 		
-		super.addChildren(obj, mgr);
+		super.addChildren(obj, mgr, view);
 	}
 
 	@Override

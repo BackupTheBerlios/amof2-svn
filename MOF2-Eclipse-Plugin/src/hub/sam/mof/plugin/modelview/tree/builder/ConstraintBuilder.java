@@ -6,18 +6,19 @@ import cmof.NamedElement;
 import cmof.OpaqueExpression;
 import cmof.ValueSpecification;
 import hub.sam.mof.plugin.modelview.Images;
+import hub.sam.mof.plugin.modelview.ModelView;
 import hub.sam.mof.plugin.modelview.tree.IChildManager;
 import hub.sam.mof.plugin.modelview.tree.TreeObject;
 
 public class ConstraintBuilder extends ElementBuilder {
 
 	@Override
-	public void addChildren(Object obj, IChildManager mgr) {
+	public void addChildren(Object obj, IChildManager mgr, ModelView view) {
 		Constraint constraint = (Constraint)obj;
 		
 		ValueSpecification text = constraint.getSpecification();
 		if (text instanceof OpaqueExpression) {
-			TreeObject to = new TreeObject(obj, mgr.getParent());
+			TreeObject to = new TreeObject(obj, mgr.getParent(), view);
 			to.setText(((OpaqueExpression)text).getBody());
 			to.setImage(Images.getDefault().getComment());
 			to.setCategory(Categories.COMMENT);
@@ -30,7 +31,7 @@ public class ConstraintBuilder extends ElementBuilder {
 			to.setImage(Images.getDefault().getDepends());
 			to.setCategory(Categories.DEPENDS);
 		}
-		super.addChildren(obj, mgr);
+		super.addChildren(obj, mgr, view);
 	} 
 
 	@Override

@@ -2,13 +2,13 @@ package hub.sam.mof.plugin.modelview.tree;
 
 import cmof.Property;
 import hub.sam.mof.plugin.modelview.Images;
+import hub.sam.mof.plugin.modelview.ModelView;
 import hub.sam.mof.plugin.modelview.tree.builder.Categories;
 
 public class ObjectBuilder implements IBuilder {
 
-	public TreeObject create(Object obj, TreeParent parent,
-			IBuilderFactory factory) {
-		TreeObject to = new BuildTreeObject(obj, parent, this, factory);
+	public TreeObject create(Object obj, TreeParent parent, IBuilderFactory factory, ModelView view) {
+		TreeObject to = new BuildTreeObject(obj, parent, this, factory, view);
 		to.setImage(Images.getDefault().getObject());
 		to.setCategory(Categories.ELEMENT);
 		{
@@ -34,14 +34,14 @@ public class ObjectBuilder implements IBuilder {
 		return to;
 	}
 
-	public void addChildren(Object obj, IChildManager mgr) {		
+	public void addChildren(Object obj, IChildManager mgr, ModelView view) {		
 		cmof.reflection.Object theObject = (cmof.reflection.Object)obj;
 		
 		cmof.UmlClass metaClass = theObject.getMetaClass();
 		TreeObject metaClassTO = mgr.addChild(metaClass);
 		metaClassTO.setImage(Images.getDefault().getMetaClass());
 		metaClassTO.setCategory(Categories.METACLASS);
-		mgr.addChild(new ComponentsTreeObject(theObject, mgr.getParent(), mgr.getFactory()));
+		mgr.addChild(new ComponentsTreeObject(theObject, mgr.getParent(), mgr.getFactory(), view));
 		
 		cmof.reflection.Object container = theObject.container();
 		if (container != null) {				
@@ -51,7 +51,7 @@ public class ObjectBuilder implements IBuilder {
 		}
 		for (cmof.NamedElement property: metaClass.getMember()) {
 			if (property instanceof Property) {
-				mgr.addChild(new PropertyTreeObject((Property)property, theObject, mgr.getParent(), mgr.getFactory()));
+				mgr.addChild(new PropertyTreeObject((Property)property, theObject, mgr.getParent(), mgr.getFactory(), view));
 			}
 		}
 	}

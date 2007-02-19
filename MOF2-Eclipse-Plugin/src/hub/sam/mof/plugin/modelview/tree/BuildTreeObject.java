@@ -1,5 +1,7 @@
 package hub.sam.mof.plugin.modelview.tree;
 
+import hub.sam.mof.plugin.modelview.ModelView;
+
 import java.util.*;
 
 
@@ -8,8 +10,8 @@ public class BuildTreeObject extends TreeParent {
 	private final IBuilder builder;	final IBuilderFactory factory;
 	final TreeParent self;
 	
-	public BuildTreeObject(Object obj, TreeParent parent, IBuilder builder, IBuilderFactory factory) {
-		super(obj, parent);
+	public BuildTreeObject(Object obj, TreeParent parent, IBuilder builder, IBuilderFactory factory, ModelView view) {
+		super(obj, parent, view);
 		this.builder = builder;
 		this.factory = factory;
 		this.self = this;
@@ -19,7 +21,7 @@ public class BuildTreeObject extends TreeParent {
 	protected Collection<TreeObject> retrieveChildren() {
 		Collection<TreeObject> result = new Vector<TreeObject>();
 		IChildManager mgr = new ChildManager(result);
-		builder.addChildren(getElement(), mgr);
+		builder.addChildren(getElement(), mgr, getView());
 		return result;
 	}
 			
@@ -30,7 +32,7 @@ public class BuildTreeObject extends TreeParent {
 		}
 		public TreeObject addChild(Object childObject) {
 			IBuilder builder = factory.getBuilder(childObject);
-			TreeObject child = builder.create(childObject, self, factory);
+			TreeObject child = builder.create(childObject, self, factory, getView());
 			childNodes.add(child);
 			return child;
 		}

@@ -3,6 +3,7 @@ package hub.sam.mof.plugin.modelview.tree.builder;
 import org.eclipse.swt.graphics.Image;
 
 import hub.sam.mof.plugin.modelview.Images;
+import hub.sam.mof.plugin.modelview.ModelView;
 import hub.sam.mof.plugin.modelview.tree.IChildManager;
 import hub.sam.mof.plugin.modelview.tree.TreeObject;
 import cmof.Operation;
@@ -10,7 +11,7 @@ import cmof.Parameter;
 
 public class OperationBuilder extends NamespaceBuilder {
 	@Override
-	public void addChildren(Object obj, IChildManager mgr) {
+	public void addChildren(Object obj, IChildManager mgr, ModelView view) {
 		Operation operation = (Operation)obj;
 		
 		Object type = operation.getType();
@@ -34,7 +35,7 @@ public class OperationBuilder extends NamespaceBuilder {
 			to.setText(redef.getNamespace().getQualifiedName(), to.getText());
 		}
 		
-		super.addChildren(obj, mgr);
+		super.addChildren(obj, mgr, view);
 	}
 	
 	@Override

@@ -7,6 +7,7 @@ import org.eclipse.swt.graphics.Rectangle;
 
 import hub.sam.mof.plugin.modelview.ImageImageDescriptor;
 import hub.sam.mof.plugin.modelview.Images;
+import hub.sam.mof.plugin.modelview.ModelView;
 import hub.sam.mof.plugin.modelview.OverlayIcon;
 import hub.sam.mof.plugin.modelview.tree.IChildManager;
 import hub.sam.mof.plugin.modelview.tree.TreeObject;
@@ -17,7 +18,7 @@ import cmof.Namespace;
 public abstract class NamespaceBuilder extends ElementBuilder {
 
 	@Override
-	public void addChildren(Object obj, IChildManager mgr) {	
+	public void addChildren(Object obj, IChildManager mgr, ModelView view) {	
 		Namespace ns = (Namespace)obj;
 		
 		for (Constraint constraint: ns.getOwnedRule()) {
@@ -33,6 +34,6 @@ public abstract class NamespaceBuilder extends ElementBuilder {
 					new Point(bounds.height, bounds.width));
 			to.setImage(Images.getDefault().get(newImage));
 		}
-		super.addChildren(obj, mgr);
+		super.addChildren(obj, mgr, view);
 	}
 }

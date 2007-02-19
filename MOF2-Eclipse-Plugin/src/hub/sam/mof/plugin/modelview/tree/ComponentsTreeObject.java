@@ -1,6 +1,7 @@
 package hub.sam.mof.plugin.modelview.tree;
 
 import hub.sam.mof.plugin.modelview.Images;
+import hub.sam.mof.plugin.modelview.ModelView;
 import hub.sam.mof.plugin.modelview.tree.builder.Categories;
 
 import java.util.Collection;
@@ -12,8 +13,8 @@ public class ComponentsTreeObject extends ManTreeObject {
 
 	private final cmof.reflection.Object theObject;
 	
-	public ComponentsTreeObject(cmof.reflection.Object theObject, TreeParent parent, IBuilderFactory factory) {
-		super(theObject, parent, factory);
+	public ComponentsTreeObject(cmof.reflection.Object theObject, TreeParent parent, IBuilderFactory factory, ModelView view) {
+		super(theObject, parent, factory, view);
 		this.theObject = theObject;
 	}
 

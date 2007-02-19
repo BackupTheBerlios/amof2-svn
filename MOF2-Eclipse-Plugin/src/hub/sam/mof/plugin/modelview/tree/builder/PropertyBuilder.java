@@ -1,6 +1,7 @@
 package hub.sam.mof.plugin.modelview.tree.builder;
 
 import hub.sam.mof.plugin.modelview.Images;
+import hub.sam.mof.plugin.modelview.ModelView;
 import hub.sam.mof.plugin.modelview.tree.IChildManager;
 import hub.sam.mof.plugin.modelview.tree.TreeObject;
 
@@ -12,7 +13,7 @@ import cmof.Property;
 public class PropertyBuilder extends TypedElementBuilder {
 
 	@Override
-	public void addChildren(Object obj, IChildManager mgr) {
+	public void addChildren(Object obj, IChildManager mgr, ModelView view) {
 		Property property = (Property)obj;
 		TreeObject to = null;
 		
@@ -54,7 +55,7 @@ public class PropertyBuilder extends TypedElementBuilder {
 				to.setText("null", to.getText());
 			}
 		}
-		super.addChildren(obj, mgr);
+		super.addChildren(obj, mgr, view);
 	}
 	
 	@Override

@@ -1,6 +1,7 @@
 package hub.sam.mof.plugin.modelview.tree;
 
-import java.util.*;
+import java.util.List;
+import java.util.Vector;
 
 public class ExtendableFactory implements IBuilderFactory {
 

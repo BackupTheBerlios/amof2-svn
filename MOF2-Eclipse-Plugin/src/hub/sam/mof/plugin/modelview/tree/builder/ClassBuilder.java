@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import hub.sam.mof.plugin.modelview.ImageImageDescriptor;
 import hub.sam.mof.plugin.modelview.Images;
+import hub.sam.mof.plugin.modelview.ModelView;
 import hub.sam.mof.plugin.modelview.OverlayIcon;
 import hub.sam.mof.plugin.modelview.actions.IShowOtherFeaturesContext;
 import hub.sam.mof.plugin.modelview.tree.IBuilderFactory;
@@ -31,8 +32,8 @@ import cmof.common.ReflectiveCollection;
 public class ClassBuilder extends ClassifierBuilder implements IShowOtherFeaturesContext {
 
 	@Override
-	public TreeObject create(Object obj, TreeParent parent, IBuilderFactory factory) {
-		TreeObject to = super.create(obj, parent, factory);
+	public TreeObject create(Object obj, TreeParent parent, IBuilderFactory factory, ModelView view) {
+		TreeObject to = super.create(obj, parent, factory, view);
 		switchToOwnedFeatures(to);
 		return to;
 	}
@@ -103,7 +104,7 @@ public class ClassBuilder extends ClassifierBuilder implements IShowOtherFeature
 	}
 
 	@Override
-	public void addChildren(Object obj, IChildManager mgr) {
+	public void addChildren(Object obj, IChildManager mgr, ModelView view) {
 		TreeObject to = mgr.getParent();
 		UmlClass theClass = (UmlClass)obj;
 		
@@ -160,7 +161,7 @@ public class ClassBuilder extends ClassifierBuilder implements IShowOtherFeature
 			} 
 		}
 			
-		super.addChildren(obj, mgr);
+		super.addChildren(obj, mgr, view);
 	}
 	
 	@Override

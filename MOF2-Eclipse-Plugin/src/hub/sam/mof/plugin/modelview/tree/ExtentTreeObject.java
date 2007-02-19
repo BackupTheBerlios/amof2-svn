@@ -2,6 +2,7 @@ package hub.sam.mof.plugin.modelview.tree;
 
 import cmof.reflection.*;
 import hub.sam.mof.plugin.modelview.Images;
+import hub.sam.mof.plugin.modelview.ModelView;
 
 import java.util.*;
 
@@ -19,8 +20,8 @@ public class ExtentTreeObject extends ManTreeObject {
 		factory.addFactory(new CMOFBuilderFactory());
 	}
 	
-	public ExtentTreeObject(Extent extent, String extentName, TreeParent parent) {
-		super(extent, parent, factory);
+	public ExtentTreeObject(Extent extent, String extentName, TreeParent parent, ModelView view) {
+		super(extent, parent, factory, view);
 		this.extent = extent;
 		this.extentName = extentName;
 	}

@@ -1,5 +1,6 @@
 package hub.sam.mof.plugin.modelview.tree;
 
+import hub.sam.mof.plugin.modelview.ModelView;
 import hub.sam.mof.plugin.modelview.tree.builder.AssociationBuilder;
 import hub.sam.mof.plugin.modelview.tree.builder.ClassBuilder;
 import hub.sam.mof.plugin.modelview.tree.builder.ClassifierBuilder;
