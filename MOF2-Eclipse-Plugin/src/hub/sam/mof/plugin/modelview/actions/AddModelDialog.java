@@ -141,10 +141,10 @@ public class AddModelDialog extends Dialog {
 			}			
 		});
 		
-		staticModelClassRadio.setSelection(true);
-		classNameField.setEnabled(true);
-		xmiFileField.setEnabled(false);
-		xmiBrowse.setEnabled(false);
+		xmiFileRadio.setSelection(true);
+		classNameField.setEnabled(false);
+		xmiFileField.setEnabled(true);
+		xmiBrowse.setEnabled(true);
 		return main;
 	}
 	

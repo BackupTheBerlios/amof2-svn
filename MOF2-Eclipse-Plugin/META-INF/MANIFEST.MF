@@ -16,4 +16,3 @@ Eclipse-LazyStart: true
 Export-Package: hub.sam.mof.plugin,
  hub.sam.mof.plugin.modelview,
  hub.sam.mof.plugin.modelview.tree
-Bundle-ClassPath: aMOF2.0forJava.jar
