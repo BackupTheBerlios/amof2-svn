@@ -4,9 +4,13 @@ import hub.sam.mof.Repository;
 import hub.sam.mof.plugin.modelview.Images;
 import hub.sam.mof.plugin.modelview.ModelView;
 
+import java.io.FileInputStream;
 import java.util.*;
 
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.graphics.Image;
+
+import cmof.reflection.Extent;
 
 public class RepositoryTreeObject extends TreeParent {
 
@@ -42,5 +46,41 @@ public class RepositoryTreeObject extends TreeParent {
 	@Override
 	public Image getImage() {
 		return Images.getDefault().getRepository();
-	}	
+	}
+    
+    public Extent addStaticModel(String className) {
+        try {
+            Extent extent = getElement().addStaticModel( Thread.currentThread().getContextClassLoader().loadClass(className) );
+            refresh();
+            return extent;
+        }
+        catch (Exception e) {
+            MessageDialog.openError(
+                    getView().getViewer().getControl().getShell(),
+                    "Could not create ...",
+                    "Could not create static model: " + e.getMessage());
+        }
+        return null;
+    }
+    
+    public Extent addXmiModel(String xmiFileName) {
+        Extent extent = null;
+        try {
+            if (xmiFileName.endsWith(".xml")) {
+                extent = getElement().addXmiModel(new FileInputStream(xmiFileName), xmiFileName, Repository.XMI2);
+            }
+            else if (xmiFileName.endsWith(".mdxml")) {
+                extent = getElement().addXmiModel(new FileInputStream(xmiFileName), xmiFileName, Repository.MD);
+            }
+        }
+        catch (Exception e) {
+            MessageDialog.openError(
+                    getView().getViewer().getControl().getShell(),
+                    "Could not create ...",
+                    "Could not create model: " + e.getMessage());
+        }
+        refresh();
+        return extent;
+    }
+    
 }

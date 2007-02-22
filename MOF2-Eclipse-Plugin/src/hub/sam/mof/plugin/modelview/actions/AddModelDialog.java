@@ -1,8 +1,5 @@
 package hub.sam.mof.plugin.modelview.actions;
 
-import java.io.FileInputStream;
-
-import hub.sam.mof.Repository;
 import hub.sam.mof.plugin.modelview.ModelView;
 import hub.sam.mof.plugin.modelview.tree.RepositoryTreeObject;
 
@@ -10,7 +7,6 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -33,13 +29,13 @@ public class AddModelDialog extends Dialog {
 	private Button xmiFileRadio;
 	Button xmiBrowse;
 	private String className = null;
-	private final ModelView view;
+    private final ModelView view;
 	
 	protected AddModelDialog(Shell parentShell, ModelView view) {
 		super(parentShell);
-		parentShell.setText("Add a repository");
+		parentShell.setText("Add Model");
 		this.className = "";
-		this.view = view;
+        this.view = view;
 	}
 	
 	@Override
@@ -167,57 +163,30 @@ public class AddModelDialog extends Dialog {
 
 	@Override
 	protected void okPressed() {
-		if (isLocalRepositorySelected()) {			
+        IStructuredSelection selection = (IStructuredSelection) view.getViewer().getSelection();
+        RepositoryTreeObject repositoryTreeObject = (RepositoryTreeObject) selection.getFirstElement();
+
+        if (isLocalRepositorySelected()) {			
 			String className = classNameField.getText();
 			if (className == null || className.length() == 0) {
 				return;
 			}
 			this.className = className;
-			RepositoryTreeObject repositoryTreeObject = (RepositoryTreeObject)((IStructuredSelection)view.getViewer().
-					getSelection()).getFirstElement();
-			try {
-				repositoryTreeObject.getElement().addStaticModel( Thread.currentThread().getContextClassLoader().loadClass(className) );
-			} catch (Exception e) {
-				MessageDialog.openError(
-						view.getViewer().getControl().getShell(),
-						"Could not create ...",
-						"Could not create static model: " + e.getMessage());
-				return;
-			}
-			repositoryTreeObject.refresh();
-			view.getViewer().refresh();
-			super.okPressed();
-			return;
-		} else {
+            repositoryTreeObject.addStaticModel(className);
+		}
+        else {
 			String xmiFileName = xmiFileField.getText();
 			if (xmiFileName == null || xmiFileName.length() == 0) {
 				return;
 			}
 			this.className = xmiFileName;
-			RepositoryTreeObject repositoryTreeObject = (RepositoryTreeObject)((IStructuredSelection)view.getViewer().
-					getSelection()).getFirstElement();
-			try {
-                if (xmiFileName.endsWith(".xml")) {
-                    repositoryTreeObject.getElement().addXmiModel(new FileInputStream(xmiFileName), xmiFileName, Repository.XMI2);
-                }
-                else if (xmiFileName.endsWith(".mdxml")) {
-                    repositoryTreeObject.getElement().addXmiModel(new FileInputStream(xmiFileName), xmiFileName, Repository.MD);
-                }
-			} catch (Exception e) {
-				MessageDialog.openError(
-						view.getViewer().getControl().getShell(),
-						"Could not create ...",
-						"Could not create model: " + e.getMessage());
-				return;
-			}
-			repositoryTreeObject.refresh();
-			view.getViewer().refresh();
-			super.okPressed();
-			return;
+            repositoryTreeObject.addXmiModel(xmiFileName);
 		}		
+        view.getViewer().refresh();
+        super.okPressed();
 	}
-
-	@Override
+    
+    @Override
 	protected void cancelPressed() {
 		className = null;
 		super.cancelPressed();

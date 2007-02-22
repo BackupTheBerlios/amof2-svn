@@ -43,6 +43,7 @@ public class ModelView extends ViewPart {
 	private ShowFinalFeaturesAction showFinalFeatures;
 	private ShowOwnedFeaturesAction showOwnedFeatures;
 	private Action setFilter;
+    private RemoveModelAction removeModel;
 
 	/*
 	 * The content provider class is responsible for
@@ -129,6 +130,10 @@ public class ModelView extends ViewPart {
 		drillDownAdapter.addNavigationActions(manager);
 		// Other plug-ins can contribute there actions here
 
+        manager.add(new Separator());
+        removeModel.setEnabled(removeModel.shouldEnable((IStructuredSelection)viewer.getSelection()));
+        manager.add(removeModel);
+
         manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
 	}
 	
@@ -147,6 +152,7 @@ public class ModelView extends ViewPart {
 		showInheritedFeatures = new ShowInheritedFeaturesAction(this);
 		showOwnedFeatures = new ShowOwnedFeaturesAction(this);
 		showFinalFeatures = new ShowFinalFeaturesAction(this);
+        removeModel = new RemoveModelAction(this);
 		
 		setFilter = new Action() {
 			@Override

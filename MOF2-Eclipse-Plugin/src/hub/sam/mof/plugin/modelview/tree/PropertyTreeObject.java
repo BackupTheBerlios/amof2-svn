@@ -4,8 +4,6 @@ import hub.sam.mof.plugin.modelview.Images;
 import hub.sam.mof.plugin.modelview.ModelView;
 import hub.sam.mof.plugin.modelview.tree.builder.Categories;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.Collection;
 
 import org.eclipse.swt.graphics.Image;

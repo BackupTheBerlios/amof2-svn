@@ -22,7 +22,7 @@ public class AddModelAction extends ContextAction {
 	public void runFor(TreeObject obj) {	
 		Display display=Display.getCurrent();
 	    Shell shell=new Shell(display);
-	    AddModelDialog dialog = new AddModelDialog(shell, view);
+        AddModelDialog dialog = new AddModelDialog(shell, view);
 	    dialog.open();
 	    shell.dispose();	
 	}
@@ -31,4 +31,5 @@ public class AddModelAction extends ContextAction {
 	public boolean isEnabledFor(TreeObject selection) {
 		return selection instanceof hub.sam.mof.plugin.modelview.tree.RepositoryTreeObject;		
 	}
+    
 }
