@@ -6,14 +6,20 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.*;
 
+import org.eclipse.ui.PlatformUI;
+
 public abstract class  TreeParent extends TreeObject {
 	private Collection<TreeObject> children = null;
 	private boolean isCacheValid = false;
 	private final MyPropertyChangeListener listener = new MyPropertyChangeListener();
 	
 	class MyPropertyChangeListener implements PropertyChangeListener {
-		public void propertyChange(PropertyChangeEvent evt) {			
-			getView().getViewer().refresh(getParent());
+		public void propertyChange(PropertyChangeEvent evt) {		
+			PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+				public void run() {
+					getView().getViewer().refresh(getParent());		
+				}				
+			});
 		}
 	}
 	
