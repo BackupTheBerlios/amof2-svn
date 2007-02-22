@@ -13,10 +13,14 @@ public class TypedElementBuilder extends ElementBuilder {
 	public void addChildren(Object obj, IChildManager mgr, ModelView view) {
 		TypedElement typedElement = (TypedElement)obj;
 		
-		TreeObject to = mgr.addChild(typedElement.getType());
-		to.setImage(Images.getDefault().getType());
-		to.setCategory(Categories.TYPE);
-		to.setText(typedElement.getType().getQualifiedName());
+        if (typedElement.getType() != null) {
+    		TreeObject to = mgr.addChild(typedElement.getType());
+    		to.setImage(Images.getDefault().getType());
+    		to.setCategory(Categories.TYPE);
+    		to.setText(typedElement.getType().getQualifiedName());
+        } else {
+            // TODO
+        }
 		
 		super.addChildren(obj, mgr, view);
 	}
