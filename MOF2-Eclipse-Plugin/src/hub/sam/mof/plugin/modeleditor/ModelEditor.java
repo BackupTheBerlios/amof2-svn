@@ -1,40 +1,30 @@
-/**
- * 
- */
 package hub.sam.mof.plugin.modeleditor;
 
-import java.io.IOException;
-
 import hub.sam.mof.Repository;
-import hub.sam.mof.plugin.modelview.ModelViewContentProvider;
-import hub.sam.mof.plugin.modelview.ModelViewLabelProvider;
-import hub.sam.mof.plugin.modelview.tree.builder.Categories;
+import hub.sam.mof.plugin.modelview.IModelTreeContentContentProvider;
+import hub.sam.mof.plugin.modelview.ModelViewActionManager;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.TreeViewer;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IPathEditorInput;
 import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.part.DrillDownAdapter;
 import org.eclipse.ui.part.EditorPart;
 
 import cmof.Package;
 import cmof.reflection.Extent;
 
-/**
- * @author guwac
- *
- */
 public class ModelEditor extends EditorPart {
 
 	private static final Repository REPOSITORY = Repository.getLocalRepository();
 	private static final Extent CMOF_EXTENT = REPOSITORY.getExtent(Repository.CMOF_EXTENT_NAME);
 	private static final Package CMOF_PACKAGE = (Package) CMOF_EXTENT.query("Package:cmof");
 	
-	private TreeViewer viewer;
+	private final ModelViewActionManager actions = new ModelViewActionManager();
+
 	private Extent extent;
 	
 	/**
@@ -74,16 +64,13 @@ public class ModelEditor extends EditorPart {
 	 */
 	@Override
 	public void createPartControl(Composite parent) {
-		
-		viewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
-		ExtentViewContentProvider provider = new ExtentViewContentProvider(this, viewer);
-		provider.setExtent(extent);
-		viewer.setContentProvider(provider);
-        		
-		viewer.setLabelProvider(ModelViewLabelProvider.getDefault());			
-		viewer.setInput(getEditorSite());
-		viewer.setSorter(new Categories());
-		getSite().setSelectionProvider(viewer);
+		actions.createPartControl(parent, new IModelTreeContentContentProvider() {
+			public IStructuredContentProvider getContentProvider(TreeViewer viewer) {
+				ExtentViewContentProvider result = new ExtentViewContentProvider(ModelEditor.this, viewer);
+				result.setExtent(extent);
+				return result;
+			}			
+		}, getEditorSite(), getSite());
 	}
 
 	/**
@@ -92,7 +79,7 @@ public class ModelEditor extends EditorPart {
 	@Override
 	public void setFocus() {
 		
-		viewer.getControl().setFocus();
+		actions.getViewer().getControl().setFocus();
 	}
 
 	/**
@@ -140,8 +127,7 @@ public class ModelEditor extends EditorPart {
 	 * @see org.eclipse.ui.part.WorkbenchPart#dispose()
 	 */
 	@Override
-	public void dispose() {
-		
+	public void dispose() {		
 		Repository.getLocalRepository().deleteExtent(extent.toString());
 		super.dispose();
 	}

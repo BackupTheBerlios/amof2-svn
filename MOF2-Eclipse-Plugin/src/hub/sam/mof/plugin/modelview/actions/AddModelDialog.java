@@ -8,6 +8,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -29,9 +30,9 @@ public class AddModelDialog extends Dialog {
 	private Button xmiFileRadio;
 	Button xmiBrowse;
 	private String className = null;
-    private final ModelView view;
+    private final TreeViewer view;
 	
-	protected AddModelDialog(Shell parentShell, ModelView view) {
+	protected AddModelDialog(Shell parentShell, TreeViewer view) {
 		super(parentShell);
 		parentShell.setText("Add Model");
 		this.className = "";
@@ -163,7 +164,7 @@ public class AddModelDialog extends Dialog {
 
 	@Override
 	protected void okPressed() {
-        IStructuredSelection selection = (IStructuredSelection) view.getViewer().getSelection();
+        IStructuredSelection selection = (IStructuredSelection) view.getSelection();
         RepositoryTreeObject repositoryTreeObject = (RepositoryTreeObject) selection.getFirstElement();
 
         if (isLocalRepositorySelected()) {			
@@ -182,7 +183,7 @@ public class AddModelDialog extends Dialog {
 			this.className = xmiFileName;
             repositoryTreeObject.addXmiModel(xmiFileName);
 		}		
-        view.getViewer().refresh();
+        view.refresh();
         super.okPressed();
 	}
     

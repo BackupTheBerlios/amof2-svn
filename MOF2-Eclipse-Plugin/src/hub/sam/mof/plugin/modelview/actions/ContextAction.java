@@ -5,19 +5,20 @@ import hub.sam.mof.plugin.modelview.tree.TreeObject;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.TreeViewer;
 
 public abstract class ContextAction extends Action {
 
-	protected final ModelView view;
+	protected final TreeViewer view;
 	
 	abstract protected boolean isEnabledFor(TreeObject obj); 	
 	abstract protected void runFor(TreeObject obj);
 	
-	public ContextAction(ModelView view) {
+	public ContextAction(TreeViewer view) {
 		this.view = view;
 	}
 	
-	public ContextAction(ModelView view, String text, int param) {
+	public ContextAction(TreeViewer view, String text, int param) {
 		super(text, param);
 		this.view = view;
 	}
@@ -36,6 +37,6 @@ public abstract class ContextAction extends Action {
 	
 	@Override
 	public void run() {		
-		runFor((TreeObject)((IStructuredSelection)view.getViewer().getSelection()).getFirstElement());		
+		runFor((TreeObject)((IStructuredSelection)view.getSelection()).getFirstElement());		
 	}
 }

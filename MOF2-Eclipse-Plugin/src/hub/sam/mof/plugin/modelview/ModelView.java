@@ -1,18 +1,12 @@
 package hub.sam.mof.plugin.modelview;
 
 import hub.sam.mof.Repository;
-import hub.sam.mof.plugin.modeleditor.ExtentViewContentProvider;
-import hub.sam.mof.plugin.modelview.actions.*;
-import hub.sam.mof.plugin.modelview.tree.builder.Categories;
 
+import org.eclipse.jface.viewers.IStructuredContentProvider;
+import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.part.*;
-import org.eclipse.jface.viewers.*;
-import org.eclipse.jface.action.*;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.ui.*;
-import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.SWT;
+import org.eclipse.ui.part.ViewPart;
 
 
 /**
@@ -34,17 +28,8 @@ import org.eclipse.swt.SWT;
  */
 
 public class ModelView extends ViewPart {
-	TreeViewer viewer;
-	private DrillDownAdapter drillDownAdapter;
-	private RefreshAction refreshAction;
-	private AddModelAction addModel;
-	private AddToFilteredClassesAction addToFilteredClasses;
-	private ShowDetailsAction showDetails;
-	private ShowInheritedFeaturesAction showInheritedFeatures;
-	private ShowFinalFeaturesAction showFinalFeatures;
-	private ShowOwnedFeaturesAction showOwnedFeatures;
-	private Action setFilter;
-    private RemoveModelAction removeModel;
+	
+	private final ModelViewActionManager actions = new ModelViewActionManager();
 
 	/*
 	 * The content provider class is responsible for
@@ -65,130 +50,26 @@ public class ModelView extends ViewPart {
 	 * to create the viewer and initialize it.
 	 */
 	@Override
-	public void createPartControl(Composite parent) {				
-		viewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
-		drillDownAdapter = new DrillDownAdapter(viewer);
-		viewer.setContentProvider(new ModelViewContentProvider(this));
-        		
-		viewer.setLabelProvider(ModelViewLabelProvider.getDefault());			
-		viewer.setInput(getViewSite());
-		viewer.setSorter(new Categories());
-		getSite().setSelectionProvider(viewer);
-		makeActions();
-		hookContextMenu();
-		hookDoubleClickAction();
-		contributeToActionBars();
+	public void createPartControl(Composite parent) {
+		actions.createPartControl(parent, new IModelTreeContentContentProvider() {
+			public IStructuredContentProvider getContentProvider(TreeViewer viewer) {
+				ModelViewContentProvider result = new ModelViewContentProvider(ModelView.this);
+				result.addRepository(Repository.getLocalRepository());
+				return result;
+			}			
+		}, getViewSite(), getSite());		
+		actions.contributeToActionBars(getViewSite());
 	}
 
 	public TreeViewer getViewer() {
-		return viewer;
+		return actions.getViewer();
 	}
 	
-	private void hookContextMenu() {
-		MenuManager menuMgr = new MenuManager("#MOF2PluginPopupMenu");
-		menuMgr.setRemoveAllWhenShown(true);
-		menuMgr.addMenuListener(new IMenuListener() {
-			public void menuAboutToShow(IMenuManager manager) {
-				fillContextMenu(manager);
-			}
-		});
-		Menu menu = menuMgr.createContextMenu(viewer.getControl());
-		viewer.getControl().setMenu(menu);
-		getSite().registerContextMenu("hub.sam.mof.plugin.popupMenu", menuMgr, viewer);
-	}
-
-	private void contributeToActionBars() {
-		IActionBars bars = getViewSite().getActionBars();
-		fillLocalPullDown(bars.getMenuManager());
-		fillLocalToolBar(bars.getToolBarManager());
-	}
-
-	private void fillLocalPullDown(IMenuManager manager) {
-		manager.add(refreshAction);
-		manager.add(new Separator());
-		manager.add(setFilter);
-	}
-
-	void fillContextMenu(IMenuManager manager) {
-        manager.add(new GroupMarker("topAdditions"));
-        manager.add(new Separator());
-        
-		addModel.setEnabled(addModel.shouldEnable((IStructuredSelection)viewer.getSelection()));
-		manager.add(addModel);
-		addToFilteredClasses.setEnabled(addToFilteredClasses.shouldEnable((IStructuredSelection)viewer.getSelection()));
-		manager.add(addToFilteredClasses);
-		showDetails.setEnabled(showDetails.shouldEnable((IStructuredSelection)viewer.getSelection()));
-		manager.add(showDetails);
-		
-		manager.add(new Separator());
-		showInheritedFeatures.setEnabled(showInheritedFeatures.shouldEnable((IStructuredSelection)viewer.getSelection()));
-		manager.add(showInheritedFeatures);
-		showFinalFeatures.setEnabled(showFinalFeatures.shouldEnable((IStructuredSelection)viewer.getSelection()));
-		manager.add(showFinalFeatures);
-		showOwnedFeatures.setEnabled(showOwnedFeatures.shouldEnable((IStructuredSelection)viewer.getSelection()));
-		manager.add(showOwnedFeatures);		
-		manager.add(new Separator());
-		
-		drillDownAdapter.addNavigationActions(manager);
-		// Other plug-ins can contribute there actions here
-
-        manager.add(new Separator());
-        removeModel.setEnabled(removeModel.shouldEnable((IStructuredSelection)viewer.getSelection()));
-        manager.add(removeModel);
-
-        manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
-	}
-	
-	private void fillLocalToolBar(IToolBarManager manager) {
-		manager.add(refreshAction);
-		manager.add(new Separator());
-		drillDownAdapter.addNavigationActions(manager);
-	}
-
-	private void makeActions() {
-        ((ModelViewContentProvider) viewer.getContentProvider()).addRepository(Repository.getLocalRepository());
-        
-		refreshAction = new RefreshAction(this);
-		addModel = new AddModelAction(this);
-		addToFilteredClasses = new AddToFilteredClassesAction(this);
-		showDetails = new ShowDetailsAction(this);
-		showInheritedFeatures = new ShowInheritedFeaturesAction(this);
-		showOwnedFeatures = new ShowOwnedFeaturesAction(this);
-		showFinalFeatures = new ShowFinalFeaturesAction(this);
-        removeModel = new RemoveModelAction(this);
-		
-		setFilter = new Action() {
-			@Override
-			@SuppressWarnings("synthetic-access")
-			public void run() {
-				showMessage("setFilter executed");
-			}
-		};
-		setFilter.setText("Filter ...");
-		setFilter.setToolTipText("Configure the filter to constrain the kind model objects show in the tree.");
-	}
-
-	private void hookDoubleClickAction() {
-		viewer.addDoubleClickListener(new IDoubleClickListener() {
-			@SuppressWarnings("synthetic-access")
-			public void doubleClick(DoubleClickEvent event) {
-				drillDownAdapter.goInto(((IStructuredSelection)event.getSelection()).getFirstElement());
-			}
-		});
-	}
-	
-	public void showMessage(String message) {
-		MessageDialog.openInformation(
-			viewer.getControl().getShell(),
-			"Model View",
-			message);
-	}
-
 	/**
 	 * Passing the focus request to the viewer's control.
 	 */
 	@Override
 	public void setFocus() {
-		viewer.getControl().setFocus();
+		getViewer().getControl().setFocus();
 	}
 }

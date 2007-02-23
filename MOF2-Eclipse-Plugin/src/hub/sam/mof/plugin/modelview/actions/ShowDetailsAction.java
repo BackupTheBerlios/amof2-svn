@@ -1,13 +1,14 @@
 package hub.sam.mof.plugin.modelview.actions;
 
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.viewers.TreeViewer;
 
 import hub.sam.mof.plugin.modelview.ModelView;
 import hub.sam.mof.plugin.modelview.tree.TreeObject;
 
 public class ShowDetailsAction extends ContextAction {
 
-	public ShowDetailsAction(ModelView view) {
+	public ShowDetailsAction(TreeViewer view) {
 		super(view, "Show Details", IAction.AS_CHECK_BOX);			
 	}
 
@@ -24,6 +25,6 @@ public class ShowDetailsAction extends ContextAction {
 	protected void runFor(TreeObject obj) {
 		IShowDetailsContext context = (IShowDetailsContext)obj.getContext();
 		context.switchShowDetails(obj);
-		view.getViewer().refresh(obj);
+		view.refresh(obj);
 	}		
 }

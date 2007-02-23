@@ -1,17 +1,17 @@
 package hub.sam.mof.plugin.modelview.actions;
 
-import hub.sam.mof.plugin.modelview.ModelView;
 import hub.sam.mof.plugin.modelview.ModelViewContentProvider;
 
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 
 public class RefreshAction extends Action {
 		
-	private final ModelView view;
+	private final TreeViewer view;
 
-	public RefreshAction(ModelView view) {
+	public RefreshAction(TreeViewer view) {
 		this.view = view;
 		setText("Refresh");	
 		setImageDescriptor(PlatformUI.getWorkbench().getSharedImages()
@@ -20,7 +20,7 @@ public class RefreshAction extends Action {
 
 	@Override
 	public void run() {
-		((ModelViewContentProvider)view.getViewer().getContentProvider()).getRoot().refresh();
-		view.getViewer().refresh();
+		((ModelViewContentProvider)view.getContentProvider()).getRoot().refresh();
+		view.refresh();
 	}
 }

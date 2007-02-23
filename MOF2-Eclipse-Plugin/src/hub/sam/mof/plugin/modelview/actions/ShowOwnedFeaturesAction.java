@@ -1,10 +1,10 @@
 package hub.sam.mof.plugin.modelview.actions;
 
-import hub.sam.mof.plugin.modelview.ModelView;
+import org.eclipse.jface.viewers.TreeViewer;
 
 public class ShowOwnedFeaturesAction extends ShowOtherFeaturesActions {
 
-	public ShowOwnedFeaturesAction(ModelView view) {
+	public ShowOwnedFeaturesAction(TreeViewer view) {
 		super(view, "Show only owned features");
 	}
 

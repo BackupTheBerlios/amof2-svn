@@ -4,9 +4,10 @@ import hub.sam.mof.plugin.modelview.ModelView;
 import hub.sam.mof.plugin.modelview.tree.TreeObject;
 
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.viewers.TreeViewer;
 
 public abstract class ShowOtherFeaturesActions extends ContextAction {
-	public ShowOtherFeaturesActions(ModelView view, String text) {
+	public ShowOtherFeaturesActions(TreeViewer view, String text) {
 		super(view, text, IAction.AS_RADIO_BUTTON);			
 	}
 
@@ -23,7 +24,7 @@ public abstract class ShowOtherFeaturesActions extends ContextAction {
 	protected void runFor(TreeObject obj) {
 		IShowOtherFeaturesContext context = (IShowOtherFeaturesContext)obj.getContext();
 		switchTo(context, obj);
-		view.getViewer().refresh(obj);
+		view.refresh(obj);
 		
 	}
 	

@@ -1,10 +1,10 @@
 package hub.sam.mof.plugin.modelview.actions;
 
-import hub.sam.mof.plugin.modelview.ModelView;
+import org.eclipse.jface.viewers.TreeViewer;
 
 public class ShowFinalFeaturesAction extends ShowOtherFeaturesActions {
 
-	public ShowFinalFeaturesAction(ModelView view) {
+	public ShowFinalFeaturesAction(TreeViewer view) {
 		super(view, "Show all final features");
 	}
 

@@ -76,6 +76,9 @@ public class ModelViewContentProvider implements IStructuredContentProvider, ITr
 	}
 	
 	public void addRepository(Repository repository) {
+		if (invisibleRoot == null) {
+			initialize();
+		}
 		invisibleRoot.addChild(new RepositoryTreeObject(repository, invisibleRoot, view.getViewer()));
 		view.getViewer().refresh();
 	}

@@ -1,16 +1,16 @@
 package hub.sam.mof.plugin.modelview.actions;
 
-import hub.sam.mof.plugin.modelview.ModelView;
 import hub.sam.mof.plugin.modelview.tree.ExtentTreeObject;
 import hub.sam.mof.plugin.modelview.tree.RepositoryTreeObject;
 import hub.sam.mof.plugin.modelview.tree.TreeObject;
 
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 
 public class RemoveModelAction extends ContextAction {
 	
-	public RemoveModelAction(ModelView view) {
+	public RemoveModelAction(TreeViewer view) {
 		super(view);		
 		setText("Remove model ...");
 		setToolTipText("Deletes the extent.");
@@ -25,7 +25,7 @@ public class RemoveModelAction extends ContextAction {
         RepositoryTreeObject repositoryTreeObject = (RepositoryTreeObject) toDelete.getParent();
         repositoryTreeObject.getChildren().remove(toDelete);
         repositoryTreeObject.getElement().deleteExtent( ((ExtentTreeObject) toDelete).getText() );
-        view.getViewer().refresh();
+        view.refresh();
 	}
 	
 	@Override
