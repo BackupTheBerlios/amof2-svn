@@ -1,11 +1,7 @@
 package hub.sam.mof.plugin.modelview.tree.builder;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 import hub.sam.mof.plugin.modelview.ImageImageDescriptor;
 import hub.sam.mof.plugin.modelview.Images;
-import hub.sam.mof.plugin.modelview.ModelView;
 import hub.sam.mof.plugin.modelview.OverlayIcon;
 import hub.sam.mof.plugin.modelview.actions.IShowOtherFeaturesContext;
 import hub.sam.mof.plugin.modelview.tree.IBuilderFactory;
@@ -16,23 +12,26 @@ import hub.sam.mof.util.ListImpl;
 import hub.sam.mof.util.SetImpl;
 import hub.sam.util.MultiMap;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
-
-import core.abstractions.namespaces.NamedElement;
-import core.abstractions.redefinitions.RedefinableElement;
 
 import cmof.Operation;
 import cmof.Property;
 import cmof.UmlClass;
 import cmof.common.ReflectiveCollection;
+import core.abstractions.namespaces.NamedElement;
+import core.abstractions.redefinitions.RedefinableElement;
 
 public class ClassBuilder extends ClassifierBuilder implements IShowOtherFeaturesContext {
 
 	@Override
-	public TreeObject create(Object obj, TreeParent parent, IBuilderFactory factory, ModelView view) {
+	public TreeObject create(Object obj, TreeParent parent, IBuilderFactory factory, TreeViewer view) {
 		TreeObject to = super.create(obj, parent, factory, view);
 		switchToOwnedFeatures(to);
 		return to;
@@ -104,7 +103,7 @@ public class ClassBuilder extends ClassifierBuilder implements IShowOtherFeature
 	}
 
 	@Override
-	public void addChildren(Object obj, IChildManager mgr, ModelView view) {
+	public void addChildren(Object obj, IChildManager mgr, TreeViewer view) {
 		TreeObject to = mgr.getParent();
 		UmlClass theClass = (UmlClass)obj;
 		

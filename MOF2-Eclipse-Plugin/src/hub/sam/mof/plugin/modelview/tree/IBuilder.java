@@ -1,10 +1,10 @@
 package hub.sam.mof.plugin.modelview.tree;
 
-import hub.sam.mof.plugin.modelview.ModelView;
+import org.eclipse.jface.viewers.TreeViewer;
 
 
 public interface IBuilder {
-	public TreeObject create(Object obj, TreeParent parent, IBuilderFactory factory, ModelView view);
+	public TreeObject create(Object obj, TreeParent parent, IBuilderFactory factory, TreeViewer view);
 		
-	public void addChildren(Object obj, IChildManager mgr, ModelView view);
+	public void addChildren(Object obj, IChildManager mgr, TreeViewer view);
 }

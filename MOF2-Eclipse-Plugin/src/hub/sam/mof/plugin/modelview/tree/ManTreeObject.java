@@ -1,13 +1,13 @@
 package hub.sam.mof.plugin.modelview.tree;
 
-import hub.sam.mof.plugin.modelview.ModelView;
+import org.eclipse.jface.viewers.TreeViewer;
 
 
 public class ManTreeObject extends TreeParent {
 
 	private final IBuilderFactory factory;
 	
-	public ManTreeObject(java.lang.Object obj, TreeParent parent, IBuilderFactory factory, ModelView view) {
+	public ManTreeObject(java.lang.Object obj, TreeParent parent, IBuilderFactory factory, TreeViewer view) {
 		super(obj, parent, view);
 		this.factory = factory;
 	}

@@ -1,16 +1,18 @@
 package hub.sam.mof.plugin.modelview.tree.builder;
 
 import hub.sam.mof.plugin.modelview.Images;
-import hub.sam.mof.plugin.modelview.ModelView;
 import hub.sam.mof.plugin.modelview.tree.IChildManager;
 import hub.sam.mof.plugin.modelview.tree.TreeObject;
+
+import org.eclipse.jface.viewers.TreeViewer;
+
 import cmof.MultiplicityElement;
 import cmof.NamedElement;
 import cmof.TypedElement;
 
 public class TypedElementBuilder extends ElementBuilder {
 	@Override
-	public void addChildren(Object obj, IChildManager mgr, ModelView view) {
+	public void addChildren(Object obj, IChildManager mgr, TreeViewer view) {
 		TypedElement typedElement = (TypedElement)obj;
 		
         if (typedElement.getType() != null) {

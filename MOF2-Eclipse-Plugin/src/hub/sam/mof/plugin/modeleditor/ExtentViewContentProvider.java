@@ -1,39 +1,41 @@
-package hub.sam.mof.plugin.modelview;
+package hub.sam.mof.plugin.modeleditor;
 
-import java.util.*;
-
-import hub.sam.mof.Repository;
-import hub.sam.mof.plugin.modelview.tree.InvisibleTreeRoot;
-import hub.sam.mof.plugin.modelview.tree.RepositoryTreeObject;
+import hub.sam.mof.plugin.modelview.Filter;
+import hub.sam.mof.plugin.modelview.tree.ExtentTreeObject;
 import hub.sam.mof.plugin.modelview.tree.TreeObject;
 import hub.sam.mof.plugin.modelview.tree.TreeParent;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.ui.IEditorPart;
 
-public class ModelViewContentProvider implements IStructuredContentProvider, ITreeContentProvider {
+import cmof.reflection.Extent;
 
-	private final ModelView view;
+public class ExtentViewContentProvider implements IStructuredContentProvider, ITreeContentProvider {
+
+	private final IEditorPart editorPart;
+	private final TreeViewer view;
 	private final Filter filter;
-
-	private InvisibleTreeRoot invisibleRoot;
+	private ExtentTreeObject invisibleRoot;	
+	private Extent extent;
 	
-	public ModelViewContentProvider(ModelView view) {
+	public ExtentViewContentProvider(IEditorPart editorPart, TreeViewer view) {		
+		this.editorPart = editorPart;
 		this.view = view;
-		filter = new Filter();
+		this.filter = new Filter();
 	}
 	
-	public void inputChanged(Viewer v, Object oldInput, Object newInput) {
-		// empty
-	}
-	
-	public void dispose() {
-		// empty
+	public void setExtent(Extent extent) {
+		this.extent = extent;
 	}
 	
 	public Object[] getElements(Object parent) {
-		if (parent.equals(view.getViewSite())) {
+		if (parent.equals(editorPart.getEditorSite())) {
 			if (invisibleRoot == null) initialize();
 			return getChildren(invisibleRoot);
 		}
@@ -67,20 +69,23 @@ public class ModelViewContentProvider implements IStructuredContentProvider, ITr
 		return false;
 	}
 
-	private void initialize() {			
-		invisibleRoot = new InvisibleTreeRoot(view.getViewer());
+	private void initialize() {
+		if (extent == null) {
+			throw new RuntimeException("Extent must not be null");
+		}
+		invisibleRoot = new ExtentTreeObject(extent, "AnExtentForExiting", null, view);
 	}
 	
 	public TreeParent getRoot() {
 		return invisibleRoot;
 	}
-	
-	public void addRepository(Repository repository) {
-		invisibleRoot.addChild(new RepositoryTreeObject(repository, invisibleRoot, view.getViewer()));
-		view.getViewer().refresh();
+
+	public void dispose() {
+		// empty
+		
 	}
-	
-	public void addClassToFilter(Class filter) {
-		this.filter.addClassToFilter(filter);
+
+	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+		// emtpy	
 	}
 }

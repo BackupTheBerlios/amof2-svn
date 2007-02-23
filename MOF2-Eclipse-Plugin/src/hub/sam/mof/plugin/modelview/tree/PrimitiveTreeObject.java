@@ -1,14 +1,13 @@
 package hub.sam.mof.plugin.modelview.tree;
 
-import hub.sam.mof.plugin.modelview.ModelView;
-
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.graphics.Image;
 
 public class PrimitiveTreeObject extends TreeObject {
 
 	private final Object element;
 	
-	protected PrimitiveTreeObject(Object element, TreeParent parent, ModelView view) {
+	protected PrimitiveTreeObject(Object element, TreeParent parent, TreeViewer view) {
 		super(element, parent, view);
 		this.element = element;
 	}

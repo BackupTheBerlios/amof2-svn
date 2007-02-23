@@ -2,12 +2,13 @@ package hub.sam.mof.plugin.modelview.tree;
 
 import hub.sam.mof.Repository;
 import hub.sam.mof.plugin.modelview.Images;
-import hub.sam.mof.plugin.modelview.ModelView;
 
 import java.io.FileInputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.graphics.Image;
 
 import cmof.reflection.Extent;
@@ -16,7 +17,7 @@ public class RepositoryTreeObject extends TreeParent {
 
 	private final Repository repository;	
 	
-	public RepositoryTreeObject(Repository repository, TreeParent parent, ModelView view) {
+	public RepositoryTreeObject(Repository repository, TreeParent parent, TreeViewer view) {
 		super(repository, parent, view);
 		this.repository = repository;
 	}
@@ -56,7 +57,7 @@ public class RepositoryTreeObject extends TreeParent {
         }
         catch (Exception e) {
             MessageDialog.openError(
-                    getView().getViewer().getControl().getShell(),
+                    getView().getControl().getShell(),
                     "Could not create ...",
                     "Could not create static model: " + e.getMessage());
         }
@@ -75,7 +76,7 @@ public class RepositoryTreeObject extends TreeParent {
         }
         catch (Exception e) {
             MessageDialog.openError(
-                    getView().getViewer().getControl().getShell(),
+                    getView().getControl().getShell(),
                     "Could not create ...",
                     "Could not create model: " + e.getMessage());
         }

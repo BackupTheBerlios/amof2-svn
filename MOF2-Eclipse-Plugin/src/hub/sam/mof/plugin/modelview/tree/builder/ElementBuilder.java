@@ -1,10 +1,6 @@
 package hub.sam.mof.plugin.modelview.tree.builder;
 
-import org.eclipse.swt.graphics.Image;
-
-import cmof.reflection.Object;
 import hub.sam.mof.plugin.modelview.Images;
-import hub.sam.mof.plugin.modelview.ModelView;
 import hub.sam.mof.plugin.modelview.ModelViewLabelProvider;
 import hub.sam.mof.plugin.modelview.actions.IShowDetailsContext;
 import hub.sam.mof.plugin.modelview.tree.AutomatedBuilder;
@@ -12,9 +8,14 @@ import hub.sam.mof.plugin.modelview.tree.IChildManager;
 import hub.sam.mof.plugin.modelview.tree.ObjectBuilder;
 import hub.sam.mof.plugin.modelview.tree.TreeObject;
 
+import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.swt.graphics.Image;
+
+import cmof.reflection.Object;
+
 public abstract class ElementBuilder extends AutomatedBuilder implements IShowDetailsContext {
 			
-	public void addChildren(java.lang.Object obj, IChildManager mgr, ModelView view) {			
+	public void addChildren(java.lang.Object obj, IChildManager mgr, TreeViewer view) {			
 		if (mgr.getParent().optionIsSet(SHOW_DETAILS)) {
 			TreeObject to = new ObjectBuilder().create(obj, mgr.getParent(), mgr.getFactory(), view);
 			to.setImage(Images.getDefault().getInfos());

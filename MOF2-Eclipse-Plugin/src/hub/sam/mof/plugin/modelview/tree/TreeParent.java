@@ -1,11 +1,10 @@
 package hub.sam.mof.plugin.modelview.tree;
 
-import hub.sam.mof.plugin.modelview.ModelView;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.*;
+import java.util.Collection;
 
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.ui.PlatformUI;
 
 public abstract class  TreeParent extends TreeObject {
@@ -17,13 +16,13 @@ public abstract class  TreeParent extends TreeObject {
 		public void propertyChange(PropertyChangeEvent evt) {		
 			PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
 				public void run() {
-					getView().getViewer().refresh(getParent());		
+					getView().refresh(getParent());		
 				}				
 			});
 		}
 	}
 	
-	public TreeParent(java.lang.Object element, TreeParent parent, ModelView view) {
+	public TreeParent(java.lang.Object element, TreeParent parent, TreeViewer view) {
 		super(element, parent, view);
 		if (element instanceof cmof.reflection.Object) {
 			((cmof.reflection.Object)element).addListener(listener);

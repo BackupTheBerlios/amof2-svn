@@ -1,8 +1,9 @@
 package hub.sam.mof.plugin.modelview.tree;
 
-import hub.sam.mof.plugin.modelview.ModelView;
+import java.util.Collection;
+import java.util.Vector;
 
-import java.util.*;
+import org.eclipse.jface.viewers.TreeViewer;
 
 
 public class BuildTreeObject extends TreeParent {
@@ -10,7 +11,7 @@ public class BuildTreeObject extends TreeParent {
 	private final IBuilder builder;	final IBuilderFactory factory;
 	final TreeParent self;
 	
-	public BuildTreeObject(Object obj, TreeParent parent, IBuilder builder, IBuilderFactory factory, ModelView view) {
+	public BuildTreeObject(Object obj, TreeParent parent, IBuilder builder, IBuilderFactory factory, TreeViewer view) {
 		super(obj, parent, view);
 		this.builder = builder;
 		this.factory = factory;

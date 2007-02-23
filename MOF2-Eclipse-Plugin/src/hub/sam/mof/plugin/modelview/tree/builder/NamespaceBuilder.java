@@ -1,16 +1,17 @@
 package hub.sam.mof.plugin.modelview.tree.builder;
 
+import hub.sam.mof.plugin.modelview.ImageImageDescriptor;
+import hub.sam.mof.plugin.modelview.Images;
+import hub.sam.mof.plugin.modelview.OverlayIcon;
+import hub.sam.mof.plugin.modelview.tree.IChildManager;
+import hub.sam.mof.plugin.modelview.tree.TreeObject;
+
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 
-import hub.sam.mof.plugin.modelview.ImageImageDescriptor;
-import hub.sam.mof.plugin.modelview.Images;
-import hub.sam.mof.plugin.modelview.ModelView;
-import hub.sam.mof.plugin.modelview.OverlayIcon;
-import hub.sam.mof.plugin.modelview.tree.IChildManager;
-import hub.sam.mof.plugin.modelview.tree.TreeObject;
 import cmof.Constraint;
 import cmof.ElementImport;
 import cmof.Namespace;
@@ -18,7 +19,7 @@ import cmof.Namespace;
 public abstract class NamespaceBuilder extends ElementBuilder {
 
 	@Override
-	public void addChildren(Object obj, IChildManager mgr, ModelView view) {	
+	public void addChildren(Object obj, IChildManager mgr, TreeViewer view) {	
 		Namespace ns = (Namespace)obj;
 		
 		for (Constraint constraint: ns.getOwnedRule()) {

@@ -1,10 +1,10 @@
 package hub.sam.mof.plugin.modelview.tree.builder;
 
 import hub.sam.mof.plugin.modelview.Images;
-import hub.sam.mof.plugin.modelview.ModelView;
 import hub.sam.mof.plugin.modelview.tree.IChildManager;
 import hub.sam.mof.plugin.modelview.tree.TreeObject;
 
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.graphics.Image;
 
 import cmof.Namespace;
@@ -13,7 +13,7 @@ import cmof.Property;
 public class PropertyBuilder extends TypedElementBuilder {
 
 	@Override
-	public void addChildren(Object obj, IChildManager mgr, ModelView view) {
+	public void addChildren(Object obj, IChildManager mgr, TreeViewer view) {
 		Property property = (Property)obj;
 		TreeObject to = null;
 		

@@ -10,6 +10,7 @@ import java.util.*;
 
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.PlatformObject;
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IActionFilter;
 import org.eclipse.ui.views.properties.IPropertySource;
@@ -22,9 +23,9 @@ public class TreeObject extends PlatformObject implements IAdaptable, IActionFil
 	private String text = "unknown";
 	private int category = 0;
 	private final IPropertySource propertySource;
-	private final ModelView fView;
+	private final TreeViewer fView;
 	
-	public TreeObject(java.lang.Object element, TreeParent parent, ModelView view) {
+	public TreeObject(java.lang.Object element, TreeParent parent, TreeViewer view) {
 		this.element = element;
 		this.fParent = parent;
 		this.propertySource = new MOF2PropertySource(element);
@@ -119,7 +120,7 @@ public class TreeObject extends PlatformObject implements IAdaptable, IActionFil
         return false;
     }
     
-    protected ModelView getView() {
+    protected final TreeViewer getView() {
     	return fView;
     }
     

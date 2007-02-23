@@ -1,6 +1,7 @@
 package hub.sam.mof.plugin.modelview;
 
 import hub.sam.mof.Repository;
+import hub.sam.mof.plugin.modeleditor.ExtentViewContentProvider;
 import hub.sam.mof.plugin.modelview.actions.*;
 import hub.sam.mof.plugin.modelview.tree.builder.Categories;
 
@@ -67,7 +68,8 @@ public class ModelView extends ViewPart {
 	public void createPartControl(Composite parent) {				
 		viewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 		drillDownAdapter = new DrillDownAdapter(viewer);
-		viewer.setContentProvider(new ModelViewContentProvider(this));		
+		viewer.setContentProvider(new ModelViewContentProvider(this));
+        		
 		viewer.setLabelProvider(ModelViewLabelProvider.getDefault());			
 		viewer.setInput(getViewSite());
 		viewer.setSorter(new Categories());
@@ -145,6 +147,7 @@ public class ModelView extends ViewPart {
 
 	private void makeActions() {
         ((ModelViewContentProvider) viewer.getContentProvider()).addRepository(Repository.getLocalRepository());
+        
 		refreshAction = new RefreshAction(this);
 		addModel = new AddModelAction(this);
 		addToFilteredClasses = new AddToFilteredClassesAction(this);

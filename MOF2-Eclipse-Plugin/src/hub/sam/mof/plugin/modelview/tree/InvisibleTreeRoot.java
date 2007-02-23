@@ -1,15 +1,15 @@
 package hub.sam.mof.plugin.modelview.tree;
 
 
-import hub.sam.mof.plugin.modelview.ModelView;
-
 import java.util.Collection;
+
+import org.eclipse.jface.viewers.TreeViewer;
 
 public class InvisibleTreeRoot extends TreeParent {
 
 	private Collection<TreeObject> children;
 	
-	public InvisibleTreeRoot(ModelView view) {
+	public InvisibleTreeRoot(TreeViewer view) {
 		super(null, null, view);
 		children = new java.util.ArrayList<TreeObject>();
 	}

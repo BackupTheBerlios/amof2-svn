@@ -1,5 +1,7 @@
 package hub.sam.mof.plugin.modelview.tree;
 
+import org.eclipse.jface.viewers.TreeViewer;
+
 import cmof.Property;
 import hub.sam.mof.plugin.modelview.Images;
 import hub.sam.mof.plugin.modelview.ModelView;
@@ -7,7 +9,7 @@ import hub.sam.mof.plugin.modelview.tree.builder.Categories;
 
 public class ObjectBuilder implements IBuilder {
 
-	public TreeObject create(Object obj, TreeParent parent, IBuilderFactory factory, ModelView view) {
+	public TreeObject create(Object obj, TreeParent parent, IBuilderFactory factory, TreeViewer view) {
 		TreeObject to = new BuildTreeObject(obj, parent, this, factory, view);
 		to.setImage(Images.getDefault().getObject());
 		to.setCategory(Categories.ELEMENT);
@@ -34,7 +36,7 @@ public class ObjectBuilder implements IBuilder {
 		return to;
 	}
 
-	public void addChildren(Object obj, IChildManager mgr, ModelView view) {		
+	public void addChildren(Object obj, IChildManager mgr, TreeViewer view) {		
 		cmof.reflection.Object theObject = (cmof.reflection.Object)obj;
 		
 		cmof.UmlClass metaClass = theObject.getMetaClass();
