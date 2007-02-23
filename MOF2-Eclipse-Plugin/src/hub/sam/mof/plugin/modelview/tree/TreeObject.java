@@ -3,10 +3,10 @@
  */
 package hub.sam.mof.plugin.modelview.tree;
 
-import hub.sam.mof.plugin.modelview.ModelView;
 import hub.sam.mof.plugin.properties.MOF2PropertySource;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
 
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.PlatformObject;

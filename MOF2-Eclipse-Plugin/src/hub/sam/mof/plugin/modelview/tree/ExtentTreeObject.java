@@ -1,14 +1,20 @@
 package hub.sam.mof.plugin.modelview.tree;
 
 import hub.sam.mof.plugin.modelview.Images;
+import hub.sam.mof.plugin.modelview.tree.TreeParent.MyPropertyChangeListener;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.Collection;
 import java.util.Vector;
 
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.PlatformUI;
 
 import cmof.reflection.Extent;
+import cmof.reflection.ExtentChangeListener;
+import cmof.reflection.Object;
 
 public class ExtentTreeObject extends ManTreeObject {
 
@@ -21,11 +27,34 @@ public class ExtentTreeObject extends ManTreeObject {
 		factory.addFactory(new StdBuilderFactory());
 		factory.addFactory(new CMOFBuilderFactory());
 	}
+    
+	private final ExtentChangeListener listener = new MyExtentChangeListener();
+	
+	class MyExtentChangeListener implements ExtentChangeListener {
+		public void change() {		
+			PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+				public void run() {			
+						refresh();
+						getView().refresh(ExtentTreeObject.this);					
+				}				
+			});
+		}
+
+		public void newObject(Object newObject) {
+			change();
+		}
+
+		public void removedObject(Object oldObject) {
+			change();
+		}		
+	}
 	
 	public ExtentTreeObject(Extent extent, String extentName, TreeParent parent, TreeViewer view) {
 		super(extent, parent, factory, view);
 		this.extent = extent;
-		this.extentName = extentName;
+		this.extentName = extentName;		
+		
+		extent.addExtentChangeListener(listener);		
 	}
 
 	@Override
@@ -56,4 +85,10 @@ public class ExtentTreeObject extends ManTreeObject {
 	public Image getImage() {
 		return Images.getDefault().getExtent();
 	}
+	
+	@Override
+	protected void delete() {
+		extent.removeExtentChangeListener(listener);
+		super.delete();
+	}	
 }
