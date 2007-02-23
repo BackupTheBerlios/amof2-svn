@@ -38,7 +38,8 @@
             name="Model Editor">
       </editor>
    </extension>
-    <extension
+  
+     <extension
          point="org.eclipse.ui.newWizards">
       <category
             name="MOF2Plugin"
@@ -46,12 +47,10 @@
       </category>
       <wizard
             category="MOF2Plugin"
-            class="hub.sam.mof.plugin.modeleditor.NewModelWizardwModelWizard"
-            hasPages="false"
+            class="hub.sam.mof.plugin.modeleditor.NewModelWizard"
             icon="icons/sample.gif"
-            id="hub.sam.mof.plugin.NewModelWizard"
-            name="CMOF metamodel"
-            project="false">
+            id="hub.sam.mof.plugin.modeleditor.NewModelWizard"
+            name="CMOF metamodel">
       </wizard>
    </extension>
 </plugin>
