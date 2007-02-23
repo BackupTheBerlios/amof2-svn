@@ -15,8 +15,14 @@ public abstract class  TreeParent extends TreeObject {
 	class MyPropertyChangeListener implements PropertyChangeListener {
 		public void propertyChange(PropertyChangeEvent evt) {		
 			PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
-				public void run() {
-					getView().refresh(getParent());		
+				public void run() {			
+					if (getParent() == null) {
+						refresh();
+						getView().refresh(TreeParent.this);
+					} else {
+						getParent().refresh();
+						getView().refresh(getParent());
+					}
 				}				
 			});
 		}
