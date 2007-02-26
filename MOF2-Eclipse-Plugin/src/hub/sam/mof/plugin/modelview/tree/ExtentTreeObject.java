@@ -1,10 +1,7 @@
 package hub.sam.mof.plugin.modelview.tree;
 
 import hub.sam.mof.plugin.modelview.Images;
-import hub.sam.mof.plugin.modelview.tree.TreeParent.MyPropertyChangeListener;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.Collection;
 import java.util.Vector;
 
@@ -41,11 +38,22 @@ public class ExtentTreeObject extends ManTreeObject {
 		}
 
 		public void newObject(Object newObject) {
-			change();
+			if (newObject.getOutermostContainer() != newObject) {
+				change();
+			}
 		}
 
 		public void removedObject(Object oldObject) {
-			change();
+			boolean change = false;
+			loop: for (TreeObject obj: getChildren()) {
+				if (obj.getElement() == oldObject) {
+					change = true;
+					break loop;
+				}
+			}
+			if (change) {
+				change();
+			}
 		}		
 	}
 	

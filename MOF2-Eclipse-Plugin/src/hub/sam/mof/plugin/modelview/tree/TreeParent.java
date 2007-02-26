@@ -17,9 +17,9 @@ public abstract class  TreeParent extends TreeObject {
 			PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
 				public void run() {			
 					if (getParent() == null) {
-						refresh();
+						refresh();						
 						getView().refresh(TreeParent.this);
-					} else {
+					} else {						
 						getParent().refresh();
 						getView().refresh(getParent());
 					}
@@ -47,18 +47,18 @@ public abstract class  TreeParent extends TreeObject {
 		return children;
 	}
 		
-	protected boolean isCacheValid() {
+	private boolean isCacheValid() {
 		return isCacheValid;
 	}
 	
 	public final void refresh() {
 		if (isCacheValid) {
+			isCacheValid = false;
 			for (TreeObject to: getChildren()) {
 				if (to instanceof TreeParent) {
 					((TreeParent)to).refresh();
 				}
-			}
-			isCacheValid = false;
+			}			
 		}
 	}
 	
@@ -66,7 +66,7 @@ public abstract class  TreeParent extends TreeObject {
 		return getChildren().size() > 0;
 	}
 	
-	protected Collection<TreeObject> retrieveChildren() {
+	protected  Collection<TreeObject> retrieveChildren() {
 		isCacheValid = true;
 		return null;
 	}

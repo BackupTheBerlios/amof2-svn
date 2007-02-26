@@ -9,7 +9,7 @@ import org.eclipse.jface.viewers.TreeViewer;
 public class BuildTreeObject extends TreeParent {
 
 	private final IBuilder builder;	final IBuilderFactory factory;
-	final TreeParent self;
+	private final TreeParent self;
 	
 	public BuildTreeObject(Object obj, TreeParent parent, IBuilder builder, IBuilderFactory factory, TreeViewer view) {
 		super(obj, parent, view);
@@ -20,6 +20,7 @@ public class BuildTreeObject extends TreeParent {
 
 	@Override
 	protected Collection<TreeObject> retrieveChildren() {
+		super.retrieveChildren();
 		Collection<TreeObject> result = new Vector<TreeObject>();
 		IChildManager mgr = new ChildManager(result);
 		builder.addChildren(getElement(), mgr, getView());
