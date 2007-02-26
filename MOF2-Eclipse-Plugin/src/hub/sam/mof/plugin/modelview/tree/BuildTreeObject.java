@@ -19,7 +19,8 @@ public class BuildTreeObject extends TreeParent {
 	}
 
 	@Override
-	protected Collection<TreeObject> retrieveChildren() {
+	protected final Collection<TreeObject> retrieveChildren() {
+		super.retrieveChildren();
 		super.retrieveChildren();
 		Collection<TreeObject> result = new Vector<TreeObject>();
 		IChildManager mgr = new ChildManager(result);
@@ -53,4 +54,12 @@ public class BuildTreeObject extends TreeParent {
 	public Object getContext() {
 		return builder;
 	}
+
+	@Override
+	public void refresh() {
+		builder.refresh(this);		
+		super.refresh();
+	}
+	
+	
 }

@@ -9,10 +9,18 @@ public abstract class AutomatedBuilder implements IBuilder {
 	public TreeObject create(Object obj, TreeParent parent,
 			IBuilderFactory factory, TreeViewer view) {
 		TreeObject result = new BuildTreeObject(obj, parent, this, factory, view);	
-		result.setText(getText(obj));
-		result.setImage(getImage(obj));
-		result.setCategory(getCategory(obj));
+		configureTreeObject(result, obj);
 		return result;
+	}
+	
+	protected void configureTreeObject(TreeObject to, Object obj) {
+		to.setText(getText(obj));
+		to.setImage(getImage(obj));
+		to.setCategory(getCategory(obj));
+	}
+	
+	public final  void refresh(TreeObject to) {
+		configureTreeObject(to, to.getElement());
 	}
 
 	public abstract String getText(Object obj);

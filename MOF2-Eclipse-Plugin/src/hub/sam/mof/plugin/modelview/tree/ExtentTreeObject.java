@@ -38,7 +38,7 @@ public class ExtentTreeObject extends ManTreeObject {
 		}
 
 		public void newObject(Object newObject) {
-			if (newObject.getOutermostContainer() != newObject) {
+			if (newObject.getOutermostContainer() == newObject) {
 				change();
 			}
 		}

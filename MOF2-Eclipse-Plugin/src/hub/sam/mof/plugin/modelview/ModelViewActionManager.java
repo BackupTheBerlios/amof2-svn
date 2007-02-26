@@ -66,8 +66,8 @@ public class ModelViewActionManager {
 		hookDoubleClickAction();
 	}
 
-	public TreeViewer getViewer() {
-		return viewer;
+	public TreeViewer getViewer() {		
+		return viewer;		
 	}
 	
 	private void hookContextMenu() {

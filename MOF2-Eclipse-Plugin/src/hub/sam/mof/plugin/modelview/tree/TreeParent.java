@@ -16,13 +16,8 @@ public abstract class  TreeParent extends TreeObject {
 		public void propertyChange(PropertyChangeEvent evt) {		
 			PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
 				public void run() {			
-					if (getParent() == null) {
-						refresh();						
-						getView().refresh(TreeParent.this);
-					} else {						
-						getParent().refresh();
-						getView().refresh(getParent());
-					}
+					refresh();						
+					getView().refresh(TreeParent.this);									
 				}				
 			});
 		}
@@ -51,14 +46,14 @@ public abstract class  TreeParent extends TreeObject {
 		return isCacheValid;
 	}
 	
-	public final void refresh() {
-		if (isCacheValid) {
-			isCacheValid = false;
+	public void refresh() {
+		if (isCacheValid) {			
 			for (TreeObject to: getChildren()) {
 				if (to instanceof TreeParent) {
 					((TreeParent)to).refresh();
 				}
 			}			
+			isCacheValid = false;
 		}
 	}
 	

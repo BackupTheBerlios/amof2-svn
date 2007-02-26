@@ -23,7 +23,7 @@ public class TreeObject extends PlatformObject implements IAdaptable, IActionFil
 	private String text = "unknown";
 	private int category = 0;
 	private final IPropertySource propertySource;
-	private final TreeViewer fView;
+	private final TreeViewer fView;	
 	
 	public TreeObject(java.lang.Object element, TreeParent parent, TreeViewer view) {
 		this.element = element;
@@ -89,10 +89,16 @@ public class TreeObject extends PlatformObject implements IAdaptable, IActionFil
 	
 	public void setOption(int option) {
 		options.add(new Integer(option));
+		if (this instanceof TreeParent) {
+			((TreeParent)this).refresh();
+		}
 	}
 	
 	public void unsetOption(int option) {
 		options.remove(new Integer(option));
+		if (this instanceof TreeParent) {
+			((TreeParent)this).refresh();
+		}
 	}
 	
 	public boolean optionIsSet(int option) {

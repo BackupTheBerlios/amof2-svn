@@ -1,10 +1,9 @@
 package hub.sam.mof.plugin.modelview.actions;
 
+import hub.sam.mof.plugin.modelview.tree.TreeObject;
+
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.TreeViewer;
-
-import hub.sam.mof.plugin.modelview.ModelView;
-import hub.sam.mof.plugin.modelview.tree.TreeObject;
 
 public class ShowDetailsAction extends ContextAction {
 
@@ -24,7 +23,7 @@ public class ShowDetailsAction extends ContextAction {
 	@Override
 	protected void runFor(TreeObject obj) {
 		IShowDetailsContext context = (IShowDetailsContext)obj.getContext();
-		context.switchShowDetails(obj);
+		context.switchShowDetails(obj);		
 		view.refresh(obj);
 	}		
 }

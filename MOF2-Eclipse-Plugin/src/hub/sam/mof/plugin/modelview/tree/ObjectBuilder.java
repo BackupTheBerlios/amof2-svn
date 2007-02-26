@@ -1,16 +1,21 @@
 package hub.sam.mof.plugin.modelview.tree;
 
+import hub.sam.mof.plugin.modelview.Images;
+import hub.sam.mof.plugin.modelview.tree.builder.Categories;
+
 import org.eclipse.jface.viewers.TreeViewer;
 
 import cmof.Property;
-import hub.sam.mof.plugin.modelview.Images;
-import hub.sam.mof.plugin.modelview.ModelView;
-import hub.sam.mof.plugin.modelview.tree.builder.Categories;
 
 public class ObjectBuilder implements IBuilder {
 
 	public TreeObject create(Object obj, TreeParent parent, IBuilderFactory factory, TreeViewer view) {
 		TreeObject to = new BuildTreeObject(obj, parent, this, factory, view);
+		configureTreeObject(to, obj);
+		return to;
+	}
+	
+	protected void configureTreeObject(TreeObject to, Object obj) {
 		to.setImage(Images.getDefault().getObject());
 		to.setCategory(Categories.ELEMENT);
 		{
@@ -33,7 +38,10 @@ public class ObjectBuilder implements IBuilder {
 			}
 			to.setText(result);
 		}
-		return to;
+	}
+
+	public final void refresh(TreeObject to) {
+		configureTreeObject(to, to.getElement());
 	}
 
 	public void addChildren(Object obj, IChildManager mgr, TreeViewer view) {		
