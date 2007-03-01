@@ -75,7 +75,7 @@ public class ModelViewActionManager {
 		menuMgr.setRemoveAllWhenShown(true);
 		menuMgr.addMenuListener(new IMenuListener() {
 			public void menuAboutToShow(IMenuManager manager) {
-				fillContextMenu(manager);
+				fillContextMenu(manager);						
 			}
 		});
 		Menu menu = menuMgr.createContextMenu(viewer.getControl());
@@ -95,12 +95,13 @@ public class ModelViewActionManager {
 		manager.add(setFilter);
 	}
 
-	private void fillContextMenu(IMenuManager manager) {
-        manager.add(new GroupMarker("topAdditions"));
-        manager.add(new Separator());
+	private void fillContextMenu(IMenuManager manager) {		
+        manager.add(new GroupMarker("topAdditions"));       
+        manager.add(new Separator());        
         
 		addModel.setEnabled(addModel.shouldEnable((IStructuredSelection)viewer.getSelection()));
 		manager.add(addModel);
+		
 		addToFilteredClasses.setEnabled(addToFilteredClasses.shouldEnable((IStructuredSelection)viewer.getSelection()));
 		manager.add(addToFilteredClasses);
 		showDetails.setEnabled(showDetails.shouldEnable((IStructuredSelection)viewer.getSelection()));

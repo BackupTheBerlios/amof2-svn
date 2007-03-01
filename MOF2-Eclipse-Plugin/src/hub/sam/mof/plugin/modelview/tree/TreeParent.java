@@ -7,26 +7,50 @@ import java.util.Collection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.ui.PlatformUI;
 
+import cmof.reflection.ObjectChangeListener;
+
 public abstract class  TreeParent extends TreeObject {
 	private Collection<TreeObject> children = null;
 	private boolean isCacheValid = false;
-	private final MyPropertyChangeListener listener = new MyPropertyChangeListener();
+	private final MyObjectChangeListener fObjectChangeListener = new MyObjectChangeListener();
+	private final MyPropertyChangeListener fPropertyChangeListener = new MyPropertyChangeListener();
 	
 	class MyPropertyChangeListener implements PropertyChangeListener {
 		public void propertyChange(PropertyChangeEvent evt) {		
+			System.out.println(evt.getPropertyName());
 			PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+				
+				private void refresh() {
+					TreeParent.this.refresh();						
+					getView().refresh(TreeParent.this);
+				}
+			
 				public void run() {			
-					refresh();						
-					getView().refresh(TreeParent.this);									
+					refresh();
 				}				
 			});
 		}
 	}
 	
+	class MyObjectChangeListener implements ObjectChangeListener {
+
+		public void handleDelete(cmof.reflection.Object object) {
+			if (getParent() != null) {
+				getParent().removeChild(TreeParent.this);
+				PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {	
+					public void run() {			
+						getView().refresh(getParent());
+					}				
+				});
+			}
+		}		
+	}
+	
 	public TreeParent(java.lang.Object element, TreeParent parent, TreeViewer view) {
 		super(element, parent, view);
 		if (element instanceof cmof.reflection.Object) {
-			((cmof.reflection.Object)element).addListener(listener);
+			((cmof.reflection.Object)element).addObjectEventHandler(fObjectChangeListener);
+			((cmof.reflection.Object)element).addListener(fPropertyChangeListener);
 		}
 	}
 
@@ -40,6 +64,10 @@ public abstract class  TreeParent extends TreeObject {
 			children = retrieveChildren();
 		} 
 		return children;
+	}
+	
+	private void removeChild(TreeObject child) {
+		children.remove(child);
 	}
 		
 	private boolean isCacheValid() {
@@ -70,7 +98,7 @@ public abstract class  TreeParent extends TreeObject {
 	protected void delete() {
 		Object element = getElement();
 		if (element instanceof cmof.reflection.Object) {
-			((cmof.reflection.Object)element).removeListener(listener);
+			((cmof.reflection.Object)element).removeListener(fPropertyChangeListener);
 		}
 		if (children != null) {
 			for (TreeObject child: children) {
