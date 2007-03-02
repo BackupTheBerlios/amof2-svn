@@ -97,33 +97,34 @@ public class ModelViewActionManager {
 
 	private void fillContextMenu(IMenuManager manager) {		
         manager.add(new GroupMarker("topAdditions"));       
-        manager.add(new Separator());        
+        manager.add(new Separator());      
+        manager.add(new GroupMarker("modelBrowser"));
         
 		addModel.setEnabled(addModel.shouldEnable((IStructuredSelection)viewer.getSelection()));
-		manager.add(addModel);
+		manager.appendToGroup("modelBrowser", addModel);
 		
 		addToFilteredClasses.setEnabled(addToFilteredClasses.shouldEnable((IStructuredSelection)viewer.getSelection()));
-		manager.add(addToFilteredClasses);
+		manager.appendToGroup("modelBrowser", addToFilteredClasses);
 		showDetails.setEnabled(showDetails.shouldEnable((IStructuredSelection)viewer.getSelection()));
-		manager.add(showDetails);
+		manager.appendToGroup("modelBrowser", showDetails);        
+        removeModel.setEnabled(removeModel.shouldEnable((IStructuredSelection)viewer.getSelection()));
+        manager.appendToGroup("modelBrowser", removeModel);
 		
 		manager.add(new Separator());
+		manager.add(new GroupMarker("modelFeatures"));
+		
 		showInheritedFeatures.setEnabled(showInheritedFeatures.shouldEnable((IStructuredSelection)viewer.getSelection()));
-		manager.add(showInheritedFeatures);
+		manager.appendToGroup("modelFeatures", showInheritedFeatures);
 		showFinalFeatures.setEnabled(showFinalFeatures.shouldEnable((IStructuredSelection)viewer.getSelection()));
-		manager.add(showFinalFeatures);
+		manager.appendToGroup("modelFeatures", showFinalFeatures);
 		showOwnedFeatures.setEnabled(showOwnedFeatures.shouldEnable((IStructuredSelection)viewer.getSelection()));
-		manager.add(showOwnedFeatures);		
+		manager.appendToGroup("modelFeatures", showOwnedFeatures);		
 		manager.add(new Separator());
 		
 		drillDownAdapter.addNavigationActions(manager);
 		// Other plug-ins can contribute there actions here
 
-        manager.add(new Separator());
-        removeModel.setEnabled(removeModel.shouldEnable((IStructuredSelection)viewer.getSelection()));
-        manager.add(removeModel);
-
-        manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
+        manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));        
 	}
 	
 	private void fillLocalToolBar(IToolBarManager manager) {

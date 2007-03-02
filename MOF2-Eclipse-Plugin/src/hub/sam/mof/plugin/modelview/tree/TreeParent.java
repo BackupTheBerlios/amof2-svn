@@ -17,14 +17,11 @@ public abstract class  TreeParent extends TreeObject {
 	
 	class MyPropertyChangeListener implements PropertyChangeListener {
 		public void propertyChange(PropertyChangeEvent evt) {		
-			System.out.println(evt.getPropertyName());
-			PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
-				
+			PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {				
 				private void refresh() {
 					TreeParent.this.refresh();						
 					getView().refresh(TreeParent.this);
-				}
-			
+				}			
 				public void run() {			
 					refresh();
 				}				
