@@ -20,6 +20,9 @@
 
 package hub.sam.mas.editor.editparts.properties.handlers;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import hub.sam.mas.model.mas.ActionKind;
 import hub.sam.mas.model.mas.OpaqueAction;
 
@@ -53,7 +56,7 @@ public class OpaqueActionHandler extends AbstractPropertyHandler {
     
     private class KindHandler extends EnumerationAttributeHandler {
         
-        public KindHandler() {
+        public KindHandler() {        	       
             super("OPAQUE_ACTION_KIND", "kind", ActionKind.class);
         }
         
@@ -71,6 +74,20 @@ public class OpaqueActionHandler extends AbstractPropertyHandler {
             return model.getActionKind();
         }
 
+		@Override
+		protected String getDisplayLabel(Object enumConstant) {
+			switch ((ActionKind)enumConstant) {
+				case CALL: return "call an operation";
+				case CREATE_OBJECT: return "create an object";
+				case PRINT: return "print a string";
+				case PRINT_EXPRESSION: return "print expression value";
+				case WRITE_STRUCTURAL_FEATURE: return "set a property";
+				case WRITE_STRUCTURAL_FEATURE_VALUE: return "add a property value";
+				case EXPRESSION: return "evaluate an expression";
+				case REMOVE_STRUCTURAL_FEATURE_VALUE: return "remove a property value";
+				default: return enumConstant.toString();
+			}
+		}        
     }
     
 }

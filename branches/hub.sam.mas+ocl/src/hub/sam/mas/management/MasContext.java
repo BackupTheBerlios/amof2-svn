@@ -361,7 +361,7 @@ public class MasContext {
         return links;
     }
 
-    protected void setSyntaxModelNeedsSaving(boolean syntaxModelNeedsSaving) {
+    public void setSyntaxModelNeedsSaving(boolean syntaxModelNeedsSaving) {
         this.syntaxModelNeedsSaving = syntaxModelNeedsSaving;
     }
     

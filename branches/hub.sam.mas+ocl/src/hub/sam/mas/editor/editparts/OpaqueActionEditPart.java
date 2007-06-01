@@ -21,10 +21,13 @@
 package hub.sam.mas.editor.editparts;
 
 import hub.sam.mas.editor.MaseEditDomain;
+import hub.sam.mas.editor.commands.OpaqueActionDirectEditCommand;
 import hub.sam.mas.editor.editparts.properties.OpaqueActionPropertySource;
 import hub.sam.mas.editor.editpolicies.ActionContainerEditPolicy;
 import hub.sam.mas.editor.editpolicies.OpaqueActionDirectEditPolicy;
 import hub.sam.mas.editor.figures.OpaqueActionFigure;
+import hub.sam.mas.editor.texteditor.DirectEditor;
+import hub.sam.mas.editor.texteditor.IValueAdaptor;
 import hub.sam.mas.editor.tools.DirectEditManagerImpl;
 import hub.sam.mas.editor.tools.FigureCellEditorLocator;
 import hub.sam.mas.model.mas.ActionKind;
@@ -35,18 +38,22 @@ import java.beans.PropertyChangeEvent;
 import org.apache.log4j.Logger;
 import org.eclipse.draw2d.ChopboxAnchor;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
+import org.eclipse.gef.commands.CommandStack;
+import org.eclipse.gef.requests.DirectEditRequest;
 import org.eclipse.jface.viewers.TextCellEditor;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.ui.views.properties.IPropertySource;
-import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.gef.EditPart;
 
 public class OpaqueActionEditPart extends ActionEditPart
         implements org.eclipse.gef.NodeEditPart, EditableEditPart {
 
     private static Logger logger = Logger.getLogger(OpaqueActionEditPart.class.getName());
+    private DirectEditor fDirectEditor = null;
     
     private DirectEditManagerImpl editManager;
 
@@ -84,16 +91,38 @@ public class OpaqueActionEditPart extends ActionEditPart
         installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE, new OpaqueActionDirectEditPolicy());
         installEditPolicy(EditPolicy.CONTAINER_ROLE, new ActionContainerEditPolicy());
     }
+    
+    private DirectEditor getDirectEditor() {
+    	if (fDirectEditor == null) {
+    		fDirectEditor = new DirectEditor(((MaseEditDomain)getRoot().getViewer().getEditDomain()).getEditorPart());
+    	}
+    	return fDirectEditor;
+    }
 
     // catch DIRECT_EDIT request and handle it specially
-    public void performRequest(Request request) {
+    public void performRequest(Request request) {        	
         if (request.getType() == RequestConstants.REQ_DIRECT_EDIT) {
+        	if (editManager == null) {
+                FigureCellEditorLocator locator = new FigureCellEditorLocator( getFigure().getLocatorFigure() );
+                editManager = new DirectEditManagerImpl(this, TextCellEditor.class, locator);
+            }        	
+        	Point position = getRoot().getViewer().getControl().toDisplay(((DirectEditRequest)request).getLocation().x, ((DirectEditRequest)request).getLocation().y);        	
+        	getDirectEditor().run(position.x, position.y, getModel().getActionBody(), new IValueAdaptor() {
+				public void setValue(String value) {
+					CommandStack stack = getViewer().getEditDomain().getCommandStack();					
+					stack.execute(((MaseEditDomain)getViewer().getEditDomain()).getCommandFactory().
+							createOpaqueActionDirectEditCommand(value, getModel()));	
+				}        		
+        	}, getModel());         	
+        	
+        	/*
             if (editManager == null) {
                 FigureCellEditorLocator locator = new FigureCellEditorLocator( getFigure().getLocatorFigure() );
                 editManager = new DirectEditManagerImpl(this, TextCellEditor.class, locator);
             }
             editManager.show();
-        }
+            */
+        }        
     }
     
     public String getDirectEditValue() {

@@ -30,6 +30,12 @@
                id="MofActionSemanticsEditor.EditBehaviourAction"
                label="Edit Behaviour"
                menubarPath="topAdditions"/>
+         <action
+               class="hub.sam.mas.editor.actions.EditOclOperationImplementationAction"
+               enablesFor="1"
+               id="MofActionSemanticsEditor.EditOclOperationImplementationAction"
+               label="Edit OCL implementation"
+               menubarPath="topAdditions"/>
          <filter
                name="element_instance_of"
                value="cmof.Operation"/>
@@ -43,6 +49,20 @@
                enablesFor="1"
                id="MofAcMofActionSemanticsEditor.AddMASContextAction"
                label="Add MAS Context ..."
+               menubarPath="topAdditions"/>
+      </objectContribution>
+      <objectContribution
+            adaptable="false"
+            id="MofActionSemanticsEditor.TreeObjectContribution"
+            objectClass="hub.sam.mof.plugin.modelview.tree.TreeObject">
+         <filter
+               name="element_instance_of"
+               value="cmof.Property"/>
+         <action	
+               class="hub.sam.mas.editor.actions.EditOclPropertyImplementationAction"
+               enablesFor="1"
+               id="MofActionSemanticsEditor.EditOclPropertyImplementationAction"
+               label="Edit OCL implementation"
                menubarPath="topAdditions"/>
       </objectContribution>
    </extension>

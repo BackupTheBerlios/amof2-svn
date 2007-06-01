@@ -12,9 +12,11 @@ Require-Bundle: org.eclipse.ui;visibility:=reexport,
  org.eclipse.ui.views,
  hub.sam.mof;visibility:=reexport,
  hub.sam.mof.browser,
- org.eclipse.ui.editors,
- org.eclipse.ui.workbench.texteditor,
- org.eclipse.jface.text
+ hub.sam.mof.emfbridge,
+ de.unikassel.imageexport,
+ de.unikassel.imageexport.gmfrenderer,
+ de.unikassel.imageexport.svg,
+ hub.sam.tef.TEFPlugin
 Eclipse-LazyStart: true
 Eclipse-RegisterBuddy: hub.sam.mof
 Bundle-ClassPath: mas.jar,

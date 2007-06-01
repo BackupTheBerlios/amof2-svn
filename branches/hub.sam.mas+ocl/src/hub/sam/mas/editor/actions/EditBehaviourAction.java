@@ -45,7 +45,7 @@ public class EditBehaviourAction extends MasAction {
             MaseCreationFactory maseFactory = new MaseCreationFactory((masFactory) masContext.getMasModel().getFactory(),
                     Activity.class);
             Activity activity = maseFactory.createActivity();
-            link = masContext.createLink(currentOperation, activity);
+            link = masContext.createLink(currentElement, activity);
         }
         
         IMaseEditorInput input = new MaseEditorInput(link);
@@ -60,7 +60,7 @@ public class EditBehaviourAction extends MasAction {
 
     @Override
     protected boolean shouldEnable() {
-        return true;
+    	return !currentElement.isQuery();        
     }
     
     @Override
@@ -73,6 +73,4 @@ public class EditBehaviourAction extends MasAction {
             action.setText("Edit Behaviour");
         }
     }
-
-    
 }

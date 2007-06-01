@@ -21,35 +21,45 @@
 package hub.sam.mas.editor.actions;
 
 import hub.sam.mas.management.MasContext;
-import hub.sam.mas.management.MasLink;
-import hub.sam.mas.management.MasRepository;
-
-import org.eclipse.jface.dialogs.MessageDialog;
-
+import hub.sam.mof.ocl.OclImplementationsHelper;
 import cmof.Operation;
-import cmof.reflection.Extent;
+import cmof.UmlClass;
+import cmof.cmofFactory;
 
-public abstract class MasAction extends Mof2ObjectPluginAction<Operation> {
+/**
+ * This action is triggered from the AMOF Browser Plugins context menu on
+ * operations. It provides the possibility to create or edit an OCL based
+ * operation behaviour.
+ */
+public class EditOclOperationImplementationAction extends EditOclImplementationAction<Operation> {
+	
+	
+    public EditOclOperationImplementationAction() {
+		super();	
+	}
+
+	@Override
+    protected boolean shouldEnable() {
+        return currentElement.isQuery();
+    }
     
-    protected MasContext getMASContextFromSelection() {
-    	if (selection != null) {
-	        Extent syntaxExtent = currentElement.getExtent();
-	        return MasRepository.getInstance().getMasContext(syntaxExtent);
-    	} else {
+    @Override
+    protected String getCurrentOclImplementation() {
+    	if (currentElement == null) {
     		return null;
     	}
+    	return OclImplementationsHelper.getOclImplementation(currentElement);
+    }
+    
+    @Override
+    protected void setOclImplementation(String ocl) {
+    	MasContext masContext = getMASContextFromSelection();
+    	cmofFactory factory = (cmofFactory)masContext.getSyntaxModel().getFactory();
+    	OclImplementationsHelper.setOclImplementation(currentElement, factory, ocl);
     }
 
-    protected MasLink getLinkFromSelection() {
-        MasContext masContext = getMASContextFromSelection();
-        if (masContext == null) {
-        	if (selection != null) {
-        		MessageDialog.openError(getModelView().getSite().getShell(), "Error", "No MAS Context exists!");
-        	}
-            return null;
-        }
-        return masContext.getLink(currentElement);
-    }
-
-
+	@Override
+	protected UmlClass getContext() {
+		return currentElement.getUmlClass();
+	}       
 }

@@ -20,36 +20,24 @@
 
 package hub.sam.mas.editor.actions;
 
-import hub.sam.mas.management.MasContext;
-import hub.sam.mas.management.MasLink;
-import hub.sam.mas.management.MasRepository;
+import hub.sam.mof.plugin.modelview.tree.TreeObject;
 
-import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 
-import cmof.Operation;
-import cmof.reflection.Extent;
-
-public abstract class MasAction extends Mof2ObjectPluginAction<Operation> {
+public abstract class Mof2ObjectPluginAction<Element extends cmof.reflection.Object> extends Mof2PluginAction {
     
-    protected MasContext getMASContextFromSelection() {
-    	if (selection != null) {
-	        Extent syntaxExtent = currentElement.getExtent();
-	        return MasRepository.getInstance().getMasContext(syntaxExtent);
-    	} else {
-    		return null;
-    	}
-    }
-
-    protected MasLink getLinkFromSelection() {
-        MasContext masContext = getMASContextFromSelection();
-        if (masContext == null) {
-        	if (selection != null) {
-        		MessageDialog.openError(getModelView().getSite().getShell(), "Error", "No MAS Context exists!");
-        	}
-            return null;
+	protected Element currentElement = null;
+    protected TreeObject selection = null;
+    
+    public void selectionChanged(IAction action, ISelection selection) {
+        this.selection = (TreeObject) ((IStructuredSelection)selection).getFirstElement();
+        if (this.selection != null) {
+	        currentElement = (Element)this.selection.getElement();
+	        action.setEnabled(shouldEnable());
         }
-        return masContext.getLink(currentElement);
     }
-
-
+    
+    protected abstract boolean shouldEnable();
 }

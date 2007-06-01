@@ -23,7 +23,8 @@ package hub.sam.mas.editor.editparts.properties.handlers;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.ui.views.properties.*;
+import org.eclipse.ui.views.properties.ComboBoxPropertyDescriptor;
+import org.eclipse.ui.views.properties.IPropertyDescriptor;
 
 public abstract class EnumerationAttributeHandler implements PropertyHandler {
 
@@ -44,13 +45,14 @@ public abstract class EnumerationAttributeHandler implements PropertyHandler {
 
         comboBoxLabels.add("<unspecified>");
         for(Object enumConstant: enumeration.getEnumConstants()) {
-            comboBoxLabels.add( enumConstant.toString() );
+            comboBoxLabels.add( getDisplayLabel(enumConstant));
         }
         descriptors.add( new ComboBoxPropertyDescriptor(id, displayName, comboBoxLabels.toArray(new String[] {})));
 
         return descriptors;
     }
     
+    protected abstract String getDisplayLabel(Object enumConstant);
     protected abstract Object valueOf(String name);
     protected abstract void setEnum(Object value);
     
@@ -63,7 +65,7 @@ public abstract class EnumerationAttributeHandler implements PropertyHandler {
                         setEnum(null);
                     }
                     else {
-                        setEnum( valueOf(comboBoxLabels.get(intValue)) );
+                        setEnum( enumeration.getEnumConstants()[intValue - 1]);
                     }
                 }
                 else {
@@ -82,7 +84,7 @@ public abstract class EnumerationAttributeHandler implements PropertyHandler {
             if (((String) id).equals(this.id)) {
                 Object e = getEnum();
                 if (e != null) {
-                    return comboBoxLabels.indexOf(e.toString());
+                    return comboBoxLabels.indexOf(getDisplayLabel(e));
                 }
                 return 0;
             }

@@ -20,6 +20,7 @@
 
 package hub.sam.mas.editor.editparts.properties.handlers;
 
+import hub.sam.mas.model.mas.ActionKind;
 import hub.sam.mas.model.mas.ExpansionKind;
 import hub.sam.mas.model.mas.ExpansionRegion;
 
@@ -46,5 +47,15 @@ public class ExpansionRegionHandler extends EnumerationAttributeHandler {
     protected Object valueOf(String name) {
         return ExpansionKind.valueOf(name);
     }  
+    
+	@Override
+	protected String getDisplayLabel(Object enumConstant) {
+		switch ((ExpansionKind)enumConstant) {
+			case ITERATIVE: return "iterative";
+			case PARALLEL: return "parallel";
+			case STREAM: return "stream";			
+			default: return enumConstant.toString();
+		}
+	}        
     
 }
