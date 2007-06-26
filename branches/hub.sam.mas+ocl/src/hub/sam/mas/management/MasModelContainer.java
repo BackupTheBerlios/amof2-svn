@@ -65,7 +65,11 @@ public class MasModelContainer implements IMasModelContainer {
         this.syntaxModelManager = new MofModelManager(repository);
         this.masModelManager = new MofModelManager(repository);
         // load static mas meta-model
-        this.masModelManager.loadM2Model(MasModel.createModel(), "Package:mas");
+        try {
+        	this.masModelManager.loadM2Model(MasModel.createModel(), "Package:mas");
+        } catch (LoadException ex) {
+        	throw new RuntimeException(ex);
+        }
     }
     
     private String getFilename(String path) {
