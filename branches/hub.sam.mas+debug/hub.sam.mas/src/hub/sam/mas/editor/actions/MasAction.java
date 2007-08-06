@@ -47,7 +47,7 @@ public abstract class MasAction extends Mof2PluginAction {
         return selectedOperation;
     }
 
-    protected MasLink getLinkFromSelection() {
+    protected MasLink getMasLinkFromSelection() {
         MasContext masContext = getMASContextFromSelection();
         if (masContext != null) {
             return getMASContextFromSelection().getLink(selectedOperation);

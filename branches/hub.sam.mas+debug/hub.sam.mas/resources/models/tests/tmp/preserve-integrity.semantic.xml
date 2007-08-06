@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.omg.org/XSI" xmlns:mas="http://www.foo.org/mas" xmi:version="2.1">
+  <mas:Activity xmi:id="3601" linkId="mas-id-640591743">
+    <node xmi:id="3602" rectangle="rO0ABXNyACVvcmcuZWNsaXBzZS5kcmF3MmQuZ2VvbWV0cnkuUmVjdGFuZ2xlAAAAAAAAAAECAARJ&#xA;AAZoZWlnaHRJAAV3aWR0aEkAAXhJAAF5eHD//////////wAAADsAAACM&#xA;" activityAsNode="3601" initialTokesn="0" xsi:type="ForkNode" />
+  </mas:Activity>
+  <mas:Activity xmi:id="3594" linkId="mas-id-1652538265">
+    <node xmi:id="3595" rectangle="rO0ABXNyACVvcmcuZWNsaXBzZS5kcmF3MmQuZ2VvbWV0cnkuUmVjdGFuZ2xlAAAAAAAAAAECAARJ&#xA;AAZoZWlnaHRJAAV3aWR0aEkAAXhJAAF5eHD//////////wAAAHsAAACB&#xA;" activityAsNode="3594" name="empty" margin="8" xsi:type="ValueNode" />
+  </mas:Activity>
+  <mas:Activity xmi:id="3604" linkId="mas-id-640591742">
+    <node xmi:id="3605" rectangle="rO0ABXNyACVvcmcuZWNsaXBzZS5kcmF3MmQuZ2VvbWV0cnkuUmVjdGFuZ2xlAAAAAAAAAAECAARJ&#xA;AAZoZWlnaHRJAAV3aWR0aEkAAXhJAAF5eHD//////////wAAAE4AAAA8&#xA;" activityAsNode="3604" initialTokesn="0" xsi:type="InitialNode" />
+  </mas:Activity>
+</xmi:XMI>
+

@@ -18,22 +18,10 @@
  * MA  02110-1301  USA
  ***********************************************************************/
 
-package hub.sam.mas.editor.actions;
+package hub.sam.mas.execution;
 
-import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.dialogs.MessageDialog;
+import hub.sam.mas.model.mas.ObjectIdentifier;
 
-public class DeleteBehaviourAction extends MasAction {
-    
-    public void run(IAction action) {
-        if (MessageDialog.openConfirm(getModelView().getSite().getShell(), "Confirm delete ...", "Are you sure?")) {
-            getMasLinkFromSelection().delete();
-        }
-    }
-
-    @Override
-    protected boolean isEnabled() {
-        return getMasLinkFromSelection() != null;
-    }
-
+public interface RuntimeEventListener {
+    void objectReached(ObjectIdentifier objectId);
 }

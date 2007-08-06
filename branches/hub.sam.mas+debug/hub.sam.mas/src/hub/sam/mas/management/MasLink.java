@@ -25,6 +25,7 @@ import java.beans.PropertyChangeSupport;
 
 import hub.sam.mas.editor.MaseEditor;
 import hub.sam.mas.model.mas.Activity;
+import hub.sam.mof.management.SaveException;
 import cmof.Operation;
 
 /**
@@ -68,6 +69,12 @@ public class MasLink {
     public void delete() {
         context.deleteLink(this);
         listeners.firePropertyChange("deleted", null, null);
+        try {
+            context.save();
+        }
+        catch (SaveException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**

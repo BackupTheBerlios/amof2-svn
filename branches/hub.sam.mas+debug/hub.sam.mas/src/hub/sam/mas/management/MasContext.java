@@ -23,11 +23,14 @@ package hub.sam.mas.management;
 import hub.sam.mas.MasPlugin;
 import hub.sam.mas.editor.MaseEditor;
 import hub.sam.mas.model.mas.Activity;
+import hub.sam.mas.model.mas.ObjectIdentifier;
 import hub.sam.mof.Repository;
 import hub.sam.mof.management.MofModel;
 import hub.sam.mof.management.SaveException;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Level;
@@ -79,10 +82,10 @@ public class MasContext {
         
         operations = getOperations(syntaxModel.getExtent());
         activities = getActivities(masModel.getExtent());
-        
         preserveIntegrity(operations, activities);
         
         objectIdentifierManager = new ObjectIdentifierManager(masModel);
+        checkMasObjectIds();
     }
     
     /**
@@ -123,20 +126,27 @@ public class MasContext {
      * @return
      */
     public MasLink createLink(Operation operation, Activity activity) {
-        // TODO may not be unique in all cases
-        String linkId = "mas-id-" + operation.toString().hashCode();
-        
+        String linkId = computeLinkId(operation);
+        createLink(operation, linkId);
+        createLink(activity, linkId);
+        setSyntaxModelNeedsSaving(true);
+        MasLink link = cacheLink(linkId, operation, activity);
+        return link;
+    }
+    
+    private String computeLinkId(Operation operation) {
+        return linkIdPrefix + operation.toString().hashCode();
+    }
+    
+    private void createLink(Operation operation, String id) {
         cmofFactory syntaxFactory = (cmofFactory) getSyntaxModel().getFactory();
         Comment com = syntaxFactory.createComment();
-        com.setBody(linkId);
+        com.setBody(id);
         operation.getOwnedComment().add(com);
-        
-        activity.setLinkId(linkId);
-        
-        MasLink link = new MasLink(linkId, this, operation, activity);
-        links.put(linkId, link);
-        setSyntaxModelNeedsSaving(true);
-        return link;
+    }
+    
+    private void createLink(Activity activity, String id) {
+        activity.setLinkId(id);
     }
     
     /**
@@ -157,8 +167,7 @@ public class MasContext {
         if (activity == null) {
             return null;
         }
-        MasLink link = new MasLink(linkId, this, operation, activity);
-        links.put(linkId, link);
+        MasLink link = cacheLink(linkId, operation, activity);
         return link;
     }
     
@@ -180,6 +189,11 @@ public class MasContext {
         if (operation == null) {
             return null;
         }
+        MasLink link = cacheLink(linkId, operation, activity);
+        return link;
+    }
+    
+    private MasLink cacheLink(String linkId, Operation operation, Activity activity) {
         MasLink link = new MasLink(linkId, this, operation, activity);
         links.put(linkId, link);
         return link;
@@ -221,25 +235,59 @@ public class MasContext {
             MessageDialog.openWarning(shell, title, message);
         }
         else {
-            System.out.println("Warning: " + message);
+            System.out.println("(" + title + ") Warning: " + message);
         }
     }
     
     /**
-     * Preserves reference integrity between a set of operations and activities.
+     * Preserves reference integrity between operations and activities.
      * 
      * @param syntaxExtent
      * @param semanticExtent
      */
     private void preserveIntegrity(Map<String, Operation> operations, Map<String, Activity> activities) {
+        List<String> alteredOperationNames = new ArrayList<String>();
+        Map<String, Operation> renamedOperations = new HashMap<String, Operation>();
         for(String id: operations.keySet()) {
+            // check id
+            Operation operation = operations.get(id);
+            if (!id.equals(computeLinkId(operation))) {
+                // recompute id
+                Activity activity = getActivity(id);
+                if (activity == null) {
+                    deleteLinkId(operation);
+                    alteredOperationNames.add("deleted " + operations.get(id).getQualifiedName());
+                    continue;
+                }
+                else {
+                    deleteLinkId(operation);
+                    deleteLinkId(activity);
+                    activities.remove(activity);
+                    MasLink link = createLink(operation, activity);
+                    renamedOperations.put(link.getLinkId(), operation);
+                    activities.put(link.getLinkId(), activity);
+                    alteredOperationNames.add("repaired " + operations.get(id).getQualifiedName());
+                    continue;
+                }
+            }
+            // check if corresponding activity exists
             if (activities.containsKey(id)) {
                 continue;
             }
             // no activity was found, delete id in operation
             deleteLinkId(operations.get(id));
-            warnUser("Preserved reference integrity",
-                    "Syntax extent: deleted " + id + " in operation \"" + operations.get(id).getQualifiedName() + "\".");
+            alteredOperationNames.add(operations.get(id).getQualifiedName());
+        }
+        operations.putAll(renamedOperations);
+        
+        if (!alteredOperationNames.isEmpty()) {
+            String deletedOperationsAsString = "";
+            for (int i=0; i<alteredOperationNames.size()-1; i++) {
+                deletedOperationsAsString += alteredOperationNames.get(i) + ", ";
+            }
+            deletedOperationsAsString += alteredOperationNames.get(alteredOperationNames.size()-1);
+            warnUser("Preserved Reference Integrity",
+                    "Modifications in syntax extent: " + deletedOperationsAsString + ".");
         }
 
         int deleted = 0;
@@ -252,7 +300,19 @@ public class MasContext {
             deleted++;
         }
         if (deleted > 0) {
-            warnUser("Preserved reference integrity", "Semantic extent: deleted " + deleted + " unreferenced activities.");
+            warnUser("Preserved Reference Integrity", "Modifications in semantic extent: deleted " + deleted + " unreferenced activities.");
+        }
+    }
+    
+    /**
+     * Checks that every object of type MasIdentifier has an id and adds one if necessary.
+     *
+     */
+    private void checkMasObjectIds() {
+        for (ObjectIdentifier idObject: objectIdentifierManager.getAllIdObjects()) {
+            if (idObject.getObjectId() == null) {
+                objectIdentifierManager.addId(idObject);
+            }
         }
     }
     
@@ -278,26 +338,20 @@ public class MasContext {
      */
     private void deleteLinkId(Activity activity) {
         activity.setLinkId(null);
-        activity.delete();
     }
 
     /**
-     * Destroys a physical connection on both sides (syntax and semantic model).
+     * Destroys a physical connection on both sides (syntax and semantic model),
+     * includes the removal of the activity.
      * 
      * @param link
      */
     protected void deleteLink(MasLink link) {
         deleteLinkId(link.getOperation());
         deleteLinkId(link.getActivity());
+        link.getActivity().delete();
         getLinks().remove(link.getLinkId());
         setSyntaxModelNeedsSaving(true);
-        try {
-            save();
-        }
-        catch (SaveException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
     }
     
     /**

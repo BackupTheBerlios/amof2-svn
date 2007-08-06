@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.omg.org/XSI" xmlns:mas="http://www.foo.org/mas" xmi:version="2.1">
+  <mas:Activity xmi:id="6162" linkId="mas-id-640591742" objectId="2">
+    <node xmi:id="6163" rectangle="rO0ABXNyACVvcmcuZWNsaXBzZS5kcmF3MmQuZ2VvbWV0cnkuUmVjdGFuZ2xlAAAAAAAAAAECAARJ&#xA;AAZoZWlnaHRJAAV3aWR0aEkAAXhJAAF5eHD//////////wAAAE4AAAA8&#xA;" activityAsNode="6162" initialTokesn="0" xsi:type="InitialNode" />
+  </mas:Activity>
+  <mas:Activity xmi:id="6159" linkId="mas-id--154916198" objectId="1">
+    <node xmi:id="6160" rectangle="rO0ABXNyACVvcmcuZWNsaXBzZS5kcmF3MmQuZ2VvbWV0cnkuUmVjdGFuZ2xlAAAAAAAAAAECAARJ&#xA;AAZoZWlnaHRJAAV3aWR0aEkAAXhJAAF5eHD//////////wAAAHsAAACB&#xA;" activityAsNode="6159" name="empty" margin="8" xsi:type="ValueNode" />
+  </mas:Activity>
+</xmi:XMI>
+

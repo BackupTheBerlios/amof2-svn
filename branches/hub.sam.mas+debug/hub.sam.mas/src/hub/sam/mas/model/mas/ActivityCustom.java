@@ -1,5 +1,6 @@
 package hub.sam.mas.model.mas;
 
+import hub.sam.mas.execution.RuntimeEventManager;
 import hub.sam.mas.execution.VariableAssignment;
 import hub.sam.mas.model.petrinets.Place;
 import hub.sam.mas.model.petrinets.PlaceInstance;
@@ -63,6 +64,9 @@ public class ActivityCustom extends ActivityDlg {
 	 */
 	@Override
 	public ActivityInstance instantiate() {
+        // for debugging
+        RuntimeEventManager.getDefault().fireObjectReached(this);
+        
 		ActivityInstance result = null;
 		if (self instanceof ExpansionRegion) {
 			result = ((ExpansionRegion)self).metaCreateExpansionRegionInstance();

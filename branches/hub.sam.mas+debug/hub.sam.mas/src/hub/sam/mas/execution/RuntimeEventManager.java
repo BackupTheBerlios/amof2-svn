@@ -18,22 +18,41 @@
  * MA  02110-1301  USA
  ***********************************************************************/
 
-package hub.sam.mas.editor.actions;
+package hub.sam.mas.execution;
 
-import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.dialogs.MessageDialog;
+import hub.sam.mas.model.mas.ObjectIdentifier;
 
-public class DeleteBehaviourAction extends MasAction {
+import java.util.HashSet;
+import java.util.Set;
+
+public class RuntimeEventManager {
     
-    public void run(IAction action) {
-        if (MessageDialog.openConfirm(getModelView().getSite().getShell(), "Confirm delete ...", "Are you sure?")) {
-            getMasLinkFromSelection().delete();
+    private Set<RuntimeEventListener> listeners = new HashSet<RuntimeEventListener>();
+    private static RuntimeEventManager eventManager;
+    
+    private RuntimeEventManager() {
+        // singleton
+    }
+    
+    public static RuntimeEventManager getDefault() {
+        if (eventManager == null) {
+            eventManager = new RuntimeEventManager();
+        }
+        return eventManager;
+    }
+
+    public void addListener(RuntimeEventListener listener) {
+        listeners.add(listener);
+    }
+    
+    public void removeListener(RuntimeEventListener listener) {
+        listeners.remove(listener);
+    }
+
+    public void fireObjectReached(ObjectIdentifier objectId) {
+        for (RuntimeEventListener listener: listeners) {
+            listener.objectReached(objectId);
         }
     }
-
-    @Override
-    protected boolean isEnabled() {
-        return getMasLinkFromSelection() != null;
-    }
-
+    
 }

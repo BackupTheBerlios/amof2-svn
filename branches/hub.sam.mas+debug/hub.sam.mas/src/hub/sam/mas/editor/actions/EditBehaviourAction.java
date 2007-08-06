@@ -49,7 +49,7 @@ public class EditBehaviourAction extends MasAction implements IRunnableWithProgr
     private MasLink link;
 
     public void run(IAction action) {
-        link = getLinkFromSelection();
+        link = getMasLinkFromSelection();
         if (link == null) {
             MasContext masContext = getMASContextFromSelection();
             MaseCreationFactory maseFactory = new MaseCreationFactory((masFactory) masContext.getMasModel().getFactory(),
@@ -98,7 +98,7 @@ public class EditBehaviourAction extends MasAction implements IRunnableWithProgr
     @Override
     public void selectionChanged(IAction action, ISelection selection) {
         super.selectionChanged(action, selection);
-        if (getLinkFromSelection() == null) {
+        if (getMasLinkFromSelection() == null) {
             action.setText("Create Behaviour");
         }
         else {
