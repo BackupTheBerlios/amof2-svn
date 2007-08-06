@@ -59,8 +59,8 @@ public class MasContext {
     private final MofModel syntaxModel;
     private final MofModel masModel;
     private static final String linkIdPrefix = "mas-id-";
-    private Map<String, Operation> operations  = new HashMap<String, Operation>();
-    private Map<String, Activity> activities = new HashMap<String, Activity>();
+    private Map<String, Operation> operations;
+    private Map<String, Activity> activities;
     private boolean syntaxModelNeedsSaving = false;
     private IMasContextFileResource contextFile;
     private final ObjectIdentifierManager objectIdentifierManager;
@@ -135,9 +135,7 @@ public class MasContext {
         
         MasLink link = new MasLink(linkId, this, operation, activity);
         links.put(linkId, link);
-        
         setSyntaxModelNeedsSaving(true);
-        
         return link;
     }
     
@@ -308,7 +306,8 @@ public class MasContext {
      * @param syntaxExtent
      * @return
      */
-    private Map<String, Operation> getOperations(Extent syntaxExtent) {    	
+    private Map<String, Operation> getOperations(Extent syntaxExtent) {
+        Map<String, Operation> operations = new HashMap<String, Operation>();
     	for(Object obj: syntaxExtent.objectsOfType((UmlClass)Repository.getFromCmofModel("Package:cmof/Class:Operation"), false)) {
     		Operation op = (Operation)obj;
             String id = getLinkId(op);
@@ -316,7 +315,6 @@ public class MasContext {
                 operations.put(id, op);
             }
     	}
-    	        
         return operations;
     }
 

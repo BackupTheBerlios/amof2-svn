@@ -58,8 +58,10 @@ public abstract class MasAction extends Mof2PluginAction {
     public void selectionChanged(IAction action, ISelection selection) {
         if (selection != null) {
             TreeObject structuredSelection = (TreeObject) ((IStructuredSelection) selection).getFirstElement();
-	        selectedOperation = (Operation) structuredSelection.getElement();
-	        action.setEnabled(isEnabled());
+            if (structuredSelection != null) {
+                selectedOperation = (Operation) structuredSelection.getElement();
+                action.setEnabled(isEnabled());
+            }
         }
     }
     
