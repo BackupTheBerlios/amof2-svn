@@ -64,7 +64,8 @@ public class MasContext {
     private static final String linkIdPrefix = "mas-id-";
     private Map<String, Operation> operations;
     private Map<String, Activity> activities;
-    private boolean syntaxModelNeedsSaving = false;
+    private boolean syntaxModelDirty = false;
+    private boolean modelsModified = false;
     private IMasContextFileResource contextFile;
     private final ObjectIdentifierManager objectIdentifierManager;
     
@@ -86,6 +87,15 @@ public class MasContext {
         
         objectIdentifierManager = new ObjectIdentifierManager(masModel);
         checkMasObjectIds();
+
+        if (modelsModified) {
+            try {
+                save();
+            }
+            catch (SaveException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
     
     /**
@@ -129,7 +139,7 @@ public class MasContext {
         String linkId = computeLinkId(operation);
         createLink(operation, linkId);
         createLink(activity, linkId);
-        setSyntaxModelNeedsSaving(true);
+        setSyntaxModelDirty(true);
         MasLink link = cacheLink(linkId, operation, activity);
         return link;
     }
@@ -248,14 +258,13 @@ public class MasContext {
     private void preserveIntegrity(Map<String, Operation> operations, Map<String, Activity> activities) {
         List<String> alteredOperationNames = new ArrayList<String>();
         Map<String, Operation> renamedOperations = new HashMap<String, Operation>();
-        boolean saveModels = false;
         for(String id: operations.keySet()) {
             // check id
             Operation operation = operations.get(id);
             if (!id.equals(computeLinkId(operation))) {
                 // recompute id
                 Activity activity = getActivity(id);
-                saveModels = true;
+                modelsModified = true;
                 if (activity == null) {
                     deleteLinkId(operation);
                     alteredOperationNames.add("deleted " + operations.get(id).getQualifiedName());
@@ -300,19 +309,10 @@ public class MasContext {
             // no operation was found, delete activity
             activities.get(id).delete();
             deleted++;
-            saveModels = true;
+            modelsModified = true;
         }
         if (deleted > 0) {
             warnUser("Preserved Reference Integrity", "Modifications in semantic extent: deleted " + deleted + " unreferenced activities.");
-        }
-        
-        if (saveModels) {
-            try {
-                save();
-            }
-            catch (SaveException e) {
-                throw new RuntimeException(e);
-            }
         }
     }
     
@@ -324,6 +324,9 @@ public class MasContext {
         for (ObjectIdentifier idObject: objectIdentifierManager.getAllIdObjects()) {
             if (idObject.getObjectId() == null) {
                 objectIdentifierManager.addId(idObject);
+                if (!modelsModified) {
+                    modelsModified = true;
+                }
             }
         }
     }
@@ -363,7 +366,7 @@ public class MasContext {
         deleteLinkId(link.getActivity());
         link.getActivity().delete();
         getLinks().remove(link.getLinkId());
-        setSyntaxModelNeedsSaving(true);
+        setSyntaxModelDirty(true);
     }
     
     /**
@@ -422,7 +425,7 @@ public class MasContext {
         checkMasModel();
         getMasModel().save();
         
-        if(syntaxModelNeedsSaving) {
+        if(isSyntaxModelDirty()) {
             getSyntaxModel().save();
         }
         
@@ -439,12 +442,16 @@ public class MasContext {
         return links;
     }
 
-    protected void setSyntaxModelNeedsSaving(boolean syntaxModelNeedsSaving) {
-        this.syntaxModelNeedsSaving = syntaxModelNeedsSaving;
-    }
-    
     public ObjectIdentifierManager getObjectIdentifierManager() {
         return objectIdentifierManager;
+    }
+
+    private boolean isSyntaxModelDirty() {
+        return syntaxModelDirty;
+    }
+
+    private void setSyntaxModelDirty(boolean syntaxModelDirty) {
+        this.syntaxModelDirty = syntaxModelDirty;
     }
 
 }
