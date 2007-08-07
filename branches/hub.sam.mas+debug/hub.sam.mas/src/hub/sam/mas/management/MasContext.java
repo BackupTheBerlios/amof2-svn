@@ -248,12 +248,14 @@ public class MasContext {
     private void preserveIntegrity(Map<String, Operation> operations, Map<String, Activity> activities) {
         List<String> alteredOperationNames = new ArrayList<String>();
         Map<String, Operation> renamedOperations = new HashMap<String, Operation>();
+        boolean saveModels = false;
         for(String id: operations.keySet()) {
             // check id
             Operation operation = operations.get(id);
             if (!id.equals(computeLinkId(operation))) {
                 // recompute id
                 Activity activity = getActivity(id);
+                saveModels = true;
                 if (activity == null) {
                     deleteLinkId(operation);
                     alteredOperationNames.add("deleted " + operations.get(id).getQualifiedName());
@@ -298,9 +300,19 @@ public class MasContext {
             // no operation was found, delete activity
             activities.get(id).delete();
             deleted++;
+            saveModels = true;
         }
         if (deleted > 0) {
             warnUser("Preserved Reference Integrity", "Modifications in semantic extent: deleted " + deleted + " unreferenced activities.");
+        }
+        
+        if (saveModels) {
+            try {
+                save();
+            }
+            catch (SaveException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
     
