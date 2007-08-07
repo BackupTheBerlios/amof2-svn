@@ -134,7 +134,11 @@ public class AddMASContextAction extends Mof2PluginAction implements IRunnableWi
         monitor.worked(3);
 
         monitor.setTaskName("Creating a MAS Context ...");        
-        MasRepository.getInstance().createMasContext(modelManager, contextFile);
+        display.syncExec(new Runnable() {            
+            public void run() {
+                MasRepository.getInstance().createMasContext(modelManager, contextFile);
+            }
+        });
         monitor.worked(4);
         
         monitor.done();
