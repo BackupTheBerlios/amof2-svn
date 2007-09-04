@@ -1,18 +1,22 @@
 package hub.sam.mof.remote;
 
+import hub.sam.srmi.GenericSynchInvocationHandler;
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.lang.reflect.Proxy;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
-public class RemotePropertyChangeListenerImpl extends UnicastRemoteObject implements
-		RemotePropertyChangeListener {
+public class RemotePropertyChangeListenerImpl extends UnicastRemoteObject implements RemotePropertyChangeListener {
 
 	private final PropertyChangeListener localListener;
 	
 	public RemotePropertyChangeListenerImpl(final PropertyChangeListener localListener) throws RemoteException {
 		super();
-		this.localListener = localListener;
+        this.localListener = (PropertyChangeListener) Proxy.newProxyInstance(
+                localListener.getClass().getClassLoader(), new Class[] {PropertyChangeListener.class},
+                new GenericSynchInvocationHandler(localListener, MofRepositorySynchObject.getInstance()));
 	}
 
 	public void propertyChange(RemotePropertyChangeEvent evt) throws RemoteException {

@@ -1,7 +1,9 @@
 package hub.sam.mof.remote;
 
-import hub.sam.mof.Repository;
+import hub.sam.mof.IRepository;
+import hub.sam.srmi.GenericSynchInvocationHandler;
 
+import java.lang.reflect.Proxy;
 import java.rmi.RemoteException;
 import java.util.Collection;
 import java.util.Vector;
@@ -10,11 +12,18 @@ import cmof.reflection.Extent;
 
 public class RemoteRepositoryImpl extends java.rmi.server.UnicastRemoteObject implements RemoteRepository {
 	
-	private final Repository localRepository;
+	private final IRepository localRepository;
 
-	public RemoteRepositoryImpl(final Repository localRepository) throws RemoteException {
+	public RemoteRepositoryImpl(final IRepository localRepository) throws RemoteException {
 		super();
-		this.localRepository = localRepository;
+		try {
+    		this.localRepository = (IRepository) Proxy.newProxyInstance(
+    		        localRepository.getClass().getClassLoader(), new Class[] {IRepository.class},
+                    new GenericSynchInvocationHandler(localRepository, MofRepositorySynchObject.getInstance()));
+		}
+		catch (RuntimeException e) {
+		    throw new RemoteException(e.toString(), e);
+		}
 	}
 
 	public RemoteExtent getExtent(String name) throws RemoteException {

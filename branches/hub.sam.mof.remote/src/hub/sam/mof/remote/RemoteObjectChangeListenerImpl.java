@@ -1,17 +1,22 @@
 package hub.sam.mof.remote;
 
+import hub.sam.srmi.GenericSynchInvocationHandler;
+
+import java.lang.reflect.Proxy;
 import java.rmi.RemoteException;
 
 import cmof.reflection.ObjectChangeListener;
 
-public class RemoteObjectChangeListenerImpl extends java.rmi.server.UnicastRemoteObject  implements
-		RemoteObjectChangeListener {
+public class RemoteObjectChangeListenerImpl extends java.rmi.server.UnicastRemoteObject
+        implements RemoteObjectChangeListener {
 
 	private final ObjectChangeListener localListener;
 	
 	public RemoteObjectChangeListenerImpl(final ObjectChangeListener localListener) throws RemoteException {
 		super();
-		this.localListener = localListener;
+        this.localListener = (ObjectChangeListener) Proxy.newProxyInstance(
+                localListener.getClass().getClassLoader(), new Class[] {ObjectChangeListener.class},
+                new GenericSynchInvocationHandler(localListener, MofRepositorySynchObject.getInstance()));
 	}
 
 	public void handleDelete(RemoteObject object) throws RemoteException {

@@ -44,6 +44,7 @@ public class LocalObjectImpl implements cmof.reflection.Object {
 			String localImplClassName = normalImplClass.substring(0, normalImplClass.length() - 4) + "LocalImpl";
 			Class localImplClass;
 			try {			
+			    // TODO fails if remoteObject is a proxy
 				localImplClass = PlugInActivator.getClassLoader().loadClass(localImplClassName);
 			} catch (ClassNotFoundException e) {
 				throw new RuntimeException(e);

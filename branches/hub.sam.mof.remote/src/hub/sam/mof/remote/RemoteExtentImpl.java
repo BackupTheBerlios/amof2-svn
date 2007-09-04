@@ -1,7 +1,9 @@
 package hub.sam.mof.remote;
 
 import hub.sam.mof.util.SetImpl;
+import hub.sam.srmi.GenericSynchInvocationHandler;
 
+import java.lang.reflect.Proxy;
 import java.rmi.RemoteException;
 
 import cmof.UmlClass;
@@ -15,7 +17,9 @@ public class RemoteExtentImpl extends java.rmi.server.UnicastRemoteObject implem
 
 	public RemoteExtentImpl(final Extent localExtent) throws RemoteException {
 		super();
-		this.localExtent = localExtent;
+		this.localExtent = (Extent) Proxy.newProxyInstance(
+		        localExtent.getClass().getClassLoader(), new Class[] {Extent.class},
+                new GenericSynchInvocationHandler(localExtent, MofRepositorySynchObject.getInstance()));
 	}
 
 	public void addExtentChangeListener(RemoteExtentChangeListener listener)

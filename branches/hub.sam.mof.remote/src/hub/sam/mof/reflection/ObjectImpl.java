@@ -410,6 +410,7 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
 	        }	        
 	        extent.removeObject(this, getClassInstance());
 	        myFinalize();
+	        System.out.println("deleted object " + this.getClass().getCanonicalName());
         }       
     }
 

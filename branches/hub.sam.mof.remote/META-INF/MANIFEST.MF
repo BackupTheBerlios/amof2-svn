@@ -7,7 +7,8 @@ Bundle-Activator: hub.sam.mof.PlugInActivator
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.core.runtime;visibility:=reexport,
  org.junit,
- hub.sam.mof.oslo;visibility:=reexport
+ hub.sam.mof.oslo;visibility:=reexport,
+ hub.sam.srmi
 Eclipse-LazyStart: true
 Eclipse-BuddyPolicy: registered
 Bundle-ClassPath: resources/lib/ant.jar,

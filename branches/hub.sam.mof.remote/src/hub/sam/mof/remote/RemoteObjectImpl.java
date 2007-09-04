@@ -1,13 +1,17 @@
 package hub.sam.mof.remote;
 
 import hub.sam.mof.util.ListImpl;
+import hub.sam.srmi.GenericSynchInvocationHandler;
 import hub.sam.util.Identity;
 
+import java.lang.reflect.Array;
+import java.lang.reflect.Proxy;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
-
-import org.jboss.ha.jndi.HAJNDI_Stub;
 
 import cmof.Property;
 import cmof.UmlClass;
@@ -44,7 +48,12 @@ public class RemoteObjectImpl extends java.rmi.server.UnicastRemoteObject implem
 			}
 			identities.put(id, localObject);
 		}
-		return localObject == null ? null : new RemoteObjectImpl(localObject);
+		if (localObject == null) {
+		    return null;
+		}
+		else {
+		    return new RemoteObjectImpl(localObject);
+		}
 	}
 	
 	protected static cmof.reflection.Object createLocalObjectFromRemoteObject(RemoteObject remoteObject)  {
@@ -75,10 +84,25 @@ public class RemoteObjectImpl extends java.rmi.server.UnicastRemoteObject implem
 	}
 	
 	private final cmof.reflection.Object localObject;
+	private final Class localObjectClass;
 
 	public RemoteObjectImpl(final cmof.reflection.Object localObject) throws RemoteException {
 		super();
-		this.localObject = localObject;
+		Class[] interfaces = localObject.getClass().getInterfaces();
+        Collection<Class> useInterfaces = new HashSet<Class>();
+		if (interfaces != null) {
+		    for (Class i: interfaces) {
+		        useInterfaces.add(i);
+		    }
+		    useInterfaces.add(cmof.reflection.Object.class);
+		}
+		else {
+            interfaces = new Class[] {cmof.reflection.Object.class};
+		}
+		this.localObjectClass = localObject.getClass();
+		this.localObject = (cmof.reflection.Object) Proxy.newProxyInstance(
+                localObject.getClass().getClassLoader(), useInterfaces.toArray(new Class[] {}),
+                new GenericSynchInvocationHandler(localObject, MofRepositorySynchObject.getInstance()));
 	}
 
 	public void addListener(RemotePropertyChangeListener listener)
@@ -158,7 +182,7 @@ public class RemoteObjectImpl extends java.rmi.server.UnicastRemoteObject implem
 	}
 
 	public Class getConcreteInterface() throws RemoteException {
-		return localObject.getClass();
+		return localObjectClass;
 	}
 
 	public Object getId() throws RemoteException {

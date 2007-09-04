@@ -1,18 +1,27 @@
 package hub.sam.mof.remote;
 
-import hub.sam.mof.RepositoryChangeListener;
+import hub.sam.mof.IRepositoryChangeListener;
+import hub.sam.srmi.GenericSynchInvocationHandler;
 
+import java.lang.reflect.Proxy;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
-public class RemoteRepositoryChangeListenerImpl extends UnicastRemoteObject
-		implements RemoteRepositoryChangeListener {
+public class RemoteRepositoryChangeListenerImpl extends UnicastRemoteObject implements RemoteRepositoryChangeListener {
 	
-	private final RepositoryChangeListener localListener;
+	private final IRepositoryChangeListener localListener;
 
-	public RemoteRepositoryChangeListenerImpl(final RepositoryChangeListener localListener) throws RemoteException {
+	public RemoteRepositoryChangeListenerImpl(final IRepositoryChangeListener localListener) throws RemoteException {
 		super();
-		this.localListener = localListener;
+		try {
+    		 Object proxy = Proxy.newProxyInstance(
+    		        localListener.getClass().getClassLoader(), new Class[] {IRepositoryChangeListener.class},
+                    new GenericSynchInvocationHandler(localListener, MofRepositorySynchObject.getInstance()));
+    		 this.localListener = (IRepositoryChangeListener) proxy;
+		}
+		catch (RuntimeException e) {
+		    throw new RemoteException(e.toString(), e);
+		}
 	}
 
 	public void extendAboutToBeRemoved(String name, RemoteExtent extent)
