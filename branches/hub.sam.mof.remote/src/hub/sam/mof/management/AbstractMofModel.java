@@ -20,61 +20,39 @@
 
 package hub.sam.mof.management;
 
+import hub.sam.mof.PlugInActivator;
+import hub.sam.mof.Repository;
+import hub.sam.mof.instancemodel.MetaModelException;
+import hub.sam.mof.xmi.XmiException;
+
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import org.jdom.JDOMException;
 
-import hub.sam.mof.PlugInActivator;
-import hub.sam.mof.Repository;
-import hub.sam.mof.instancemodel.MetaModelException;
-import hub.sam.mof.javamapping.JavaMapping;
-import hub.sam.mof.xmi.CMOFToXmi;
-import hub.sam.mof.xmi.XmiException;
 import cmof.Package;
-import cmof.Tag;
-import cmof.cmofFactory;
 import cmof.reflection.Extent;
 import cmof.reflection.ExtentChangeListener;
 import cmof.reflection.Factory;
 import cmof.reflection.Object;
 
-/**
- * Keeps all information of a MOF model together in one place:
- * repository, meta-model, xmi file, extent, extent name, factory, model package (optional)
- * 
- * This allows easy access to basic functions:
- * - retrieving information (like extent, meta model, ...)
- * - saving (to specified xmi file)
- * - getting an appropriate factory for creating instances of meta-model elements in the model extent
- * 
- */
-public class MofModel implements ExtentChangeListener {
+abstract class AbstractMofModel<E extends MofModel> implements ExtentChangeListener {
 
     private final static String clonedXmiSuffix = "_cloned.xml";
     private final boolean isCloned;
     private boolean alive = true;
     
-    protected final Repository repository;
+    private final Repository repository;
     private final String xmiFile;
+    private final XmiType xmiType;
     private final Extent extent;
     private final String extentName;
-    private Factory factory;
-    private Package modelPackage;
-    private MofModel metaModel;
+    private E metaModel;
     
-    /**
-     * Constructor for M2 or M1-models.
-     * 
-     * @param repository
-     * @param metaModel
-     * @param xmiFile
-     * @param extent
-     * @param modelPackage
-     * @param cmofPackage
-     */
-    public MofModel(Repository repository, MofModel metaModel, String xmiFile, Extent extent, String extentName, Package modelPackage) {
+    public AbstractMofModel(Repository repository, E metaModel, String xmiFile, XmiType xmiType, Extent extent, String extentName) {
         this.repository = repository;
         this.metaModel = metaModel;
+        this.xmiType = xmiType;
         if (xmiFile != null && isClonedXmi(xmiFile)) {
             this.xmiFile = getUnclonedXmi(xmiFile);
             this.isCloned = true;
@@ -86,22 +64,12 @@ public class MofModel implements ExtentChangeListener {
         this.extent = extent;
         extent.addExtentChangeListener(this);
         this.extentName = extentName;
-        this.modelPackage = modelPackage;
     }
-
-    /**
-     * Constructor for M3-models where the meta-model is the model itself.
-     * 
-     * @param repository
-     * @param xmiFile
-     * @param extent
-     * @param extentName
-     * @param modelPackage
-     */
-    public MofModel(Repository repository, String xmiFile, Extent extent, String extentName, Package modelPackage) {
-        this(repository, null, xmiFile, extent, extentName, modelPackage);
+    
+    public Repository getRepository() {
+        return repository;
     }
-
+    
     public boolean isClonedXmi(String xmiFile) {
         return xmiFile.indexOf(clonedXmiSuffix) != -1;
     }
@@ -122,74 +90,33 @@ public class MofModel implements ExtentChangeListener {
         return extentName;
     }
        
-    public Factory getFactory() {
-        Package forPackage = getMetaModel().getPackage();
-        if (forPackage == null) {
-            throw new IllegalStateException("Can not create a factory without a meta-model package.");
-        }
-        if (factory == null) {
-            String className = hub.sam.mof.javamapping.JavaMapping.mapping.getFullQualifiedFactoryNameForPackage(forPackage);
-            try {            
-                Class factoryClass = PlugInActivator.class.getClassLoader().loadClass(className);
-                if (Factory.class.isAssignableFrom(factoryClass)){
-                    factory = (Factory) extent.getAdaptor(factoryClass);
-                    return factory;
-                }
-            }
-            catch (Exception ex) {
-                throw new RuntimeException(ex);
-            }
-        }
-        return factory;
-    }
-   
     public String getXmiFile() {
         return xmiFile;
     }
 
-    /**
-     * Accessing the package is only allowed if the meta-model is CMOF.
-     * 
-     * @return
-     */
-    public Package getPackage() {
-        return modelPackage;
-    }
-    
-    /**
-     * Adding a prefix to the package is only allowed if the meta-model is CMOF.
-     * 
-     * @return
-     */
-    public void addJavaPackagePrefix(String prefix) {
-        Factory factory = getFactory();
-        if (factory instanceof cmofFactory) {
-            cmofFactory cmofFactory = (cmofFactory) factory;
-            Tag prefixTag = cmofFactory.createTag();
-            prefixTag.setName(JavaMapping.PackagePrefixTagName);
-            prefixTag.setValue(prefix);
-            getPackage().getTag().add(prefixTag);
-        }
-    }
-    
-    /**
-     * Adding a prefix to the package is only allowed if the meta-model is CMOF.
-     * 
-     * @return
-     */
-    public void addNsPrefix(String nsPrefix) {
-        Factory factory = getFactory();
-        if (factory instanceof cmofFactory) {
-            cmofFactory cmofFactory = (cmofFactory) factory;
-            Tag nsPrefixTag = cmofFactory.createTag();
-            nsPrefixTag.setName(CMOFToXmi.NS_PREFIX_TAG_NAME);
-            nsPrefixTag.setValue(nsPrefix);
-            getPackage().getTag().add(nsPrefixTag);
-        }
-    }
-
-    public MofModel getMetaModel() {
+    public E getMetaModel() {
         return metaModel;
+    }
+    
+    protected XmiType getXmiType() {
+        return xmiType;
+    }
+    
+    protected Factory getFactory(Package forPackage) {
+        if (forPackage == null) {
+            throw new IllegalStateException("Can not create a factory without a meta-model package.");
+        }
+        String className = hub.sam.mof.javamapping.JavaMapping.mapping.getFullQualifiedFactoryNameForPackage(forPackage);
+        try {            
+            Class factoryClass = PlugInActivator.class.getClassLoader().loadClass(className);
+            if (Factory.class.isAssignableFrom(factoryClass)){
+                return (Factory) getExtent().getAdaptor(factoryClass);
+            }
+        }
+        catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+        return null;
     }
     
     public void save() throws SaveException {
@@ -203,7 +130,7 @@ public class MofModel implements ExtentChangeListener {
         }
         
         try {
-            repository.writeExtentToXmi(xmiFile, getMetaModel().getPackage(), getExtent());
+            doSave();
         }
         catch (IOException e) {
             throw new SaveException("xmi file " + xmiFile, e);
@@ -219,6 +146,31 @@ public class MofModel implements ExtentChangeListener {
         }
     }
     
+    protected abstract void doSave() throws IOException, MetaModelException, XmiException, JDOMException;
+    
+    public void load() throws LoadException {
+        try {
+            doLoad();
+        }
+        catch (FileNotFoundException e) {
+            throw new LoadException("xmi file " + xmiFile, e);
+        }
+        catch (IOException e) {
+            throw new LoadException("xmi file " + xmiFile, e);
+        }
+        catch (MetaModelException e) {
+            throw new LoadException("xmi file " + xmiFile, e);
+        }
+        catch (XmiException e) {
+            throw new LoadException("xmi file " + xmiFile, e);
+        }
+        catch (JDOMException e) {
+            throw new LoadException("xmi file " + xmiFile, e);
+        }
+    }
+    
+    protected abstract void doLoad() throws FileNotFoundException, IOException, MetaModelException, XmiException, JDOMException;
+
     public void close() {
         if (isAlive()) {
             // close this model first
@@ -243,7 +195,7 @@ public class MofModel implements ExtentChangeListener {
     }
     
     /**
-     * The MofModel is valid as long as its extent is alive.
+     * The MofModel is alive as long as its extent is alive.
      * 
      * @return
      */

@@ -21,18 +21,11 @@
 package hub.sam.mof.management;
 
 import hub.sam.mof.Repository;
-import hub.sam.mof.instancemodel.MetaModelException;
 import hub.sam.mof.reflection.ExtentImpl;
-import hub.sam.mof.xmi.XmiException;
-import hub.sam.mof.xmi.XmiImportExport;
+import hub.sam.mof.xmi.Xmi1Reader.XmiKind;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.jdom.JDOMException;
 
 import cmof.Package;
 import cmof.reflection.Extent;
@@ -41,22 +34,22 @@ import cmof.reflection.Extent;
  * Manages MofModels that are based on the three meta layer architecture where M3 is CMOF,
  * M2 is a meta-model as instance of CMOF and M1 is a model as instance of M2.
  * 
- * The manager allows loading M2 and M1 model from an xmi file or a statically created extent.
+ * The manager allows loading M2 and M1 model from an XMI file or a statically created extent.
  * The M2 model has to be loaded before the M1 model!
- * When you load a particular model, all useful information will be saved in a MofModel object.
- * It can be retrieved by calling the methods getM2Model or getM1Model.
+ * When you load a particular model, all relevant information will be saved in a MofModel object.
+ * It can be retrieved by invoking the methods getM2Model or getM1Model.
  * 
  * The MofModelManager can be configured to prevent reloading the same model XMI multiple times
- * into different extents. In such a case where an XMI file has already been loaded, the corresponding
+ * into different extents. In such a case, where an XMI file has already been loaded, the corresponding
  * MofModel is simply returned.
  *
  */
 public class MofModelManager {
     
     private final Repository repository;
-    private MofModel m2Model;
-    private MofModel m1Model;
-    private MofModel cmofModel;
+    private MofM3Model cmofModel;
+    private MofM2Model m2Model;
+    private MofM1Model m1Model;
     private static int uniqueExtentId = 0;
     
     /**
@@ -78,29 +71,94 @@ public class MofModelManager {
         this.repository = repository;
     }
     
-    public MofModel getCmofModel() {
+    public MofM3Model getCmofModel() {
         if (cmofModel == null) {
-            Extent cmofExtent = repository.getExtent(Repository.CMOF_EXTENT_NAME);
-            Package cmofPackage = (Package) cmofExtent.query("Package:cmof");
-            cmofModel = new MofModel(repository, null, cmofExtent, Repository.CMOF_EXTENT_NAME, cmofPackage);
+            cmofModel = new MofM3Model(repository);
         }
         return cmofModel;
     }
     
-    public void loadM2Model(String xmiFile, String extentName, String packageQuery) throws LoadException {
-        m2Model = loadModelFromXmi(getCmofModel(), xmiFile, extentName, packageQuery);
+    public void loadM2Model(String xmiFile, XmiKind xmiKind, String extentName, String packageQuery) throws LoadException {
+        MofModel duplicateModel = checkForDuplicateModel(xmiFile);
+        if (duplicateModel != null) {
+            m1Model = (MofM1Model) duplicateModel;
+        }
+        else {
+            Extent modelExtent = createModelExtent(extentName, getCmofModel());
+            XmiType xmiType = getXmiTypeForXmiKind(xmiKind);
+            if (xmiType == null) {
+                throw new LoadException("Unkown extension for XMI file '" + xmiFile + "'.");
+            }
+            m2Model = new MofM2Model(repository, getCmofModel(), xmiFile, xmiType, modelExtent, extentName, packageQuery);
+            m2Model.load();
+            // TODO: getPackageFromQuery(modelExtent, packageQuery)
+            xmiToMofModel.put(xmiFile, m2Model);
+        }
     }
 
-    public void loadM2Model(Extent modelExtent, String packageQuery) throws LoadException {
-        m2Model = loadStaticModel(getCmofModel(), modelExtent, packageQuery);
+    /**
+     * Loads the M2 model and decides on the XMI file ending which method of loading will be used
+     * (e.g. Plain XMI or MagicDraw XMI).
+     * 
+     */
+    public void loadM2Model(String xmiFile, String extentName, String packageQuery) throws LoadException {
+        if (xmiFile.endsWith(".mdxml")) {
+            // only use with M2 models !
+            loadM2Model(xmiFile, XmiKind.md, extentName, packageQuery);
+        }
+        else {
+            loadM2Model(xmiFile, XmiKind.mof, extentName, packageQuery);
+        }
     }
     
+    public void loadM2Model(Extent modelExtent, String packageQuery) throws LoadException {
+        ((ExtentImpl) modelExtent).configureExtent(getCmofModel().getPackage());
+        // TODO must specifiy XMI file and type if model should be saveable
+        m2Model = new MofM2Model(repository, getCmofModel(), null, null, modelExtent, null, packageQuery);
+    }
+    
+    /**
+     * Loads the M1 model (with default XMI kind MOF).
+     * 
+     */
     public void loadM1Model(String xmiFile, String extentName) throws LoadException {
-        m1Model = loadModelFromXmi(m2Model, xmiFile, extentName, null);
+        loadM1Model(xmiFile, XmiKind.mof, extentName);
+    }
+
+    public void loadM1Model(String xmiFile, XmiKind xmiKind, String extentName) throws LoadException {
+        MofModel duplicateModel = checkForDuplicateModel(xmiFile);
+        if (duplicateModel != null) {
+            m1Model = (MofM1Model) duplicateModel;
+        }
+        else {
+            Extent modelExtent = createModelExtent(extentName, m2Model);
+            XmiType xmiType = getXmiTypeForXmiKind(xmiKind);
+            if (xmiType == null) {
+                throw new LoadException("Unkown extension for XMI file '" + xmiFile + "'.");
+            }
+            m1Model = new MofM1Model(repository, m2Model, xmiFile, xmiType, modelExtent, extentName);
+            m1Model.load();
+            xmiToMofModel.put(xmiFile, m1Model);
+        }
+    }
+    
+    private XmiType getXmiTypeForXmiKind(XmiKind xmiKind) {
+        if (xmiKind == XmiKind.mof) {
+            return new MofXmiTypeImpl();
+        }
+        else if (xmiKind == XmiKind.md) {
+            return new MagicDrawXmiTypeImpl();
+        }
+        return null;
     }
 
     public void loadM1Model(Extent modelExtent) throws LoadException {
-        m1Model = loadStaticModel(m2Model, modelExtent, null);
+        if (m2Model == null) {
+            throw new IllegalStateException("You have to load the M2 model before the M1 model!");
+        }
+        ((ExtentImpl) modelExtent).configureExtent(m2Model.getPackage());
+        // TODO must specifiy XMI file and type if model should be saveable
+        m1Model = new MofM1Model(repository, m2Model, null, null, modelExtent, null);
     }
     
     private Package getPackageFromQuery(Extent extent, String packageQuery) throws LoadException {
@@ -118,9 +176,7 @@ public class MofModelManager {
         return new Integer(uniqueExtentId++).toString();
     }
 
-    private MofModel loadModelFromXmi(MofModel metaModel, String xmiFile, String extentName, String packageQuery) throws LoadException {
-        assert(metaModel != null);
-        
+    private MofModel checkForDuplicateModel(String xmiFile) {
         MofModel mofModel = null;
         if (!isAllowDuplicateXmiModel()) {
             mofModel = xmiToMofModel.get(xmiFile);
@@ -133,95 +189,56 @@ public class MofModelManager {
                 }
             }
         }
-        
+        return null;
+    }
+    
+    private Extent createModelExtent(String extentName, MofModel metaModel) {
         // TODO: reuse existing model extent or generate unique extent name ?
         extentName = extentName + " " + getUniqueExtentId();
-        Extent modelExtent = repository.createExtent(extentName, metaModel.getExtent());
-
-        try {
-            if (xmiFile.endsWith(".xml")) {
-                repository.loadXmiIntoExtent(modelExtent, metaModel.getPackage(), new FileInputStream(xmiFile));
-                mofModel = new MofModel(repository, metaModel, xmiFile, modelExtent, extentName,
-                        getPackageFromQuery(modelExtent, packageQuery));
-            }
-            else if (xmiFile.endsWith(".mdxml")) {
-                XmiImportExport diagramInfo = repository.loadMagicDrawXmiIntoExtent(modelExtent,
-                        metaModel.getPackage(), new FileInputStream(xmiFile));
-                mofModel = new MagicDrawMofModel(repository, metaModel, xmiFile, modelExtent, extentName,
-                        getPackageFromQuery(modelExtent, packageQuery), diagramInfo);
-            }
-            else {
-                throw new LoadException("unkown extension for xmi file " + xmiFile);
-            }
-        }
-        catch (FileNotFoundException e) {
-            throw new LoadException("xmi file " + xmiFile, e);
-        }
-        catch (IOException e) {
-            throw new LoadException("xmi file " + xmiFile, e);
-        }
-        catch (JDOMException e) {
-            throw new LoadException("xmi file " + xmiFile, e);
-        }
-        catch (XmiException e) {
-            throw new LoadException("xmi file " + xmiFile, e);
-        }
-        catch (MetaModelException e) {
-            throw new LoadException("xmi file " + xmiFile, e);
-        }
-        
-        xmiToMofModel.put(xmiFile, mofModel);
-        
-        return mofModel;
+        return repository.createExtent(extentName, metaModel.getExtent());
     }
     
-    private MofModel loadStaticModel(MofModel metaModel, Extent modelExtent, String packageQuery) throws LoadException {
-        assert(metaModel != null);
-        ((ExtentImpl) modelExtent).configureExtent(metaModel.getPackage());
-        return new MofModel(repository, metaModel, null, modelExtent, null, getPackageFromQuery(modelExtent, packageQuery));
-    }
-    
-    public MofModel getM2Model() {
+    public MofM2Model getM2Model() {
         return m2Model;
     }
     
-    public void setM2Model(MofModel model) {
+    public void setM2Model(MofM2Model model) {
         this.m2Model = model;
     }
     
-    public MofModel getM1Model() {
+    public MofM1Model getM1Model() {
         return m1Model;
     }
 
-    public void setM1Model(MofModel model) {
+    public void setM1Model(MofM1Model model) {
         this.m1Model = model;
     }
         
-    public MofModel createM2Model(String name, String persistenceXmiFile) {
+    public MofM2Model createM2Model(String name, String persistenceXmiFile, XmiKind xmiKind) {
         Extent m2Extent = repository.createExtent(name, getCmofModel().getExtent());
-        m2Model = new MofModel(repository, getM2Model(), persistenceXmiFile, m2Extent, name, null);
+        m2Model = new MofM2Model(repository, getCmofModel(), persistenceXmiFile, getXmiTypeForXmiKind(xmiKind), m2Extent, name, null);
         return m2Model;
     }
     
-    public MofModel createM2Model(String name) {
-        return createM2Model(name, null);
+    public MofM2Model createM2Model(String name) {
+        return createM2Model(name, null, null);
     }
     
     /**
-     * creates a m1 model as instance of the m2 model in a new extent.
+     * creates a M1 model as instance of the M2 model in a new extent.
      * 
      * @param name
-     * @param persistenceXmiFile optional if model should be saveable
+     * @param persistenceXmiFile optional, specify if model should be saveable
      * @return
      */
-    public MofModel createM1Model(String name, String persistenceXmiFile) {
+    public MofM1Model createM1Model(String name, String persistenceXmiFile, XmiKind xmiKind) {
         Extent m1Extent = repository.createExtent(name, getM2Model().getExtent());
-        m1Model = new MofModel(repository, getM2Model(), persistenceXmiFile, m1Extent, name, null);
+        m1Model = new MofM1Model(repository, getM2Model(), persistenceXmiFile, getXmiTypeForXmiKind(xmiKind), m1Extent, name);
         return m1Model;
     }
     
-    public MofModel createM1Model(String name) {
-        return createM1Model(name, null);
+    public MofM1Model createM1Model(String name) {
+        return createM1Model(name, null, null);
     }
 
 }
