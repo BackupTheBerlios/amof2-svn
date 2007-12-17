@@ -79,7 +79,12 @@ public class MofEvaluationAdaptor implements ModelEvaluationAdapter {
 		if (o1 == null || o2 == null ) {
 			return false;
 		}
-		return ((cmof.reflection.Object)o1.asJavaObject()).equals(o2.asJavaObject());
+		if (o1 instanceof cmof.reflection.Object) {
+            return ((cmof.reflection.Object)o1.asJavaObject()).equals(o2.asJavaObject());
+        }
+		else {
+		    return o1.asJavaObject().equals(o2.asJavaObject());
+		}
 	}
 
 	public boolean OclModelElement_oclIsNew(OclAny o1) {

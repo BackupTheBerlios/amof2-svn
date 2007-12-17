@@ -4,9 +4,12 @@ import hub.sam.mof.ocl.OclImplementations.Implementation;
 import hub.sam.mof.ocl.oslobridge.MofOclModelElementTypeImpl;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.oslo.ocl20.synthesis.RuntimeEnvironment;
 
@@ -56,31 +59,40 @@ public class OclObjectEnvironment {
 	}
 	
 	public boolean checkAllInvariants() throws OclException {
-		UmlClass metaClass = fSelf.getMetaClass();
-		boolean result = true;
-		for (Object content: metaClass.getMember()) {
-			if (content instanceof Constraint) {
-				Constraint constraint = (Constraint)content;
-				for (Object constraintElement: constraint.getConstrainedElement()) {					
-					if (constraintElement == metaClass) {
-						ValueSpecification specification = constraint.getSpecification();						
-						if (specification instanceof OpaqueExpression) {
-							OpaqueExpression opaqueSpecification = (OpaqueExpression)specification;			
-							String language = opaqueSpecification.getLanguage();
-							if (language != null && language.startsWith("OCL")) {
-								String expression = opaqueSpecification.getBody();
-								try {
-									result &= (Boolean)execute(expression);
-								} catch (ClassCastException ex) {
-									throw new OclException("Invariant " + expression + " is not of type boolean");
-								}
-							} 
-						}						
-					}
-				}
-			}
-		}
-		return result;
+		return getAllUnsatisfiedInvariants().isEmpty();
+	}
+	
+	public Collection<OpaqueExpression> getAllUnsatisfiedInvariants() throws OclException {
+	    Collection<OpaqueExpression> unsatisfiedInvariants = new HashSet<OpaqueExpression>();
+        UmlClass metaClass = fSelf.getMetaClass();
+        boolean result = true;
+        for (Object content: metaClass.getMember()) {
+            if (content instanceof Constraint) {
+                Constraint constraint = (Constraint)content;
+                for (Object constraintElement: constraint.getConstrainedElement()) {                    
+                    if (constraintElement == metaClass) {
+                        ValueSpecification specification = constraint.getSpecification();                       
+                        if (specification instanceof OpaqueExpression) {
+                            OpaqueExpression opaqueSpecification = (OpaqueExpression)specification;         
+                            String language = opaqueSpecification.getLanguage();
+                            if (language != null && language.startsWith("OCL")) {
+                                String expression = opaqueSpecification.getBody();
+                                try {
+                                    boolean currentResult = (Boolean) execute(expression);
+                                    if (!currentResult) {
+                                        unsatisfiedInvariants.add(opaqueSpecification);
+                                    }
+                                    result &= currentResult;
+                                } catch (ClassCastException ex) {
+                                    throw new OclException("Invariant " + expression + " is not of type boolean");
+                                }
+                            } 
+                        }                       
+                    }
+                }
+            }
+        }
+        return unsatisfiedInvariants;
 	}
 	
 	private Map<String, Type> additionalContextAttributes = new HashMap<String, Type>();

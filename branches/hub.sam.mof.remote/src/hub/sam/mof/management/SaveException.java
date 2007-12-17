@@ -22,7 +22,7 @@ package hub.sam.mof.management;
 
 
 /**
- * Signals that saving an xmi file failed.
+ * Signals that saving an XMI file failed.
  * 
  */
 public class SaveException extends MofModelException {

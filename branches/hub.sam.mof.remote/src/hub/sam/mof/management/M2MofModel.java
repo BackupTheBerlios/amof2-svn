@@ -17,10 +17,10 @@ import cmof.cmofFactory;
 import cmof.reflection.Extent;
 import cmof.reflection.Factory;
 
-public class MofM2Model extends AbstractMofModel<MofM3Model> implements MofModel {
+public class M2MofModel extends AbstractMofModel<M3MofModel> implements MofModel {
     
     private Factory factory;
-    private final String cmofPackage;
+    private final String packageQuery;
 
     /**
      * Creates a M2 model as instance of a M3 model.
@@ -30,13 +30,17 @@ public class MofM2Model extends AbstractMofModel<MofM3Model> implements MofModel
      * @param xmiFile
      * @param extent
      * @param extentName
-     * @param cmofPackage specifies in which CMOF package the model elements reside
+     * @param packageQuery specifies in which CMOF package the model elements reside
      */
-    public MofM2Model(Repository repository, MofM3Model metaModel, String xmiFile, XmiType xmiType, Extent extent, String extentName, String cmofPackage) {
+    public M2MofModel(Repository repository, M3MofModel metaModel, String xmiFile, XmiType xmiType, Extent extent, String extentName, String packageQuery) {
         super(repository, metaModel, xmiFile, xmiType, extent, extentName);
-        this.cmofPackage = cmofPackage;
+        this.packageQuery = packageQuery;
     }
     
+    /**
+     * Returns a factory for creating M2 elements as instances of M3 elements.
+     * 
+     */
     public Factory getFactory() {
         Package forPackage = getMetaModel().getPackage();
         if (forPackage == null) {
@@ -49,12 +53,12 @@ public class MofM2Model extends AbstractMofModel<MofM3Model> implements MofModel
     }
     
     /**
-     * Accessing the CMOF package where the models elements reside.
+     * Retrieves the CMOF package where the models elements reside.
      * 
      */
     public Package getPackage() {
-        if (cmofPackage != null) {
-            return (Package) getExtent().query(cmofPackage);
+        if (packageQuery != null) {
+            return (Package) getExtent().query(packageQuery);
         }
         return null;
     }

@@ -410,7 +410,6 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
 	        }	        
 	        extent.removeObject(this, getClassInstance());
 	        myFinalize();
-	        System.out.println("deleted object " + this.getClass().getCanonicalName());
         }       
     }
 
@@ -975,6 +974,30 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
     
     public Object getOclAdditionalValue6() {
     	return getOclAddionalValue(6);
+    }
+
+    public Object getOclAdditionalValue7() {
+        return getOclAddionalValue(7);
+    }
+
+    public Object getOclAdditionalValue8() {
+        return getOclAddionalValue(8);
+    }
+
+    public Object getOclAdditionalValue9() {
+        return getOclAddionalValue(9);
+    }
+
+    public Object getOclAdditionalValue10() {
+        return getOclAddionalValue(10);
+    }
+
+    public Object getOclAdditionalValue11() {
+        return getOclAddionalValue(11);
+    }
+
+    public Object getOclAdditionalValue12() {
+        return getOclAddionalValue(12);
     }
 
     private Object getOclAddionalValue(int index) {

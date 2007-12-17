@@ -22,7 +22,7 @@ package hub.sam.mof.management;
 
 
 /**
- * Signals that loading an xmi file failed and that a MofModel could not be created.
+ * Signals that loading an XMI file failed and that a MofModel could not be created.
  * 
  */
 public class LoadException extends MofModelException {

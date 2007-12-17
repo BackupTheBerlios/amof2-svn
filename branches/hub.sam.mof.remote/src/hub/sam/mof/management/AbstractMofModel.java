@@ -70,11 +70,11 @@ abstract class AbstractMofModel<E extends MofModel> implements ExtentChangeListe
         return repository;
     }
     
-    public boolean isClonedXmi(String xmiFile) {
+    protected boolean isClonedXmi(String xmiFile) {
         return xmiFile.indexOf(clonedXmiSuffix) != -1;
     }
     
-    public String getUnclonedXmi(String xmiFile) {
+    protected String getUnclonedXmi(String xmiFile) {
         return xmiFile.substring(0, xmiFile.length() - clonedXmiSuffix.length());
     }
     
@@ -179,11 +179,17 @@ abstract class AbstractMofModel<E extends MofModel> implements ExtentChangeListe
             if (getExtentName() != null) {
                 repository.deleteExtent(getExtentName());
             }
+        }
+    }
+    
+    public void closeAll() {
+        if (isAlive()) {
+            close();
             // close meta-model
             if (getMetaModel() != null) {
                 String extentName =  getMetaModel().getExtentName();
                 if (extentName != null && !extentName.equals(Repository.CMOF_EXTENT_NAME)) {
-                    getMetaModel().close();
+                    getMetaModel().closeAll();
                 }
             }
         }

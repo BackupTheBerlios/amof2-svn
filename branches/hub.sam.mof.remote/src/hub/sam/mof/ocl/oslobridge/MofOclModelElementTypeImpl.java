@@ -15,12 +15,14 @@ import java.util.Vector;
 import org.oslo.ocl20.OclProcessor;
 import org.oslo.ocl20.semantics.SemanticsVisitor;
 import org.oslo.ocl20.semantics.bridge.Classifier;
+import org.oslo.ocl20.semantics.bridge.EnumerationType;
 import org.oslo.ocl20.semantics.bridge.Namespace;
 import org.oslo.ocl20.semantics.bridge.OclModelElementType;
 import org.oslo.ocl20.semantics.bridge.Operation;
 import org.oslo.ocl20.semantics.bridge.Property;
 import org.oslo.ocl20.semantics.model.types.CollectionType;
 import org.oslo.ocl20.standard.types.OclAnyTypeImpl;
+import org.oslo.ocl20.standard.types.PrimitiveImpl;
 
 import cmof.DataType;
 import cmof.Enumeration;
@@ -77,7 +79,7 @@ public class MofOclModelElementTypeImpl extends OclAnyTypeImpl implements OclMod
     		index = MofEvaluationAdaptor.currentValue.size();
     	}
     	
-    	if (index > 6) {
+    	if (index > 12) {
     		throw new OclException("To many additional context attributes for this implementation.");
     	}
     	if (index >= MofEvaluationAdaptor.currentValue.size()) {
@@ -141,7 +143,15 @@ public class MofOclModelElementTypeImpl extends OclAnyTypeImpl implements OclMod
 		    		if (o instanceof CollectionType) {		    			
 		    			fullName.append(((NamedElement)((MofOclModelElementTypeImpl)((CollectionType)o).getBaseElementType()).getMofDelegate()).getQualifiedName());
 		    		} else if (o instanceof Classifier) {
-		    			fullName.append(((NamedElement)((MofOclModelElementTypeImpl)o).getMofDelegate()).getQualifiedName());
+		    		    if (o instanceof MofOclModelElementTypeImpl) {
+		    		        fullName.append(((NamedElement)((MofOclModelElementTypeImpl)o).getMofDelegate()).getQualifiedName());
+		    		    }
+		    		    else if (o instanceof PrimitiveImpl) {
+		    		        fullName.append(((PrimitiveImpl) o).toString());
+		    		    }
+                        else if (o instanceof MofEnumerationImpl) {
+                            fullName.append(((MofEnumerationImpl)o).getMofDelegate().getQualifiedName());
+                        }
 		    		} else {
 		    			throw new OclException("Unknown operation parameter type.");
 		    		}

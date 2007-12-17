@@ -13,11 +13,11 @@ import cmof.Package;
 import cmof.reflection.Extent;
 import cmof.reflection.Factory;
 
-public class MofM1Model extends AbstractMofModel<MofM2Model> implements MofModel {
+public class M1MofModel extends AbstractMofModel<M2MofModel> implements MofModel {
     
     private Factory factory;
 
-    public MofM1Model(Repository repository, MofM2Model metaModel, String xmiFile, XmiType xmiType, Extent extent, String extentName) {
+    public M1MofModel(Repository repository, M2MofModel metaModel, String xmiFile, XmiType xmiType, Extent extent, String extentName) {
         super(repository, metaModel, xmiFile, xmiType, extent, extentName);
     }
 

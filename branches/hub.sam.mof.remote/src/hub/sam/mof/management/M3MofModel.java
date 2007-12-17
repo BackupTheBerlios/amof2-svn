@@ -11,11 +11,11 @@ import hub.sam.mof.xmi.XmiException;
 import cmof.Package;
 import cmof.reflection.Extent;
 
-public class MofM3Model extends AbstractMofModel<MofM3Model> implements MofModel {
+public class M3MofModel extends AbstractMofModel<M3MofModel> implements MofModel {
     
     private final Package cmofPackage;
     
-    public MofM3Model(Repository repository) {
+    public M3MofModel(Repository repository) {
         super(repository, null, null, null, repository.getExtent(Repository.CMOF_EXTENT_NAME), Repository.CMOF_EXTENT_NAME);
         cmofPackage = (Package) getExtent().query("Package:cmof");
     }
@@ -36,12 +36,12 @@ public class MofM3Model extends AbstractMofModel<MofM3Model> implements MofModel
 
     @Override
     protected void doSave() throws IOException, MetaModelException, XmiException, JDOMException {
-        getXmiType().save(this, this.getPackage());
+        // empty
     }
 
     @Override
     protected void doLoad() throws FileNotFoundException, IOException, MetaModelException, XmiException, JDOMException {
-        getXmiType().load(this, this.getPackage());
+        // empty
     }
 
 }

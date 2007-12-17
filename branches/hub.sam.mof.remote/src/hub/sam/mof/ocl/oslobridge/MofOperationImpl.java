@@ -9,6 +9,13 @@ import org.oslo.ocl20.semantics.SemanticsVisitor;
 import org.oslo.ocl20.semantics.bridge.Classifier;
 import org.oslo.ocl20.semantics.bridge.Operation;
 
+import core.abstractions.multiplicities.MultiplicityElement;
+import core.abstractions.typedelements.TypedElement;
+
+import cmof.Parameter;
+import cmof.ParameterDirectionKind;
+import cmof.Type;
+
 public class MofOperationImpl implements Operation {
 	
 	private cmof.Operation mofOperation;
@@ -26,27 +33,36 @@ public class MofOperationImpl implements Operation {
 		this.processor = proc;
 	}
 	
+	private Classifier getTypeForTypedElement(Type type, MultiplicityElement multiplicityElement) {
+	    if (multiplicityElement.getUpper() == -1 || multiplicityElement.getUpper() > 1) {
+            if (multiplicityElement.isOrdered()) {
+                if (multiplicityElement.isUnique()) {
+                    return this.processor.getTypeFactory().buildOrderedSetType(this.processor.getBridgeFactory().buildClassifier(type));
+                } else {
+                    return this.processor.getTypeFactory().buildSequenceType(this.processor.getBridgeFactory().buildClassifier(type));
+                }
+            } else {
+                if (multiplicityElement.isUnique()) {
+                    return this.processor.getTypeFactory().buildSetType(this.processor.getBridgeFactory().buildClassifier(type));
+                } else {
+                    return this.processor.getTypeFactory().buildBagType(this.processor.getBridgeFactory().buildClassifier(type));
+                }
+            }
+        } else {
+            return this.processor.getBridgeFactory().buildClassifier(type);
+        }
+	}
+	
 	public Classifier getReturnType() {
 		if (mofOperation==null) {
 			return this.returnType;
 		}
-		if (mofOperation.getUpper() == -1 || mofOperation.getUpper() > 1) {
-			if (mofOperation.isOrdered()) {
-				if (mofOperation.isUnique()) {
-					return this.processor.getTypeFactory().buildOrderedSetType(this.processor.getBridgeFactory().buildClassifier(mofOperation.getType()));
-				} else {
-					return this.processor.getTypeFactory().buildSequenceType(this.processor.getBridgeFactory().buildClassifier(mofOperation.getType()));
-				}
-			} else {
-				if (mofOperation.isUnique()) {
-					return this.processor.getTypeFactory().buildSetType(this.processor.getBridgeFactory().buildClassifier(mofOperation.getType()));
-				} else {
-					return this.processor.getTypeFactory().buildBagType(this.processor.getBridgeFactory().buildClassifier(mofOperation.getType()));
-				}
-			}
-		} else {
-			return this.processor.getBridgeFactory().buildClassifier(mofOperation.getType());
+		for (Parameter param: mofOperation.getFormalParameter()) {
+		    if (param.getDirection() == ParameterDirectionKind.RETURN) {
+		        return getTypeForTypedElement(param.getType(), param);
+		    }
 		}
+		return getTypeForTypedElement(mofOperation.getType(), mofOperation);		
 	}
 
 	public void setReturnType(Classifier cl) {
@@ -61,7 +77,9 @@ public class MofOperationImpl implements Operation {
 				Iterator i = mofOperation.getFormalParameter().iterator();
 				while (i.hasNext()) {
 					cmof.Parameter p = (cmof.Parameter) i.next();
-					this.parameterTypes.add(this.processor.getBridgeFactory().buildClassifier(p.getType()));
+					if (p.getDirection() != ParameterDirectionKind.RETURN) {
+					    this.parameterTypes.add(getTypeForTypedElement(p.getType(), p));
+					}
 				}
 			}
 		}
@@ -85,7 +103,9 @@ public class MofOperationImpl implements Operation {
 				Iterator i = mofOperation.getFormalParameter().iterator();
 				while (i.hasNext()) {
 					cmof.Parameter p = (cmof.Parameter) i.next();
-					this.parameterNames.add(p.getName());
+					if (p.getDirection() != ParameterDirectionKind.RETURN) {
+					    this.parameterNames.add(p.getName());
+					}
 				}
 			}
 		}

@@ -45,7 +45,7 @@ public class MofCopyFluxBox extends AbstractFluxBox<cmof.reflection.Object,cmof.
      *        The copy of key. Lies in the target extent. Has all the values that key has.
      */
     @Override
-    protected cmof.reflection.Object createValue(cmof.reflection.Object key, Object params) {
+    public cmof.reflection.Object createValue(cmof.reflection.Object key, Object params) {
         UmlClass metaClass = key.getMetaClass();
         cmof.Package metaPackage = metaClass.getPackage();
         cmof.reflection.Object result = getFactory(metaPackage).create(metaClass);
