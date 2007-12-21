@@ -31,7 +31,8 @@ import cmof.reflection.Extent;
 import hub.sam.mas.model.mas.MasModel;
 import hub.sam.mof.Repository;
 import hub.sam.mof.management.LoadException;
-import hub.sam.mof.management.MofModel;
+import hub.sam.mof.management.M1MofModel;
+import hub.sam.mof.management.M2MofModel;
 import hub.sam.mof.management.MofModelManager;
 import hub.sam.mof.runtimelayer.M1SemanticModel;
 import hub.sam.mof.xmi.Xmi1Reader.XmiKind;
@@ -41,7 +42,7 @@ import hub.sam.mof.xmi.Xmi1Reader.XmiKind;
  * a semantic model, that can be used by a MasContext to establish the connection between them.
  * 
  * Meta-models:
- * The syntax model's meta-model is cmof, which is provided by the AMOF repository.
+ * The syntax model's meta-model is CMOF, which is provided by the AMOF repository.
  * The semantic model's meta-model is the MAS meta-model, which is provided by the MAS project.
  * 
  * Before you can use the MasModelContainer in a MasContext, you have to load the appropriate
@@ -64,7 +65,7 @@ public class MasModelContainer implements IMasModelContainer {
     public MasModelContainer(Repository repository) throws LoadException {
         this.syntaxModelManager = new MofModelManager(repository);
         this.masModelManager = new MofModelManager(repository);
-        // load static mas meta-model
+        // load static MAS meta-model
         this.masModelManager.loadM2Model(MasModel.createModel(), "Package:mas");
     }
     
@@ -74,7 +75,7 @@ public class MasModelContainer implements IMasModelContainer {
     }
        
     /**
-     * Loads a syntax model (as instance of cmof) from the given xmi file and prepares it for execution.
+     * Loads a syntax model (as instance of CMOF) from the given XMI file and prepares it for execution.
      * 
      * @param xmiFile
      * @param packageQuery you must specify the models package
@@ -82,7 +83,7 @@ public class MasModelContainer implements IMasModelContainer {
      */
     public void loadSyntaxModelForExecution(String xmiFile, String packageQuery) throws LoadException {
         // clone syntax model - prevents saving runtime-instance-of-association
-        String clonedSyntaxFile = MofModel.getClonedXmi(xmiFile);
+        String clonedSyntaxFile = M2MofModel.getClonedXmi(xmiFile);
         cloneXmiModel(xmiFile, clonedSyntaxFile);
         syntaxModelManager.loadM2Model(clonedSyntaxFile, "Syntax: " + getFilename(xmiFile), packageQuery);
         
@@ -96,7 +97,7 @@ public class MasModelContainer implements IMasModelContainer {
     }
     
     /**
-     * Loads a syntax model (as instance of cmof) from the given xmi file.
+     * Loads a syntax model (as instance of CMOF) from the given XMI file.
      * Instances of the syntax model cannot be executed!
      * 
      */
@@ -105,18 +106,18 @@ public class MasModelContainer implements IMasModelContainer {
     }
 
     /**
-     * Loads a MAS model (as instance of the MAS meta-model) from the given xmi file.
+     * Loads a MAS model (as instance of the MAS meta-model) from the given XMI file.
      * 
      */
     public void loadMasModel(String xmiFile) throws LoadException {
         masModelManager.loadM1Model(xmiFile, "Semantic: " + getFilename(xmiFile));
     }
 
-    public MofModel getMasModel() {
+    public M1MofModel getMasModel() {
         return masModelManager.getM1Model();
     }
 
-    public MofModel getSyntaxModel() {
+    public M2MofModel getSyntaxModel() {
         return syntaxModelManager.getM2Model();
     }
     

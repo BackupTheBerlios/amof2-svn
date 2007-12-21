@@ -22,7 +22,7 @@ package hub.sam.mas.execution;
 
 import hub.sam.mas.management.MasContext;
 import hub.sam.mof.Repository;
-import hub.sam.mof.management.MofModel;
+import hub.sam.mof.management.M1MofModel;
 import hub.sam.mof.ocl.OclImplementationsManager;
 import hub.sam.mof.reflection.ExtentImpl;
 import hub.sam.mof.reflection.ImplementationsManager;
@@ -33,7 +33,7 @@ import cmof.reflection.Extent;
 
 public class MasExecutionHelper {
 
-    public static void prepareRun(Repository repository, MasContext masContext, MofModel m1Model) {
+    public static void prepareRun(Repository repository, MasContext masContext, M1MofModel m1Model) {
         ExecutionEnvironment env = new ExecutionEnvironment(m1Model.getExtent(),
         		m1Model.getMetaModel().getExtent(), repository);
                 //masContext.getMasModel().getMetaModel().getExtent(), repository);

@@ -32,7 +32,7 @@ import hub.sam.mas.model.tests.flow.iterative.iterativeFactory;
 import hub.sam.mas.model.tests.flow.startactionend.startactionendFactory;
 import hub.sam.mas.model.tests.flow.startend.startendFactory;
 import hub.sam.mof.Repository;
-import hub.sam.mof.management.MofModel;
+import hub.sam.mof.management.M1MofModel;
 import hub.sam.mof.management.MofModelManager;
 import junit.framework.TestCase;
 
@@ -63,8 +63,8 @@ public class UnitTests extends TestCase {
 	        
 	        // load state automaton meta-model (syntax)
 	        masModelContainer.loadSyntaxModelForExecution(contextFile.getSyntaxFile(), "Package:tests");
-	        masModelContainer.getSyntaxModel().addJavaPackagePrefix("hub.sam.mas.model");
-	        masModelContainer.getSyntaxModel().addNsPrefix("mastests");
+	        masModelContainer.getSyntaxModel().setJavaPackagePrefix("hub.sam.mas.model");
+	        masModelContainer.getSyntaxModel().setXmiNamespacePrefix("mastests");
 	        
 	        // now we can create a mas context
 	        MasContext masContext = MasRepository.getInstance().createMasContext(masModelContainer, contextFile);
@@ -75,7 +75,7 @@ public class UnitTests extends TestCase {
 	        testManager = new MofModelManager(repository);
 	        testManager.setM2Model(masModelContainer.getSyntaxModel());
 	        
-	        MofModel testModel = testManager.createM1Model("testModel");        
+	        M1MofModel testModel = testManager.createM1Model("testModel");        
 	        
 	        // prepares execution and installs implementations managers for activities,
 	        // ocl queries and java code (in order).
@@ -85,7 +85,7 @@ public class UnitTests extends TestCase {
 		}
 	}
 	
-	private MofModel testModel = null;
+	private M1MofModel testModel = null;
 	
 	@Override
 	protected void setUp() throws Exception {

@@ -31,7 +31,7 @@ import hub.sam.mas.model.petrinets.Place;
 import hub.sam.mas.model.petrinets.Transition;
 import hub.sam.mas.model.petrinets.petrinetsFactory;
 import hub.sam.mof.Repository;
-import hub.sam.mof.management.MofModel;
+import hub.sam.mof.management.M1MofModel;
 import hub.sam.mof.management.MofModelManager;
 
 public class TestPetrinet {
@@ -71,7 +71,7 @@ public class TestPetrinet {
         
         // load syntax model
         masModelContainer.loadSyntaxModelForExecution(contextFile.getSyntaxFile(), "Package:petrinets");
-        masModelContainer.getSyntaxModel().addJavaPackagePrefix("hub.sam.mas.model");
+        masModelContainer.getSyntaxModel().setJavaPackagePrefix("hub.sam.mas.model");
         
         // now we can create a mas context
         MasContext masContext = MasRepository.getInstance().createMasContext(masModelContainer, contextFile);
@@ -81,7 +81,7 @@ public class TestPetrinet {
         // as instance of the syntax model.
         MofModelManager testManager = new MofModelManager(repository);
         testManager.setM2Model(masModelContainer.getSyntaxModel());
-        MofModel testModel = testManager.createM1Model("test");
+        M1MofModel testModel = testManager.createM1Model("test");
         petrinetsFactory testFactory = (petrinetsFactory) testModel.getFactory();
         
         MasExecutionHelper.prepareRun(repository, masContext, testModel);

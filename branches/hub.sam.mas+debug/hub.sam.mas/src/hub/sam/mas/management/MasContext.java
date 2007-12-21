@@ -25,7 +25,8 @@ import hub.sam.mas.editor.MaseEditor;
 import hub.sam.mas.model.mas.Activity;
 import hub.sam.mas.model.mas.ObjectIdentifier;
 import hub.sam.mof.Repository;
-import hub.sam.mof.management.MofModel;
+import hub.sam.mof.management.M1MofModel;
+import hub.sam.mof.management.M2MofModel;
 import hub.sam.mof.management.SaveException;
 
 import java.util.ArrayList;
@@ -59,8 +60,8 @@ public class MasContext {
     
     private static Logger logger = Logger.getLogger(MasContext.class.getName());
     private Map<String, MasLink> links = new HashMap<String, MasLink>();
-    private final MofModel syntaxModel;
-    private final MofModel masModel;
+    private final M2MofModel syntaxModel;
+    private final M1MofModel masModel;
     private static final String linkIdPrefix = "mas-id-";
     private Map<String, Operation> operations;
     private Map<String, Activity> activities;
@@ -231,11 +232,11 @@ public class MasContext {
         return activities.get(linkId);
     }
 
-    public MofModel getMasModel() {
+    public M1MofModel getMasModel() {
         return masModel;
     }
 
-    public MofModel getSyntaxModel() {
+    public M2MofModel getSyntaxModel() {
         return syntaxModel;
     }
     
@@ -411,8 +412,8 @@ public class MasContext {
     }
     
     public void close() {
-        getSyntaxModel().close();
-        getMasModel().close();
+        getSyntaxModel().closeAll();
+        getMasModel().closeAll();
     }
     
     /**

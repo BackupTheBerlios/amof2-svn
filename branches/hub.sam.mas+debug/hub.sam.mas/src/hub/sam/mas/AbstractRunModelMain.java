@@ -27,7 +27,7 @@ import hub.sam.mas.management.MasModelContainer;
 import hub.sam.mas.management.MasRepository;
 import hub.sam.mas.management.SimpleMasContextFile;
 import hub.sam.mof.Repository;
-import hub.sam.mof.management.MofModel;
+import hub.sam.mof.management.M1MofModel;
 import hub.sam.mof.management.MofModelManager;
 
 public abstract class AbstractRunModelMain {
@@ -63,7 +63,7 @@ public abstract class AbstractRunModelMain {
 	        
 	        // load state automaton meta-model (syntax)
 	        masModelContainer.loadSyntaxModelForExecution(contextFile.getSyntaxFile(), metaModelPackagePath);
-	        masModelContainer.getSyntaxModel().addJavaPackagePrefix(javaPackagePrefix);	        
+	        masModelContainer.getSyntaxModel().setJavaPackagePrefix(javaPackagePrefix);	        
 	        
 	        // now we can create a mas context
 	        MasContext masContext = MasRepository.getInstance().createMasContext(masModelContainer, contextFile);
@@ -74,7 +74,7 @@ public abstract class AbstractRunModelMain {
 	        manager = new MofModelManager(repository);
 	        manager.setM2Model(masModelContainer.getSyntaxModel());
 	        
-	        MofModel model = manager.createM1Model("model");        
+	        M1MofModel model = manager.createM1Model("model");        
 	        
 	        // prepares execution and installs implementations managers for activities,
 	        // ocl queries and java code (in order).

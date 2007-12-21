@@ -20,7 +20,8 @@
 
 package hub.sam.mas.management;
 
-import hub.sam.mof.management.MofModel;
+import hub.sam.mof.management.M1MofModel;
+import hub.sam.mof.management.M2MofModel;
 
 /**
  * Interface for a MasModelContainer, that is used by a MasContext to establish
@@ -28,6 +29,6 @@ import hub.sam.mof.management.MofModel;
  * 
  */
 public interface IMasModelContainer {
-    public MofModel getSyntaxModel();
-    public MofModel getMasModel();
+    public M2MofModel getSyntaxModel();
+    public M1MofModel getMasModel();
 }
