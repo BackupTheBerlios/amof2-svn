@@ -63,38 +63,26 @@ public class MofOclModelElementTypeImpl extends OclAnyTypeImpl implements OclMod
     public class Null {    	
     }
     
+    private Map<String, Object> mofAdditionalPropertyValues = new HashMap<String, Object>();
+    
     public void addAdditionalProperty(String name, Object value, Type propertyType) {
-    	int index = 0;
-    	int i = 0;
-    	boolean newSlot = true;
-    	loop: for (Object obj: MofEvaluationAdaptor.currentValue) {
-    		if (obj == null) {
-    			index = i;
-    			newSlot = false;
-    			break loop;
-    		}
-    		i++;
-    	}    	
-    	if (newSlot) {
-    		index = MofEvaluationAdaptor.currentValue.size();
-    	}
+        Classifier classifier = processor.getBridgeFactory().buildClassifier(propertyType);
+    	MofAdditionalPropertyImpl additionalProperty = new MofAdditionalPropertyImpl(name, classifier);
+    	mofAdditionalPropertyValues.put(name, value == null ? new Null() : value);
     	
-    	if (index > 12) {
-    		throw new OclException("To many additional context attributes for this implementation.");
-    	}
-    	if (index >= MofEvaluationAdaptor.currentValue.size()) {
-    		MofEvaluationAdaptor.currentValue.add(value == null ? new Null() : value);
-    	} else {
-    		MofEvaluationAdaptor.currentValue.set(index, value == null ? new Null() : value);
-    	}
-    	MofAdditionalPropertyImpl additionalProperty = new MofAdditionalPropertyImpl(name, processor.getBridgeFactory().buildClassifier(propertyType), index);	
+    	//Property prop = processor.getBridgeFactory().buildProperty(sf);
+    	
     	mofProperties.put(name, additionalProperty);    	
     }
     
     public void removeAdditionalProperty(String name) {
-    	int index = ((MofAdditionalPropertyImpl)mofProperties.get(name)).getIndex();    	
-    	MofEvaluationAdaptor.currentValue.set(index, null);
+        mofAdditionalPropertyValues.remove(name);
     	mofProperties.remove(name);
+    }
+    
+    public Object getAdditionalPropertyValue(String name) {
+        Object value = mofAdditionalPropertyValues.get(name);
+        return value instanceof Null ? null : value;
     }
                   
     @Override

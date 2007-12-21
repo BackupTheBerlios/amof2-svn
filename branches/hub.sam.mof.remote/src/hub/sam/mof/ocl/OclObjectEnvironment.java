@@ -1,6 +1,5 @@
 package hub.sam.mof.ocl;
 
-import hub.sam.mof.ocl.OclImplementations.Implementation;
 import hub.sam.mof.ocl.oslobridge.MofOclModelElementTypeImpl;
 
 import java.util.Arrays;
@@ -9,13 +8,11 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.oslo.ocl20.synthesis.RuntimeEnvironment;
 
 import cmof.Constraint;
 import cmof.OpaqueExpression;
-import cmof.Property;
 import cmof.Type;
 import cmof.UmlClass;
 import cmof.ValueSpecification;
@@ -58,53 +55,85 @@ public class OclObjectEnvironment {
 		}
 	}
 	
-	public boolean checkAllInvariants() throws OclException {
+	/**
+	 * Checks if there are invariants that do not hold for the current instance of the meta-model.
+	 * 
+	 * @return true if all invariants hold, else false
+	 */
+	public boolean checkAllInvariants() {
 		return getAllUnsatisfiedInvariants().isEmpty();
 	}
 	
-	public Collection<OpaqueExpression> getAllUnsatisfiedInvariants() throws OclException {
-	    Collection<OpaqueExpression> unsatisfiedInvariants = new HashSet<OpaqueExpression>();
+	/**
+	 * Returns a collection of all invariants (specified in the meta-model class of this object) that do not hold
+	 * for the current instance of the meta-model.
+	 * 
+	 * @return
+	 */
+	public Collection<Constraint> getAllUnsatisfiedInvariants() {
+	    Collection<Constraint> unsatisfiedInvariants = new HashSet<Constraint>();
+	    for (Constraint invariant: getInvariants()) {
+            ValueSpecification specification = invariant.getSpecification();                       
+            if (specification instanceof OpaqueExpression) {
+                OpaqueExpression opaqueSpecification = (OpaqueExpression) specification;         
+                String language = opaqueSpecification.getLanguage();
+                if (language != null && language.startsWith("OCL")) {
+                    String expression = opaqueSpecification.getBody();
+                    try {
+                        boolean result = (Boolean) execute(expression);
+                        if (!result) {
+                            unsatisfiedInvariants.add(invariant);
+                        }
+                    }
+                    catch (ClassCastException ex) {
+                        throw new OclException("Invariant '" + expression + "' is not of type boolean.");
+                    }
+                } 
+            }                       
+	    }
+        return unsatisfiedInvariants;
+	}
+	
+	/**
+	 * Returns a collection of all invariants owned by the meta-model class of this object.
+	 * 
+	 * @return
+	 */
+	public Collection<Constraint> getInvariants() {
+        Collection<Constraint> invariants = new HashSet<Constraint>();
         UmlClass metaClass = fSelf.getMetaClass();
-        boolean result = true;
-        for (Object content: metaClass.getMember()) {
-            if (content instanceof Constraint) {
-                Constraint constraint = (Constraint)content;
-                for (Object constraintElement: constraint.getConstrainedElement()) {                    
-                    if (constraintElement == metaClass) {
-                        ValueSpecification specification = constraint.getSpecification();                       
-                        if (specification instanceof OpaqueExpression) {
-                            OpaqueExpression opaqueSpecification = (OpaqueExpression)specification;         
-                            String language = opaqueSpecification.getLanguage();
-                            if (language != null && language.startsWith("OCL")) {
-                                String expression = opaqueSpecification.getBody();
-                                try {
-                                    boolean currentResult = (Boolean) execute(expression);
-                                    if (!currentResult) {
-                                        unsatisfiedInvariants.add(opaqueSpecification);
-                                    }
-                                    result &= currentResult;
-                                } catch (ClassCastException ex) {
-                                    throw new OclException("Invariant " + expression + " is not of type boolean");
-                                }
-                            } 
-                        }                       
+        for (Object member: metaClass.getMember()) {
+            if (member instanceof Constraint) {
+                Constraint constraint = (Constraint) member;
+                for (Object constrainedElement: constraint.getConstrainedElement()) {                    
+                    if (constrainedElement == metaClass) {
+                        invariants.add(constraint);
                     }
                 }
             }
         }
-        return unsatisfiedInvariants;
-	}
+        return invariants;
+    }
 	
 	private Map<String, Type> additionalContextAttributes = new HashMap<String, Type>();
 	
-	public void addAdditionalContextAttribute(String name, Object value, Type attributeType, Type contextType) {	
+	public Object getAdditionalContextAttributeValue(String name) {
+	    List<String> contextName = Arrays.asList(fSelf.getMetaClass().getQualifiedName().split("\\."));
+	    MofOclModelElementTypeImpl contextOclModelElementType = (MofOclModelElementTypeImpl)fEnvironment.getEnvironment().lookupPathName(contextName);
+	    return contextOclModelElementType.getAdditionalPropertyValue(name);
+	}
+	
+	// contextType can be the type of the meta-class or the type of a runtime instance of the meta-class
+	public void addAdditionalContextAttribute(String name, Object value, Type attributeType, Type contextType) {
 		List<String> contextName = Arrays.asList(contextType.getQualifiedName().split("\\."));		
 		MofOclModelElementTypeImpl contextOclModelElementType = (MofOclModelElementTypeImpl)fEnvironment.getEnvironment().lookupPathName(contextName);
 		if (contextOclModelElementType == null) {
 			throw new OclException("Cannot resolve context (" + contextName + ") of action " + this.toString());
 		}
-		additionalContextAttributes.put(name, contextType);	
-		contextOclModelElementType.addAdditionalProperty(name, value, attributeType);		
+		if (!additionalContextAttributes.containsKey(name)) {
+		    additionalContextAttributes.put(name, contextType);	
+		    contextOclModelElementType.addAdditionalProperty(name, value, attributeType);
+		}
 	}
 	
 	public void removeAdditionalAttributes() {

@@ -30,8 +30,7 @@ public class CheckedPrePostConditionsImplementationsImpl extends Implementations
         cmof.Type returnType = null;
         for (Parameter parameter: operation.getFormalParameter()) {
             if (parameter.getDirection() != ParameterDirectionKind.RETURN) {
-                env.addAdditionalContextAttribute(parameter.getName(), args[i], 
-                        parameter.getType(), object.getMetaClass());
+                env.addAdditionalContextAttribute(parameter.getName(), args[i], parameter.getType(), object.getMetaClass());
                 i++;
             }
             else {

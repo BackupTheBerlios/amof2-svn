@@ -37,8 +37,6 @@ import hub.sam.mof.mofinstancemodel.events.RemoveEvent;
 import hub.sam.mof.mofinstancemodel.events.SetEvent;
 import hub.sam.mof.ocl.OclEnvironment;
 import hub.sam.mof.ocl.OclObjectEnvironment;
-import hub.sam.mof.ocl.oslobridge.MofEvaluationAdaptor;
-import hub.sam.mof.ocl.oslobridge.MofOclModelElementTypeImpl;
 import hub.sam.mof.util.AssertionException;
 import hub.sam.mof.util.SetImpl;
 import hub.sam.mof.xmi.CMOFToXmi;
@@ -54,8 +52,6 @@ import java.util.Vector;
 
 import cmof.CallConcurrencyKind;
 import cmof.Operation;
-import cmof.Parameter;
-import cmof.ParameterDirectionKind;
 import cmof.PrimitiveType;
 import cmof.Property;
 import cmof.Type;
@@ -940,70 +936,11 @@ public class ObjectImpl extends hub.sam.util.Identity implements cmof.reflection
         handler = null;  
         super.myFinalize();
     }
-
-    /* This is super dirty, I am really sorry. Ocl allows additional property,value-pairs added temporarely to
-      * a value. Because oslo only uses a getter method identified by name to access properties and Java simply
-      * cannot have temporary methods, this solution has to work for it. For additional values the ocl interpreter
-      * will use this getter method; the actual property to access and its values are stores staticly.
-      * 
-      * Is only called with java reflection.
-      */
-    public Object getOclAdditionalValue0() {
-        return getOclAddionalValue(0);
-    }
     
-    public Object getOclAdditionalValue1() {
-    	return getOclAddionalValue(1);
-    }
-    
-    public Object getOclAdditionalValue2() {
-    	return getOclAddionalValue(2);
-    }
-    
-    public Object getOclAdditionalValue3() {
-    	return getOclAddionalValue(3);
-    }
-    
-    public Object getOclAdditionalValue4() {
-    	return getOclAddionalValue(4);
-    }
-    
-    public Object getOclAdditionalValue5() {
-    	return getOclAddionalValue(5);
-    }
-    
-    public Object getOclAdditionalValue6() {
-    	return getOclAddionalValue(6);
+    public Object getOclAdditionalProperty(String propertyName) {
+        return this.getAdaptor(OclObjectEnvironment.class).getAdditionalContextAttributeValue(propertyName);
     }
 
-    public Object getOclAdditionalValue7() {
-        return getOclAddionalValue(7);
-    }
-
-    public Object getOclAdditionalValue8() {
-        return getOclAddionalValue(8);
-    }
-
-    public Object getOclAdditionalValue9() {
-        return getOclAddionalValue(9);
-    }
-
-    public Object getOclAdditionalValue10() {
-        return getOclAddionalValue(10);
-    }
-
-    public Object getOclAdditionalValue11() {
-        return getOclAddionalValue(11);
-    }
-
-    public Object getOclAdditionalValue12() {
-        return getOclAddionalValue(12);
-    }
-
-    private Object getOclAddionalValue(int index) {
-    	Object value = MofEvaluationAdaptor.currentValue.get(index);
-        return value instanceof MofOclModelElementTypeImpl.Null ? null : value;
-    }
     /**
      * Copies all values of all features of this object to the target object. It uses
      * {@link CMOFToXmi} to deal with duplicate values due to subsetting.

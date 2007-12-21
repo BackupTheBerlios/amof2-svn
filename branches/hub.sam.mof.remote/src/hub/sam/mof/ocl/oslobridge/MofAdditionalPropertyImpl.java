@@ -10,18 +10,12 @@ public final class MofAdditionalPropertyImpl implements Property {
 
 	private final Classifier type;
 	private final String name;
-	private final int index;
 	
-	public MofAdditionalPropertyImpl(String name, Classifier type, int index) {
+	public MofAdditionalPropertyImpl(String name, Classifier type) {
 		this.type = type;
 		this.name = name;
-		this.index = index;
 	}
 		
-	public int getIndex() {
-		return index;
-	}
-
 	public Classifier getType() {
 		return type;
 	}

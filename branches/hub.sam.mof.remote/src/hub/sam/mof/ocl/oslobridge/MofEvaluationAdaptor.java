@@ -4,7 +4,12 @@ import hub.sam.mof.javamapping.JavaMapping;
 import hub.sam.mof.ocl.OclException;
 import hub.sam.mof.util.AssertionException;
 
-import org.oslo.ocl20.generation.lib.OclAnyModelElementImpl;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.oslo.ocl20.semantics.bridge.Classifier;
 import org.oslo.ocl20.semantics.bridge.EnumLiteral;
 import org.oslo.ocl20.semantics.bridge.ModelElement;
@@ -16,13 +21,7 @@ import org.oslo.ocl20.standard.lib.OclSet;
 import org.oslo.ocl20.standard.lib.OclType;
 import org.oslo.ocl20.standard.lib.OclUndefined;
 import org.oslo.ocl20.synthesis.ModelEvaluationAdapter;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.Vector;
+import org.oslo.ocl20.synthesis.ModelMethodForPropertyAccess;
 
 public class MofEvaluationAdaptor implements ModelEvaluationAdapter {
 
@@ -44,11 +43,36 @@ public class MofEvaluationAdaptor implements ModelEvaluationAdapter {
 		return null;
 	}
 
-	public String getGetterName(Property property) {
-		if (property instanceof MofAdditionalPropertyImpl) {
-			int index = ((MofAdditionalPropertyImpl)property).getIndex();
-			return "getOclAdditionalValue" + index;
-		}
+    public ModelMethodForPropertyAccess getGetterMethod(Property property) {
+        if (property instanceof MofAdditionalPropertyImpl) {
+            ModelMethodForPropertyAccess method = new ModelMethodForPropertyAccess("getOclAdditionalProperty");
+            method.addParameter(String.class, property.getName());
+            return method;
+        }
+        
+        String result = JavaMapping.mapping.getJavaGetMethodNameForProperty((cmof.Property)property.getDelegate());
+        Boolean extraGetter = hasExtraGetter.get(property);
+        if (extraGetter == null) {
+            extraGetter = ((MofPropertyImpl)property).hasExtraGetter();
+            hasExtraGetter.put(property, extraGetter);
+        }
+        if (extraGetter.booleanValue()) {
+            return new ModelMethodForPropertyAccess("_" + result);
+        } else {
+            return new ModelMethodForPropertyAccess(result);
+        }
+    }
+
+    public ModelMethodForPropertyAccess getSetterMethod(Property property) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public String getGetterName(Property property) {
+//		if (property instanceof MofAdditionalPropertyImpl) {
+//			int index = ((MofAdditionalPropertyImpl)property).getIndex();
+//			return "getOclAdditionalValue" + index;
+//		}
 
 		String result = JavaMapping.mapping.getJavaGetMethodNameForProperty((cmof.Property)property.getDelegate());
 		Boolean extraGetter = hasExtraGetter.get(property);
@@ -187,4 +211,5 @@ public class MofEvaluationAdaptor implements ModelEvaluationAdapter {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 }

@@ -92,8 +92,7 @@ public class OclImplementations  extends ImplementationsImpl {
 		int i = 0;
 		for (Parameter parameter: operation.getFormalParameter()) {
 			if (parameter.getDirection() != ParameterDirectionKind.RETURN) {
-				env.addAdditionalContextAttribute(parameter.getName(), args[i], 
-						parameter.getType(), fMetaClass);
+				env.addAdditionalContextAttribute(parameter.getName(), args[i], parameter.getType(), object.getMetaClass());
 			}
 		}
 		Object result = null;

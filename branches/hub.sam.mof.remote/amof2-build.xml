@@ -135,6 +135,9 @@
         <java classname="hub.sam.mof.test.propertynotification.GenerateRepository" fork="false">
     		<classpath refid="classpath"/>
     	</java>
+        <java classname="hub.sam.mof.test.ocl.GenerateRepository" fork="false">
+    		<classpath refid="classpath"/>
+    	</java>
         <java classname="hub.sam.mof.test.qualifier.GenerateRepository" fork="false">
     		<classpath refid="classpath"/>
     	</java>
