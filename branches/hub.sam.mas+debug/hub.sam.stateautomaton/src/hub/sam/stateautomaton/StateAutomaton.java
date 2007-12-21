@@ -37,11 +37,12 @@ import hub.sam.mas.management.MasRepository;
 import hub.sam.mas.management.IMasContextFile;
 import hub.sam.mas.management.SimpleMasContextFile;
 import hub.sam.mof.Repository;
-import hub.sam.mof.management.MofModel;
+import hub.sam.mof.management.M1MofModel;
 import hub.sam.mof.management.MofModelManager;
 import hub.sam.mof.ocl.OclEnvironment;
 import hub.sam.mof.ocl.OclObjectEnvironment;
 import hub.sam.mof.util.ListImpl;
+import hub.sam.mof.xmi.Xmi1Reader.XmiKind;
 
 public class StateAutomaton {
 
@@ -50,33 +51,33 @@ public class StateAutomaton {
         Repository.getConfiguration().setWarnAboutForeignExtentObjectUsage(false);
         Repository.getConfiguration().setGenerousXMI(true);
         
-        // load xmi files for syntax and semantic from a mas context file
+        // load XMI files for syntax and semantic from a MAS context file
         IMasContextFile contextFile = new SimpleMasContextFile("resources/StateAutomaton.masctx");
 
-        // create a new mas model container
+        // create a new MAS model container
         MasModelContainer masModelContainer = new MasModelContainer(repository);
         
-        // load mas model (semantic)
+        // load MAS model (semantic)
         masModelContainer.loadMasModel(contextFile.getMasFile());
         
         // load state automaton meta-model (syntax)
         masModelContainer.loadSyntaxModelForExecution(contextFile.getSyntaxFile(), "Package:" + contextFile.getPackageOfSyntaxModel());
-        masModelContainer.getSyntaxModel().addJavaPackagePrefix(contextFile.getJavaPackagePrefixOfSyntaxModel());
-        masModelContainer.getSyntaxModel().addNsPrefix(contextFile.getNsPrefixOfSyntaxXmi());
+        masModelContainer.getSyntaxModel().setJavaPackagePrefix(contextFile.getJavaPackagePrefixOfSyntaxModel());
+        masModelContainer.getSyntaxModel().setXmiNamespacePrefix(contextFile.getNsPrefixOfSyntaxXmi());
         
-        // now we can create a mas context
+        // now we can create a MAS context
         MasContext masContext = MasRepository.getInstance().createMasContext(masModelContainer, contextFile);
         
         // create a test model:        
-        // here the mof model manager concept can be used to create a test model
+        // here the MOF model manager concept can be used to create a test model
         // as instance of the syntax model.
         MofModelManager testManager = new MofModelManager(repository);
         testManager.setM2Model(masModelContainer.getSyntaxModel());
-        MofModel testModel = testManager.createM1Model("test", "resources/test-model.xml");
+        M1MofModel testModel = testManager.createM1Model("test", "resources/test-model.xml", XmiKind.mof);
         modelFactory testFactory = (modelFactory) testModel.getFactory();
         
         // prepares execution and installs implementations managers for activities,
-        // ocl queries and java code (in order).
+        // OCL queries and java code (in order).
         MasExecutionHelper.prepareRun(repository, masContext, testModel);
                
         Automaton automaton = createLargeTestModel(testFactory);
