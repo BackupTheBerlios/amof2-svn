@@ -237,14 +237,14 @@ public class MofModelManager {
         this.m1Models.put(model.getExtentName(), model);
     }
         
-    public M2MofModel createM2Model(String name, String persistenceXmiFile, XmiKind xmiKind) {
-        Extent m2Extent = repository.createExtent(name, getCmofModel().getExtent());
-        m2Model = new M2MofModel(repository, getCmofModel(), persistenceXmiFile, getXmiTypeForXmiKind(xmiKind), m2Extent, name, null);
+    public M2MofModel createM2Model(String extentName, String persistenceXmiFile, XmiKind xmiKind) {
+        Extent m2Extent = repository.createExtent(extentName, getCmofModel().getExtent());
+        m2Model = new M2MofModel(repository, getCmofModel(), persistenceXmiFile, getXmiTypeForXmiKind(xmiKind), m2Extent, extentName, null);
         return m2Model;
     }
     
-    public M2MofModel createM2Model(String name) {
-        return createM2Model(name, null, null);
+    public M2MofModel createM2Model(String extentName) {
+        return createM2Model(extentName, null, null);
     }
     
     /**
@@ -261,12 +261,12 @@ public class MofModelManager {
         return m1Model;
     }
     
-    public M1MofModel createM1Model(String name) {
-        return createM1Model(name, null, null);
+    public M1MofModel createM1Model(String extentName) {
+        return createM1Model(extentName, null, null);
     }
     
     /**
-     * Supported adapters: OclConstraintsHelper
+     * Supported adapters: OclHelper
      * 
      * @param <T>
      * @param adapterClass
